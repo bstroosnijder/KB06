@@ -37,59 +37,63 @@ int main(int p_argCount, char** argArray)
 	while (device->run())
 	{
 		driver->beginScene(true, true, irr::video::SColor(255, 0, 0, 255));
+
 		//IplImage* fface = cvQueryFrame(front);
 		//cvSmooth(fface, fface, CV_GAUSSIAN, 3, 3);
 		IplImage* frame = cvQueryFrame(capture);
-		cvSmooth(frame, frame, CV_GAUSSIAN, 3, 3);
 
-		// Background capture
-		//cvCvtColor(fface, face, CV_BGR2BGRA);
-		//memcpy(static_cast<char*>(texFront->lock()), face->imageData, face->imageSize);
-		//texFront->unlock();
-
-		cvCvtColor(frame, cam, CV_BGR2BGRA);
-		memcpy(static_cast<char*>(texBackground->lock()), cam->imageData, cam->imageSize);
-		texBackground->unlock();
-		driver->draw2DImage(texBackground, irr::core::vector2d<irr::s32>(0, 0));
-
-		// Grayscale for analizes
-		cvCvtColor(frame, gray, CV_BGR2GRAY);
-		cvThreshold(gray, gray, 128, 255, CV_THRESH_BINARY);
-		//cvShowImage("gray", gray);
-
-		CvSeq* contours;
-		CvSeq* result;
-		CvMemStorage *storage = cvCreateMemStorage(0);
-
-		cvFindContours(gray, storage, &contours, sizeof(CvContour), CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE, cvPoint(0, 0));
-
-		//iterating through each contour
-		while (contours)
+		if (frame != NULL)
 		{
-			//obtain a sequence of points of contour, pointed by the variable 'contour'
-			result = cvApproxPoly(contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP, cvContourPerimeter(contours)*0.02, 0);
+			cvSmooth(frame, frame, CV_GAUSSIAN, 3, 3);
 
-			//if there are 4 vertices in the contour(It should be a quadrilateral)
-			if (result->total == 4)
+			// Background capture
+			//cvCvtColor(fface, face, CV_BGR2BGRA);
+			//memcpy(static_cast<char*>(texFront->lock()), face->imageData, face->imageSize);
+			//texFront->unlock();
+
+			cvCvtColor(frame, cam, CV_BGR2BGRA);
+			memcpy(static_cast<char*>(texBackground->lock()), cam->imageData, cam->imageSize);
+			texBackground->unlock();
+			driver->draw2DImage(texBackground, irr::core::vector2d<irr::s32>(0, 0));
+
+			// Grayscale for analizes
+			cvCvtColor(frame, gray, CV_BGR2GRAY);
+			cvThreshold(gray, gray, 128, 255, CV_THRESH_BINARY);
+			//cvShowImage("gray", gray);
+
+			CvSeq* contours;
+			CvSeq* result;
+			CvMemStorage *storage = cvCreateMemStorage(0);
+
+			cvFindContours(gray, storage, &contours, sizeof(CvContour), CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE, cvPoint(0, 0));
+
+			//iterating through each contour
+			while (contours)
 			{
-				//iterating through each point
-				CvPoint *pt[4];
-				for (int i = 0; i < 4; i++){
-					pt[i] = (CvPoint*) cvGetSeqElem(result, i);
+				//obtain a sequence of points of contour, pointed by the variable 'contour'
+				result = cvApproxPoly(contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP, cvContourPerimeter(contours)*0.02, 0);
+
+				//if there are 4 vertices in the contour(It should be a quadrilateral)
+				if (result->total == 4)
+				{
+					//iterating through each point
+					CvPoint *pt[4];
+					for (int i = 0; i < 4; i++){
+						pt[i] = (CvPoint*) cvGetSeqElem(result, i);
+					}
+
+					//driver->draw2DImage(texFront, irr::core::rect<irr::s32>(pt[0]->x, pt[0]->y, pt[2]->x, pt[2]->y), irr::core::rect<irr::s32>(0, 0, 640, 480));
+
+					driver->draw2DLine(irr::core::vector2d<irr::s32>(pt[0]->x, pt[0]->y), irr::core::vector2d<irr::s32>(pt[1]->x, pt[1]->y), irr::video::SColor(255, 255, 0, 0));
+					driver->draw2DLine(irr::core::vector2d<irr::s32>(pt[1]->x, pt[1]->y), irr::core::vector2d<irr::s32>(pt[2]->x, pt[2]->y), irr::video::SColor(255, 255, 0, 0));
+					driver->draw2DLine(irr::core::vector2d<irr::s32>(pt[2]->x, pt[2]->y), irr::core::vector2d<irr::s32>(pt[3]->x, pt[3]->y), irr::video::SColor(255, 255, 0, 0));
+					driver->draw2DLine(irr::core::vector2d<irr::s32>(pt[3]->x, pt[3]->y), irr::core::vector2d<irr::s32>(pt[0]->x, pt[0]->y), irr::video::SColor(255, 255, 0, 0));
 				}
 
-				//driver->draw2DImage(texFront, irr::core::rect<irr::s32>(pt[0]->x, pt[0]->y, pt[2]->x, pt[2]->y), irr::core::rect<irr::s32>(0, 0, 640, 480));
-
-				driver->draw2DLine(irr::core::vector2d<irr::s32>(pt[0]->x, pt[0]->y), irr::core::vector2d<irr::s32>(pt[1]->x, pt[1]->y), irr::video::SColor(255, 255, 0, 0));
-				driver->draw2DLine(irr::core::vector2d<irr::s32>(pt[1]->x, pt[1]->y), irr::core::vector2d<irr::s32>(pt[2]->x, pt[2]->y), irr::video::SColor(255, 255, 0, 0));
-				driver->draw2DLine(irr::core::vector2d<irr::s32>(pt[2]->x, pt[2]->y), irr::core::vector2d<irr::s32>(pt[3]->x, pt[3]->y), irr::video::SColor(255, 255, 0, 0));
-				driver->draw2DLine(irr::core::vector2d<irr::s32>(pt[3]->x, pt[3]->y), irr::core::vector2d<irr::s32>(pt[0]->x, pt[0]->y), irr::video::SColor(255, 255, 0, 0));
+				//obtain the next contour
+				contours = contours->h_next;
 			}
-
-			//obtain the next contour
-			contours = contours->h_next;
 		}
-
 
 
 		sceneManager->drawAll();

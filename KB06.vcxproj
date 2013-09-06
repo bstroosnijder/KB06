@@ -67,6 +67,7 @@ opencv_objdetect246d.lib;
 opencv_contrib246d.lib;
 opencv_legacy246d.lib;
 opencv_flann246d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(IRRLICHT_DIR)\lib\Win32-visualstudio;$(OPENCV_DIR)\x86\vc11\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
