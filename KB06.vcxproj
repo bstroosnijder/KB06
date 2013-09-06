@@ -37,6 +37,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(IRRLICHT_DIR)\include;$(OPENCV_DIR)\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(IRRLICHT_DIR)\lib\Win32-visualstudio;$(OPENCV_DIR)\x86\vc11\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -53,6 +55,18 @@
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>Irrlicht.lib;
+opencv_core246d.lib
+;opencv_imgproc246d.lib
+;opencv_highgui246d.lib
+;opencv_ml246d.lib;
+opencv_video246d.lib;
+opencv_features2d246d.lib
+;opencv_calib3d246d.lib;
+opencv_objdetect246d.lib;
+opencv_contrib246d.lib;
+opencv_legacy246d.lib;
+opencv_flann246d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
