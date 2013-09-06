@@ -2,7 +2,68 @@
 #include <opencv\cv.h>
 #include <opencv\highgui.h>
 
+<<<<<<< HEAD
 int main(int argc, char* argv [])
+=======
+/**
+	@namespace	TestNamespace	Lange beschrijving over de namespace
+	@brief						Korte beschrijving over de namespace
+*/
+namespace TestNamespace
+{
+	/**
+		@brief		Brief is een korte beschrijving (regel 1).
+					Short is hetzelfde als Brief (regel 2).\n
+					Met \\n kan een nieuwe regel begonnen worden (regel 3).
+	
+		Een losse regel tekst !
+		Nog een losse regel tekst zonder lege regel !
+
+		@code{.cpp}
+			int main()
+			{
+				std::cout << "Een C++ code block!" << std::endl;
+			}
+		@endcode
+
+		@code{.py}
+			int main()
+			{
+				std::cout << "Een Python code block!" << std::endl;
+			}
+		@endcode
+
+		\\b Maakt \b dik !
+
+		\\e Maakt \e schuin !
+
+		\\p maakt een \p argument en nog een \p argument !
+
+		Gebruik een \\ voor een vreemd teken om deze te tonen. Zoals: \\\@ \\\\ \\\*
+
+		@author	Michel van Os
+		@version 1.0
+		@todo Todo om aan te geven dat er nog iets gedaan moet worden. Todo's zijn zichtbaar bij related pages !
+		@note Gewoon een melding in de documentatie =) !
+		@param	par1	De 1e parameter
+		@param	par2	De 2e parameter
+		@param	par3	De 3e parameter
+		@return NULL
+	*/
+	class TestClass
+	{
+
+	};
+}
+
+
+/*! \brief Brief description.
+ *         Brief description continued.
+ *
+ *  Detailed description starts here.
+ */
+int main(int p_argCount, char** argArray)
+>>>>>>> 42bcfef1241e44450fa5e9dd8d5bc7286a29028c
 {
 	irr::IrrlichtDevice* device = irr::createDevice(irr::video::EDT_DIRECT3D9, irr::core::dimension2d<irr::u32>(640, 480));
 	irr::video::IVideoDriver* driver = device->getVideoDriver();
