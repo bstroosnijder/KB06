@@ -37,7 +37,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(IRRLICHT_DIR)\include;$(OPENCV_DIR)\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(IRRLICHT_DIR)\include;$(OPENCV_DIR)\include;$(ProjectDir)\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(IRRLICHT_DIR)\lib\Win32-visualstudio;$(OPENCV_DIR)\x86\vc11\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -86,7 +86,11 @@ opencv_flann246d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Game\Kernel.cpp" />
     <ClCompile Include="src\Program.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Game\Kernel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

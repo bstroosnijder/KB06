@@ -64,4 +64,9 @@ packages/
 *.testsettings
 
 #DoxyGen
-/doxygen/html
+doxygen/html
+
+#Resource files
+resources/models/*
+resources/sounds/*
+resources/textures/*
