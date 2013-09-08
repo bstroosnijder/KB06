@@ -25,11 +25,14 @@ namespace Camera
 		if (m_capture.isOpened())
 		{
 			m_capture >> m_image;
-			cv::cvtColor(m_image, m_image, CV_BGR2BGRA, 4);
+			if (!m_image.empty())
+			{
+				cv::cvtColor(m_image, m_image, CV_BGR2BGRA, 4);
 
-			unsigned char* buffer = static_cast<unsigned char*>(m_texture->lock());
-			memcpy(buffer, m_image.data, (sizeof(unsigned char) * ((m_image.rows * m_image.cols) * m_image.channels())));
-			m_texture->unlock();
+				unsigned char* buffer = static_cast<unsigned char*>(m_texture->lock());
+				memcpy(buffer, m_image.data, (sizeof(unsigned char) * ((m_image.rows * m_image.cols) * m_image.channels())));
+				m_texture->unlock();
+			}
 		}
 	}
 }

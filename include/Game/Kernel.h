@@ -27,13 +27,11 @@ namespace Game
 
 		/**
 		 * @brief	Properly destructs all the member properties
-		 * @return	void
 		 */
 		void Cleanup();
 
 		/**
 		 * @brief	Starts the main game loop
-		 * @return	void
 		 */
 		void Start();
 
@@ -43,6 +41,9 @@ namespace Game
 		irr::scene::ISceneManager* m_scene;
 		Camera::Capture* m_capture;
 
+		/**
+		 * @brief	Show a fps counter in the title of the window
+		 */
 		void ShowFPS();
 	};
 }
