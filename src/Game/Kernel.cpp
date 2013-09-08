@@ -36,7 +36,7 @@ namespace Game
 		while (m_device->run())
 		{
 			// Update the texture with the camera capture
-			m_capture->UpdateTexture();
+			m_capture->Update();
 
 			m_driver->beginScene(true, true, irr::video::SColor(255, 0, 0, 255));
 			m_driver->draw2DImage(m_driver->getTexture("capture_background"), irr::core::vector2d<irr::s32>(0, 0));

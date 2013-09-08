@@ -34,7 +34,7 @@ namespace Camera
 		/**
 		 * @brief	Updates the texture to the latest frame of the camera
 		 */
-		void UpdateTexture();
+		void Update();
 
 	private:
 		cv::VideoCapture m_capture;
