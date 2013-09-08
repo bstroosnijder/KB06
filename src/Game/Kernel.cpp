@@ -10,7 +10,7 @@ namespace Game
 		m_capture = new Camera::Capture(m_driver->addTexture(irr::core::dimension2d<irr::u32>(640, 480), "capture_background"));
 
 		m_device->setWindowCaption(L"KB01: Game");
-		m_scene->addCameraSceneNode(NULL, irr::core::vector3df(100.0f, 100.0f, 150.0f), irr::core::vector3df(0.0f, 0.0f, 0.0f));
+		m_scene->addCameraSceneNode(NULL, irr::core::vector3df(0.0f, 100.0f, -150.0f), irr::core::vector3df(0.0f, 0.0f, 0.0f));
 		irr::scene::ISceneNode* cube = m_scene->addCubeSceneNode(50.0f, NULL, NULL, irr::core::vector3df(0.0f, 0.0f, 0.0f));
 		cube->setMaterialTexture(0, m_driver->getTexture("resources\\textures\\purple.jpg"));
 		cube->setMaterialFlag(irr::video::EMF_LIGHTING, false);

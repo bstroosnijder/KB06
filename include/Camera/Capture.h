@@ -37,8 +37,8 @@ namespace Camera
 		void UpdateTexture();
 
 	private:
-		CvCapture* m_capture;
-		IplImage* m_image;
+		cv::VideoCapture m_capture;
+		cv::Mat m_image;
 		irr::video::ITexture* m_texture;
 	};
 }

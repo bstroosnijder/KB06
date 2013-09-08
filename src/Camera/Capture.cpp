@@ -4,8 +4,8 @@ namespace Camera
 {
 	Capture::Capture(irr::video::ITexture* p_texture)
 	{
-		m_capture = cvCreateCameraCapture(CV_CAP_ANY);
-		m_image = cvCreateImage(cvSize(640, 480), IPL_DEPTH_8U, 4);
+		m_capture = cv::VideoCapture(CV_CAP_ANY);
+		m_image = cv::Mat();
 		m_texture = p_texture;
 	}
 
@@ -16,22 +16,19 @@ namespace Camera
 
 	void Capture::Cleanup()
 	{
-		cvReleaseImage(&m_image);
-		cvReleaseCapture(&m_capture);
+		m_image.release();
+		m_capture.release();
 	}
 
 	void Capture::UpdateTexture()
 	{
-		IplImage* frame = cvQueryFrame(m_capture);
-
-		// The initialization of the camera might take a while, lets check for that
-		if (frame != NULL)
+		if (m_capture.isOpened())
 		{
-			// The image has to have an alpha channel or Irrlicht won't be able to work with it
-			cvCvtColor(frame, m_image, CV_BGR2BGRA);
+			m_capture >> m_image;
+			cv::cvtColor(m_image, m_image, CV_BGR2BGRA, 4);
 
-			char* buffer = static_cast<char*>(m_texture->lock());
-			memcpy(buffer, m_image->imageData, m_image->imageSize);
+			unsigned char* buffer = static_cast<unsigned char*>(m_texture->lock());
+			memcpy(buffer, m_image.data, (sizeof(unsigned char) * ((m_image.rows * m_image.cols) * m_image.channels())));
 			m_texture->unlock();
 		}
 	}
