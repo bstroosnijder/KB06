@@ -75,11 +75,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Calibration.cpp" />
     <ClCompile Include="src\Camera\Capture.cpp" />
     <ClCompile Include="src\Game\Kernel.cpp" />
     <ClCompile Include="src\Program.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Calibration.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\Camera\Capture.h" />
