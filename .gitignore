@@ -66,6 +66,9 @@ packages/
 #DoxyGen
 doxygen/html
 
+#Utility Logger Files
+Log
+
 #Resource files
 resources/models/*
 resources/sounds/*
