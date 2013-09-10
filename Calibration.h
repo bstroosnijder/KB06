@@ -19,7 +19,6 @@
 namespace Camera
 {
 	class Calibration
-	
 	{
 	
 	Calibration() : goodInput(false) {};
@@ -27,34 +26,34 @@ namespace Camera
 	enum InputType {INVALID, CAMERA, VIDEO_FILE, IMAGE_LIST};
 	
 	/**
-	* @brief	TODO
+	* @brief	Added
 	* @author	Alex Hodes
 	*/
-	void Write(cv::FileStorage& fs) const   ;
+	void Write(cv::FileStorage& fs);
 	
 	/**
-	* @brief	TODO
+	* @brief	Added
 	* @author	Alex Hodes
 	*/
-	void Read(const cv::FileNode& node) ;
+	void Read(const cv::FileNode& node);
 	
 	/**
-	* @brief	TODO
+	* @brief	Added
 	* @author	Alex Hodes
 	*/
 	void Interprate();
 	
 	/**
-	* @brief	TODO
+	* @brief	Added
 	* @author	Alex Hodes
 	*/
 	cv::Mat NextImage();
 	
 	/**
-	* @brief	TODO
+	* @brief	Added
 	* @author	Alex Hodes
 	*/
-	static bool readStringList( const std::string& filename, std::vector<std::string>& l );
+	bool ReadStringList( const std::string& filename, std::vector<std::string>& l );
 	
 	public:
 	    cv::Size boardSize;            // The size of the board -> Number of items by width and height
@@ -71,9 +70,6 @@ namespace Camera
 	    std::string outputFileName;      // The name of the file where to write
 	    bool showUndistorsed;       // Show undistorted images after calibration
 	    std::string input;               // The input ->
-	
-	
-	
 	    int cameraID;
 	    std::vector<std::string> imageList;
 	    int atImageList;
@@ -81,26 +77,55 @@ namespace Camera
 	    InputType inputType;
 	    bool goodInput;
 	    int flag;
+
+	private:
+		std::string patternToUse;
 	
-	static double computeReprojectionErrors( const std::vector<std::vector<cv::Point3f> >& objectPoints,
+   /**
+	* @brief	Added
+	* @author	Alex Hodes
+	*/
+	double ComputeReprojectionErrors( const std::vector<std::vector<cv::Point3f> >& objectPoints,
 			const std::vector<std::vector<cv::Point2f> >& imagePoints,
 			const std::vector<cv::Mat>& rvecs, const std::vector<cv::Mat>& tvecs,
 			const cv::Mat& cameraMatrix , const cv::Mat& distCoeffs,
 			std::vector<float>& perViewErrors);
-	
-	static void calcBoardCornerPositions(cv::Size boardSize, float squareSize, std::vector<cv::Point3f>& corners,
+
+   /**
+	* @brief	Added
+	* @author	Alex Hodes
+	*/
+	void CalcBoardCornerPositions(cv::Size boardSize, float squareSize, std::vector<cv::Point3f>& corners,
 			Calibration::Pattern patternType /*= Settings::CHESSBOARD*/);
-	
-	static bool runCalibration( Calibration& s, cv::Size& imageSize, cv::Mat& cameraMatrix, cv::Mat& distCoeffs,
+
+   /**
+	* @brief	TODO
+	* @author	Alex Hodes
+	*/
+	bool RunCalibration( Calibration& s, cv::Size& imageSize, cv::Mat& cameraMatrix, cv::Mat& distCoeffs,
 			std::vector<std::vector<cv::Point2f> > imagePoints, std::vector<cv::Mat>& rvecs, std::vector<cv::Mat>& tvecs,
 			std::vector<float>& reprojErrs,  double& totalAvgErr);
-	
-	static void saveCameraParams( Calibration& s, cv::Size& imageSize, cv::Mat& cameraMatrix, cv::Mat& distCoeffs,
+
+   /**
+	* @brief	TODO
+	* @author	Alex Hodes
+	*/
+	void SaveCameraParams( Calibration& s, cv::Size& imageSize, cv::Mat& cameraMatrix, cv::Mat& distCoeffs,
 	        const std::vector<cv::Mat>& rvecs, const std::vector<cv::Mat>& tvecs,
 	        const std::vector<float>& reprojErrs, const std::vector<std::vector<cv::Point2f> >& imagePoints,
 	        double totalAvgErr );
-	
-	bool runCalibrationAndSave(Calibration& s, cv::Size imageSize, cv::Mat&  cameraMatrix, cv::Mat& distCoeffs,std::vector<std::vector<cv::Point2f> > imagePoints );
+
+   /**
+	* @brief	TODO
+	* @author	Alex Hodes
+	*/
+	bool RunCalibrationAndSave(Calibration& s, cv::Size imageSize, cv::Mat&  cameraMatrix, cv::Mat& distCoeffs,std::vector<std::vector<cv::Point2f> > imagePoints );
+
+   /**
+	* @brief	TODO
+	* @author	Alex Hodes
+	*/
+	int Start();
 								 
 	}
 }
