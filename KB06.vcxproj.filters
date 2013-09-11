@@ -36,7 +36,10 @@
     <ClCompile Include="src\Camera\Capture.cpp">
       <Filter>Source Files\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Calibration.cpp">
+    <ClCompile Include="src\Camera\Calibration.cpp">
+      <Filter>Source Files\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera\CalibrationSettings.cpp">
       <Filter>Source Files\Camera</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,7 +56,10 @@
     <ClInclude Include="include\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Calibration.h">
+    <ClInclude Include="include\Camera\Calibration.h">
+      <Filter>Header Files\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Camera\CalibrationSettings.h">
       <Filter>Header Files\Camera</Filter>
     </ClInclude>
   </ItemGroup>

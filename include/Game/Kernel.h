@@ -2,6 +2,7 @@
 #define __GAME__KERNEL__H__
 
 #include "../Camera/Capture.h"
+#include "../Camera/Calibration.h"
 #include <irrlicht.h>
 
 namespace Game
