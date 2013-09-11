@@ -22,8 +22,8 @@ namespace Camera
 			std::cout << "Could not open the configuration file: \"" << inputSettingsFile << "\"" << std::endl;
 			return -1;
 		}
-		//CalibrationSettings::goohdInput = (true);
-		fs["Settings"] >> s.goodInput;
+
+		s.Read(fs["Settings"]);
 		fs.release();                                         // close Settings file
 
 		if (!s.goodInput)
