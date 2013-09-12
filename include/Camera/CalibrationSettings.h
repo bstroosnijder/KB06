@@ -16,42 +16,42 @@ class CalibrationSettings
 	public:
 		enum Pattern { NOT_EXISTING, CHESSBOARD, CIRCLES_GRID, ASYMMETRIC_CIRCLES_GRID };
 		enum InputType {INVALID, CAMERA, VIDEO_FILE, IMAGE_LIST};
-		bool goodInput;
+		bool m_goodInput;
 
 	
-		std::string patternToUse;
-		cv::Size boardSize;            // The size of the board -> Number of items by width and height
-		Pattern calibrationPattern;// One of the Chessboard, circles, or asymmetric circle pattern
-		float squareSize;          // The size of a square in your defined unit (point, millimeter,etc).
-		int nrFrames;              // The number of frames to use from the input for calibration
-		float aspectRatio;         // The aspect ratio
-		int delay;                 // In case of a video input
-		bool bwritePoints;         //  Write detected feature points
-		bool bwriteExtrinsics;     // Write extrinsic parameters
-		bool calibZeroTangentDist; // Assume zero tangential distortion
-		bool calibFixPrincipalPoint;// Fix the principal point at the center
-		bool flipVertical;          // Flip the captured images around the horizontal axis
-		std::string outputFileName;      // The name of the file where to write
-		bool showUndistorsed;       // Show undistorted images after calibration
-		std::string input;               // The input ->
-		int cameraID;
-		std::vector<std::string> imageList;
-		int atImageList;
-		cv::VideoCapture inputCapture;
-		InputType inputType;
-		
-		int flag;
+		std::string m_patternToUse;
+		cv::Size m_boardSize;            // The size of the board -> Number of items by width and height
+		Pattern m_calibrationPattern;// One of the Chessboard, circles, or asymmetric circle pattern
+		float m_squareSize;          // The size of a square in your defined unit (point, millimeter,etc).
+		int m_nrFrames;              // The number of frames to use from the input for calibration
+		float m_aspectRatio;         // The aspect ratio
+		int m_delay;                 // In case of a video input
+		bool m_bwritePoints;         //  Write detected feature points
+		bool m_bwriteExtrinsics;     // Write extrinsic parameters
+		bool m_calibZeroTangentDist; // Assume zero tangential distortion
+		bool m_calibFixPrincipalPoint;// Fix the principal point at the center
+		bool m_flipVertical;          // Flip the captured images around the horizontal axis
+		std::string m_outputFileName;      // The name of the file where to write
+		bool m_showUndistorsed;       // Show undistorted images after calibration
+		std::string m_input;               // The input ->
+		int m_cameraID;
+		std::vector<std::string> m_imageList;
+		int m_atImageList;
+		cv::VideoCapture m_inputCapture;
+		InputType m_inputType;
+		int m_flag;
+
        /**
 		* @brief	Added
 		* @author	Alex Hodes
 		*/
-		void Write(cv::FileStorage& fs);
+		void Write(cv::FileStorage& p_fs);
 
 	   /**
 		* @brief	Added
 		* @author	Alex Hodes
 		*/
-		void Read(const cv::FileNode& node);
+		void Read(const cv::FileNode& p_node);
 
 	   /**
 		* @brief	Added
@@ -69,6 +69,6 @@ class CalibrationSettings
 		* @brief	Added
 		* @author	Alex Hodes
 		*/
-		bool ReadStringList( const std::string& filename, std::vector<std::string>& l );
+		bool ReadStringList( const std::string& p_filename, std::vector<std::string>& p_l );
 	};
 }

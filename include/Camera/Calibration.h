@@ -45,7 +45,7 @@ namespace Camera
 		* @brief	TODO
 		* @author	Alex Hodes
 		*/
-		int Start(int argc, char* argv[]);
+		int Start(int p_argc, char* p_argv[]);
 		
 		//private:
 
@@ -53,41 +53,41 @@ namespace Camera
 		* @brief	Added
 		* @author	Alex Hodes
 		*/
-		double ComputeReprojectionErrors( const std::vector<std::vector<cv::Point3f> >& objectPoints,
-				const std::vector<std::vector<cv::Point2f> >& imagePoints,
-				const std::vector<cv::Mat>& rvecs, const std::vector<cv::Mat>& tvecs,
-				const cv::Mat& cameraMatrix , const cv::Mat& distCoeffs,
-				std::vector<float>& perViewErrors);
+		double ComputeReprojectionErrors( const std::vector<std::vector<cv::Point3f> >& p_objectPoints,
+				const std::vector<std::vector<cv::Point2f> >& p_imagePoints,
+				const std::vector<cv::Mat>& p_rvecs, const std::vector<cv::Mat>& p_tvecs,
+				const cv::Mat& p_cameraMatrix , const cv::Mat& p_distCoeffs,
+				std::vector<float>& p_perViewErrors);
 
 		/**
 		* @brief	Added
 		* @author	Alex Hodes
 		*/
-		void CalcBoardCornerPositions(cv::Size boardSize, float squareSize, std::vector<cv::Point3f>& corners,
-				CalibrationSettings::Pattern patternType /*= Settings::CHESSBOARD*/);
+		void CalcBoardCornerPositions(cv::Size p_boardSize, float p_squareSize, std::vector<cv::Point3f>& p_corners,
+				CalibrationSettings::Pattern p_patternType /*= Settings::CHESSBOARD*/);
 
 		/**
 		* @brief	TODO
 		* @author	Alex Hodes
 		*/
-		bool RunCalibration( CalibrationSettings& s, cv::Size& imageSize, cv::Mat& cameraMatrix, cv::Mat& distCoeffs,
-				std::vector<std::vector<cv::Point2f> > imagePoints, std::vector<cv::Mat>& rvecs, std::vector<cv::Mat>& tvecs,
-				std::vector<float>& reprojErrs,  double& totalAvgErr);
+		bool RunCalibration( CalibrationSettings& p_s, cv::Size& p_imageSize, cv::Mat& p_cameraMatrix, cv::Mat& p_distCoeffs,
+				std::vector<std::vector<cv::Point2f> > p_imagePoints, std::vector<cv::Mat>& p_rvecs, std::vector<cv::Mat>& p_tvecs,
+				std::vector<float>& p_reprojErrs, double& p_totalAvgErr);
 
 		/**
 		* @brief	TODO
 		* @author	Alex Hodes
 		*/
-		void SaveCameraParams( CalibrationSettings& s, cv::Size& imageSize, cv::Mat& cameraMatrix, cv::Mat& distCoeffs,
-				const std::vector<cv::Mat>& rvecs, const std::vector<cv::Mat>& tvecs,
-				const std::vector<float>& reprojErrs, const std::vector<std::vector<cv::Point2f> >& imagePoints,
-				double totalAvgErr );
+		void SaveCameraParams( CalibrationSettings& p_s, cv::Size& p_imageSize, cv::Mat& p_cameraMatrix, cv::Mat& p_distCoeffs,
+				const std::vector<cv::Mat>& p_rvecs, const std::vector<cv::Mat>& p_tvecs,
+				const std::vector<float>& p_reprojErrs, const std::vector<std::vector<cv::Point2f> >& p_imagePoints,
+				double p_totalAvgErr );
 
 		/**
 		* @brief	TODO
 		* @author	Alex Hodes
 		*/
-		bool RunCalibrationAndSave(CalibrationSettings& s, cv::Size imageSize, cv::Mat&  cameraMatrix, cv::Mat& distCoeffs,std::vector<std::vector<cv::Point2f> > imagePoints );
+		bool RunCalibrationAndSave(CalibrationSettings& p_s, cv::Size p_imageSize, cv::Mat& p_cameraMatrix, cv::Mat& p_distCoeffs, std::vector<std::vector<cv::Point2f> > p_imagePoints);
 
 		/**
 		*@brief		Help
