@@ -40,14 +40,14 @@ namespace Camera
 		clock_t prevTimestamp = 0;
 		const cv::Scalar RED(0,0,255), GREEN(0,255,0);
 		const char ESC_KEY = 27;
-
+		_sleep(500);
 		for(int i = 0;;++i)
 		{
 			cv::Mat view;
 			bool blinkOutput = false;
 
 			//_sleep(3);
-
+			//cv::waitKey();
 			view = s.NextImage();
 
 			//-----  If no more image, or got enough, then stop calibration and show result -------------
@@ -91,6 +91,7 @@ namespace Camera
 
 			if (found)                // If done with success,
 			{
+				
 				// improve the found corners' coordinate accuracy for chessboard
 				if(s.m_calibrationPattern == CalibrationSettings::CHESSBOARD)
 				{
@@ -103,9 +104,9 @@ namespace Camera
 				if(mode == CAPTURING &&  // For camera only take new samples after delay time
 					(!s.m_inputCapture.isOpened() || clock() - prevTimestamp > s.m_delay*1e-3*CLOCKS_PER_SEC) )
 				{
-					imagePoints.push_back(pointBuf);
-					prevTimestamp = clock();
-					blinkOutput = s.m_inputCapture.isOpened();
+						imagePoints.push_back(pointBuf);
+						prevTimestamp = clock();
+						blinkOutput = s.m_inputCapture.isOpened();	
 				}
 
 				// Draw the corners.
@@ -181,7 +182,7 @@ namespace Camera
 		return 0;
 	}
 
-	double ComputeReprojectionErrors(const std::vector<std::vector<cv::Point3f> >& p_objectPoints,
+	double Calibration::ComputeReprojectionErrors(const std::vector<std::vector<cv::Point3f> >& p_objectPoints,
 			const std::vector<std::vector<cv::Point2f> >& p_imagePoints,
 			const std::vector<cv::Mat>& p_rvecs, const std::vector<cv::Mat>& p_tvecs,
 			const cv::Mat& p_cameraMatrix , const cv::Mat& p_distCoeffs,
@@ -352,9 +353,11 @@ namespace Camera
 	
 		//reprojerrs wss de fout
 		//std::vector<float> naam; 
-	    //totalAvgErr = Calibration::ComputeReprojectionErrors(objectPoints, imagePoints,
-	    //                                         rvecs, tvecs, cameraMatrix, distCoeffs, naam);
-	
+	    p_totalAvgErr = Calibration::ComputeReprojectionErrors(objectPoints, p_imagePoints,
+	                                             p_rvecs, p_tvecs, p_cameraMatrix, p_distCoeffs, p_reprojErrs);
+	   
+
+
 	    return ok;
 	}
 

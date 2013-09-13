@@ -57,7 +57,8 @@ namespace Camera
 				const std::vector<std::vector<cv::Point2f> >& p_imagePoints,
 				const std::vector<cv::Mat>& p_rvecs, const std::vector<cv::Mat>& p_tvecs,
 				const cv::Mat& p_cameraMatrix , const cv::Mat& p_distCoeffs,
-				std::vector<float>& p_perViewErrors);
+				std::vector<float>& p_perViewErrors
+				);
 
 		/**
 		* @brief	Added
