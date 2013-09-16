@@ -14,8 +14,7 @@ namespace Camera
 	int Calibration::Start(){
 		Help();
 		CalibrationSettings s;
-		//int argc = 0;
-		const std::string inputSettingsFile ="IN_VID5.xml";
+		const std::string inputSettingsFile = "IN_VID5.xml";
 		cv::FileStorage fs(inputSettingsFile, cv::FileStorage::READ); // Read the settings
 		if (!fs.isOpened())
 		{
@@ -45,9 +44,6 @@ namespace Camera
 		{
 			cv::Mat view;
 			bool blinkOutput = false;
-
-			//_sleep(3);
-			//cv::waitKey();
 			view = s.NextImage();
 
 			//-----  If no more image, or got enough, then stop calibration and show result -------------
@@ -64,7 +60,6 @@ namespace Camera
 					RunCalibrationAndSave(s, imageSize,  cameraMatrix, distCoeffs, imagePoints);
 				break;
 			}
-
 
 			imageSize = view.size();  // Format input image.
 			if(s.m_flipVertical)    flip(view, view, 0);
@@ -123,15 +118,21 @@ namespace Camera
 			if(mode == CAPTURING)
 			{
 				if(s.m_showUndistorsed)
+				{
 					msg = cv::format("%d/%d Undist", (int)imagePoints.size(), s.m_nrFrames);
+				}
 				else
+				{
 					msg = cv::format("%d/%d", (int)imagePoints.size(), s.m_nrFrames);
+				}
 			}
 
 			putText(view, msg, textOrigin, 1, 1, mode == CALIBRATED ? GREEN : RED);
 
 			if(blinkOutput)
+			{
 				bitwise_not(view, view);
+			}
 
 			//------------------------- Video capture  output  undistorted ------------------------------
 			if(mode == CALIBRATED && s.m_showUndistorsed)
@@ -145,10 +146,14 @@ namespace Camera
 			char key = (char)cv::waitKey(s.m_inputCapture.isOpened() ? 50 : s.m_delay);
 
 			if(key  == ESC_KEY)
+			{
 				break;
+			}
 
 			if(key == 'u' && mode == CALIBRATED)
+			{
 				s.m_showUndistorsed = !s.m_showUndistorsed;
+			}
 
 			if(s.m_inputCapture.isOpened() && key == 'g')
 			{
@@ -169,16 +174,18 @@ namespace Camera
 			{
 				view = cv::imread(s.m_imageList[i], 1);
 				if(view.empty())
+				{
 					continue;
+				}
 				remap(view, rview, map1, map2, INTER_LINEAR);
 				imshow("Image View", rview);
 				char c = (char)cv::waitKey();
 				if(c == ESC_KEY || c == 'q' || c == 'Q')
+				{
 					break;
+				}
 			}
 		}
-
-
 		return 0;
 	}
 
@@ -238,7 +245,6 @@ namespace Camera
 			double p_totalAvgErr )
 	{
 		cv::FileStorage fs( p_s.m_outputFileName, cv::FileStorage::WRITE );
-
 		time_t tm;
 		time( &tm );
 		struct tm *t2 = localtime( &tm );
@@ -248,7 +254,9 @@ namespace Camera
 		fs << "calibration_Time" << buf;
 
 		if( !P_RVECS.empty() || !P_REPROJERRS.empty() )
+		{
 			fs << "nrOfFrames" << (int)std::max(P_RVECS.size(), P_REPROJERRS.size());
+		}
 		fs << "image_Width" << p_imageSize.width;
 		fs << "image_Height" << p_imageSize.height;
 		fs << "board_Width" << p_s.m_boardSize.width;
@@ -256,7 +264,9 @@ namespace Camera
 		fs << "square_Size" << p_s.m_squareSize;
 
 		if( p_s.m_flag & CV_CALIB_FIX_ASPECT_RATIO )
+		{
 			fs << "FixAspectRatio" << p_s.m_aspectRatio;
+		}
 
 		if( p_s.m_flag )
 		{
@@ -266,17 +276,16 @@ namespace Camera
 				p_s.m_flag & CV_CALIB_FIX_PRINCIPAL_POINT ? " +fix_principal_point" : "",
 				p_s.m_flag & CV_CALIB_ZERO_TANGENT_DIST ? " +zero_tangent_dist" : "" );
 			cvWriteComment( *fs, buf, 0 );
-
 		}
 
 		fs << "flagValue" << p_s.m_flag;
-
 		fs << "Camera_Matrix" << p_cameraMatrix;
 		fs << "Distortion_Coefficients" << p_distCoeffs;
-
 		fs << "Avg_Reprojection_Error" << p_totalAvgErr;
 		if( !P_REPROJERRS.empty() )
+		{
 			fs << "Per_View_Reprojection_Errors" << cv::Mat(P_REPROJERRS);
+		}
 
 		if( !P_RVECS.empty() && !P_TVECS.empty() )
 		{
@@ -319,12 +328,13 @@ namespace Camera
 
 		bool ok = RunCalibration(p_s,p_imageSize, p_cameraMatrix, p_distCoeffs, p_imagePoints, rvecs, tvecs,
 			reprojErrs, totalAvgErr);
-		std::cout << (ok ? "Calibration succeeded" : "Calibration failed")
-			<< ". avg re projection error = "  << totalAvgErr ;
+		std::cout << (ok ? "Calibration succeeded" : "Calibration failed") << ". avg re projection error = " << totalAvgErr ;
 
 		if( ok )
+		{
 			SaveCameraParams( p_s, p_imageSize, p_cameraMatrix, p_distCoeffs, rvecs ,tvecs, reprojErrs,
 			p_imagePoints, totalAvgErr);
+		}
 		return ok;
 	}
 
@@ -332,10 +342,11 @@ namespace Camera
 			std::vector<std::vector<cv::Point2f> > p_imagePoints, std::vector<cv::Mat>& p_rvecs, std::vector<cv::Mat>& p_tvecs,
 			std::vector<float>& p_reprojErrs, double& p_totalAvgErr)
 	{
-	
 	    p_cameraMatrix = cv::Mat::eye(3, 3, CV_64F);
 	    if( p_s.m_flag & CV_CALIB_FIX_ASPECT_RATIO )
+		{
 	        p_cameraMatrix.at<double>(0,0) = 1.0;
+		}
 	
 	    p_distCoeffs = cv::Mat::zeros(8, 1, CV_64F);
 	
@@ -352,13 +363,9 @@ namespace Camera
 	
 	    bool ok = checkRange(p_cameraMatrix) && checkRange(p_distCoeffs);
 	
-		//reprojerrs wss de fout
-		//std::vector<float> naam; 
 	    p_totalAvgErr = Calibration::ComputeReprojectionErrors(objectPoints, p_imagePoints,
 	                                             p_rvecs, p_tvecs, p_cameraMatrix, p_distCoeffs, p_reprojErrs);
 	   
-
-
 	    return ok;
 	}
 
