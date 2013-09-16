@@ -3,6 +3,7 @@
 
 #include "InputHandler.h"
 #include "../Camera/Capture.h"
+#include "../Camera/Calibration.h"
 #include <irrlicht.h>
 
 namespace Game

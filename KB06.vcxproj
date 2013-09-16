@@ -75,6 +75,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Camera\Calibration.cpp" />
+    <ClCompile Include="src\Camera\CalibrationSettings.cpp" />
     <ClCompile Include="src\Camera\Capture.cpp" />
     <ClCompile Include="src\Game\InputHandler.cpp" />
     <ClCompile Include="src\Game\Kernel.cpp" />
@@ -83,6 +85,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Camera.h" />
+    <ClInclude Include="include\Camera\Calibration.h" />
+    <ClInclude Include="include\Camera\CalibrationSettings.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\Camera\Capture.h" />
     <ClInclude Include="include\Game\InputHandler.h" />

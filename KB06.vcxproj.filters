@@ -25,12 +25,6 @@
     <Filter Include="Source Files\Camera">
       <UniqueIdentifier>{bb895daf-ff2e-4420-911e-feadb00d06eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Utility">
-      <UniqueIdentifier>{0bd65e0b-64c0-47af-8899-764ce0ddd4ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Utility">
-      <UniqueIdentifier>{810e9b46-36c9-45dc-913b-dbe7eeb1a2df}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Program.cpp">
@@ -42,8 +36,11 @@
     <ClCompile Include="src\Camera\Capture.cpp">
       <Filter>Source Files\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="src\Utility\Logger.cpp">
-      <Filter>Source Files\Utility</Filter>
+    <ClCompile Include="src\Camera\Calibration.cpp">
+      <Filter>Source Files\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera\CalibrationSettings.cpp">
+      <Filter>Source Files\Camera</Filter>
     </ClCompile>
     <ClCompile Include="src\Game\InputHandler.cpp">
       <Filter>Source Files\Game</Filter>
@@ -62,8 +59,11 @@
     <ClInclude Include="include\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Utility\Logger.h">
-      <Filter>Header Files\Utility</Filter>
+    <ClInclude Include="include\Camera\Calibration.h">
+      <Filter>Header Files\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Camera\CalibrationSettings.h">
+      <Filter>Header Files\Camera</Filter>
     </ClInclude>
     <ClInclude Include="include\Game\InputHandler.h">
       <Filter>Header Files\Game</Filter>
