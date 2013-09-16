@@ -46,7 +46,7 @@ namespace Camera
 	   /**
 		* @brief	Comment TODO, Function complete
 		*/
-		int Start(int p_argc, char* p_argv[]);
+		int Start();
 		
 		private:
 

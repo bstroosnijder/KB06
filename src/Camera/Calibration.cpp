@@ -11,11 +11,11 @@ namespace Camera
 		//enum InputType {INVALID, CAMERA, VIDEO_FILE, IMAGE_LIST};
 	}
 
-	int Calibration::Start(int p_argc, char* p_argv[]){
+	int Calibration::Start(){
 		Help();
 		CalibrationSettings s;
 		//int argc = 0;
-		const std::string inputSettingsFile = p_argc > 1 ? p_argv[1] : "IN_VID5.xml";
+		const std::string inputSettingsFile ="IN_VID5.xml";
 		cv::FileStorage fs(inputSettingsFile, cv::FileStorage::READ); // Read the settings
 		if (!fs.isOpened())
 		{
