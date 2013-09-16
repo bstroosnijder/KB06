@@ -39,7 +39,7 @@ namespace Game
 	private:
 		irr::IrrlichtDevice* m_device;
 		irr::video::IVideoDriver* m_driver;
-		irr::scene::ISceneManager* m_scene;
+		irr::scene::ISceneManager* m_sceneManager;
 		Camera::Capture* m_capture;
 
 		/**
