@@ -75,6 +75,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Gui.cpp" />
     <ClCompile Include="src\Camera\Calibration.cpp" />
     <ClCompile Include="src\Camera\CalibrationSettings.cpp" />
     <ClCompile Include="src\Camera\Capture.cpp" />
@@ -83,6 +84,7 @@
     <ClCompile Include="src\Utility\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Gui.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\Camera\Calibration.h" />
     <ClInclude Include="include\Camera\CalibrationSettings.h" />
