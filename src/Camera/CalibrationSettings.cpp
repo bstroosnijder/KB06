@@ -26,23 +26,23 @@ void CalibrationSettings::Write(cv::FileStorage& p_fs)
 			<< "}";
 	}
 
-	void CalibrationSettings::Read(const cv::FileNode& p_node)                          //Read serialization for this class
+	void CalibrationSettings::Read(const cv::FileNode& P_NODE)                          //Read serialization for this class
 	{
-		p_node["BoardSize_Width" ] >> m_boardSize.width;
-		p_node["BoardSize_Height"] >> m_boardSize.height;
-		p_node["Calibrate_Pattern"] >> m_patternToUse;
-		p_node["Square_Size"]  >> m_squareSize;
-		p_node["Calibrate_NrOfFrameToUse"] >> m_nrFrames;
-		p_node["Calibrate_FixAspectRatio"] >> m_aspectRatio;
-		p_node["Write_DetectedFeaturePoints"] >> m_bwritePoints;
-		p_node["Write_extrinsicParameters"] >> m_bwriteExtrinsics;
-		p_node["Write_outputFileName"] >> m_outputFileName;
-		p_node["Calibrate_AssumeZeroTangentialDistortion"] >> m_calibZeroTangentDist;
-		p_node["Calibrate_FixPrincipalPointAtTheCenter"] >> m_calibFixPrincipalPoint;
-		p_node["Input_FlipAroundHorizontalAxis"] >> m_flipVertical;
-		p_node["Show_UndistortedImage"] >> m_showUndistorsed;
-		p_node["Input"] >> m_input;
-		p_node["Input_Delay"] >> m_delay;
+		P_NODE["BoardSize_Width" ] >> m_boardSize.width;
+		P_NODE["BoardSize_Height"] >> m_boardSize.height;
+		P_NODE["Calibrate_Pattern"] >> m_patternToUse;
+		P_NODE["Square_Size"]  >> m_squareSize;
+		P_NODE["Calibrate_NrOfFrameToUse"] >> m_nrFrames;
+		P_NODE["Calibrate_FixAspectRatio"] >> m_aspectRatio;
+		P_NODE["Write_DetectedFeaturePoints"] >> m_bwritePoints;
+		P_NODE["Write_extrinsicParameters"] >> m_bwriteExtrinsics;
+		P_NODE["Write_outputFileName"] >> m_outputFileName;
+		P_NODE["Calibrate_AssumeZeroTangentialDistortion"] >> m_calibZeroTangentDist;
+		P_NODE["Calibrate_FixPrincipalPointAtTheCenter"] >> m_calibFixPrincipalPoint;
+		P_NODE["Input_FlipAroundHorizontalAxis"] >> m_flipVertical;
+		P_NODE["Show_UndistortedImage"] >> m_showUndistorsed;
+		P_NODE["Input"] >> m_input;
+		P_NODE["Input_Delay"] >> m_delay;
 		Interprate();
 	}
 
@@ -131,10 +131,10 @@ void CalibrationSettings::Write(cv::FileStorage& p_fs)
 		return result;
 	}
 
-	bool CalibrationSettings::ReadStringList( const std::string& p_filename, std::vector<std::string>& p_l )
+	bool CalibrationSettings::ReadStringList( const std::string& P_FILENAME, std::vector<std::string>& p_l )
 	{
 		p_l.clear();
-		cv::FileStorage fs(p_filename, cv::FileStorage::READ);
+		cv::FileStorage fs(P_FILENAME, cv::FileStorage::READ);
 		if( !fs.isOpened() )
 			return false;
 		cv::FileNode n = fs.getFirstTopLevelNode();

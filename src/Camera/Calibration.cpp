@@ -182,24 +182,24 @@ namespace Camera
 		return 0;
 	}
 
-	double Calibration::ComputeReprojectionErrors(const std::vector<std::vector<cv::Point3f> >& p_objectPoints,
-			const std::vector<std::vector<cv::Point2f> >& p_imagePoints,
-			const std::vector<cv::Mat>& p_rvecs, const std::vector<cv::Mat>& p_tvecs,
-			const cv::Mat& p_cameraMatrix , const cv::Mat& p_distCoeffs,
+	double Calibration::ComputeReprojectionErrors(const std::vector<std::vector<cv::Point3f> >& P_OBJECTPOINTS,
+			const std::vector<std::vector<cv::Point2f> >& P_IMAGEPOINTS,
+			const std::vector<cv::Mat>& P_RVECS, const std::vector<cv::Mat>& P_TVECS,
+			const cv::Mat& P_CAMERAMATRIX , const cv::Mat& P_DISTCOEFFS,
 			std::vector<float>& p_perViewErrors)
 	{
 		std::vector<cv::Point2f> imagePoints2;
 		int i, totalPoints = 0;
 		double totalErr = 0, err;
-		p_perViewErrors.resize(p_objectPoints.size());
+		p_perViewErrors.resize(P_OBJECTPOINTS.size());
 
-		for(i = 0; i < (int)p_objectPoints.size(); ++i)
+		for(i = 0; i < (int)P_OBJECTPOINTS.size(); ++i)
 		{
-			projectPoints(cv::Mat(p_objectPoints[i]), p_rvecs[i], p_tvecs[i], p_cameraMatrix,
-				p_distCoeffs, imagePoints2);
-			err = norm(cv::Mat(p_imagePoints[i]), cv::Mat(imagePoints2), CV_L2);
+			projectPoints(cv::Mat(P_OBJECTPOINTS[i]), P_RVECS[i], P_TVECS[i], P_CAMERAMATRIX,
+				P_DISTCOEFFS, imagePoints2);
+			err = norm(cv::Mat(P_IMAGEPOINTS[i]), cv::Mat(imagePoints2), CV_L2);
 
-			int n = (int)p_objectPoints[i].size();
+			int n = (int)P_OBJECTPOINTS[i].size();
 			p_perViewErrors[i] = (float) std::sqrt(err*err/n);
 			totalErr        += err*err;
 			totalPoints     += n;
@@ -233,8 +233,8 @@ namespace Camera
 	}
 
 	void Calibration::SaveCameraParams(CalibrationSettings& p_s, cv::Size& p_imageSize, cv::Mat& p_cameraMatrix, cv::Mat& p_distCoeffs,
-			const std::vector<cv::Mat>& p_rvecs, const std::vector<cv::Mat>& p_tvecs,
-			const std::vector<float>& p_reprojErrs, const std::vector<std::vector<cv::Point2f> >& p_imagePoints,
+			const std::vector<cv::Mat>& P_RVECS, const std::vector<cv::Mat>& P_TVECS,
+			const std::vector<float>& P_REPROJERRS, const std::vector<std::vector<cv::Point2f> >& P_IMAGEPOINTS,
 			double p_totalAvgErr )
 	{
 		cv::FileStorage fs( p_s.m_outputFileName, cv::FileStorage::WRITE );
@@ -247,8 +247,8 @@ namespace Camera
 
 		fs << "calibration_Time" << buf;
 
-		if( !p_rvecs.empty() || !p_reprojErrs.empty() )
-			fs << "nrOfFrames" << (int)std::max(p_rvecs.size(), p_reprojErrs.size());
+		if( !P_RVECS.empty() || !P_REPROJERRS.empty() )
+			fs << "nrOfFrames" << (int)std::max(P_RVECS.size(), P_REPROJERRS.size());
 		fs << "image_Width" << p_imageSize.width;
 		fs << "image_Height" << p_imageSize.height;
 		fs << "board_Width" << p_s.m_boardSize.width;
@@ -275,42 +275,43 @@ namespace Camera
 		fs << "Distortion_Coefficients" << p_distCoeffs;
 
 		fs << "Avg_Reprojection_Error" << p_totalAvgErr;
-		if( !p_reprojErrs.empty() )
-			fs << "Per_View_Reprojection_Errors" << cv::Mat(p_reprojErrs);
+		if( !P_REPROJERRS.empty() )
+			fs << "Per_View_Reprojection_Errors" << cv::Mat(P_REPROJERRS);
 
-		if( !p_rvecs.empty() && !p_tvecs.empty() )
+		if( !P_RVECS.empty() && !P_TVECS.empty() )
 		{
-			CV_Assert(p_rvecs[0].type() == p_tvecs[0].type());
-			cv::Mat bigmat((int)p_rvecs.size(), 6, p_rvecs[0].type());
-			for( int i = 0; i < (int)p_rvecs.size(); i++ )
+			CV_Assert(P_RVECS[0].type() == P_TVECS[0].type());
+			cv::Mat bigmat((int)P_RVECS.size(), 6, P_RVECS[0].type());
+			for( int i = 0; i < (int)P_RVECS.size(); i++ )
 			{
 				cv::Mat r = bigmat(cv::Range(i, i+1), cv::Range(0,3));
 				cv::Mat t = bigmat(cv::Range(i, i+1), cv::Range(3,6));
 
-				CV_Assert(p_rvecs[i].rows == 3 && p_rvecs[i].cols == 1);
-				CV_Assert(p_tvecs[i].rows == 3 && p_tvecs[i].cols == 1);
+				CV_Assert(P_RVECS[i].rows == 3 && P_RVECS[i].cols == 1);
+				CV_Assert(P_TVECS[i].rows == 3 && P_TVECS[i].cols == 1);
 				//*.t() is MatExpr (not Mat) so we can use assignment operator
-				r = p_rvecs[i].t();
-				t = p_tvecs[i].t();
+				r = P_RVECS[i].t();
+				t = P_TVECS[i].t();
 			}
 			cvWriteComment( *fs, "a set of 6-tuples (rotation vector + translation vector) for each view", 0 );
 			fs << "Extrinsic_Parameters" << bigmat;
 		}
 
-		if( !p_imagePoints.empty() )
+		if( !P_IMAGEPOINTS.empty() )
 		{
-			cv::Mat imagePtMat((int)p_imagePoints.size(), (int)p_imagePoints[0].size(), CV_32FC2);
-			for( int i = 0; i < (int)p_imagePoints.size(); i++ )
+			cv::Mat imagePtMat((int)P_IMAGEPOINTS.size(), (int)P_IMAGEPOINTS[0].size(), CV_32FC2);
+			for( int i = 0; i < (int)P_IMAGEPOINTS.size(); i++ )
 			{
 				cv::Mat r = imagePtMat.row(i).reshape(2, imagePtMat.cols);
-				cv::Mat imgpti(p_imagePoints[i]);
+				cv::Mat imgpti(P_IMAGEPOINTS[i]);
 				imgpti.copyTo(r);
 			}
 			fs << "Image_points" << imagePtMat;
 		}
 	}
 
-	bool Calibration::RunCalibrationAndSave(CalibrationSettings& p_s, cv::Size p_imageSize, cv::Mat&  p_cameraMatrix, cv::Mat& p_distCoeffs,std::vector<std::vector<cv::Point2f> > p_imagePoints)
+	bool Calibration::RunCalibrationAndSave(CalibrationSettings& p_s, cv::Size p_imageSize, cv::Mat&  p_cameraMatrix, cv::Mat& p_distCoeffs,
+			std::vector<std::vector<cv::Point2f> > p_imagePoints)
 	{
 		std::vector<cv::Mat> rvecs, tvecs;
 		std::vector<float> reprojErrs;

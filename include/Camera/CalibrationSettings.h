@@ -42,33 +42,28 @@ class CalibrationSettings
 		int m_flag;
 
        /**
-		* @brief	Added
-		* @author	Alex Hodes
+		* @brief	Comment TODO, Function complete
 		*/
 		void Write(cv::FileStorage& p_fs);
 
 	   /**
-		* @brief	Added
-		* @author	Alex Hodes
+		* @brief	Comment TODO, Function complete
 		*/
-		void Read(const cv::FileNode& p_node);
+		void Read(const cv::FileNode& P_NODE);
 
 	   /**
-		* @brief	Added
-		* @author	Alex Hodes
+		* @brief	Comment TODO, Function complete
 		*/
 		void Interprate();
 
 	   /**
-		* @brief	Added
-		* @author	Alex Hodes
+		* @brief	Comment TODO, Function complete
 		*/
 		cv::Mat NextImage();
 
 	   /**
-		* @brief	Added
-		* @author	Alex Hodes
+		* @brief	Comment TODO, Function complete
 		*/
-		bool ReadStringList( const std::string& p_filename, std::vector<std::string>& p_l );
+		bool ReadStringList( const std::string& P_FILENAME, std::vector<std::string>& p_l );
 	};
 }
