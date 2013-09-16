@@ -12,8 +12,6 @@
 #include <opencv2/calib3d/calib3d.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-
-
 namespace Camera
 {
 
@@ -41,15 +39,27 @@ namespace Camera
 		};
 
 	public:
+		/**
+		 * @brief	Constructor
+		 */
 		Calibration();
+
+		/**
+		 * @brief	Deconstructor
+		 */
+		~Calibration();
+
+		/**
+		 * @brief	Properly destructs all the member properties
+		 */
+		void Cleanup();
 		
 	   /**
 		* @brief	Comment TODO, Function complete
 		*/
 		int Start();
 		
-		private:
-
+	private:
 	   /**
 		* @brief	Comment TODO, Function complete
 		*/

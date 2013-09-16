@@ -73,3 +73,6 @@ Log
 resources/models/*
 resources/sounds/*
 resources/textures/*
+
+#Camera calibratie shit
+out_camera_data.xml
