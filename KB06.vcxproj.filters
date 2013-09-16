@@ -45,6 +45,9 @@
     <ClCompile Include="src\Utility\Logger.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="src\Game\InputHandler.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Kernel.h">
@@ -61,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="include\Utility\Logger.h">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\InputHandler.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

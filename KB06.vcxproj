@@ -76,6 +76,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera\Capture.cpp" />
+    <ClCompile Include="src\Game\InputHandler.cpp" />
     <ClCompile Include="src\Game\Kernel.cpp" />
     <ClCompile Include="src\Program.cpp" />
     <ClCompile Include="src\Utility\Logger.cpp" />
@@ -84,6 +85,7 @@
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\Camera\Capture.h" />
+    <ClInclude Include="include\Game\InputHandler.h" />
     <ClInclude Include="include\Game\Kernel.h" />
     <ClInclude Include="include\Utility\Logger.h" />
   </ItemGroup>

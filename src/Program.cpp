@@ -1,9 +1,9 @@
-#include "Game/Kernel.h"
 #include "Utility/Logger.h"
+#include "Game/Kernel.h"
 
 int main(int argc, char* argv[])
 {
-	Utility::Logger *logger = Utility::Logger::GetInstance();
+	Utility::Logger* logger = Utility::Logger::GetInstance();
 	//Standaard staat file logging op FALSE
 	logger->SetFileLoggingState(true);
 	logger->SetConsoleLoggingState(false);
