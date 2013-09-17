@@ -29,7 +29,7 @@ namespace Game
 		 * @param	p_evt The event received
 		 * @return	Has the event been completely handled
 		 */
-		bool OnEvent(const irr::SEvent& p_evt);
+		bool OnEvent(const irr::SEvent& P_EVT);
 
 		/**
 		 * @brief	Checks if p_listener is contained in our listeners list

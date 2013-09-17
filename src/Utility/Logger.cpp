@@ -61,39 +61,74 @@ void Utility::Logger::CloseLogFile()
 	m_fileToWrite = NULL;
 }
 
-void Utility::Logger::LogToFile(const char* p_header, const char* p_message, const int p_lineNumber, const char* p_file)
+void Utility::Logger::LogToFile(const char* P_HEADER, const char* P_MESSAGE, const int P_LINENUMBER, const char* P_FILE)
 {
-	*m_fileToWrite << p_header << "\t | "
+	*m_fileToWrite << P_HEADER << "\t | "
 			"T:[" << GetTimeDurationFormatted() << "]\t| " <<
-			"M:" << p_message << " | " <<
-			"L:" << p_lineNumber << " | " <<
-			"F:[" << p_file << "] " << std::endl;
+			"M:" << P_MESSAGE << " | " <<
+			"L:" << P_LINENUMBER << " | " <<
+			"F:[" << P_FILE << "] " << std::endl;
 }
 
-void Utility::Logger::LogToFile(const char* p_header, const char* p_message)
+void Utility::Logger::LogToFile(const char* P_HEADER, const char* P_MESSAGE)
 {
-	*m_fileToWrite << p_header << "\t | "
+	*m_fileToWrite << P_HEADER << "\t | "
 			"T:[" << GetTimeDurationFormatted() << "]\t| " <<
-			"M:" << p_message << std::endl;
+			"M:" << P_MESSAGE << std::endl;
 }
 
-void Utility::Logger::LogToConsole(const char* p_header, const char* p_message, const int p_lineNumber, const char* p_file)
+void Utility::Logger::LogToConsole(const char* P_HEADER, const char* P_MESSAGE, const int P_LINENUMBER, const char* P_FILE)
 {
-	std::cout << "+---=[ " << p_header << " ]=---" << std::endl;
+	std::cout << "+---=[ " << P_HEADER << " ]=---" << std::endl;
 	std::cout << "|Time: \t\t" << GetTimeDurationFormatted() << std::endl;
-	std::cout << "|Message: \t" << p_message << std::endl;
-	std::cout << "|Line: \t\t" << p_lineNumber << std::endl;
-	std::cout << "|File: \t\t" << p_file << std::endl;
+	std::cout << "|Message: \t" << P_MESSAGE << std::endl;
+	std::cout << "|Line: \t\t" << P_LINENUMBER << std::endl;
+	std::cout << "|File: \t\t" << P_FILE << std::endl;
 }
 
-void Utility::Logger::LogToConsole(const char* p_header, const char* p_message)
+void Utility::Logger::LogToConsole(const char* P_HEADER, const char* P_MESSAGE)
 {
-	std::cout << "+---=[ " << p_header << " ]=---" << std::endl;
+	std::cout << "+---=[ " << P_HEADER << " ]=---" << std::endl;
 	std::cout << "|Time: \t\t" << GetTimeDurationFormatted() << std::endl;
-	std::cout << "|Message: \t" << p_message << std::endl;
+	std::cout << "|Message: \t" << P_MESSAGE << std::endl;
 }
 
-void Utility::Logger::Log(const LogMessageType p_type, const char* p_message, const int p_lineNumber, const char* p_file)
+void Utility::Logger::Log(const LogMessageType P_TYPE, const char* P_MESSAGE, const int P_LINENUMBER, const char* P_FILE)
+{
+	char* header = "";
+	bool typeState;
+
+	switch ( P_TYPE )
+	{
+	case LOG_ERROR:
+		header = "ERROR";
+		typeState = m_logErrors;
+		break;
+	case LOG_WARNING:
+		header = "WARNING";
+		typeState = m_logWarnings;
+		break;
+	case LOG_MESSAGE:
+		header = "MESSAGE";
+		typeState = m_logMessages;
+		break;
+	}
+
+	if (typeState)
+	{
+		if (m_logToFile)
+		{
+			LogToFile(header, P_MESSAGE, P_LINENUMBER, P_FILE);
+		}
+	
+		if (m_logToConsole)
+		{
+			LogToConsole(header, P_MESSAGE, P_LINENUMBER, P_FILE);
+		}
+	}
+}
+
+void Utility::Logger::Log(LogMessageType p_type, const char* P_MESSAGE)
 {
 	char* header = "";
 	bool typeState;
@@ -118,65 +153,30 @@ void Utility::Logger::Log(const LogMessageType p_type, const char* p_message, co
 	{
 		if (m_logToFile)
 		{
-			LogToFile(header, p_message, p_lineNumber, p_file);
+			LogToFile(header, P_MESSAGE);
 		}
 	
 		if (m_logToConsole)
 		{
-			LogToConsole(header, p_message, p_lineNumber, p_file);
+			LogToConsole(header, P_MESSAGE);
 		}
 	}
 }
 
-void Utility::Logger::Log(LogMessageType p_type, const char* p_message)
-{
-	char* header = "";
-	bool typeState;
-
-	switch ( p_type )
-	{
-	case LOG_ERROR:
-		header = "ERROR";
-		typeState = m_logErrors;
-		break;
-	case LOG_WARNING:
-		header = "WARNING";
-		typeState = m_logWarnings;
-		break;
-	case LOG_MESSAGE:
-		header = "MESSAGE";
-		typeState = m_logMessages;
-		break;
-	}
-
-	if (typeState)
-	{
-		if (m_logToFile)
-		{
-			LogToFile(header, p_message);
-		}
-	
-		if (m_logToConsole)
-		{
-			LogToConsole(header, p_message);
-		}
-	}
-}
-
-void Utility::Logger::LogMemoryDump(void* const p_address, const int p_size, char* const p_name)
+void Utility::Logger::LogMemoryDump(void* const P_ADDRESS, const int P_SIZE, char* const P_NAME)
 {
 	if (m_logToFile && m_fileToWrite != NULL)
 	{
-		const char* c = reinterpret_cast<const char*>(p_address);
+		const char* c = reinterpret_cast<const char*>(P_ADDRESS);
 
 		*m_fileToWrite <<
 				"MEMDUMP\t | " <<
-				"N:[" << p_name << "]\t | " <<
-				"A:[0x" << p_address << "]\t | " <<
-				"S:" << p_size << " | " <<
+				"N:[" << P_NAME << "]\t | " <<
+				"A:[0x" << P_ADDRESS << "]\t | " <<
+				"S:" << P_SIZE << " | " <<
 				"D:[ ";
 
-		for (int i = 0; i < p_size; ++i)
+		for (int i = 0; i < P_SIZE; ++i)
 		{
 			*m_fileToWrite << "0x" << std::hex << int(c[i]) << " ";
 		}
@@ -257,36 +257,36 @@ std::string Utility::Logger::GetTimeDurationFormatted()
 	return ss.str();
 }
 
-void Utility::Logger::SetErrorLoggingState(const bool p_state)
+void Utility::Logger::SetErrorLoggingState(const bool P_STATE)
 {
-	m_logErrors = p_state;
+	m_logErrors = P_STATE;
 }
 
-void Utility::Logger::SetMessagesLoggingState(const bool p_state)
+void Utility::Logger::SetMessagesLoggingState(const bool P_STATE)
 {
-	m_logMessages = p_state;
+	m_logMessages = P_STATE;
 }
 
-void Utility::Logger::SetWarningLoggingState(const bool p_state)
+void Utility::Logger::SetWarningLoggingState(const bool P_STATE)
 {
-	m_logWarnings = p_state;
+	m_logWarnings = P_STATE;
 }
 
-void Utility::Logger::SetFileLoggingState(const bool p_state)
+void Utility::Logger::SetFileLoggingState(const bool P_STATE)
 {
-	if (m_logToFile && !p_state)
+	if (m_logToFile && !P_STATE)
 	{
 		CloseLogFile();
 	}
-	else if (!m_logToFile && p_state)
+	else if (!m_logToFile && P_STATE)
 	{
 		OpenLogFile();
 	}
 
-	m_logToFile = p_state;
+	m_logToFile = P_STATE;
 }
 
-void Utility::Logger::SetConsoleLoggingState(bool p_state)
+void Utility::Logger::SetConsoleLoggingState(bool P_STATE)
 {
-	m_logToConsole = p_state;
+	m_logToConsole = P_STATE;
 }

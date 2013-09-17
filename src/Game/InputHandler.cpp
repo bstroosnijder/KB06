@@ -17,12 +17,12 @@ namespace Game
 		m_listeners.clear();
 	}
 
-	bool InputHandler::OnEvent(const irr::SEvent& p_evt)
+	bool InputHandler::OnEvent(const irr::SEvent& P_EVT)
 	{
 		Listeners::iterator it;
 		for (it = m_listeners.begin(); it != m_listeners.end(); ++it)
 		{
-			(*it)->OnEvent(p_evt);
+			(*it)->OnEvent(P_EVT);
 		}
 
 		return false;

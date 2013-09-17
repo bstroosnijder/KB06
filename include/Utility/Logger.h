@@ -26,14 +26,14 @@ namespace Utility
 		~Logger();
 		static Logger* GetInstance();
 		static void ResetInstance();
-		void Log(const LogMessageType p_type, const char* p_message);
-		void Log(const LogMessageType p_type, const char* p_message, const int p_lineNumber, const char* p_file);
-		void LogMemoryDump(void* const p_address, const int p_size, char* const p_name);
-		void SetErrorLoggingState(const bool p_state);
-		void SetWarningLoggingState(const bool p_state);
-		void SetMessagesLoggingState(const bool p_state);
-		void SetFileLoggingState(const bool p_state);
-		void SetConsoleLoggingState(const bool p_state);
+		void Log(const LogMessageType P_TYPE, const char* P_MESSAGE);
+		void Log(const LogMessageType P_TYPE, const char* P_MESSAGE, const int P_LINENUMBER, const char* P_FILE);
+		void LogMemoryDump(void* const P_ADDRESS, const int P_SIZE, char* const P_NAME);
+		void SetErrorLoggingState(const bool P_STATE);
+		void SetWarningLoggingState(const bool P_STATE);
+		void SetMessagesLoggingState(const bool P_STATE);
+		void SetFileLoggingState(const bool P_STATE);
+		void SetConsoleLoggingState(const bool P_STATE);
 	
 	
 	private:
@@ -50,10 +50,10 @@ namespace Utility
 		void Initialize();
 		void OpenLogFile();
 		void CloseLogFile();
-		void LogToFile(const char* p_header, const char* p_message);
-		void LogToFile(const char* p_header, const char* p_message, const int p_lineNumber, const char* p_file);
-		void LogToConsole(const char* p_header, const char* p_message);
-		void LogToConsole(const char* p_header, const char* p_message, const int p_lineNumber, const char* p_file);
+		void LogToFile(const char* P_HEADER, const char* P_MESSAGE);
+		void LogToFile(const char* P_HEADER, const char* P_MESSAGE, const int P_LINENUMBER, const char* P_FILE);
+		void LogToConsole(const char* P_HEADER, const char* P_MESSAGE);
+		void LogToConsole(const char* P_HEADER, const char* P_MESSAGE, const int P_LINENUMBER, const char* P_FILE);
 		tm* GetProgramStarted();
 		std::string GetProgramStartedFormatted();
 		std::string GetTimeDurationFormatted();

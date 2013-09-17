@@ -10,8 +10,8 @@ namespace Camera
 		m_chosen = false;
 		m_lost = true;
 		m_size = cv::Size(
-			static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_WIDTH)),
-			static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_HEIGHT)));
+				static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_WIDTH)),
+				static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_HEIGHT)));
 		m_center = cv::Point(((m_size.width - 1) / 2), ((m_size.height - 1) / 2));
 		m_boundingBox = cv::Rect(0, 0, m_size.width, m_size.height);
 		m_corners = Corners();
@@ -174,14 +174,14 @@ namespace Camera
 		}
 	}
 
-	bool Capture::OnEvent(const irr::SEvent& p_evt)
+	bool Capture::OnEvent(const irr::SEvent& P_EVT)
 	{
-		if (p_evt.EventType == irr::EEVENT_TYPE::EET_MOUSE_INPUT_EVENT)
+		if (P_EVT.EventType == irr::EEVENT_TYPE::EET_MOUSE_INPUT_EVENT)
 		{
-			m_center.x = p_evt.MouseInput.X;
-			m_center.y = p_evt.MouseInput.Y;
+			m_center.x = P_EVT.MouseInput.X;
+			m_center.y = P_EVT.MouseInput.Y;
 
-			if (p_evt.MouseInput.isLeftPressed())
+			if (P_EVT.MouseInput.isLeftPressed())
 			{
 				m_chosen = true;
 			}
