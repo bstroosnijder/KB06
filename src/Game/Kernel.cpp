@@ -28,8 +28,8 @@ namespace Game
 		m_sceneManager->addCameraSceneNodeFPS()->setPosition(irr::core::vector3df(0, 0, -100));
 		//irr::scene::ISceneNode* cube = m_sceneManager->addCubeSceneNode(50.0f, NULL, NULL, irr::core::vector3df(0.0f, 0.0f, 0.0f));
 		
-		tower = new Tower(m_sceneManager, irr::core::vector3df(0, 0, 0));
-		tower = new Tower(m_sceneManager, irr::core::vector3df(100, 0, 0));
+		//tower = new Tower(m_sceneManager, irr::core::vector3df(0, 0, 0));
+		//tower = new Tower(m_sceneManager, irr::core::vector3df(100, 0, 0));
 	}
 
 	Kernel::~Kernel()
