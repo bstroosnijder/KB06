@@ -80,6 +80,10 @@
     <ClCompile Include="src\Camera\CalibrationSettings.cpp" />
     <ClCompile Include="src\Camera\Capture.cpp" />
     <ClCompile Include="src\Game\Kernel.cpp" />
+    <ClCompile Include="src\Game\Object.cpp" />
+    <ClCompile Include="src\Game\Path.cpp" />
+    <ClCompile Include="src\Game\PathSegement.cpp" />
+    <ClCompile Include="src\Game\Tower.cpp" />
     <ClCompile Include="src\Program.cpp" />
     <ClCompile Include="src\Utility\Logger.cpp" />
   </ItemGroup>
@@ -91,6 +95,10 @@
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\Camera\Capture.h" />
     <ClInclude Include="include\Game\Kernel.h" />
+    <ClInclude Include="include\Game\Object.h" />
+    <ClInclude Include="include\Game\Path.h" />
+    <ClInclude Include="include\Game\PathSegment.h" />
+    <ClInclude Include="include\Game\Tower.h" />
     <ClInclude Include="include\Utility\Logger.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
