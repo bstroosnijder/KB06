@@ -1,6 +1,7 @@
 #ifndef __GAME__KERNEL__H__
 #define __GAME__KERNEL__H__
 
+#include "InputHandler.h"
 #include "../Camera/Capture.h"
 #include "../Camera/Calibration.h"
 #include <irrlicht.h>
@@ -37,9 +38,12 @@ namespace Game
 		void Start();
 
 	private:
+		irr::core::stringw m_title;
 		irr::IrrlichtDevice* m_device;
-		irr::video::IVideoDriver* m_driver;
+		irr::video::IVideoDriver* m_videoDriver;
+		irr::gui::IGUIEnvironment* m_guiEnvironment;
 		irr::scene::ISceneManager* m_sceneManager;
+		InputHandler* m_inputHandler;
 		Camera::Capture* m_capture;
 
 		/**

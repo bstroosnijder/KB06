@@ -8,7 +8,7 @@ namespace Game
 	class Tower : public Object
 	{
 	public:
-		Tower(irr::scene::ISceneManager*);
+		Tower(irr::scene::ISceneManager*, irr::core::vector3df);
 	};
 }
 
