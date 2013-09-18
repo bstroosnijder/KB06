@@ -17,7 +17,7 @@ namespace Game
 		/**
 		 * @brief Constructor
 		 */
-		EventHandler(irr::IrrlichtDevice* p_device,irr::s32 p_counter, irr::gui::IGUIListBox* p_listbox);
+		EventHandler(irr::IrrlichtDevice* p_device);
 		
 		/**
 		 * @brief Deconstructor
@@ -33,8 +33,6 @@ namespace Game
 
 	private:
 		irr::IrrlichtDevice* m_device;
-		irr::s32 m_counter;
-		irr::gui::IGUIListBox* m_listbox;
 	};
 
 }

@@ -54,7 +54,7 @@ namespace Camera
 						cv::drawContours(imgContours, contours, i, cv::Scalar(0, 0, 255));
 					}
 				}
-				cv::imshow("CONTOURS", imgContours);
+				//cv::imshow("CONTOURS", imgContours);
 
 				// release
 				gray.release();

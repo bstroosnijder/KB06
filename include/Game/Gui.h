@@ -34,12 +34,15 @@ namespace Game
 		 */
 		bool exitButtonPressed();
 
+		irr::gui::IGUIEnvironment* returnGuiEnv();
+
 
 
 
 	private:
 		irr::gui::IGUIEnvironment* m_guienv;
 		irr::gui::IGUIButton* exitButton;
+		irr::gui::IGUIButton* menuButton;
 	};
 }
 #endif

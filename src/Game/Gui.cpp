@@ -6,10 +6,10 @@ namespace Game
 	{
 		m_guienv = p_guienv;
 		m_guienv->addStaticText(L"Tower Defense", irr::core::rect<irr::s32>(10,10,260,22), true);
-		exitButton = m_guienv->addButton(irr::core::rect<irr::s32>(10,240,110,240 + 32), 0, 101,L"Quit", L"Exits Program");	
-		irr::gui::IGUIStaticText* text;
-		//text->setToolTipText(L"hey");
-		//text->setAlignment(irr::gui::EGUIA_LOWERRIGHT, irr::gui::EGUIA_LOWERRIGHT, irr::gui::EGUIA_UPPERLEFT, irr::gui::EGUIA_UPPERLEFT);
+		//rect = (left position,top position,right position,bottom position)
+		exitButton = m_guienv->addButton(irr::core::rect<irr::s32>(200,20,500,40), 0, 101,L"Quit", L"Exits Program");	
+		menuButton = m_guienv->addButton(irr::core::rect<irr::s32>(10,200,40,240), 0, 102,L"Menu", L"Opens Menu");
+		//m_guienv->addScrollBar(true,irr::core::rect<irr::s32>())
 	}
 
 	void Gui::drawGui()
@@ -24,5 +24,10 @@ namespace Game
 			return true;
 		}
 		return false;
+	}
+
+	irr::gui::IGUIEnvironment* Gui::returnGuiEnv()
+	{
+		return m_guienv;
 	}
 }

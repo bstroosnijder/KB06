@@ -3,6 +3,8 @@
 
 #include "../Camera/Capture.h"
 #include "../Camera/Calibration.h"
+#include "../Game/EventHandler.h"
+#include "../Game/Gui.h"
 #include <irrlicht.h>
 
 namespace Game
@@ -41,6 +43,9 @@ namespace Game
 		irr::video::IVideoDriver* m_driver;
 		irr::scene::ISceneManager* m_scene;
 		Camera::Capture* m_capture;
+		Game::Gui* m_gui;
+		Game::EventHandler* m_eventHandler;
+		
 
 		/**
 		 * @brief	Show a fps counter in the title of the window
