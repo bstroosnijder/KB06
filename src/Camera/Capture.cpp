@@ -17,9 +17,6 @@ namespace Camera
 		m_corners = Corners();
 
 		m_image = cv::Mat(m_size.width, m_size.height, CV_8U);
-
-		cv::namedWindow("SLIDERS");
-		cv::createTrackbar("OFFSET", "SLIDERS", &m_value, 60);
 	}
 
 	Capture::~Capture()
@@ -52,117 +49,104 @@ namespace Camera
 
 					// DEBUG CIRCLE
 					cv::circle(m_image, m_center, 5, cv::Scalar(255, 255, 255));
+					// DEBUG BOUNDINGBOX
+					cv::rectangle(m_image, m_boundingBox, cv::Scalar(255, 255, 255));
 				}
 
-				//cv::Mat test = surface.clone();
-				//cv::bilateralFilter(test, surface, 9, 150.0, 150.0);
-
-				int offset = m_value;
+				int offset = 30;
 				cv::Scalar lowerColor = cv::Scalar(m_color.val[0] - offset, m_color.val[1] - (offset * 3), m_color.val[2] - (offset * 3));
 				cv::Scalar upperColor = cv::Scalar(m_color.val[0] + offset, m_color.val[1] + (offset * 3), m_color.val[2] + (offset * 3));
 				cv::inRange(surface, lowerColor, upperColor, surface);
 
-				//int stuff = 1;
-				//cv::dilate(surface, surface, cv::getStructuringElement(cv::MORPH_CROSS, cv::Size(((2 * stuff) + 1), ((2 * stuff) + 1))));
-				//cv::erode(surface, surface, cv::getStructuringElement(cv::MORPH_CROSS, cv::Size(((2 * stuff) + 1), ((2 * stuff) + 1))));
 				cv::medianBlur(surface, surface, 9);
 				cv::Canny(surface, surface, 0, 255);
-				cv::imshow("surface", surface);
 
 
 
+				std::vector<std::vector<cv::Point>> contours;
+				cv::findContours(surface.clone(), contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
 
-
-
-				std::vector<cv::Vec4i> lines;
-				cv::HoughLinesP(surface, lines, 1.0, (CV_PI / 180), 20, 0, 50);
-
-				for (unsigned int i = 0; i < lines.size(); i++)
+				for (unsigned int i = 0; i < contours.size(); ++i)
 				{
-					cv::Vec4i v = lines[i];
-					cv::line(m_image, cv::Point(v[0], v[1]), cv::Point(v[2], v[3]), cv::Scalar(0, 0, 255));
-				}
+					cv::Mat curve = cv::Mat(contours[i]);
+					Corners approx;
+					// Convert from std::vector<cv::Point> to Corners
+					curve.convertTo(curve, cv::Mat(approx).type());
 
-				std::cout << "LINES SIZE: " << lines.size() << std::endl;
-
-
-
-
-				Corners corners;
-				for (unsigned int i = 0; i < lines.size(); i++)
-				{
-					for (unsigned int j = (i + 1); j < lines.size(); j++)
+					cv::approxPolyDP(curve, approx, (cv::arcLength(curve, true) * 0.02), true);
+					if (std::fabs(cv::contourArea(contours[i])) < 100 || !cv::isContourConvex(approx))
 					{
-						cv::Point2f cross = ComputeCross(lines[i], lines[j]);
-						if (cross.x >= 0 && cross.y >= 0)
+						continue;
+					}
+
+					int offset = 30;
+					cv::Rect boundingBox = cv::boundingRect(approx);
+					boundingBox.x -= offset;
+					boundingBox.y -= offset;
+					boundingBox.width += (offset * 2);
+					boundingBox.height += (offset * 2);
+
+					if (approx.size() == 4 && boundingBox.contains(m_center))
+					{
+						m_boundingBox = boundingBox;
+
+						cv::Point2f center;
+						if (m_chosen)
 						{
-							corners.push_back(cross);
+							center = cv::Point2f(0, 0);
+							for (unsigned int i = 0; i < approx.size(); ++i)
+							{
+								center += approx[i];
+							}
+							center *= (1.0 / approx.size());
+						}
+						else
+						{
+							center = m_center;
+						}
+
+						if (SortCorners(approx, center))
+						{
+							m_lost = false;
+							m_center = center;
+							m_corners = approx;
 						}
 					}
+
+					// Release the curve
+					curve.release();
+				}
+
+				if (m_corners.size() == 4 && m_chosen)
+				{
+					// Define the destination image
+					cv::Mat quad = cv::Mat::zeros(300, 300, CV_8U);
+
+					// Corners of the destination image
+					Corners quad_pts;
+					quad_pts.push_back(cv::Point2f(0, 0));
+					quad_pts.push_back(cv::Point2f(quad.cols, 0));
+					quad_pts.push_back(cv::Point2f(quad.cols, quad.rows));
+					quad_pts.push_back(cv::Point2f(0, quad.rows));
+
+					// Get transformation matrix
+					m_matrix = cv::getPerspectiveTransform(m_corners, quad_pts);
+
+
+					// Apply perspective transformation
+					cv::warpPerspective(m_image, quad, m_matrix, quad.size());
+					cv::imshow("quadrilateral", quad);
 				}
 
 
-				ClusterCorners(corners, 10);
-				for (unsigned int i = 0; i < corners.size(); ++i)
+
+
+
+
+				if (m_chosen && m_lost)
 				{
-					cv::circle(m_image, corners[i], 7, cv::Scalar(0, 0, 255));
-				}
-
-				std::cout << "LINES: " << lines.size() << " - CORNERS: " << corners.size() << std::endl;
-
-				//cv::Mat curve;
-				//if (corners.size() == 4)
-				//{
-				//	curve = cv::Mat(corners);
-				//	std::vector<cv::Point2f> approx;
-
-				//	cv::approxPolyDP(curve, approx,
-				//		(cv::arcLength(curve, true) * 0.02), true);
-
-				//	int offset = 30;
-				//	cv::Rect boundingBox = cv::boundingRect(approx);
-				//	boundingBox.x -= offset;
-				//	boundingBox.y -= offset;
-				//	boundingBox.width += (offset * 2);
-				//	boundingBox.height += (offset * 2);
-
-				//	if (boundingBox.contains(m_center))
-				//	{
-				//		if (approx.size() == 4)
-				//		{
-				//			m_boundingBox = boundingBox;
-
-				//			cv::Point2f center = cv::Point2f(0, 0);
-				//			for (unsigned int i = 0; i < corners.size(); i++)
-				//			{
-				//				center += corners[i];
-				//			}
-				//			center *= (1.0 / corners.size());
-
-				//			if (SortCorners(corners, center))
-				//			{
-				//				m_lost = false;
-				//				m_center = center;
-				//				m_corners = corners;
-				//			}
-				//		}
-				//	}
-				//}
-
-				//// Release the curve
-				//curve.release();
-
-
-
-
-
-
-
-
-				if (m_lost)
-				{
-					// DEBUG BOUNDING BOX
-					cv::rectangle(m_image, m_boundingBox, cv::Scalar(255, 255, 255));
+					// ERROR BOUNDINGBOX
+					cv::rectangle(m_image, m_boundingBox, cv::Scalar(0, 0, 255));
 				}
 
 				//cv::imshow("surface", surface);
@@ -188,6 +172,23 @@ namespace Camera
 		}
 
 		return false;
+	}
+
+	irr::core::matrix4 Capture::GetProjectionMatrix()
+	{
+		irr::core::matrix4 projection = irr::core::IdentityMatrix;
+
+		// Decompose the projection matrix into:
+		cv::Mat K(3, 3, cv::DataType<float>::type); // intrinsic parameter matrix
+		cv::Mat R(3, 3, cv::DataType<float>::type); // rotation matrix
+		cv::Mat T(4, 1, cv::DataType<float>::type); // translation vector
+
+		cv::decomposeProjectionMatrix(m_matrix, K, R, T);
+		std::cout << "K: " << K << std::endl;
+		std::cout << "R: " << R << std::endl;
+		std::cout << "T: " << T << std::endl;
+
+		return projection;
 	}
 
 	bool Capture::HasChosen()
@@ -235,47 +236,7 @@ namespace Camera
 		}
 	}
 
-	void Capture::ClusterCorners(Corners p_corners, int p_offset)
-	{
-		Corners corners;
-		while (p_corners.size() > 0)
-		{
-			// Get a corner
-			cv::Point2f corner = p_corners.back();
-			p_corners.pop_back();
-
-			// To track the number of corners added
-			int numCorners = 1;
-
-			// Calculate the bounding box
-			cv::Rect box = cv::Rect((corner.x - p_offset), (corner.y - p_offset), (p_offset * 2), (p_offset * 2));
-			cv::rectangle(m_image, box, cv::Scalar(0, 255, 0));
-
-			for (unsigned int i = 0; i < p_corners.size(); ++i)
-			{
-				if (box.contains(p_corners[i]))
-				{
-					corner += p_corners[i];
-					numCorners++;
-
-					// Remove the element
-					p_corners.erase(p_corners.begin() + i);
-				}
-			}
-
-			// Calculate the center of the corner
-			corner *= (1.0 / numCorners);
-
-			// Add the new corner
-			corners.push_back(corner);
-		}
-
-		// Reset corners
-		p_corners.clear();
-		p_corners = corners;
-	}
-
-	bool Capture::SortCorners(std::vector<cv::Point2f> p_corners, cv::Point2f p_center)
+	bool Capture::SortCorners(Corners p_corners, cv::Point2f p_center)
 	{
 		std::vector<cv::Point2f> top;
 		std::vector<cv::Point2f> bot;

@@ -46,6 +46,12 @@ namespace Camera
 		bool OnEvent(const irr::SEvent& p_evt);
 
 		/**
+		 * @brief	Converts and returns the projection matrix
+		 * @return	The new projection matrix
+		 */
+		irr::core::matrix4 GetProjectionMatrix();
+
+		/**
 		 * @brief	test
 		 * @return	If the surface has been chosen
 		 */
@@ -65,18 +71,17 @@ namespace Camera
 		bool m_chosen;
 		bool m_lost;
 		cv::Size m_size;
-		cv::Point m_center;
+		cv::Point2f m_center;
 		cv::Rect m_boundingBox;
 		Corners m_corners;
 		cv::Scalar m_color;
-		int m_value;
 
 		cv::Mat m_image;
+		cv::Mat m_matrix;
 
 		void CopyToTexture();
 		cv::Point2f ComputeCross(cv::Vec4i p_vec1, cv::Vec4i p_vec2);
-		void ClusterCorners(Corners p_corners, int p_offset);
-		bool SortCorners(std::vector<cv::Point2f> p_corners, cv::Point2f p_center);
+		bool SortCorners(Corners p_corners, cv::Point2f p_center);
 	};
 }
 

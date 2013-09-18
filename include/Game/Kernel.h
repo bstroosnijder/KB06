@@ -45,6 +45,7 @@ namespace Game
 		irr::scene::ISceneManager* m_scene;
 		InputHandler* m_inputHandler;
 		Camera::Capture* m_capture;
+		irr::scene::ICameraSceneNode* m_camera;
 
 		/**
 		 * @brief	Show a fps counter in the title of the window

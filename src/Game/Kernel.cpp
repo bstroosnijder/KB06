@@ -13,13 +13,11 @@ namespace Game
 		m_device->setEventReceiver(m_inputHandler);
 		m_capture = new Camera::Capture(m_driver->addTexture(irr::core::dimension2d<irr::u32>(640, 480), "capture_background"));
 		m_inputHandler->AddListener(m_capture);
+		m_camera = m_scene->addCameraSceneNode(NULL, irr::core::vector3df(0.0f, 100.0f, -150.0f), irr::core::vector3df(0.0f, 0.0f, 0.0f));
 
 		// The L is needed to have a long string. Irrlicht uses this. 
 		m_device->setWindowCaption(m_title.c_str());
 		m_device->setResizable(true);
-
-		// Add a camera to the scene
-		m_scene->addCameraSceneNode(NULL, irr::core::vector3df(0.0f, 100.0f, -150.0f), irr::core::vector3df(0.0f, 0.0f, 0.0f));
 
 		// Add a test cube to the scene
 		//irr::scene::ISceneNode* cube = m_scene->addCubeSceneNode(50.0f, NULL, NULL, irr::core::vector3df(0.0f, 0.0f, 0.0f));
@@ -46,7 +44,9 @@ namespace Game
 	{
 		while (m_device->run())
 		{
+			// Show the fps in the title of the window
 			ShowFPS();
+
 			m_driver->beginScene(true, true, irr::video::SColor(255, 0, 0, 255));
 
 			// Update the texture with the camera capture
@@ -59,6 +59,9 @@ namespace Game
 				{
 					m_inputHandler->RemoveListener(m_capture);
 				}
+				// Update the camera projection matrix
+				//m_camera->setProjectionMatrix(m_capture->GetProjectionMatrix());
+				m_capture->GetProjectionMatrix();
 				m_scene->drawAll();
 			}
 
