@@ -206,9 +206,12 @@ namespace Camera
 	void Capture::CaptureAndUndistort()
 	{
 		m_capture >> m_image;
-		//cv::undistort(m_image, m_image,
-		//	m_params->GetCameraMatrix(),
-		//	m_params->GetDistortionCoefficients());
+		if (!m_image.empty())
+		{
+			cv::undistort(m_image.clone(), m_image,
+				m_params->GetCameraMatrix(),
+				m_params->GetDistortionCoefficients());
+		}
 	}
 
 	void Capture::CopyToTexture()

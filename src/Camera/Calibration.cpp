@@ -137,7 +137,9 @@ namespace Camera
 				// Check if we can undistort output
 				if (mode == State::CALIBRATED && m_settings->GetShowUndistortedImage())
 				{
-					cv::undistort(image, image, cameraMatrix, distortionCoefficients);
+					cv::undistort(image.clone(), image,
+						cameraMatrix,
+						distortionCoefficients);
 				}
 
 				// Show image
@@ -169,7 +171,7 @@ namespace Camera
 				if (contours.size() > 0)
 				{
 					RunAndSaveCalibration(imageSize, cameraMatrix, distortionCoefficients, contours);
-					break;
+					isRunning = false;
 				}
 			}
 		}
