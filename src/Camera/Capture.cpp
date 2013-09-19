@@ -5,13 +5,14 @@ namespace Camera
 	Capture::Capture(irr::video::ITexture* p_texture)
 	{
 		m_texture = p_texture;
+		m_params = new CalibrationParams("resources/camera_calibration_out.xml");
 		m_capture = cv::VideoCapture(CV_CAP_ANY);
 
 		m_chosen = false;
 		m_lost = true;
 		m_size = cv::Size(
-			static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_WIDTH)),
-			static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_HEIGHT)));
+				static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_WIDTH)),
+				static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_HEIGHT)));
 		m_center = cv::Point(((m_size.width - 1) / 2), ((m_size.height - 1) / 2));
 		m_boundingBox = cv::Rect(0, 0, m_size.width, m_size.height);
 		m_corners = Corners();
@@ -29,6 +30,7 @@ namespace Camera
 		cv::destroyAllWindows();
 		m_image.release();
 		m_capture.release();
+		delete m_params;
 	}
 
 	void Capture::Update()
@@ -36,7 +38,7 @@ namespace Camera
 		m_lost = true;
 		if (m_capture.isOpened())
 		{
-			m_capture >> m_image;
+			CaptureAndUndistort();
 			if (!m_image.empty())
 			{
 				cv::Mat surface = cv::Mat(m_image.clone());
@@ -44,7 +46,7 @@ namespace Camera
 
 				if (!m_chosen)
 				{
-					int index = (((m_center.y * surface.channels()) * m_size.width) + (m_center.x * surface.channels()));
+					int index = static_cast<int>(((m_center.y * surface.channels()) * m_size.width) + (m_center.x * surface.channels()));
 					m_color = cv::Scalar(surface.data[(index + 0)], surface.data[(index + 1)], surface.data[(index + 2)]);
 
 					// DEBUG CIRCLE
@@ -158,14 +160,14 @@ namespace Camera
 		}
 	}
 
-	bool Capture::OnEvent(const irr::SEvent& p_evt)
+	bool Capture::OnEvent(const irr::SEvent& P_EVT)
 	{
-		if (p_evt.EventType == irr::EEVENT_TYPE::EET_MOUSE_INPUT_EVENT)
+		if (P_EVT.EventType == irr::EEVENT_TYPE::EET_MOUSE_INPUT_EVENT)
 		{
-			m_center.x = p_evt.MouseInput.X;
-			m_center.y = p_evt.MouseInput.Y;
+			m_center.x = static_cast<float>(P_EVT.MouseInput.X);
+			m_center.y = static_cast<float>(P_EVT.MouseInput.Y);
 
-			if (p_evt.MouseInput.isLeftPressed())
+			if (P_EVT.MouseInput.isLeftPressed())
 			{
 				m_chosen = true;
 			}
@@ -199,6 +201,14 @@ namespace Camera
 	bool Capture::IsLost()
 	{
 		return m_lost;
+	}
+
+	void Capture::CaptureAndUndistort()
+	{
+		m_capture >> m_image;
+		//cv::undistort(m_image, m_image,
+		//	m_params->GetCameraMatrix(),
+		//	m_params->GetDistortionCoefficients());
 	}
 
 	void Capture::CopyToTexture()

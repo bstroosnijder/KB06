@@ -4,10 +4,10 @@
 int main (int argc, char* argv[])
 {
 	Utility::Logger* logger = Utility::Logger::GetInstance();
-	logger->SetFileLoggingState(true);
+	logger->SetFileLoggingState(false);
 	logger->Log(Utility::Logger::LOG_MESSAGE, "Main: Game started");
 
-	if (true)
+	if (false)
 	{
 		Game::Kernel* kernel = new Game::Kernel();
 		kernel->Start();

@@ -40,9 +40,9 @@ namespace Game
 	private:
 		irr::core::stringw m_title;
 		irr::IrrlichtDevice* m_device;
-		irr::video::IVideoDriver* m_driver;
-		irr::gui::IGUIEnvironment* m_gui;
-		irr::scene::ISceneManager* m_scene;
+		irr::video::IVideoDriver* m_videoDriver;
+		irr::gui::IGUIEnvironment* m_guiEnvironment;
+		irr::scene::ISceneManager* m_sceneManager;
 		InputHandler* m_inputHandler;
 		Camera::Capture* m_capture;
 		irr::scene::ICameraSceneNode* m_camera;

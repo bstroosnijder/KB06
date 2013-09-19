@@ -1,6 +1,7 @@
 #ifndef __CAMERA__CAPTURE__H__
 #define __CAMERA__CAPTURE__H__
 
+#include "CalibrationParams.h"
 #include <irrlicht.h>
 #include <opencv\cv.h>
 #include <opencv\highgui.h>
@@ -43,7 +44,7 @@ namespace Camera
 		 * @param	p_evt The event received
 		 * @return	Has the event been completely handled
 		 */
-		bool OnEvent(const irr::SEvent& p_evt);
+		bool OnEvent(const irr::SEvent& P_EVT);
 
 		/**
 		 * @brief	Converts and returns the projection matrix
@@ -66,6 +67,7 @@ namespace Camera
 	private:
 		typedef std::vector<cv::Point2f> Corners;
 		irr::video::ITexture* m_texture;
+		CalibrationParams* m_params;
 		cv::VideoCapture m_capture;
 
 		bool m_chosen;
@@ -79,6 +81,7 @@ namespace Camera
 		cv::Mat m_image;
 		cv::Mat m_matrix;
 
+		void CaptureAndUndistort();
 		void CopyToTexture();
 		cv::Point2f ComputeCross(cv::Vec4i p_vec1, cv::Vec4i p_vec2);
 		bool SortCorners(Corners p_corners, cv::Point2f p_center);

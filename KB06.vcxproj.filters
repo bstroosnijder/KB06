@@ -48,11 +48,26 @@
     <ClCompile Include="src\Camera\CalibrationSettings.cpp">
       <Filter>Source Files\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="src\Game\Object.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Tower.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
     <ClCompile Include="src\Game\InputHandler.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="src\Utility\Logger.cpp">
       <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Game\Path.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Game\PathSegement.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera\CalibrationParams.cpp">
+      <Filter>Source Files\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -74,11 +89,26 @@
     <ClInclude Include="include\Camera\CalibrationSettings.h">
       <Filter>Header Files\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="include\Game\Object.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\Tower.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
     <ClInclude Include="include\Game\InputHandler.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="include\Utility\Logger.h">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\Path.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\PathSegment.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Camera\CalibrationParams.h">
+      <Filter>Header Files\Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<opencv_storage>
+<settings>
+  <!-- Number of inner corners per a item row and column. (square, circle) -->
+  <board_width>8</board_width>
+  <board_height>5</board_height>
+  
+  <!-- The size of a square in some user defined metric system (pixel, millimeter)-->
+  <square_size>26</square_size>
+  
+  <!-- The type of input used for camera calibration. One of: CHESSBOARD CIRCLES_GRID ASYMMETRIC_CIRCLES_GRID -->
+  <calibration_pattern>"CHESSBOARD"</calibration_pattern>
+  
+  <!-- The input to use for calibration. 
+		To use an input camera -> give the ID of the camera, like "1"
+		To use an input video  -> give the path of the input video, like "/tmp/x.avi"
+		To use an image list   -> give the path to the XML or YAML file containing the list of the images, like "/tmp/circles_list.xml"
+	-->
+  <input_type>"0"</input_type>
+  <!--  If true (non-zero) we flip the input images around the horizontal axis.-->
+  <input_flip_horizontal>0</input_flip_horizontal>
+  
+  <!-- Time delay between frames in case of camera. -->
+  <input_delay>1000</input_delay>	
+  
+  <!-- How many frames to use, for calibration. -->
+  <number_of_frames>25</number_of_frames>
+  <!-- Consider only fy as a free parameter, the ratio fx/fy stays the same as in the input cameraMatrix. 
+	   Use or not setting. 0 - False Non-Zero - True-->
+  <aspect_ratio>1</aspect_ratio>
+  <!-- If true (non-zero) tangential distortion coefficients  are set to zeros and stay zero.-->
+  <assume_zero_tangential_distortion>1</assume_zero_tangential_distortion>
+  <!-- If true (non-zero) the principal point is not changed during the global optimization.-->
+  <assume_principal_point_center> 1 </assume_principal_point_center>
+  
+  <!-- The name of the output log file. -->
+  <output_filename>"resources/camera_calibration_out.xml"</output_filename>
+  <!-- If true (non-zero) we write to the output file the feature points.-->
+  <output_detect_feature_points>0</output_detect_feature_points>
+  <!-- If true (non-zero) we write to the output file the extrinsic camera parameters.-->
+  <output_extrinsic_parameters>0</output_extrinsic_parameters>
+  <!-- If true (non-zero) we show after calibration the undistorted images.-->
+  <show_undistorted_image>1</show_undistorted_image>
+</settings>
+</opencv_storage>
