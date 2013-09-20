@@ -44,7 +44,6 @@ namespace Game
 		irr::scene::ISceneManager* m_scene;
 		Camera::Capture* m_capture;
 		Game::Gui* m_gui;
-		Game::EventHandler* m_eventHandler;
 		
 
 		/**
