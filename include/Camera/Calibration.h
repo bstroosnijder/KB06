@@ -18,7 +18,7 @@ namespace Camera
 	class Calibration
 	{
 		/**
-		 * @brief	TODO
+		 * @brief	This enum is used to see wheer we are within the calibration process
 		 * @author	Alex Hodes
 		 */
 		enum State
@@ -29,7 +29,7 @@ namespace Camera
 		};
 
 		/**
-		 * @brief	TODO
+		 * @brief	This enum is used to save which method of calibrating is used
 		 * @author	Alex Hodes
 		 */
 		enum CalibrationFlag
@@ -110,7 +110,7 @@ namespace Camera
 		 * @param	p_contours The detected contours
 		 */
 		bool RunAndSaveCalibration(cv::Size& p_imageSize, cv::Mat& p_cameraMatrix,
-			cv::Mat& p_distortionCoefficients, Contours& p_contours);
+				cv::Mat& p_distortionCoefficients, Contours& p_contours);
 
 		/**
 		 * @brief	Executes the actual calibration
@@ -124,9 +124,9 @@ namespace Camera
 		 * @param	p_tvecs TODO: explain
 		 */
 		bool RunCalibration(cv::Size& p_imageSize, cv::Mat& p_cameraMatrix,
-			cv::Mat& p_distortionCoefficients, Contours& p_contours,
-			double& p_averageReprojectionError, PerViewErrors& p_perViewReprojectionErrors,
-			CvMats& p_rvecs, CvMats& p_tvecs);
+				cv::Mat& p_distortionCoefficients, Contours& p_contours,
+				double& p_averageReprojectionError, PerViewErrors& p_perViewReprojectionErrors,
+				cv::Mat& p_rvecs, cv::Mat& p_tvecs);
 
 		/**
 		 * @brief	Calculates the corners of the checkerboard image
@@ -146,9 +146,9 @@ namespace Camera
 		 * @return	The average reprojection error
 		 */
 		double ComputeReprojectionErrors(cv::Mat& p_cameraMatrix,
-			cv::Mat& p_distortionCoefficients, Contours& p_contours,
-			PerViewErrors& p_perViewReprojectionErrors,
-			CvMats& p_rvecs, CvMats& p_tvecs, std::vector<Points>& p_points);
+				cv::Mat& p_distortionCoefficients, Contours& p_contours,
+				PerViewErrors& p_perViewReprojectionErrors,
+				cv::Mat& p_rvecs, cv::Mat& p_tvecs, std::vector<Points>& p_points);
 
 		/**
 		 * @brief	Saves the calibration parameres to a file
@@ -162,9 +162,9 @@ namespace Camera
 		 * @param	p_tvecs TODO: explain
 		 */
 		void SaveParams(cv::Size& p_imageSize, cv::Mat& p_cameraMatrix,
-			cv::Mat& p_distortionCoefficients, Contours& p_contours,
-			double& p_averageReprojectionError, PerViewErrors& p_perViewReprojectionErrors,
-			CvMats& p_rvecs, CvMats& p_tvecs);
+				cv::Mat& p_distortionCoefficients, Contours& p_contours,
+				double& p_averageReprojectionError, PerViewErrors& p_perViewReprojectionErrors,
+				cv::Mat& p_rvecs, cv::Mat& p_tvecs);
 	};
 }
 

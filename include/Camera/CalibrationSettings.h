@@ -10,7 +10,7 @@
 namespace Camera
 {
 	/**
-	 * @brief	TODO
+	 * @brief	This class reads in the settings file
 	 * @author	Alex Hodes
 	 */
 	class CalibrationSettings
@@ -20,7 +20,7 @@ namespace Camera
 		bool m_goodInput;
 
 		/*
-		 * @brief	TODO
+		 * @brief	Holds which pattern to use
 		 * @author	Alex Hodes
 		 */
 		enum Pattern
@@ -32,7 +32,7 @@ namespace Camera
 		};
 
 		/*
-		 * @brief	TODO
+		 * @brief	Holds which input is used
 		 * @author	Alex Hodes
 		 */
 		enum InputType
