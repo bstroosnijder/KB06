@@ -242,10 +242,10 @@ namespace Camera
 			p_distortionCoefficients, p_rvecs, p_tvecs);
 
 		bool status = (cv::checkRange(p_cameraMatrix) && cv::checkRange(p_distortionCoefficients));
-		p_averageReprojectionError = ComputeReprojectionErrors(p_cameraMatrix,
-			p_distortionCoefficients, p_contours,
-			p_perViewReprojectionErrors,
-			p_rvecs, p_tvecs, points);
+		//p_averageReprojectionError = ComputeReprojectionErrors(p_cameraMatrix,
+		//	p_distortionCoefficients, p_contours,
+		//	p_perViewReprojectionErrors,
+		//	p_rvecs, p_tvecs, points);
 
 		return status;
 	}
@@ -296,9 +296,9 @@ namespace Camera
 		p_perViewReprojectionErrors.resize(p_points.size());
 		for (unsigned int i = 0; i < p_points.size(); ++i)
 		{
-			cv::projectPoints(cv::Mat(p_points[i]), p_rvecs, p_tvecs,
+			cv::projectPoints(cv::Mat(p_points[i]), p_rvecs[i], p_tvecs[i],
 				p_cameraMatrix, p_distortionCoefficients, corners);
-			double error = cv::norm(cv::Mat(p_points[i]), cv::Mat(corners), CV_L2);
+			double error = cv::norm(cv::Mat(p_points[i]), cv::Mat(corners[i]), CV_L2);
 
 			unsigned int pointsSize = p_points[i].size();
 			p_perViewReprojectionErrors[i] = static_cast<float>(std::sqrt((error * error) / pointsSize));
