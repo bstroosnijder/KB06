@@ -65,6 +65,12 @@ namespace Camera
 		void Save();
 
 		/**
+		 * @brief	Checks whether the file is opened and the input is good
+		 * @return	Whether the file is opened and the input is good
+		 */
+		bool GetIsOpenedAndGood();
+
+		/**
 		 * @brief	Gets the camera ID
 		 * @return	The camera ID
 		 */
@@ -276,6 +282,7 @@ namespace Camera
 
 	private:
 		std::string m_filename;
+		bool m_isOpenedAndGood;
 		int m_cameraID;
 		std::string m_videoFile;
 		std::vector<std::string> m_imageList;

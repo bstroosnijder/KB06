@@ -7,6 +7,7 @@ namespace Camera
 		m_texture = p_texture;
 		m_params = new CalibrationParams("resources/camera_calibration_out.xml");
 		m_capture = cv::VideoCapture(CV_CAP_ANY);
+		m_running = false;
 
 		m_chosen = false;
 		m_lost = true;
@@ -27,135 +28,151 @@ namespace Camera
 
 	void Capture::Cleanup()
 	{
+		m_running = false;
+		if (m_thread)
+		{
+			m_thread->join();
+			delete m_thread;
+		}
+
 		cv::destroyAllWindows();
 		m_image.release();
 		m_capture.release();
 		delete m_params;
 	}
 
-	void Capture::Update()
+	void Capture::Start()
 	{
-		m_lost = true;
-		if (m_capture.isOpened())
+		m_running = true;
+		m_thread = new std::thread(&Capture::Worker, this);
+	}
+
+	void Capture::Worker()
+	{
+		while (m_running)
 		{
-			CaptureAndUndistort();
-			if (!m_image.empty())
+			m_lost = true;
+			if (m_capture.isOpened())
 			{
-				cv::Mat surface = cv::Mat(m_image.clone());
-				cv::cvtColor(surface, surface, CV_BGR2HSV);
-
-				if (!m_chosen)
+				CaptureAndUndistort();
+				if (!m_image.empty())
 				{
-					int index = static_cast<int>(((m_center.y * surface.channels()) * m_size.width) + (m_center.x * surface.channels()));
-					m_color = cv::Scalar(surface.data[(index + 0)], surface.data[(index + 1)], surface.data[(index + 2)]);
+					cv::Mat surface = cv::Mat(m_image.clone());
+					cv::cvtColor(surface, surface, CV_BGR2HSV);
 
-					// DEBUG CIRCLE
-					cv::circle(m_image, m_center, 5, cv::Scalar(255, 255, 255));
-					// DEBUG BOUNDINGBOX
-					cv::rectangle(m_image, m_boundingBox, cv::Scalar(255, 255, 255));
-				}
-
-				int offset = 30;
-				cv::Scalar lowerColor = cv::Scalar(m_color.val[0] - offset, m_color.val[1] - (offset * 3), m_color.val[2] - (offset * 3));
-				cv::Scalar upperColor = cv::Scalar(m_color.val[0] + offset, m_color.val[1] + (offset * 3), m_color.val[2] + (offset * 3));
-				cv::inRange(surface, lowerColor, upperColor, surface);
-
-				cv::medianBlur(surface, surface, 9);
-				cv::Canny(surface, surface, 0, 255);
-
-
-
-				std::vector<std::vector<cv::Point>> contours;
-				cv::findContours(surface.clone(), contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
-
-				for (unsigned int i = 0; i < contours.size(); ++i)
-				{
-					cv::Mat curve = cv::Mat(contours[i]);
-					Corners approx;
-					// Convert from std::vector<cv::Point> to Corners
-					curve.convertTo(curve, cv::Mat(approx).type());
-
-					cv::approxPolyDP(curve, approx, (cv::arcLength(curve, true) * 0.02), true);
-					if (std::fabs(cv::contourArea(contours[i])) < 100 || !cv::isContourConvex(approx))
+					if (!m_chosen)
 					{
-						continue;
+						int index = static_cast<int>(((m_center.y * surface.channels()) * m_size.width) + (m_center.x * surface.channels()));
+						m_color = cv::Scalar(surface.data[(index + 0)], surface.data[(index + 1)], surface.data[(index + 2)]);
+
+						// DEBUG CIRCLE
+						cv::circle(m_image, m_center, 5, cv::Scalar(255, 255, 255));
+						// DEBUG BOUNDINGBOX
+						cv::rectangle(m_image, m_boundingBox, cv::Scalar(255, 255, 255));
 					}
 
 					int offset = 30;
-					cv::Rect boundingBox = cv::boundingRect(approx);
-					boundingBox.x -= offset;
-					boundingBox.y -= offset;
-					boundingBox.width += (offset * 2);
-					boundingBox.height += (offset * 2);
+					cv::Scalar lowerColor = cv::Scalar(m_color.val[0] - offset, m_color.val[1] - (offset * 3), m_color.val[2] - (offset * 3));
+					cv::Scalar upperColor = cv::Scalar(m_color.val[0] + offset, m_color.val[1] + (offset * 3), m_color.val[2] + (offset * 3));
+					cv::inRange(surface, lowerColor, upperColor, surface);
 
-					if (approx.size() == 4 && boundingBox.contains(m_center))
+					cv::medianBlur(surface, surface, 9);
+					cv::Canny(surface, surface, 0, 255);
+
+
+
+					std::vector<std::vector<cv::Point>> contours;
+					cv::findContours(surface.clone(), contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
+
+					for (unsigned int i = 0; i < contours.size(); ++i)
 					{
-						m_boundingBox = boundingBox;
+						cv::Mat curve = cv::Mat(contours[i]);
+						Corners approx;
+						// Convert from std::vector<cv::Point> to Corners
+						curve.convertTo(curve, cv::Mat(approx).type());
 
-						cv::Point2f center;
-						if (m_chosen)
+						cv::approxPolyDP(curve, approx, (cv::arcLength(curve, true) * 0.02), true);
+						if (std::fabs(cv::contourArea(contours[i])) < 100 || !cv::isContourConvex(approx))
 						{
-							center = cv::Point2f(0, 0);
-							for (unsigned int i = 0; i < approx.size(); ++i)
+							continue;
+						}
+
+						int offset = 30;
+						cv::Rect boundingBox = cv::boundingRect(approx);
+						boundingBox.x -= offset;
+						boundingBox.y -= offset;
+						boundingBox.width += (offset * 2);
+						boundingBox.height += (offset * 2);
+
+						if (approx.size() == 4 && boundingBox.contains(m_center))
+						{
+							m_boundingBox = boundingBox;
+
+							cv::Point2f center;
+							if (m_chosen)
 							{
-								center += approx[i];
+								center = cv::Point2f(0, 0);
+								for (unsigned int i = 0; i < approx.size(); ++i)
+								{
+									center += approx[i];
+								}
+								center *= (1.0 / approx.size());
 							}
-							center *= (1.0 / approx.size());
-						}
-						else
-						{
-							center = m_center;
+							else
+							{
+								center = m_center;
+							}
+
+							if (SortCorners(approx, center))
+							{
+								m_lost = false;
+								m_center = center;
+								m_corners = approx;
+							}
 						}
 
-						if (SortCorners(approx, center))
-						{
-							m_lost = false;
-							m_center = center;
-							m_corners = approx;
-						}
+						// Release the curve
+						curve.release();
 					}
 
-					// Release the curve
-					curve.release();
+					if (m_corners.size() == 4 && m_chosen)
+					{
+						// Define the destination image
+						cv::Mat quad = cv::Mat::zeros(300, 300, CV_8U);
+
+						// Corners of the destination image
+						Corners quad_pts;
+						quad_pts.push_back(cv::Point2f(0, 0));
+						quad_pts.push_back(cv::Point2f(quad.cols, 0));
+						quad_pts.push_back(cv::Point2f(quad.cols, quad.rows));
+						quad_pts.push_back(cv::Point2f(0, quad.rows));
+
+						// Get transformation matrix
+						m_matrix = cv::getPerspectiveTransform(m_corners, quad_pts);
+
+
+						// Apply perspective transformation
+						cv::warpPerspective(m_image, quad, m_matrix, quad.size());
+						cv::imshow("quadrilateral", quad);
+					}
+
+
+
+
+
+
+					if (m_chosen && m_lost)
+					{
+						// ERROR BOUNDINGBOX
+						cv::rectangle(m_image, m_boundingBox, cv::Scalar(0, 0, 255));
+					}
+
+					//cv::imshow("surface", surface);
+					surface.release();
+
+					// Update the irrlicht texture with the camera frame
+					CopyToTexture();
 				}
-
-				if (m_corners.size() == 4 && m_chosen)
-				{
-					// Define the destination image
-					cv::Mat quad = cv::Mat::zeros(300, 300, CV_8U);
-
-					// Corners of the destination image
-					Corners quad_pts;
-					quad_pts.push_back(cv::Point2f(0, 0));
-					quad_pts.push_back(cv::Point2f(quad.cols, 0));
-					quad_pts.push_back(cv::Point2f(quad.cols, quad.rows));
-					quad_pts.push_back(cv::Point2f(0, quad.rows));
-
-					// Get transformation matrix
-					m_matrix = cv::getPerspectiveTransform(m_corners, quad_pts);
-
-
-					// Apply perspective transformation
-					cv::warpPerspective(m_image, quad, m_matrix, quad.size());
-					cv::imshow("quadrilateral", quad);
-				}
-
-
-
-
-
-
-				if (m_chosen && m_lost)
-				{
-					// ERROR BOUNDINGBOX
-					cv::rectangle(m_image, m_boundingBox, cv::Scalar(0, 0, 255));
-				}
-
-				//cv::imshow("surface", surface);
-				surface.release();
-
-				// Update the irrlicht texture with the camera frame
-				CopyToTexture();
 			}
 		}
 	}
@@ -206,7 +223,7 @@ namespace Camera
 	void Capture::CaptureAndUndistort()
 	{
 		m_capture >> m_image;
-		if (!m_image.empty())
+		if (m_params->GetIsOpenedAndGood() && !m_image.empty())
 		{
 			cv::undistort(m_image.clone(), m_image,
 				m_params->GetCameraMatrix(),

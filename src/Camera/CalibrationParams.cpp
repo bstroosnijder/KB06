@@ -5,6 +5,7 @@ namespace Camera
 	CalibrationParams::CalibrationParams(std::string p_filename)
 	{
 		m_filename = p_filename;
+		m_isOpenedAndGood = true;
 		cv::FileStorage storage = cv::FileStorage(m_filename, cv::FileStorage::READ);
 		if (storage.isOpened())
 		{
@@ -22,6 +23,10 @@ namespace Camera
 			storage["per_view_reprojection_errors"] >> m_perViewReprojectionErrors;
 			storage["extrinsic_arameters"] >> m_extrinsicParameters;
 			storage["image_points"] >> m_imagePoints;
+		}
+		else
+		{
+			m_isOpenedAndGood = false;
 		}
 
 		// Release
@@ -71,6 +76,11 @@ namespace Camera
 		}
 
 		storage.release();
+	}
+
+	bool CalibrationParams::GetIsOpenedAndGood()
+	{
+		return m_isOpenedAndGood;
 	}
 
 	int CalibrationParams::GetNumberOfFrames()

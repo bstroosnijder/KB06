@@ -5,6 +5,7 @@
 #include <irrlicht.h>
 #include <opencv\cv.h>
 #include <opencv\highgui.h>
+#include <thread>
 #include <vector>
 #include <list>
 
@@ -35,9 +36,9 @@ namespace Camera
 		void Cleanup();
 
 		/**
-		 * @brief	Updates the texture to the latest frame of the camera
+		 * @brief	Starts the capture thread
 		 */
-		void Update();
+		void Start();
 
 		/**
 		 * @brief	Handles input
@@ -70,6 +71,9 @@ namespace Camera
 		CalibrationParams* m_params;
 		cv::VideoCapture m_capture;
 
+		bool m_running;
+		std::thread* m_thread;
+
 		bool m_chosen;
 		bool m_lost;
 		cv::Size m_size;
@@ -81,9 +85,35 @@ namespace Camera
 		cv::Mat m_image;
 		cv::Mat m_matrix;
 
+		/**
+		* @brief	Updates the texture to the latest frame of the camera
+		*/
+		void Worker();
+
+		/**
+		 * @brief	Fetches a image from the capture and undistort the image
+		 */
 		void CaptureAndUndistort();
+
+		/**
+		 * @brief	Copies the image to the irrlicht texture
+		 */
 		void CopyToTexture();
+
+		/**
+		 * @brief	Compues the intersections of two lines
+		 * @param	p_vec1 The first line
+		 * @param	p_vec2 The second line
+		 * @return	The computed intersection
+		 */
 		cv::Point2f ComputeCross(cv::Vec4i p_vec1, cv::Vec4i p_vec2);
+
+		/**
+		 * @brief	Sorts the corners so that they are lt, tr, br, bl
+		 * @param	p_corners The list of corners
+		 * @param	p_center The center around which to sort the corners
+		 * @return	Whether or not the corners were correctly sorted
+		 */
 		bool SortCorners(Corners p_corners, cv::Point2f p_center);
 	};
 }

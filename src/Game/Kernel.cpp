@@ -40,14 +40,15 @@ namespace Game
 
 	void Kernel::Start()
 	{
+		m_capture->Start();
 		while (m_device->run())
 		{
 			// Show the fps in the title of the window
 			ShowFPS();
-			m_videoDriver->beginScene();
+			// Begin an empty blue scene
+			m_videoDriver->beginScene(true, true, irr::video::SColor(255, 0, 0, 255));
 
 			// Update the texture with the camera capture
-			m_capture->Update();
 			m_videoDriver->draw2DImage(m_videoDriver->getTexture("capture_background"), irr::core::vector2d<irr::s32>(0, 0));
 			if (m_capture->HasChosen() && m_capture->IsLost() == false)
 			{

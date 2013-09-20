@@ -5,6 +5,7 @@ namespace Camera
 	CalibrationSettings::CalibrationSettings(std::string p_filename)
 	{
 		m_filename = p_filename;
+		m_isOpenedAndGood = true;
 		cv::FileStorage storage = cv::FileStorage(m_filename, cv::FileStorage::READ);
 		if (storage.isOpened())
 		{
@@ -79,6 +80,10 @@ namespace Camera
 				m_flag |= CV_CALIB_FIX_PRINCIPAL_POINT;
 			}
 		}
+		else
+		{
+			m_isOpenedAndGood = false;
+		}
 
 		// Release
 		storage.release();
@@ -143,6 +148,11 @@ namespace Camera
 
 		// Release
 		storage.release();
+	}
+
+	bool CalibrationSettings::GetIsOpenedAndGood()
+	{
+		return m_isOpenedAndGood;
 	}
 
 	int CalibrationSettings::GetCameraID()

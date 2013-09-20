@@ -35,6 +35,12 @@ namespace Camera
 
 	void Calibration::Start()
 	{
+		// Return empty if this isn't open
+		if (!m_settings->GetIsOpenedAndGood())
+		{
+			return;
+		}
+
 		const char KEY_ESC = 27;
 		const char KEY_U = 'u';
 		const char KEY_G = 'g';

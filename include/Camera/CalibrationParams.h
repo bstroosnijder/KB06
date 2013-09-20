@@ -37,6 +37,12 @@ namespace Camera
 		void Save();
 
 		/**
+		 * @brief	Checks whether the file is opened and the input is good
+		 * @return	Whether the file is opened and the input is good
+		 */
+		bool GetIsOpenedAndGood();
+
+		/**
 		 * @brief	The number of frames
 		 * @return	The number of frames
 		 */
@@ -206,6 +212,7 @@ namespace Camera
 
 	private:
 		std::string m_filename;
+		bool m_isOpenedAndGood;
 		int m_numberOfFrames;
 		int m_imageWidth;
 		int m_imageHeight;
