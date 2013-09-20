@@ -1,4 +1,5 @@
 #include "Camera/Calibration.h"
+#include "Utility/Logger.h"
 
 namespace Camera
 {
@@ -35,6 +36,9 @@ namespace Camera
 
 	void Calibration::Start()
 	{
+		Utility::Logger* logger = Utility::Logger::GetInstance();
+		logger->SetFileLoggingState(false);
+		logger->Log(Utility::Logger::LOG_MESSAGE, "Calibration: Welcome to the camera calibration! Please hold an odd checkerboard or KB-06 techboard in front of the camera. Press G to start the calibration!");
 		// Return empty if this isn't open
 		if (!m_settings->GetIsOpenedAndGood())
 		{
@@ -89,22 +93,22 @@ namespace Camera
 				{
 				case CalibrationSettings::Pattern::CHESSBOARD:
 					found = cv::findChessboardCorners(image,
-						m_settings->GetBoardSize(),
-						corners,
-						(CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FAST_CHECK | CV_CALIB_CB_NORMALIZE_IMAGE));
+							m_settings->GetBoardSize(),
+							corners,
+							(CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FAST_CHECK | CV_CALIB_CB_NORMALIZE_IMAGE));
 					break;
 
 				case CalibrationSettings::Pattern::CIRCLES_GRID:
 					found = cv::findCirclesGrid(image,
-						m_settings->GetBoardSize(),
-						corners);
+							m_settings->GetBoardSize(),
+							corners);
 					break;
 
 				case CalibrationSettings::Pattern::ASYMMETRIC_CIRCLES_GRID:
 					found = cv::findCirclesGrid(image,
-						m_settings->GetBoardSize(),
-						corners,
-						CALIB_CB_ASYMMETRIC_GRID);
+							m_settings->GetBoardSize(),
+							corners,
+							CALIB_CB_ASYMMETRIC_GRID);
 					break;
 				}
 
@@ -116,7 +120,7 @@ namespace Camera
 						cv::Mat gray;
 						cv::cvtColor(image, gray, CV_BGR2GRAY);
 						cv::cornerSubPix(gray, corners, cv::Size(11, 11), cv::Size(-1, -1),
-							cv::TermCriteria(CV_TERMCRIT_EPS + CV_TERMCRIT_ITER, 30, 0.1));
+								cv::TermCriteria(CV_TERMCRIT_EPS + CV_TERMCRIT_ITER, 30, 0.1));
 					}
 
 					// For camera only take new samples after delay time
@@ -131,7 +135,7 @@ namespace Camera
 
 					// Draw the corners.
 					cv::drawChessboardCorners(image, m_settings->GetBoardSize(),
-						cv::Mat(corners), found);
+							cv::Mat(corners), found);
 				}
 
 				// Check if we need to blink output
@@ -144,8 +148,8 @@ namespace Camera
 				if (mode == State::CALIBRATED && m_settings->GetShowUndistortedImage())
 				{
 					cv::undistort(image.clone(), image,
-						cameraMatrix,
-						distortionCoefficients);
+							cameraMatrix,
+							distortionCoefficients);
 				}
 
 				// Show image
@@ -201,7 +205,7 @@ namespace Camera
 	}
 
 	bool Calibration::RunAndSaveCalibration(cv::Size& p_imageSize, cv::Mat& p_cameraMatrix,
-		cv::Mat& p_distortionCoefficients, Contours& p_contours)
+			cv::Mat& p_distortionCoefficients, Contours& p_contours)
 	{
 		double averageReprojectionError = 0.0;
 		PerViewErrors perViewReprojectionErrors;
@@ -209,24 +213,24 @@ namespace Camera
 		CvMats tvecs;
 
 		bool status = RunCalibration(p_imageSize, p_cameraMatrix,
-			p_distortionCoefficients, p_contours,
-			averageReprojectionError, perViewReprojectionErrors,
-			rvecs, tvecs);
-		if (status)
-		{
-			SaveParams(p_imageSize, p_cameraMatrix,
 				p_distortionCoefficients, p_contours,
 				averageReprojectionError, perViewReprojectionErrors,
 				rvecs, tvecs);
+		if (status)
+		{
+			SaveParams(p_imageSize, p_cameraMatrix,
+					p_distortionCoefficients, p_contours,
+					averageReprojectionError, perViewReprojectionErrors,
+					rvecs, tvecs);
 		}
 
 		return status;
 	}
 
 	bool Calibration::RunCalibration(cv::Size& p_imageSize, cv::Mat& p_cameraMatrix,
-		cv::Mat& p_distortionCoefficients, Contours& p_contours,
-		double& p_averageReprojectionError, PerViewErrors& p_perViewReprojectionErrors,
-		CvMats& p_rvecs, CvMats& p_tvecs)
+			cv::Mat& p_distortionCoefficients, Contours& p_contours,
+			double& p_averageReprojectionError, PerViewErrors& p_perViewReprojectionErrors,
+			CvMats& p_rvecs, CvMats& p_tvecs)
 	{
 		p_cameraMatrix = cv::Mat::eye(cv::Size(3, 3), CV_64F);
 		p_distortionCoefficients = cv::Mat::zeros(8, 1, CV_64F);
@@ -239,7 +243,7 @@ namespace Camera
 		CalculateBoardCorners(points[0]);
 		points.resize(p_contours.size(), points[0]);
 		cv::calibrateCamera(points, p_contours, p_imageSize, p_cameraMatrix,
-			p_distortionCoefficients, p_rvecs, p_tvecs);
+				p_distortionCoefficients, p_rvecs, p_tvecs);
 
 		bool status = (cv::checkRange(p_cameraMatrix) && cv::checkRange(p_distortionCoefficients));
 		//p_averageReprojectionError = ComputeReprojectionErrors(p_cameraMatrix,
@@ -262,9 +266,9 @@ namespace Camera
 				for (int j = 0; j < m_settings->GetBoardWidth(); ++j)
 				{
 					p_points.push_back(cv::Point3f(
-						static_cast<float>(j * m_settings->GetSquareSize()),
-						static_cast<float>(i * m_settings->GetSquareSize()),
-						0.0f));
+							static_cast<float>(j * m_settings->GetSquareSize()),
+							static_cast<float>(i * m_settings->GetSquareSize()),
+							0.0f));
 				}
 			}
 			break;
@@ -275,9 +279,9 @@ namespace Camera
 				for (int j = 0; j < m_settings->GetBoardWidth(); ++j)
 				{
 					p_points.push_back(cv::Point3f(
-						static_cast<float>(((2 * j) + (i % 2)) * m_settings->GetSquareSize()),
-						static_cast<float>(i * m_settings->GetSquareSize()),
-						0.0f));
+							static_cast<float>(((2 * j) + (i % 2)) * m_settings->GetSquareSize()),
+							static_cast<float>(i * m_settings->GetSquareSize()),
+							0.0f));
 				}
 			}
 			break;
@@ -285,9 +289,9 @@ namespace Camera
 	}
 
 	double Calibration::ComputeReprojectionErrors(cv::Mat& p_cameraMatrix,
-		cv::Mat& p_distortionCoefficients, Contours& p_contours,
-		PerViewErrors& p_perViewReprojectionErrors,
-		CvMats& p_rvecs, CvMats& p_tvecs, std::vector<Points>& p_points)
+			cv::Mat& p_distortionCoefficients, Contours& p_contours,
+			PerViewErrors& p_perViewReprojectionErrors,
+			CvMats& p_rvecs, CvMats& p_tvecs, std::vector<Points>& p_points)
 	{
 		Corners corners;
 		double numErrors = 0.0;
@@ -310,9 +314,9 @@ namespace Camera
 	}
 
 	void Calibration::SaveParams(cv::Size& p_imageSize, cv::Mat& p_cameraMatrix,
-		cv::Mat& p_distortionCoefficients, Contours& p_contours,
-		double& p_averageReprojectionError, PerViewErrors& p_perViewReprojectionErrors,
-		CvMats& p_rvecs, CvMats& p_tvecs)
+			cv::Mat& p_distortionCoefficients, Contours& p_contours,
+			double& p_averageReprojectionError, PerViewErrors& p_perViewReprojectionErrors,
+			CvMats& p_rvecs, CvMats& p_tvecs)
 	{
 		m_params->SetNumberOfFrames(m_settings->GetNumberOfFrames());
 		m_params->SetImageWidth(p_imageSize.width);

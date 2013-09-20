@@ -126,7 +126,7 @@ namespace Camera
 		bool RunCalibration(cv::Size& p_imageSize, cv::Mat& p_cameraMatrix,
 				cv::Mat& p_distortionCoefficients, Contours& p_contours,
 				double& p_averageReprojectionError, PerViewErrors& p_perViewReprojectionErrors,
-				cv::Mat& p_rvecs, cv::Mat& p_tvecs);
+				CvMats& p_rvecs, CvMats& p_tvecs);
 
 		/**
 		 * @brief	Calculates the corners of the checkerboard image
@@ -148,7 +148,7 @@ namespace Camera
 		double ComputeReprojectionErrors(cv::Mat& p_cameraMatrix,
 				cv::Mat& p_distortionCoefficients, Contours& p_contours,
 				PerViewErrors& p_perViewReprojectionErrors,
-				cv::Mat& p_rvecs, cv::Mat& p_tvecs, std::vector<Points>& p_points);
+				CvMats& p_rvecs, CvMats& p_tvecs, std::vector<Points>& p_points);
 
 		/**
 		 * @brief	Saves the calibration parameres to a file
@@ -164,7 +164,7 @@ namespace Camera
 		void SaveParams(cv::Size& p_imageSize, cv::Mat& p_cameraMatrix,
 				cv::Mat& p_distortionCoefficients, Contours& p_contours,
 				double& p_averageReprojectionError, PerViewErrors& p_perViewReprojectionErrors,
-				cv::Mat& p_rvecs, cv::Mat& p_tvecs);
+				CvMats& p_rvecs, CvMats& p_tvecs);
 	};
 }
 
