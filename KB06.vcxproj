@@ -75,10 +75,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Game\eventHandler.cpp" />
     <ClCompile Include="include\Game\PathBuilder.cpp" />
     <ClCompile Include="include\Game\PathPoint.cpp" />
-    <ClCompile Include="include\Game\Playground.cpp" />
-    <ClCompile Include="src\Camera\Calibration.cpp" />
+    <ClCompile Include="include\Game\Playground.cpp" />    <ClCompile Include="src\Camera\Calibration.cpp" />
     <ClCompile Include="src\Camera\CalibrationSettings.cpp" />
     <ClCompile Include="src\Camera\Capture.cpp" />
     <ClCompile Include="src\Game\Gui.cpp" />
@@ -91,12 +91,13 @@
     <ClCompile Include="src\Utility\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Gui.h" />
+    <ClInclude Include="include\Game\eventHandler.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\Camera\Calibration.h" />
     <ClInclude Include="include\Camera\CalibrationSettings.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\Camera\Capture.h" />
+    <ClInclude Include="include\Game\Gui.h" />
     <ClInclude Include="include\Game\Kernel.h" />
     <ClInclude Include="include\Game\Object.h" />
     <ClInclude Include="include\Game\Path.h" />

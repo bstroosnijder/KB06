@@ -29,17 +29,11 @@ namespace Game
 		 */
 		void drawGui();
 
-		/**
-		 *@brief This function is used to exit the program
-		 */
-		bool exitButtonPressed();
-
-
-
 
 	private:
 		irr::gui::IGUIEnvironment* m_guienv;
-		irr::gui::IGUIButton* exitButton;
+		//irr::gui::IGUIButton* exitButton;
+		//irr::gui::IGUIButton* menuButton;
 	};
 }
 #endif

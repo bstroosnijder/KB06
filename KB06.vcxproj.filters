@@ -30,9 +30,6 @@
     <ClCompile Include="src\Program.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game\Kernel.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
     <ClCompile Include="src\Camera\Capture.cpp">
       <Filter>Source Files\Camera</Filter>
     </ClCompile>
@@ -57,19 +54,20 @@
     <ClCompile Include="src\Game\PathSegement.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="include\Game\Playground.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
+
     <ClCompile Include="src\Game\Gui.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="src\Game\eventHandler.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+
     <ClCompile Include="include\Game\PathBuilder.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="include\Game\PathPoint.cpp">
       <Filter>Source Files\Game</Filter>
-    </ClCompile>
-  </ItemGroup>
+    </ClCompile>  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Kernel.h">
       <Filter>Header Files\Game</Filter>
@@ -92,9 +90,6 @@
     <ClInclude Include="include\Utility\Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Gui.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
     <ClInclude Include="include\Game\Path.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
@@ -107,7 +102,15 @@
     <ClInclude Include="include\Game\Object.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="include\Game\Playground.h">
+
+    <ClInclude Include="include\Game\Gui.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\eventHandler.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+
+	<ClInclude Include="include\Game\Playground.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="include\Game\PathBuilder.h">
