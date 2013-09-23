@@ -75,10 +75,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Gui.cpp" />
+    <ClCompile Include="include\Game\PathBuilder.cpp" />
+    <ClCompile Include="include\Game\PathPoint.cpp" />
+    <ClCompile Include="include\Game\Playground.cpp" />
     <ClCompile Include="src\Camera\Calibration.cpp" />
     <ClCompile Include="src\Camera\CalibrationSettings.cpp" />
     <ClCompile Include="src\Camera\Capture.cpp" />
+    <ClCompile Include="src\Game\Gui.cpp" />
     <ClCompile Include="src\Game\Kernel.cpp" />
     <ClCompile Include="src\Game\Object.cpp" />
     <ClCompile Include="src\Game\Path.cpp" />
@@ -97,7 +100,10 @@
     <ClInclude Include="include\Game\Kernel.h" />
     <ClInclude Include="include\Game\Object.h" />
     <ClInclude Include="include\Game\Path.h" />
+    <ClInclude Include="include\Game\PathBuilder.h" />
+    <ClInclude Include="include\Game\PathPoint.h" />
     <ClInclude Include="include\Game\PathSegment.h" />
+    <ClInclude Include="include\Game\Playground.h" />
     <ClInclude Include="include\Game\Tower.h" />
     <ClInclude Include="include\Utility\Logger.h" />
   </ItemGroup>
