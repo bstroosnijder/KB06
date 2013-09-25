@@ -1,7 +1,7 @@
 #include "Game/Playground.h"
 
 #include "Game/Tower.h"
-#include "PathBuilder.h"
+#include "Game/PathBuilder.h"
 
 #include <time.h>
 
@@ -12,7 +12,7 @@ PathSegment* segment;
 
 PathPoint* pointSelected;
 
-
+Path* path;
 
 //Changing values
 irr::core::vector3df pointFrom;
@@ -40,7 +40,7 @@ Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
 	*/
 
 
-	int amount = 6;
+	int amount = 7;
 	irr::core::vector3df* points1 = new irr::core::vector3df[amount];
 	irr::core::vector3df* points2 = new irr::core::vector3df[amount];
 
@@ -50,17 +50,24 @@ Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
 	points1[3].set(25, 0, 77);	points2[3].set(48, 0, 100);	//4
 	points1[4].set(75, 0, 77);	points2[4].set(52, 0, 100);	//5
 	points1[5].set(50, 0, 102);	points2[5].set(50, 0, 150);	//6
+	points1[6].set(27, 0, 76);	points2[6].set(71, 0, 74);	//7
 
-	Path* path = pathBuilder->BuildPath(points1, points2, amount);
+	float range = 10.0f;
+	irr::core::vector3df startPoint(50.0f, 0.0f, 0.0f);
+	irr::core::vector3df endPoint(50.0f, 0.0f, 150.0f);
+	path = pathBuilder->BuildPath(points1, points2, amount, range, startPoint, endPoint);
 
 	new Tower(p_sceneManager, irr::core::vector3df(0.0f));
 	new Tower(p_sceneManager, irr::core::vector3df(100.0f, 0.0f, 0.0f));
+
+	
+
 	/*
 	cube = p_sceneManager->addCubeSceneNode(10, NULL, -1,
 			position);
 */
 	
-	pointSelected =  (*path->m_pathPoints.begin());
+	pointSelected =  (*path->m_pathPoints->begin());
 }
 
 void Playground::SetupPath()
@@ -70,7 +77,32 @@ void Playground::SetupPath()
 
 void Playground::Render(irr::scene::ISceneManager* p_sceneManager)
 {
+	irr::video::IVideoDriver* videoDriver = p_sceneManager->getVideoDriver();
 
+	std::list<PathPoint*>::iterator front = path->m_pathPoints->begin();
+	std::list<PathPoint*>::iterator last = path->m_pathPoints->end();
+	std::list<PathPoint*>::iterator it;
+	PathPoint* pathPoint;
+
+	for (it = front; it != last; ++it)
+	{
+		pathPoint = (*it);
+
+		std::list<PathPoint*>::iterator front2 = pathPoint->m_pointsConnected.begin();
+		std::list<PathPoint*>::iterator last2 = pathPoint->m_pointsConnected.end();
+		std::list<PathPoint*>::iterator it2;
+
+		for (it2 = front2; it2 != last2; ++it2)
+		{
+			PathPoint* pathPoint2 = (*it2);
+
+			irr::core::vector3df start = pathPoint->m_point;
+			irr::core::vector3df end = pathPoint2->m_point;
+			irr::video::SColor color(255, 255, 0, 0);
+
+			videoDriver->draw3DLine(start, end, color);
+		}
+	}
 }
 
 /*

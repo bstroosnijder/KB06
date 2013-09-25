@@ -4,7 +4,8 @@
 #include "../Camera/Capture.h"
 #include "../Camera/Calibration.h"
 #include "../Game/EventHandler.h"
-#include "../Game/Gui.h"#include "Game/Playground.h"
+#include "../Game/Gui.h"
+#include "Game/Playground.h"
 #include <irrlicht.h>
 
 namespace Game

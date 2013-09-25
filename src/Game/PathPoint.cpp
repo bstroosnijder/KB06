@@ -1,4 +1,4 @@
-#include "PathPoint.h"
+#include "Game/PathPoint.h"
 
 using namespace Game;
 

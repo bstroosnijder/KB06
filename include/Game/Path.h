@@ -16,7 +16,17 @@ namespace Game
 	struct Path
 	{
 	public:
-		std::list<PathPoint*> m_pathPoints;
+		std::list<PathPoint*>* m_pathPoints;
+		PathPoint* m_pointBegin;
+		PathPoint* m_pointEnd;
+		std::list<std::list<PathPoint*>*> m_routes;
+
+		// @Note	The amount of PathSegments are equal to the amount of
+		//			Segments in all routes.
+		std::list<PathSegment*> m_pathSegments;
+
+		Path();
+		~Path();
 	};
 }
 
