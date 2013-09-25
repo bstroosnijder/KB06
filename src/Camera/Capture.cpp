@@ -33,6 +33,7 @@ namespace Camera
 		{
 			m_thread->join();
 			delete m_thread;
+			delete m_mutex;
 		}
 
 		cv::destroyAllWindows();
@@ -45,6 +46,7 @@ namespace Camera
 	{
 		m_running = true;
 		m_thread = new std::thread(&Capture::Worker, this);
+		m_mutex = new std::mutex();
 	}
 
 	void Capture::Worker()
@@ -148,12 +150,14 @@ namespace Camera
 						quad_pts.push_back(cv::Point2f(0, quad.rows));
 
 						// Get transformation matrix
+						m_mutex->lock();
 						m_matrix = cv::getPerspectiveTransform(m_corners, quad_pts);
+						m_mutex->unlock();
 
 
-						// Apply perspective transformation
-						cv::warpPerspective(m_image, quad, m_matrix, quad.size());
-						cv::imshow("quadrilateral", quad);
+						//// Apply perspective transformation
+						//cv::warpPerspective(m_image, quad, m_matrix, quad.size());
+						//cv::imshow("quadrilateral", quad);
 					}
 
 
@@ -196,17 +200,8 @@ namespace Camera
 	irr::core::matrix4 Capture::GetProjectionMatrix()
 	{
 		irr::core::matrix4 projection = irr::core::IdentityMatrix;
-
-		// Decompose the projection matrix into:
-		cv::Mat K(3, 3, cv::DataType<float>::type); // intrinsic parameter matrix
-		cv::Mat R(3, 3, cv::DataType<float>::type); // rotation matrix
-		cv::Mat T(4, 1, cv::DataType<float>::type); // translation vector
-
-		cv::decomposeProjectionMatrix(m_matrix, K, R, T);
-		std::cout << "K: " << K << std::endl;
-		std::cout << "R: " << R << std::endl;
-		std::cout << "T: " << T << std::endl;
-
+		//m_mutex->lock();
+		//m_mutex->unlock();
 		return projection;
 	}
 

@@ -40,6 +40,7 @@ namespace Game
 
 	void Kernel::Start()
 	{
+		// Start the capture thread
 		m_capture->Start();
 		while (m_device->run())
 		{
@@ -57,8 +58,7 @@ namespace Game
 					m_inputHandler->RemoveListener(m_capture);
 				}
 				// Update the camera projection matrix
-				//m_camera->setProjectionMatrix(m_capture->GetProjectionMatrix());
-				m_capture->GetProjectionMatrix();
+				m_camera->setProjectionMatrix(m_capture->GetProjectionMatrix());
 				m_sceneManager->drawAll();
 			}
 			

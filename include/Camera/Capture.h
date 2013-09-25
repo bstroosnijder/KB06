@@ -6,6 +6,7 @@
 #include <opencv\cv.h>
 #include <opencv\highgui.h>
 #include <thread>
+#include <mutex>
 #include <vector>
 #include <list>
 
@@ -73,6 +74,8 @@ namespace Camera
 
 		bool m_running;
 		std::thread* m_thread;
+		std::mutex* m_mutex;
+
 
 		bool m_chosen;
 		bool m_lost;
