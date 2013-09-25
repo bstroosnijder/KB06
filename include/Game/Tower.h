@@ -4,7 +4,12 @@
 #include "Object.h"
 
 namespace Game
+
 {
+	/**
+	* @brief	A Tower is an game object that attacks monsters
+	* @author	Michel van Os
+	*/
 	class Tower : public Object
 	{
 	public:

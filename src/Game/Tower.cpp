@@ -13,18 +13,20 @@ Tower::Tower(irr::scene::ISceneManager* p_sceneManager,
 	p_sceneManager->getVideoDriver()->setTextureCreationFlag(irr::video::E_TEXTURE_CREATION_FLAG::ETCF_ALWAYS_32_BIT, true);
 	p_sceneManager->getVideoDriver()->setTextureCreationFlag(irr::video::E_TEXTURE_CREATION_FLAG::ETCF_ALWAYS_16_BIT, false);
 
-	irr::video::ITexture* texture = p_sceneManager->getVideoDriver()->getTexture("resources/models/syddney.bmp");
-	m_animatedMesh = p_sceneManager->getMesh("resources/models/animtest2.x");
+	irr::video::ITexture* texture = p_sceneManager->getVideoDriver()->getTexture("resources/models/sydney.bmp");
+	m_animatedMesh = p_sceneManager->getMesh("resources/models/sydney.md2");
 	
 	m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
-	//m_meshSceneNode->setMaterialTexture(0, texture);
 
-	irr::video::SMaterial mat =	m_meshSceneNode->getMaterial(0);
-	irr::video::SMaterial mat2 = m_meshSceneNode->getMaterial(1);
+	//	m_meshSceneNode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+    m_meshSceneNode->setMaterialTexture( 0, texture);
 
-	mat.MaterialType = irr::video::E_MATERIAL_TYPE::EMT_TRANSPARENT_ALPHA_CHANNEL_REF;
-	mat2.MaterialType = irr::video::E_MATERIAL_TYPE::EMT_TRANSPARENT_ALPHA_CHANNEL_REF;
-	m_meshSceneNode->setMaterialType(irr::video::E_MATERIAL_TYPE::EMT_TRANSPARENT_ADD_COLOR);
+	//irr::video::SMaterial mat =	m_meshSceneNode->getMaterial(0);
+	//irr::video::SMaterial mat2 = m_meshSceneNode->getMaterial(1);
+
+	//mat.MaterialType = irr::video::E_MATERIAL_TYPE::EMT_TRANSPARENT_ALPHA_CHANNEL_REF;
+	//mat2.MaterialType = irr::video::E_MATERIAL_TYPE::EMT_TRANSPARENT_ALPHA_CHANNEL_REF;
+	//m_meshSceneNode->setMaterialType(irr::video::E_MATERIAL_TYPE::EMT_TRANSPARENT_ADD_COLOR);
 
 	
 	m_meshSceneNode->setPosition(p_position);

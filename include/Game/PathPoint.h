@@ -6,6 +6,13 @@
 
 namespace Game
 {
+	/**
+	* @brief	A PathPoint is a point in 3d space
+	*
+	*			A pathpoint is connected with other PathPoints to form a Path
+	* @author	Michel van Os
+	* @author	Menno Postma
+	*/
 	struct PathPoint
 	{
 	public:
