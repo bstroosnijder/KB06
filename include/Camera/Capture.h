@@ -21,9 +21,10 @@ namespace Camera
 	public:
 		/**
 		 * @brief	Constructor
+		 * @param	p_runInOwnThread If the capturer should run in it's own thread
 		 * @param	p_texture A reference to the texture to update with the camera
 		 */
-		Capture(irr::video::ITexture* p_texture);
+		Capture(bool p_runInOwnThread, irr::video::ITexture* p_texture);
 
 		/**
 		 * @brief	Destructor
@@ -52,7 +53,7 @@ namespace Camera
 		 * @brief	Converts and returns the projection matrix
 		 * @return	The new projection matrix
 		 */
-		irr::core::matrix4 GetProjectionMatrix();
+		irr::core::matrix4 GetProjectionMatrix(irr::core::matrix4 p_matrix);
 
 		/**
 		 * @brief	test
@@ -69,6 +70,7 @@ namespace Camera
 	private:
 		typedef std::vector<cv::Point2f> Corners;
 		irr::video::ITexture* m_texture;
+		bool m_runInOwnThread;
 		CalibrationParams* m_params;
 		cv::VideoCapture m_capture;
 
@@ -89,8 +91,14 @@ namespace Camera
 		cv::Mat m_matrix;
 
 		/**
-		* @brief	Updates the texture to the latest frame of the camera
-		*/
+		 * @brief	Updates the texture to the latest frame of the camera
+		 */
+		void Work();
+
+		/**
+		 * @brief	Thread worker
+		 * @see		Capture::Work
+		 */
 		void Worker();
 
 		/**

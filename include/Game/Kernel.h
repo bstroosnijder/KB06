@@ -39,6 +39,7 @@ namespace Game
 
 	private:
 		irr::core::stringw m_title;
+		bool m_runMultiThreaded;
 		irr::IrrlichtDevice* m_device;
 		irr::video::IVideoDriver* m_videoDriver;
 		irr::gui::IGUIEnvironment* m_guiEnvironment;
