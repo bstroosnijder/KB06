@@ -91,6 +91,16 @@ namespace Camera
 		cv::Mat m_matrix;
 
 		/**
+		 * @brief	Locks the mutex with this thread
+		 */
+		void Lock();
+
+		/**
+		 * @brief	Unlocks the mutex with this thread
+		 */
+		void Unlock();
+
+		/**
 		 * @brief	Updates the texture to the latest frame of the camera
 		 */
 		void Work();

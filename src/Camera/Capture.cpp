@@ -60,6 +60,22 @@ namespace Camera
 		}
 	}
 
+	void Capture::Lock()
+	{
+		if (m_runInOwnThread)
+		{
+			m_mutex->lock();
+		}
+	}
+
+	void Capture::Unlock()
+	{
+		if (m_runInOwnThread)
+		{
+			m_mutex->unlock();
+		}
+	}
+
 	void Capture::Work()
 	{
 		m_lost = true;
@@ -158,17 +174,10 @@ namespace Camera
 					quad_pts.push_back(cv::Point2f(quad.cols, quad.rows));
 					quad_pts.push_back(cv::Point2f(0, quad.rows));
 
+					Lock();
 					// Get transformation matrix
-					if (m_runInOwnThread)
-					{
-						m_mutex->lock();
-					}
 					m_matrix = cv::getPerspectiveTransform(m_corners, quad_pts);
-
-					if (m_runInOwnThread)
-					{
-						m_mutex->unlock();
-					}
+					Unlock();
 
 
 					//// Apply perspective transformation
@@ -223,7 +232,7 @@ namespace Camera
 	irr::core::matrix4 Capture::GetProjectionMatrix(irr::core::matrix4 p_matrix)
 	{
 		irr::core::matrix4 projection = p_matrix;
-		//m_mutex->lock();
+		//Lock();
 
 		//projection[0] = 1.03229f;
 		//projection[1] = 0.0f;
@@ -245,7 +254,7 @@ namespace Camera
 		//projection[14] = -1.00033f;
 		//projection[15] = 0.0f;
 
-		//m_mutex->unlock();
+		//Unlock();
 		return projection;
 	}
 
