@@ -29,10 +29,10 @@ Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
 {
 	PathBuilder* pathBuilder = new PathBuilder();
 
-	int amount = 7;
+	int amount = 8;
 	irr::core::vector3df* points1 = new irr::core::vector3df[amount];
 	irr::core::vector3df* points2 = new irr::core::vector3df[amount];
-
+	/*
 	points1[0].set(50, 0, 0	);	points2[0].set(50, 0, 50);	//1
 	points1[1].set(48, 0, 52);	points2[1].set(25, 0, 75);	//2
 	points1[2].set(52, 0, 52);	points2[2].set(75, 0, 75);	//3
@@ -40,6 +40,16 @@ Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
 	points1[4].set(75, 0, 77);	points2[4].set(52, 0, 100);	//5
 	points1[5].set(50, 0, 102);	points2[5].set(50, 0, 150);	//6
 	points1[6].set(27, 0, 76);	points2[6].set(71, 0, 74);	//7
+	*/
+
+	points1[0].set(50, 0, 0);	points2[0].set(25, 0, 50);	//2
+	points1[1].set(50, 0, 0);	points2[1].set(75, 0, 50);	//3
+	points1[2].set(25, 0, 50);	points2[2].set(75, 0, 50);	//4
+	points1[3].set(25, 0, 50);	points2[3].set(25, 0, 100);	//5
+	points1[4].set(75, 0, 50);	points2[4].set(75, 0, 100);	//6
+	points1[5].set(25, 0, 100);	points2[5].set(75, 0, 100);	//7
+	points1[6].set(25, 0, 100); points2[6].set(50, 0, 150); //8
+	points1[7].set(75, 0, 100); points2[7].set(50, 0, 150); //9
 
 	float range = 10.0f;
 	irr::core::vector3df startPoint(50.0f, 0.0f, 0.0f);
@@ -54,7 +64,11 @@ Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
 	speed = 0.004f;
 
 	//Changing values
-	pathRoute = (*path->m_routes.begin());
+	std::list<std::list<PathPoint*>*>::iterator pathRouteIt = path->m_routes.begin();
+	std::advance(pathRouteIt, 3);
+
+	pathRoute = (*pathRouteIt);
+
 	pathRouteCurrentIt = pathRoute->begin();
 	pathRouteNextIt = pathRouteCurrentIt;
 	std::advance(pathRouteNextIt, 1);
