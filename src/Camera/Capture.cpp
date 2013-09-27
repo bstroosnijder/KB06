@@ -4,6 +4,7 @@ namespace Camera
 {
 	Capture::Capture(bool p_runInOwnThread, irr::video::ITexture* p_texture)
 	{
+		speed = 1.0f;
 		m_texture = p_texture;
 		m_runInOwnThread = p_runInOwnThread;
 		m_params = new CalibrationParams("resources/camera_calibration_out.xml");
@@ -152,9 +153,11 @@ namespace Camera
 
 						if (SortCorners(approx, center))
 						{
+							//Lock();
 							m_lost = false;
 							m_center = center;
 							m_corners = approx;
+							//Unlock();
 						}
 					}
 
@@ -164,10 +167,10 @@ namespace Camera
 
 				if (m_corners.size() == 4 && m_chosen)
 				{
-					// Define the destination image
+					// define the destination image
 					cv::Mat quad = cv::Mat::zeros(300, 300, CV_8U);
 
-					// Corners of the destination image
+					// corners of the destination image
 					Corners quad_pts;
 					quad_pts.push_back(cv::Point2f(0, 0));
 					quad_pts.push_back(cv::Point2f(quad.cols, 0));
@@ -175,14 +178,14 @@ namespace Camera
 					quad_pts.push_back(cv::Point2f(0, quad.rows));
 
 					Lock();
-					// Get transformation matrix
+					// get transformation matrix
 					m_matrix = cv::getPerspectiveTransform(m_corners, quad_pts);
 					Unlock();
 
 
-					//// Apply perspective transformation
-					//cv::warpPerspective(m_image, quad, m_matrix, quad.size());
-					//cv::imshow("quadrilateral", quad);
+				//	//// Apply perspective transformation
+				//	//cv::warpPerspective(m_image, quad, m_matrix, quad.size());
+				//	//cv::imshow("quadrilateral", quad);
 				}
 
 
@@ -232,30 +235,54 @@ namespace Camera
 	irr::core::matrix4 Capture::GetProjectionMatrix(irr::core::matrix4 p_matrix)
 	{
 		irr::core::matrix4 projection = p_matrix;
-		//Lock();
+		Lock();
 
-		//projection[0] = 1.03229f;
-		//projection[1] = 0.0f;
-		//projection[2] = 0.0f;
-		//projection[3] = 0.0f;
+		irr::core::vector3df translation = projection.getTranslation();
+		irr::core::vector3df rotation = projection.getRotationDegrees();
+		irr::core::vector3df scale = projection.getScale();
 
-		//projection[4] = 0.0f;
-		//projection[5] = 1.37638f;
-		//projection[6] = 0.0f;
-		//projection[7] = 0.0f;
+		projection.setTranslation(translation);
+		projection.setRotationDegrees(rotation);
+		projection.setScale(scale);
 
-		//projection[8] = 0.0f;
-		//projection[9] = 0.0f;
-		//projection[10] = 1.00033f;
-		//projection[11] = 0.0f;
-
-		//projection[12] = 0.0f;
-		//projection[13] = 0.0f;
-		//projection[14] = -1.00033f;
-		//projection[15] = 0.0f;
-
-		//Unlock();
+		Unlock();
 		return projection;
+	}
+
+	void Capture::UpdateCamera(irr::scene::ISceneNode* p_camera)
+	{
+		irr::core::vector3df camPosition = p_camera->getPosition();
+		irr::core::vector3df camRotation = p_camera->getRotation();
+		Lock();
+
+		if (!m_matrix.empty())
+		{
+			//cv::Mat rotation = cv::Mat(3, 3, CV_64F);
+			//cv::Mat quaternation = cv::Mat(3, 3, CV_64F);
+
+			//cv::Mat quaternationX = cv::Mat(3, 3, CV_64F);
+			//cv::Mat quaternationY = cv::Mat(3, 3, CV_64F);
+			//cv::Mat quaternationZ = cv::Mat(3, 3, CV_64F);
+
+			//// Decompile a 3x3 matrix
+			//cv::RQDecomp3x3(m_matrix, rotation, quaternation, quaternationX, quaternationY, quaternationZ);
+
+			//float yaw = std::atan2(quaternation.at<double>(1, 0), quaternation.at<double>(0, 0));
+			//float pitch = std::atan2(-quaternation.at<double>(2, 0), std::sqrt(quaternation.at<double>(2, 1)*quaternation.at<double>(2, 1) + quaternation.at<double>(2, 2)*quaternation.at<double>(2, 2)));
+			//float roll = std::atan2(quaternation.at<double>(2, 1), quaternation.at<double>(2, 2));
+
+			//std::cout << "yaw: " << yaw
+			//	<< " - pitch: " << pitch
+			//	<< " - roll: " << roll << std::endl;
+
+
+		}
+
+
+
+		Unlock();
+		p_camera->setPosition(camPosition);
+		p_camera->setRotation(camRotation);
 	}
 
 	bool Capture::HasChosen()

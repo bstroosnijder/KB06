@@ -3,8 +3,8 @@
 
 #include "CalibrationParams.h"
 #include <irrlicht.h>
-#include <opencv\cv.h>
-#include <opencv\highgui.h>
+#include <opencv/cv.h>
+#include <opencv/highgui.h>
 #include <thread>
 #include <mutex>
 #include <vector>
@@ -54,6 +54,7 @@ namespace Camera
 		 * @return	The new projection matrix
 		 */
 		irr::core::matrix4 GetProjectionMatrix(irr::core::matrix4 p_matrix);
+		void UpdateCamera(irr::scene::ISceneNode* p_camera);
 
 		/**
 		 * @brief	test
@@ -68,6 +69,7 @@ namespace Camera
 		bool IsLost();
 
 	private:
+		float speed;
 		typedef std::vector<cv::Point2f> Corners;
 		irr::video::ITexture* m_texture;
 		bool m_runInOwnThread;

@@ -10,6 +10,14 @@ int main (int argc, char* argv[])
 	if (true)
 	{
 		Game::Kernel* kernel = new Game::Kernel();
+		if (argc > 1)
+		{
+			kernel->SetMultiThreaded(false);
+		}
+		else
+		{
+			kernel->SetMultiThreaded(true);
+		}
 		kernel->Start();
 		delete kernel;
 	}

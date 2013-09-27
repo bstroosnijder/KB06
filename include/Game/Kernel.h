@@ -37,16 +37,21 @@ namespace Game
 		 */
 		void Start();
 
+		/**
+		 * @brief	Sets multi threaded
+		 * @param	p_multiThreaded Whether to use multithreading or not
+		 */
+		void SetMultiThreaded(bool p_multiThreaded);
+
 	private:
 		irr::core::stringw m_title;
-		bool m_runMultiThreaded;
+		bool m_multiThreaded;
 		irr::IrrlichtDevice* m_device;
 		irr::video::IVideoDriver* m_videoDriver;
 		irr::gui::IGUIEnvironment* m_guiEnvironment;
 		irr::scene::ISceneManager* m_sceneManager;
 		InputHandler* m_inputHandler;
 		Camera::Capture* m_capture;
-		irr::scene::ICameraSceneNode* m_camera;
 
 		/**
 		 * @brief	Show a fps counter in the title of the window
