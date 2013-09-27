@@ -25,13 +25,16 @@
     <Filter Include="Source Files\Camera">
       <UniqueIdentifier>{bb895daf-ff2e-4420-911e-feadb00d06eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Utility">
+      <UniqueIdentifier>{4436d793-1b5a-4310-84ee-a4fb8d77c982}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility">
+      <UniqueIdentifier>{4ececc01-a126-4cb2-a99b-728dd46b7bc0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Program.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Camera\Capture.cpp">
-      <Filter>Source Files\Camera</Filter>
     </ClCompile>
     <ClCompile Include="src\Camera\Calibration.cpp">
       <Filter>Source Files\Camera</Filter>
@@ -39,54 +42,54 @@
     <ClCompile Include="src\Camera\CalibrationSettings.cpp">
       <Filter>Source Files\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="src\Utility\Logger.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Camera\Capture.cpp">
+      <Filter>Source Files\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game\Object.cpp">
+    <ClCompile Include="src\Game\Creature.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game\Tower.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Game\Path.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Game\PathSegement.cpp">
+    <ClCompile Include="src\Game\EventHandler.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="src\Game\Gui.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game\eventHandler.cpp">
+    <ClCompile Include="src\Game\Kernel.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game\Kernel.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Game\Entity.cpp">
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game\PathPoint.cpp">
+    <ClCompile Include="src\Game\Path.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="src\Game\PathBuilder.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game\Playground.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="include\Game\PathRoute.cpp">
+    <ClCompile Include="src\Game\PathPoint.cpp">
       <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\PathRoute.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\PathSegment.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Playground.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Projectile.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Tower.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utility\Logger.cpp">
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Game\Kernel.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Camera\Capture.h">
-      <Filter>Header Files\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="include\Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Camera\Calibration.h">
@@ -95,38 +98,53 @@
     <ClInclude Include="include\Camera\CalibrationSettings.h">
       <Filter>Header Files\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="include\Utility\Logger.h">
+    <ClInclude Include="include\Camera\Capture.h">
+      <Filter>Header Files\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Game\Path.h">
+    <ClInclude Include="include\Game\Creature.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="include\Game\PathSegment.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Game\Tower.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Game\Object.h">
+    <ClInclude Include="include\Game\EventHandler.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="include\Game\Gui.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="include\Game\eventHandler.h">
+    <ClInclude Include="include\Game\Kernel.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="include\Game\Playground.h">
+    <ClInclude Include="include\Game\Entity.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="include\Game\PathPoint.h">
+    <ClInclude Include="include\Game\Path.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="include\Game\PathBuilder.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="include\Game\PathPoint.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
     <ClInclude Include="include\Game\PathRoute.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\PathSegment.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\Playground.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\Projectile.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\Tower.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utility\Logger.h">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

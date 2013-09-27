@@ -1,5 +1,6 @@
 #include "Game/EventHandler.h"
 #include <iostream>
+
 namespace Game
 {
 	EventHandler::EventHandler(irr::IrrlichtDevice* p_device)

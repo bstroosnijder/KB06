@@ -5,12 +5,14 @@
 
 namespace Game
 {
-	class Object
+	class Entity
 	{
 	public:
-		Object();
+		Entity();
 
 		void SetMaterialFlags();
+		void Render(irr::scene::ISceneManager* p_sceneManager);
+
 	protected:
 		irr::scene::ISceneNode* m_meshSceneNode;
 		irr::scene::IAnimatedMesh* m_animatedMesh;
