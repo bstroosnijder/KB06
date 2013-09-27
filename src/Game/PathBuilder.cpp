@@ -64,16 +64,18 @@ void PathBuilder::AddAllowedPathDirectionsFromRoute(Path* p_path, std::list<Path
 	PathPoint* pathPointNext;
 	std::list<PathSegment*>::iterator itPathSegment;
 	std::list<PathSegment*>::iterator itEnd = p_path->m_pathSegments.end();
+	PathSegment* oldPathSegment;
+	bool allreadyExists;
 
 	for (int itIndex = 0; itIndex < size-1; ++itIndex)
 	{
-		bool allreadyExists = false;
+		allreadyExists = false;
 		pathPoint = (*it);
 		++it;
 		pathPointNext = (*it);
 		for (itPathSegment = p_path->m_pathSegments.begin(); itPathSegment != itEnd; ++itPathSegment)
 		{
-			PathSegment* oldPathSegment = (*itPathSegment);
+			oldPathSegment = (*itPathSegment);
 			if (oldPathSegment->m_point1 == pathPoint && oldPathSegment->m_point2 == pathPointNext)
 			{
 				allreadyExists = true;
