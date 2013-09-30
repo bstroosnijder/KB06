@@ -1,16 +1,19 @@
 #ifndef __GAME__PATH__H__
 #define __GAME__PATH__H__
 
+#include "PathPoint.h"
 #include "PathSegment.h"
+#include "PathRoute.h"
 
 #include <vector>
 
 namespace Game
 {
 	/**
-	 * @brief	A Path the Monsters will follow
+	 * @brief	A Path that may contain multiple PathRoutes.
 	 *
-	 * A Path used by Monsters has to be build of one or more PathSegments.
+	 *			The PathRoutes inside a Path may be used by a Creature. 
+	 *			PathSegments are used to create 1-direction segments inside the Path.
 	 * @author	Michel van Os
 	*/
 	struct Path
@@ -19,7 +22,8 @@ namespace Game
 		std::list<PathPoint*>* m_pathPoints;
 		PathPoint* m_pointBegin;
 		PathPoint* m_pointEnd;
-		std::list<std::list<PathPoint*>*> m_routes;
+		//std::list<std::list<PathPoint*>*> m_routes;
+		std::list<PathRoute*> m_routes;
 
 		// @Note	The amount of PathSegments are equal to the amount of
 		//			Segments in all routes.

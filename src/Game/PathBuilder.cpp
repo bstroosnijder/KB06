@@ -56,9 +56,9 @@ bool PathBuilder::IsPathDirectionAllowed(Path* p_path, PathPoint* p_pathPoint1, 
 	return true;
 }
 
-void PathBuilder::AddAllowedPathDirectionsFromRoute(Path* p_path, std::list<PathPoint*>* p_pathRoute)
+void PathBuilder::AddAllowedPathDirectionsFromRoute(Path* p_path, PathRoute* p_pathRoute)
 {
-	std::list<PathPoint*>::iterator it = p_pathRoute->begin();
+	PathRoute::iterator it = p_pathRoute->begin();
 	int size = p_pathRoute->size();
 	PathPoint* pathPoint;
 	PathPoint* pathPointNext;
@@ -75,7 +75,7 @@ void PathBuilder::AddAllowedPathDirectionsFromRoute(Path* p_path, std::list<Path
 		
 void PathBuilder::BuildRoute(
 		Path* p_path,
-		std::list<PathPoint*>*& p_pathRoute,
+		PathRoute*& p_pathRoute,
 		PathPoint* p_pathPointCurrent)
 {
 	if (p_path == NULL || p_pathRoute == NULL || p_pathPointCurrent == NULL)

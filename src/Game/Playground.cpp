@@ -64,7 +64,7 @@ Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
 	speed = 0.004f;
 
 	//Changing values
-	std::list<std::list<PathPoint*>*>::iterator pathRouteIt = path->m_routes.begin();
+	std::list<PathRoute*>::iterator pathRouteIt = path->m_routes.begin();
 	std::advance(pathRouteIt, 3);
 
 	pathRoute = (*pathRouteIt);
