@@ -239,55 +239,62 @@ namespace Camera
 		{
 			Lock();
 
-			cv::Mat identity = cv::Mat(3, 4, CV_64F);
-			cv::setIdentity(identity);
-			cv::Mat world = (m_matrix * identity);
-
-			std::cout << world << std::endl;
 
 
-			projection[0] = world.at<double>(0, 0);
-			projection[1] = world.at<double>(0, 1);
-			projection[2] = world.at<double>(0, 2);
-			projection[3] = 0.0f;
 
-			projection[4] = world.at<double>(1, 0);
-			projection[5] = world.at<double>(1, 1);
-			projection[6] = world.at<double>(1, 2);
-			projection[7] = 0.0f;
+			float offset = 300.0f;
+			std::vector<cv::Point3f> points3d;
+			points3d.push_back(cv::Point3f(-offset, 0.0f, -offset));
+			points3d.push_back(cv::Point3f( offset, 0.0f, -offset));
+			points3d.push_back(cv::Point3f(-offset, 0.0f,  offset));
+			points3d.push_back(cv::Point3f( offset, 0.0f,  offset));
 
-			projection[8] = world.at<double>(2, 0);
-			projection[9] = world.at<double>(2, 1);
-			projection[10] = world.at<double>(2, 2);
+			double fov = 60;
+			double cx = m_size.width / 2;
+			double cy = m_size.height / 2;
+			double fx;
+			double fy;
+			fx = fy = (cx / std::tan((fov / 2) * (irr::core::PI / 180)));
+
+			cv::Mat cameraMatrix = (cv::Mat_<double>(3, 3) <<
+				fx,  0.0, cx,
+				0.0, fy,  cy,
+				0.0, 0.0, 1.0);
+
+			cv::Mat distCoeffs;
+
+			cv::Mat rvec;
+			cv::Mat rotation;
+			cv::Mat tvec;
+
+			cv::solvePnP(points3d, m_corners, cameraMatrix, distCoeffs, rvec, tvec);
+			cv::Rodrigues(rvec, rotation);
+
+			//std::cout << rotation << std::endl;
+			std::cout << tvec << std::endl;
+
+			 
+			projection[0]  = rotation.at<double>(0, 0);
+			projection[1]  = rotation.at<double>(0, 1);
+			projection[2]  = rotation.at<double>(0, 2);
+
+			projection[4]  = rotation.at<double>(1, 0);
+			projection[5]  = rotation.at<double>(1, 1);
+			projection[6]  = rotation.at<double>(1, 2);
+
+			projection[8]  = rotation.at<double>(2, 0);
+			projection[9]  = rotation.at<double>(2, 1);
+			projection[10] = rotation.at<double>(2, 2);
+
+
+			projection[3]  = 0.0f;
+			projection[7]  = 0.0f;
 			projection[11] = 0.0f;
 
-			projection[12] = world.at<double>(0, 3);
-			projection[13] = 0.0f; // y = 0.0f
-			projection[14] = world.at<double>(1, 3);
+			projection[14] = tvec.at<double>(2, 0);
+			projection[12] = -tvec.at<double>(0, 0);
+			projection[13] = -tvec.at<double>(1, 0);
 			projection[15] = 1.0f;
-
-			speed++;
-
-
-			//projection[0] = 1.0f;
-			//projection[1] = 0.0f;
-			//projection[2] = 0.0f;
-			//projection[3] = 0.0f; // scale not used
-
-			//projection[4] = 0.0f;
-			//projection[5] = cos(speed);
-			//projection[6] = -sin(speed);
-			//projection[7] = 0.0f; // scale not used
-
-			//projection[8] = 0.0f;
-			//projection[9] = sin(speed);
-			//projection[10] = cos(speed);
-			//projection[11] = 0.0f; // scale not used
-
-			//projection[12] = 0.0f; // x
-			//projection[13] = 0.0f; // y
-			//projection[14] = 0.0f; // z
-			//projection[15] = 1.0f; // not used
 
 			Unlock();
 		}

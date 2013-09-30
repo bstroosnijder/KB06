@@ -72,7 +72,7 @@ namespace Game
 				irr::core::matrix4 newMatrix = m_capture->GetProjectionMatrix(irr::core::IdentityMatrix);
 				cube->setPosition(newMatrix.getTranslation());
 				cube->setRotation(newMatrix.getRotationDegrees());
-				cube->setScale(newMatrix.getScale());
+				//cube->setScale(newMatrix.getScale());
 				//m_capture->UpdateCamera(camera);
 			}
 
