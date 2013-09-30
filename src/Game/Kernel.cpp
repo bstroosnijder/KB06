@@ -41,18 +41,17 @@ namespace Game
 		m_inputHandler->AddListener(m_capture);
 
 		irr::scene::ICameraSceneNode* camera = m_sceneManager->addCameraSceneNode(NULL,
-			irr::core::vector3df(0.0f, 200.0f, 0.0f));
-		irr::scene::ISceneNode* cc = m_sceneManager->addEmptySceneNode(camera);
-		cc->setPosition(irr::core::vector3df(0.0f, -1.0f, 0.0f));
+			irr::core::vector3df(0.0f, 20.0f, -100.0f),
+			irr::core::vector3df(0.0f, 0.0f, 0.0f));
 
 		irr::scene::ISceneNode* cube = m_sceneManager->addCubeSceneNode();
 		cube->setMaterialTexture(0, m_videoDriver->getTexture("resources\\textures\\purple.jpg"));
 		cube->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+		cube->setDebugDataVisible(true);
 
 
 		while (m_device->run())
 		{
-			camera->setTarget(cc->getAbsolutePosition());
 			// Start the capture thread
 			m_capture->Start();
 
@@ -70,8 +69,11 @@ namespace Game
 					m_inputHandler->RemoveListener(m_capture);
 				}
 				// Update the camera projection matrix
-				//m_camera->setProjectionMatrix(m_capture->GetProjectionMatrix(m_camera->getProjectionMatrix()));
-				m_capture->UpdateCamera(camera);
+				irr::core::matrix4 newMatrix = m_capture->GetProjectionMatrix(irr::core::IdentityMatrix);
+				cube->setPosition(newMatrix.getTranslation());
+				cube->setRotation(newMatrix.getRotationDegrees());
+				cube->setScale(newMatrix.getScale());
+				//m_capture->UpdateCamera(camera);
 			}
 
 			m_sceneManager->drawAll();

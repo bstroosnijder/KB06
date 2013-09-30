@@ -14,8 +14,8 @@ namespace Camera
 		m_chosen = false;
 		m_lost = true;
 		m_size = cv::Size(
-				static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_WIDTH)),
-				static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_HEIGHT)));
+			static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_WIDTH)),
+			static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_HEIGHT)));
 		m_center = cv::Point(((m_size.width - 1) / 2), ((m_size.height - 1) / 2));
 		m_boundingBox = cv::Rect(0, 0, m_size.width, m_size.height);
 		m_corners = Corners();
@@ -183,9 +183,9 @@ namespace Camera
 					Unlock();
 
 
-				//	//// Apply perspective transformation
-				//	//cv::warpPerspective(m_image, quad, m_matrix, quad.size());
-				//	//cv::imshow("quadrilateral", quad);
+					//	//// Apply perspective transformation
+					//	//cv::warpPerspective(m_image, quad, m_matrix, quad.size());
+					//	//cv::imshow("quadrilateral", quad);
 				}
 
 
@@ -235,17 +235,65 @@ namespace Camera
 	irr::core::matrix4 Capture::GetProjectionMatrix(irr::core::matrix4 p_matrix)
 	{
 		irr::core::matrix4 projection = p_matrix;
-		Lock();
+		if (!m_matrix.empty())
+		{
+			Lock();
 
-		irr::core::vector3df translation = projection.getTranslation();
-		irr::core::vector3df rotation = projection.getRotationDegrees();
-		irr::core::vector3df scale = projection.getScale();
+			cv::Mat identity = cv::Mat(3, 4, CV_64F);
+			cv::setIdentity(identity);
+			cv::Mat world = (m_matrix * identity);
 
-		projection.setTranslation(translation);
-		projection.setRotationDegrees(rotation);
-		projection.setScale(scale);
+			std::cout << world << std::endl;
 
-		Unlock();
+
+			projection[0] = world.at<double>(0, 0);
+			projection[1] = world.at<double>(0, 1);
+			projection[2] = world.at<double>(0, 2);
+			projection[3] = 0.0f;
+
+			projection[4] = world.at<double>(1, 0);
+			projection[5] = world.at<double>(1, 1);
+			projection[6] = world.at<double>(1, 2);
+			projection[7] = 0.0f;
+
+			projection[8] = world.at<double>(2, 0);
+			projection[9] = world.at<double>(2, 1);
+			projection[10] = world.at<double>(2, 2);
+			projection[11] = 0.0f;
+
+			projection[12] = world.at<double>(0, 3);
+			projection[13] = 0.0f; // y = 0.0f
+			projection[14] = world.at<double>(1, 3);
+			projection[15] = 1.0f;
+
+			speed++;
+
+
+			//projection[0] = 1.0f;
+			//projection[1] = 0.0f;
+			//projection[2] = 0.0f;
+			//projection[3] = 0.0f; // scale not used
+
+			//projection[4] = 0.0f;
+			//projection[5] = cos(speed);
+			//projection[6] = -sin(speed);
+			//projection[7] = 0.0f; // scale not used
+
+			//projection[8] = 0.0f;
+			//projection[9] = sin(speed);
+			//projection[10] = cos(speed);
+			//projection[11] = 0.0f; // scale not used
+
+			//projection[12] = 0.0f; // x
+			//projection[13] = 0.0f; // y
+			//projection[14] = 0.0f; // z
+			//projection[15] = 1.0f; // not used
+
+			Unlock();
+		}
+
+
+
 		return projection;
 	}
 
