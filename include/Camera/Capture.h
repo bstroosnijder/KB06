@@ -9,6 +9,7 @@
 #include <mutex>
 #include <vector>
 #include <list>
+#include <cmath>
 
 namespace Camera
 {
@@ -51,10 +52,11 @@ namespace Camera
 
 		/**
 		 * @brief	Converts and returns the transform matrix
+		 * @param	p_cameraProjection The camera projection matrix to use for multiplications
 		 * @return	The new projection matrix
 		 */
-		irr::core::matrix4 GetTransformMatrix(irr::core::matrix4& p_matrix);
-		void UpdateCamera(irr::scene::ISceneNode* p_camera);
+		irr::core::matrix4 GetTransformMatrix(
+			irr::core::matrix4 p_cameraProjection);
 
 		/**
 		 * @brief	test
@@ -68,6 +70,25 @@ namespace Camera
 		 */
 		bool IsLost();
 
+		/**
+		 * @brief	Gets the fov
+		 * @return	The fov
+		 */
+		float GetFox();
+
+		/**
+		 * @brief	Sets the fov
+		 * @param	p_fov The new fov
+		 */
+		void SetFov(float p_fov);
+
+
+		/**
+		 * @brief	test
+		 * @return	The distance of the camera in pixels
+		 */
+		float GetPixelDistance();
+
 	private:
 		typedef std::vector<cv::Point3f> Points3D;
 		typedef std::vector<cv::Point2f> Corners;
@@ -75,6 +96,8 @@ namespace Camera
 		bool m_runInOwnThread;
 		CalibrationParams* m_params;
 		cv::VideoCapture m_capture;
+
+		float m_fov;
 
 		bool m_running;
 		std::thread* m_thread;
@@ -84,7 +107,9 @@ namespace Camera
 		bool m_chosen;
 		bool m_lost;
 		cv::Size m_size;
+		cv::Size m_sizeHalfed;
 		cv::Point2f m_center;
+		float m_pixelDistance;
 		cv::Rect m_boundingBox;
 		cv::Scalar m_color;
 

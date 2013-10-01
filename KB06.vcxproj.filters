@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{66c9d1c3-a159-43b0-bf92-ca6333601ffe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\RPP">
+      <UniqueIdentifier>{602433cb-1612-48c3-9e0d-41730543f6a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\RPP">
+      <UniqueIdentifier>{2ca94cca-eea1-465e-9a40-4824ae2b8b28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Program.cpp">
@@ -68,6 +74,12 @@
     </ClCompile>
     <ClCompile Include="src\Camera\CalibrationParams.cpp">
       <Filter>Source Files\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\RPP\RPP.cpp">
+      <Filter>Source Files\RPP</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\RPP\Rpoly.cpp">
+      <Filter>Source Files\RPP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +121,12 @@
     </ClInclude>
     <ClInclude Include="include\Camera\CalibrationParams.h">
       <Filter>Header Files\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\RPP\Rpoly.h">
+      <Filter>Header Files\RPP</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\RPP\RPP.h">
+      <Filter>Header Files\RPP</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -8,16 +8,24 @@ namespace Camera
 		m_runInOwnThread = p_runInOwnThread;
 		m_params = new CalibrationParams("resources/camera_calibration_out.xml");
 		m_capture = cv::VideoCapture(CV_CAP_ANY);
+		m_fov = 60.0f;
 		m_running = false;
 
 		m_chosen = false;
 		m_lost = true;
+		// Get the screen size from opencv
 		m_size = cv::Size(
 			static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_WIDTH)),
 			static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_HEIGHT)));
+		// Calculate the half of the with and height
+		m_sizeHalfed = cv::Size(
+			((m_size.width - 1) / 2),
+			((m_size.height - 1) / 2));
 		m_center = cv::Point(((m_size.width - 1) / 2), ((m_size.height - 1) / 2));
+		m_pixelDistance = 100.0f;
 		m_boundingBox = cv::Rect(0, 0, m_size.width, m_size.height);
 
+		// Create a quadriliant in 3D space as comparment for the 2D quadrilian detected by opencv
 		float offset = 1.0f;
 		m_points3D.push_back(cv::Point3f(-offset, 0.0f, -offset));
 		m_points3D.push_back(cv::Point3f( offset, 0.0f, -offset));
@@ -29,19 +37,15 @@ namespace Camera
 		m_poseRotation = (cv::Mat_<double>(3, 1) << 0.0, 0.0, 0.0);
 
 		m_image = cv::Mat(m_size.width, m_size.height, CV_8U);
-
 		// Setup default setings if the calibration info cannot be loaded
 		if (!m_params->GetIsOpenedAndGood())
 		{
-			double fov = 60;
-			double cx = m_size.width / 2;
-			double cy = m_size.height / 2;
 			double fx;
 			double fy;
-			fx = fy = (cx / std::tan((fov / 2) * (irr::core::PI / 180)));
+			fx = fy = (m_sizeHalfed.width / std::tan((m_fov / 2) * (irr::core::PI / 180)));
 			m_params->SetCameraMatrix((cv::Mat_<double>(3, 3) <<
-				fx,  0.0, cx,
-				0.0, fy,  cy,
+				fx,  0.0, m_sizeHalfed.width,
+				0.0, fy,  m_sizeHalfed.height,
 				0.0, 0.0, 1.0));
 		}
 	}
@@ -255,12 +259,36 @@ namespace Camera
 		return false;
 	}
 
-	irr::core::matrix4 Capture::GetTransformMatrix(irr::core::matrix4& p_matrix)
+	irr::core::matrix4 Capture::GetTransformMatrix(irr::core::matrix4 p_cameraProjection)
 	{
-		irr::core::matrix4 projection = p_matrix;
-		if (m_corners.size() > 0)
+		// Create a new matrix to use for transformation
+		irr::core::matrix4 transformation = irr::core::IdentityMatrix;
+
+		// Only do calculations when we have 4 corners
+		if (m_corners.size() ==  4)
 		{
 			Lock();
+			// Invert the camera projection matrix
+			p_cameraProjection.makeInverse();
+
+			// Caltulate the center x and y from the top left corner
+			float ltCenterX = (m_center.x - m_sizeHalfed.width);
+			float ltCenterY = (m_center.y - m_sizeHalfed.height);
+
+
+
+			// TODO: IS THIS NEEDED?
+			//for (unsigned int i = 0; i < m_corners.size(); ++i)
+			//{
+			//	m_corners[i].x -= m_center.x;
+			//	m_corners[i].y -= m_center.x;
+			//}
+
+			//cv::undistortPoints(m_corners, m_corners,
+			//	m_params->GetCameraMatrix(),
+			//	m_params->GetDistortionCoefficients());
+
+
 
 			cv::solvePnP(
 				m_points3D,
@@ -271,56 +299,32 @@ namespace Camera
 				m_poseTranslation,
 				true);
 
-			projection.setRotationRadians(irr::core::vector3df(
-				-m_poseRotation.at<double>(0, 0),
-				-m_poseRotation.at<double>(1, 0),
-				-m_poseRotation.at<double>(2, 0)));
+			// Create a 3D vector to contain the new position
+			irr::core::vector3df pos = irr::core::vector3df(
+				(m_poseTranslation.at<double>(0, 0) + ltCenterX),
+				(m_poseTranslation.at<double>(1, 0) + ltCenterY),
+				(m_poseTranslation.at<double>(2, 0) + 0.0f));
+			// Transform using the inverted camera matrix
+			p_cameraProjection.transformVect(pos);
 
-			projection.setTranslation(irr::core::vector3df(
-				((m_center.x + m_poseTranslation.at<double>(0, 0)) - (m_size.width / 2)),
-				-((m_center.y + m_poseTranslation.at<double>(1, 0)) - (m_size.height / 2)),
-				m_poseTranslation.at<double>(2, 0)));
+			transformation.setTranslation(irr::core::vector3df(
+				(pos.Y * (m_pixelDistance / m_sizeHalfed.height)),
+				-(pos.Z),
+				(pos.X * (m_pixelDistance / m_sizeHalfed.width))));
+
+			// TODO: ROTATION
+			//transformation.setRotationRadians(irr::core::vector3df(
+			//	static_cast<float>(m_poseRotation.at<double>(0, 0)),
+			//	static_cast<float>(m_poseRotation.at<double>(2, 0)),
+			//	static_cast<float>(m_poseRotation.at<double>(1, 0))));
+
+			// Make inverted
+			transformation.makeInverse();
 
 			Unlock();
 		}
 
-		return projection;
-	}
-
-	void Capture::UpdateCamera(irr::scene::ISceneNode* p_camera)
-	{
-		irr::core::vector3df camPosition = p_camera->getPosition();
-		irr::core::vector3df camRotation = p_camera->getRotation();
-		Lock();
-
-		//if (!m_matrix.empty())
-		//{
-			//cv::Mat rotation = cv::Mat(3, 3, CV_64F);
-			//cv::Mat quaternation = cv::Mat(3, 3, CV_64F);
-
-			//cv::Mat quaternationX = cv::Mat(3, 3, CV_64F);
-			//cv::Mat quaternationY = cv::Mat(3, 3, CV_64F);
-			//cv::Mat quaternationZ = cv::Mat(3, 3, CV_64F);
-
-			//// Decompile a 3x3 matrix
-			//cv::RQDecomp3x3(m_matrix, rotation, quaternation, quaternationX, quaternationY, quaternationZ);
-
-			//float yaw = std::atan2(quaternation.at<double>(1, 0), quaternation.at<double>(0, 0));
-			//float pitch = std::atan2(-quaternation.at<double>(2, 0), std::sqrt(quaternation.at<double>(2, 1)*quaternation.at<double>(2, 1) + quaternation.at<double>(2, 2)*quaternation.at<double>(2, 2)));
-			//float roll = std::atan2(quaternation.at<double>(2, 1), quaternation.at<double>(2, 2));
-
-			//std::cout << "yaw: " << yaw
-			//	<< " - pitch: " << pitch
-			//	<< " - roll: " << roll << std::endl;
-
-
-		//}
-
-
-
-		Unlock();
-		p_camera->setPosition(camPosition);
-		p_camera->setRotation(camRotation);
+		return transformation;
 	}
 
 	bool Capture::HasChosen()
@@ -331,6 +335,11 @@ namespace Camera
 	bool Capture::IsLost()
 	{
 		return m_lost;
+	}
+
+	float Capture::GetPixelDistance()
+	{
+		return m_pixelDistance;
 	}
 
 	void Capture::CaptureAndUndistort()

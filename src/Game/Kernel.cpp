@@ -40,20 +40,28 @@ namespace Game
 		m_capture = new Camera::Capture(m_multiThreaded, m_videoDriver->addTexture(irr::core::dimension2d<irr::u32>(640, 480), "capture_background"));
 		m_inputHandler->AddListener(m_capture);
 
+		// Create a root node for all other nodes to inherit the AR movement
+		irr::scene::ISceneNode* root = m_sceneManager->addEmptySceneNode();
+
+		// Create a static camera
 		irr::scene::ICameraSceneNode* camera = m_sceneManager->addCameraSceneNode(NULL,
-			irr::core::vector3df(0.0f, 20.0f, -100.0f),
+			irr::core::vector3df(0.0f, m_capture->GetPixelDistance(), 0.0f),
 			irr::core::vector3df(0.0f, 0.0f, 0.0f));
 
-		irr::scene::ISceneNode* cube = m_sceneManager->addCubeSceneNode();
+		// Create a test cube
+		irr::scene::ISceneNode* cube = m_sceneManager->addCubeSceneNode(10.0f, root, NULL,
+			irr::core::vector3df(0.0f, 0.0f, 0.0f));
 		cube->setMaterialTexture(0, m_videoDriver->getTexture("resources\\textures\\purple.jpg"));
 		cube->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-		cube->setDebugDataVisible(true);
 
-
+		// Game loop
 		while (m_device->run())
 		{
 			// Start the capture thread
 			m_capture->Start();
+			// Update the camera height
+			camera->setPosition(
+				irr::core::vector3df(0.0f, m_capture->GetPixelDistance(), 0.0f));
 
 			// Show the fps in the title of the window
 			ShowFPS();
@@ -69,20 +77,10 @@ namespace Game
 					m_inputHandler->RemoveListener(m_capture);
 				}
 
-
-
-
-
-				irr::core::matrix4 transformation = m_capture->GetTransformMatrix(
-					m_videoDriver->getTransform(irr::video::E_TRANSFORMATION_STATE::ETS_WORLD));
-
-				// option 1
-				//m_videoDriver->setTransform(irr::video::E_TRANSFORMATION_STATE::ETS_WORLD,
-				//	transformation);
-
-				// option 2
-				cube->setPosition(transformation.getTranslation());
-				//cube->setRotation(transformation.getRotationDegrees());
+				// Get the transformation matrix needed to transform the world based on the AR
+				irr::core::matrix4 transformation = m_capture->GetTransformMatrix(camera->getProjectionMatrix());
+				root->setPosition(transformation.getTranslation());
+				root->setRotation(transformation.getRotationDegrees());
 			}
 
 			m_sceneManager->drawAll();
