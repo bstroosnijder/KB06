@@ -38,6 +38,10 @@ namespace Game
 	{
 		// Create a webcam capturer
 		m_capture = new Camera::Capture(m_multiThreaded, m_videoDriver->addTexture(irr::core::dimension2d<irr::u32>(640, 480), "capture_background"));
+		m_capture->SetFov(60.0f);
+		m_capture->SetGameLine(irr::core::line2df(
+			irr::core::vector2df(0, 0),
+			irr::core::vector2df(0, 100)));
 		m_inputHandler->AddListener(m_capture);
 
 		// Create a root node for all other nodes to inherit the AR movement

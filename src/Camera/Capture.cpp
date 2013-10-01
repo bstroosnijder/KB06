@@ -126,6 +126,10 @@ namespace Camera
 					cv::rectangle(m_image, m_boundingBox, cv::Scalar(255, 255, 255));
 				}
 
+				// -----
+				// Color detection
+				// -----
+
 				int offset = 30;
 				cv::Scalar lowerColor = cv::Scalar(m_color.val[0] - offset, m_color.val[1] - (offset * 3), m_color.val[2] - (offset * 3));
 				cv::Scalar upperColor = cv::Scalar(m_color.val[0] + offset, m_color.val[1] + (offset * 3), m_color.val[2] + (offset * 3));
@@ -134,7 +138,9 @@ namespace Camera
 				cv::medianBlur(surface, surface, 9);
 				cv::Canny(surface, surface, 0, 255);
 
-
+				// -----
+				// Find contours
+				// -----
 
 				std::vector<std::vector<cv::Point>> contours;
 				cv::findContours(surface.clone(), contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
@@ -180,10 +186,15 @@ namespace Camera
 
 						if (SortCorners(approx, center))
 						{
+							// -----
+							// At this point we are sure that we have a correct set of corners to work with
+							// -----
+
 							Lock();
 							m_lost = false;
 							m_center = center;
 							m_corners = approx;
+							m_line = CalculateLongestLine(m_corners);
 							Unlock();
 						}
 					}
@@ -301,16 +312,22 @@ namespace Camera
 
 			// Create a 3D vector to contain the new position
 			irr::core::vector3df pos = irr::core::vector3df(
-				(m_poseTranslation.at<double>(0, 0) + ltCenterX),
-				(m_poseTranslation.at<double>(1, 0) + ltCenterY),
-				(m_poseTranslation.at<double>(2, 0) + 0.0f));
+				static_cast<float>(m_poseTranslation.at<double>(0, 0) + ltCenterX),
+				static_cast<float>(m_poseTranslation.at<double>(1, 0) + ltCenterY),
+				static_cast<float>(m_poseTranslation.at<double>(2, 0) + 0.0f));
 			// Transform using the inverted camera matrix
 			p_cameraProjection.transformVect(pos);
 
+			// Calculates the ratio betwee the longest game line and longest capture line
+			float ratio = m_gameLine.getLength() / m_line.getLength();
+			// Multiplies the game line length with the ratio to get the pixel distance
+			m_pixelDistance = m_gameLine.getLength() * ratio;
+
+			// Apply transformation (y transformation is done in the camera)
 			transformation.setTranslation(irr::core::vector3df(
-				(pos.Y * (m_pixelDistance / m_sizeHalfed.height)),
-				-(pos.Z),
-				(pos.X * (m_pixelDistance / m_sizeHalfed.width))));
+				 static_cast<float>(pos.Y * (m_pixelDistance / m_sizeHalfed.height)),
+				-static_cast<float>(pos.Z),
+				 static_cast<float>(pos.X * (m_pixelDistance / m_sizeHalfed.width))));
 
 			// TODO: ROTATION
 			//transformation.setRotationRadians(irr::core::vector3df(
@@ -337,9 +354,29 @@ namespace Camera
 		return m_lost;
 	}
 
+	float Capture::GetFov()
+	{
+		return m_fov;
+	}
+
+	void Capture::SetFov(float p_fov)
+	{
+		m_fov = p_fov;
+	}
+
 	float Capture::GetPixelDistance()
 	{
 		return m_pixelDistance;
+	}
+
+	irr::core::line2df Capture::GetGameLine()
+	{
+		return m_gameLine;
+	}
+
+	void Capture::SetGameLine(irr::core::line2df p_gameLine)
+	{
+		m_gameLine = p_gameLine;
 	}
 
 	void Capture::CaptureAndUndistort()
@@ -421,5 +458,33 @@ namespace Camera
 		p_corners.push_back(bl);
 
 		return true;
+	}
+
+	irr::core::line2df Capture::CalculateLongestLine(Corners p_corners)
+	{
+		irr::core::line2df longestLine;
+
+		for (unsigned int i = 0; i < p_corners.size(); ++i)
+		{
+			unsigned int j = (i >= (p_corners.size() - 1))
+				? 0
+				: (i + 1);
+
+			irr::core::line2df tmpLine = irr::core::line2df(
+				irr::core::vector2df(p_corners[i].x, p_corners[i].y),
+				irr::core::vector2df(p_corners[j].x, p_corners[j].y));
+
+			if (tmpLine.getLength() > longestLine.getLength())
+			{
+				longestLine = tmpLine;
+			}
+		}
+
+		//cv::line(m_image,
+		//	cv::Point2f(longestLine.start.X, longestLine.start.Y),
+		//	cv::Point2f(longestLine.end.X, longestLine.end.Y),
+		//	cv::Scalar(0, 0, 255, 255));
+
+		return longestLine;
 	}
 }

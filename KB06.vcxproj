@@ -75,8 +75,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="libs\RPP\Rpoly.cpp" />
-    <ClCompile Include="libs\RPP\RPP.cpp" />
     <ClCompile Include="src\Camera\CalibrationParams.cpp" />
     <ClCompile Include="include\Game\Path.cpp" />
     <ClCompile Include="include\Game\PathSegement.cpp" />
@@ -104,8 +102,6 @@
     <ClInclude Include="include\Game\PathSegment.h" />
     <ClInclude Include="include\Game\Tower.h" />
     <ClInclude Include="include\Utility\Logger.h" />
-    <ClInclude Include="libs\RPP\Rpoly.h" />
-    <ClInclude Include="libs\RPP\RPP.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

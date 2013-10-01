@@ -74,7 +74,7 @@ namespace Camera
 		 * @brief	Gets the fov
 		 * @return	The fov
 		 */
-		float GetFox();
+		float GetFov();
 
 		/**
 		 * @brief	Sets the fov
@@ -89,6 +89,19 @@ namespace Camera
 		 */
 		float GetPixelDistance();
 
+
+		/**
+		 * @brief	Gets the game line
+		 * @return	The game line
+		 */
+		irr::core::line2df GetGameLine();
+
+		/**
+		 * @brief	Sets the game line
+		 * @param	p_gameLine The new game line
+		 */
+		void SetGameLine(irr::core::line2df p_gameLine);
+
 	private:
 		typedef std::vector<cv::Point3f> Points3D;
 		typedef std::vector<cv::Point2f> Corners;
@@ -96,13 +109,11 @@ namespace Camera
 		bool m_runInOwnThread;
 		CalibrationParams* m_params;
 		cv::VideoCapture m_capture;
-
-		float m_fov;
+		cv::Mat m_image;
 
 		bool m_running;
 		std::thread* m_thread;
 		std::mutex* m_mutex;
-
 
 		bool m_chosen;
 		bool m_lost;
@@ -112,14 +123,15 @@ namespace Camera
 		float m_pixelDistance;
 		cv::Rect m_boundingBox;
 		cv::Scalar m_color;
+		float m_fov;
 
 		Points3D m_points3D;
 		Corners m_corners;
+		irr::core::line2df m_line;
+		irr::core::line2df m_gameLine;
 		cv::Mat m_poseRotation;
 		cv::Mat m_poseTranslation;
 
-		cv::Mat m_image;
-		//cv::Mat m_matrix;
 
 		/**
 		 * @brief	Locks the mutex with this thread
@@ -167,6 +179,14 @@ namespace Camera
 		 * @return	Whether or not the corners were correctly sorted
 		 */
 		bool SortCorners(Corners p_corners, cv::Point2f p_center);
+
+		/**
+		 * @brief	Calculets the longs corner for compareses with the games longest corner.
+		 *			This can be used to determin the ratio.
+		 * @param	p_corners The corners to use as lines and check for the longest line
+		 * @return	The longest line
+		 */
+		irr::core::line2df CalculateLongestLine(Corners p_corners);
 	};
 }
 
