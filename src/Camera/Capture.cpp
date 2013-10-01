@@ -325,15 +325,15 @@ namespace Camera
 
 			// Apply transformation (y transformation is done in the camera)
 			transformation.setTranslation(irr::core::vector3df(
-				 static_cast<float>(pos.Y * (m_pixelDistance / m_sizeHalfed.height)),
+				static_cast<float>(pos.Y * (m_pixelDistance / m_sizeHalfed.height)),
 				-static_cast<float>(pos.Z),
-				 static_cast<float>(pos.X * (m_pixelDistance / m_sizeHalfed.width))));
+				static_cast<float>(pos.X * (m_pixelDistance / m_sizeHalfed.width))));
 
-			// TODO: ROTATION
-			//transformation.setRotationRadians(irr::core::vector3df(
-			//	static_cast<float>(m_poseRotation.at<double>(0, 0)),
+			//// TODO: ROTATION
+			//transformation.setInverseRotationRadians(irr::core::vector3df(
+			//	static_cast<float>(0.0),
 			//	static_cast<float>(m_poseRotation.at<double>(2, 0)),
-			//	static_cast<float>(m_poseRotation.at<double>(1, 0))));
+			//	static_cast<float>(0.0)));
 
 			// Make inverted
 			transformation.makeInverse();
