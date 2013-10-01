@@ -50,10 +50,10 @@ namespace Camera
 		bool OnEvent(const irr::SEvent& P_EVT);
 
 		/**
-		 * @brief	Converts and returns the projection matrix
+		 * @brief	Converts and returns the transform matrix
 		 * @return	The new projection matrix
 		 */
-		irr::core::matrix4 GetProjectionMatrix(irr::core::matrix4 p_matrix);
+		irr::core::matrix4 GetTransformMatrix(irr::core::matrix4& p_matrix);
 		void UpdateCamera(irr::scene::ISceneNode* p_camera);
 
 		/**
@@ -69,7 +69,7 @@ namespace Camera
 		bool IsLost();
 
 	private:
-		float speed;
+		typedef std::vector<cv::Point3f> Points3D;
 		typedef std::vector<cv::Point2f> Corners;
 		irr::video::ITexture* m_texture;
 		bool m_runInOwnThread;
@@ -86,11 +86,15 @@ namespace Camera
 		cv::Size m_size;
 		cv::Point2f m_center;
 		cv::Rect m_boundingBox;
-		Corners m_corners;
 		cv::Scalar m_color;
 
+		Points3D m_points3D;
+		Corners m_corners;
+		cv::Mat m_poseRotation;
+		cv::Mat m_poseTranslation;
+
 		cv::Mat m_image;
-		cv::Mat m_matrix;
+		//cv::Mat m_matrix;
 
 		/**
 		 * @brief	Locks the mutex with this thread

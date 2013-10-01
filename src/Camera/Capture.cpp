@@ -4,7 +4,6 @@ namespace Camera
 {
 	Capture::Capture(bool p_runInOwnThread, irr::video::ITexture* p_texture)
 	{
-		speed = 1.0f;
 		m_texture = p_texture;
 		m_runInOwnThread = p_runInOwnThread;
 		m_params = new CalibrationParams("resources/camera_calibration_out.xml");
@@ -18,9 +17,33 @@ namespace Camera
 			static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_HEIGHT)));
 		m_center = cv::Point(((m_size.width - 1) / 2), ((m_size.height - 1) / 2));
 		m_boundingBox = cv::Rect(0, 0, m_size.width, m_size.height);
+
+		float offset = 1.0f;
+		m_points3D.push_back(cv::Point3f(-offset, 0.0f, -offset));
+		m_points3D.push_back(cv::Point3f( offset, 0.0f, -offset));
+		m_points3D.push_back(cv::Point3f(-offset, 0.0f,  offset));
+		m_points3D.push_back(cv::Point3f( offset, 0.0f,  offset));
+
 		m_corners = Corners();
+		m_poseTranslation = (cv::Mat_<double>(3, 1) << 0.0, 0.0, 0.0);
+		m_poseRotation = (cv::Mat_<double>(3, 1) << 0.0, 0.0, 0.0);
 
 		m_image = cv::Mat(m_size.width, m_size.height, CV_8U);
+
+		// Setup default setings if the calibration info cannot be loaded
+		if (!m_params->GetIsOpenedAndGood())
+		{
+			double fov = 60;
+			double cx = m_size.width / 2;
+			double cy = m_size.height / 2;
+			double fx;
+			double fy;
+			fx = fy = (cx / std::tan((fov / 2) * (irr::core::PI / 180)));
+			m_params->SetCameraMatrix((cv::Mat_<double>(3, 3) <<
+				fx,  0.0, cx,
+				0.0, fy,  cy,
+				0.0, 0.0, 1.0));
+		}
 	}
 
 	Capture::~Capture()
@@ -153,11 +176,11 @@ namespace Camera
 
 						if (SortCorners(approx, center))
 						{
-							//Lock();
+							Lock();
 							m_lost = false;
 							m_center = center;
 							m_corners = approx;
-							//Unlock();
+							Unlock();
 						}
 					}
 
@@ -165,28 +188,28 @@ namespace Camera
 					curve.release();
 				}
 
-				if (m_corners.size() == 4 && m_chosen)
-				{
-					// define the destination image
-					cv::Mat quad = cv::Mat::zeros(300, 300, CV_8U);
+				//if (m_corners.size() == 4 && m_chosen)
+				//{
+				//	// define the destination image
+				//	cv::Mat quad = cv::Mat::zeros(300, 300, CV_8U);
 
-					// corners of the destination image
-					Corners quad_pts;
-					quad_pts.push_back(cv::Point2f(0, 0));
-					quad_pts.push_back(cv::Point2f(quad.cols, 0));
-					quad_pts.push_back(cv::Point2f(quad.cols, quad.rows));
-					quad_pts.push_back(cv::Point2f(0, quad.rows));
+				//	// corners of the destination image
+				//	Corners quad_pts;
+				//	quad_pts.push_back(cv::Point2f(0, 0));
+				//	quad_pts.push_back(cv::Point2f(quad.cols, 0));
+				//	quad_pts.push_back(cv::Point2f(quad.cols, quad.rows));
+				//	quad_pts.push_back(cv::Point2f(0, quad.rows));
 
-					Lock();
-					// get transformation matrix
-					m_matrix = cv::getPerspectiveTransform(m_corners, quad_pts);
-					Unlock();
+				//	Lock();
+				//	// get transformation matrix
+				//	m_matrix = cv::getPerspectiveTransform(m_corners, quad_pts);
+				//	Unlock();
 
 
-					//	//// Apply perspective transformation
-					//	//cv::warpPerspective(m_image, quad, m_matrix, quad.size());
-					//	//cv::imshow("quadrilateral", quad);
-				}
+				//	//	//// Apply perspective transformation
+				//	//	//cv::warpPerspective(m_image, quad, m_matrix, quad.size());
+				//	//	//cv::imshow("quadrilateral", quad);
+				//}
 
 
 
@@ -232,74 +255,34 @@ namespace Camera
 		return false;
 	}
 
-	irr::core::matrix4 Capture::GetProjectionMatrix(irr::core::matrix4 p_matrix)
+	irr::core::matrix4 Capture::GetTransformMatrix(irr::core::matrix4& p_matrix)
 	{
 		irr::core::matrix4 projection = p_matrix;
-		if (!m_matrix.empty())
+		if (m_corners.size() > 0)
 		{
 			Lock();
 
+			cv::solvePnP(
+				m_points3D,
+				m_corners,
+				m_params->GetCameraMatrix(),
+				m_params->GetDistortionCoefficients(),
+				m_poseRotation,
+				m_poseTranslation,
+				true);
 
+			projection.setRotationRadians(irr::core::vector3df(
+				-m_poseRotation.at<double>(0, 0),
+				-m_poseRotation.at<double>(1, 0),
+				-m_poseRotation.at<double>(2, 0)));
 
-
-			float offset = 300.0f;
-			std::vector<cv::Point3f> points3d;
-			points3d.push_back(cv::Point3f(-offset, 0.0f, -offset));
-			points3d.push_back(cv::Point3f( offset, 0.0f, -offset));
-			points3d.push_back(cv::Point3f(-offset, 0.0f,  offset));
-			points3d.push_back(cv::Point3f( offset, 0.0f,  offset));
-
-			double fov = 60;
-			double cx = m_size.width / 2;
-			double cy = m_size.height / 2;
-			double fx;
-			double fy;
-			fx = fy = (cx / std::tan((fov / 2) * (irr::core::PI / 180)));
-
-			cv::Mat cameraMatrix = (cv::Mat_<double>(3, 3) <<
-				fx,  0.0, cx,
-				0.0, fy,  cy,
-				0.0, 0.0, 1.0);
-
-			cv::Mat distCoeffs;
-
-			cv::Mat rvec;
-			cv::Mat rotation;
-			cv::Mat tvec;
-
-			cv::solvePnP(points3d, m_corners, cameraMatrix, distCoeffs, rvec, tvec);
-			cv::Rodrigues(rvec, rotation);
-
-			//std::cout << rotation << std::endl;
-			std::cout << tvec << std::endl;
-
-			 
-			projection[0]  = rotation.at<double>(0, 0);
-			projection[1]  = rotation.at<double>(0, 1);
-			projection[2]  = rotation.at<double>(0, 2);
-
-			projection[4]  = rotation.at<double>(1, 0);
-			projection[5]  = rotation.at<double>(1, 1);
-			projection[6]  = rotation.at<double>(1, 2);
-
-			projection[8]  = rotation.at<double>(2, 0);
-			projection[9]  = rotation.at<double>(2, 1);
-			projection[10] = rotation.at<double>(2, 2);
-
-
-			projection[3]  = 0.0f;
-			projection[7]  = 0.0f;
-			projection[11] = 0.0f;
-
-			projection[14] = tvec.at<double>(2, 0);
-			projection[12] = -tvec.at<double>(0, 0);
-			projection[13] = -tvec.at<double>(1, 0);
-			projection[15] = 1.0f;
+			projection.setTranslation(irr::core::vector3df(
+				((m_center.x + m_poseTranslation.at<double>(0, 0)) - (m_size.width / 2)),
+				-((m_center.y + m_poseTranslation.at<double>(1, 0)) - (m_size.height / 2)),
+				m_poseTranslation.at<double>(2, 0)));
 
 			Unlock();
 		}
-
-
 
 		return projection;
 	}
@@ -310,8 +293,8 @@ namespace Camera
 		irr::core::vector3df camRotation = p_camera->getRotation();
 		Lock();
 
-		if (!m_matrix.empty())
-		{
+		//if (!m_matrix.empty())
+		//{
 			//cv::Mat rotation = cv::Mat(3, 3, CV_64F);
 			//cv::Mat quaternation = cv::Mat(3, 3, CV_64F);
 
@@ -331,7 +314,7 @@ namespace Camera
 			//	<< " - roll: " << roll << std::endl;
 
 
-		}
+		//}
 
 
 

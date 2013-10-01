@@ -68,12 +68,21 @@ namespace Game
 				{
 					m_inputHandler->RemoveListener(m_capture);
 				}
-				// Update the camera projection matrix
-				irr::core::matrix4 newMatrix = m_capture->GetProjectionMatrix(irr::core::IdentityMatrix);
-				cube->setPosition(newMatrix.getTranslation());
-				cube->setRotation(newMatrix.getRotationDegrees());
-				//cube->setScale(newMatrix.getScale());
-				//m_capture->UpdateCamera(camera);
+
+
+
+
+
+				irr::core::matrix4 transformation = m_capture->GetTransformMatrix(
+					m_videoDriver->getTransform(irr::video::E_TRANSFORMATION_STATE::ETS_WORLD));
+
+				// option 1
+				//m_videoDriver->setTransform(irr::video::E_TRANSFORMATION_STATE::ETS_WORLD,
+				//	transformation);
+
+				// option 2
+				cube->setPosition(transformation.getTranslation());
+				//cube->setRotation(transformation.getRotationDegrees());
 			}
 
 			m_sceneManager->drawAll();
