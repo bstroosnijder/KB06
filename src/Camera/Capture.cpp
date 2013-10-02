@@ -290,21 +290,6 @@ namespace Camera
 			float ltCenterX = (m_center.x - m_sizeHalfed.width);
 			float ltCenterY = (m_center.y - m_sizeHalfed.height);
 
-
-
-			//// TODO: IS THIS NEEDED?
-			//for (unsigned int i = 0; i < m_corners.size(); ++i)
-			//{
-			//	m_corners[i].x -= m_center.x;
-			//	m_corners[i].y -= m_center.y;
-			//}
-
-			//cv::undistortPoints(m_corners, m_corners,
-			//	m_params->GetCameraMatrix(),
-			//	m_params->GetDistortionCoefficients());
-
-
-
 			cv::solvePnP(
 				m_points3D,
 				m_corners,
@@ -320,10 +305,10 @@ namespace Camera
 			m_pixelDistance = m_gameLine.getLength() * ratio;
 
 			// -----
-			// Set the rotation
+			// Set the scaling
 			// -----
 
-			// Apply the rotation
+			// Apply the scaling (no scaling to 1.0f)
 			scaling.setScale(irr::core::vector3df(
 				1.0f, 1.0f, 1.0f));
 
@@ -354,8 +339,6 @@ namespace Camera
 				 static_cast<float>(position.Y * (m_pixelDistance / m_sizeHalfed.height)),
 				-static_cast<float>(position.Z),
 				 static_cast<float>(position.X * (m_pixelDistance / m_sizeHalfed.width))));
-
-
 
 			// Merge scaling, rotation and translation into the transformation
 			transformation = scaling * rotation * translation;
