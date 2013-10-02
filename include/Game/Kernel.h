@@ -4,6 +4,9 @@
 #include "InputHandler.h"
 #include "../Camera/Capture.h"
 #include "../Camera/Calibration.h"
+#include "../Game/EventHandler.h"
+#include "../Game/Gui.h"
+#include "Game/Playground.h"
 #include <irrlicht.h>
 
 namespace Game
@@ -52,6 +55,10 @@ namespace Game
 		irr::scene::ISceneManager* m_sceneManager;
 		InputHandler* m_inputHandler;
 		Camera::Capture* m_capture;
+
+		Game::Gui* m_gui;
+		irr::scene::ICameraSceneNode* m_camera;
+		Playground* m_playground;
 
 		/**
 		 * @brief	Show a fps counter in the title of the window
