@@ -278,6 +278,10 @@ namespace Camera
 		// Only do calculations when we have 4 corners
 		if (m_corners.size() ==  4)
 		{
+			irr::core::matrix4 scaling = irr::core::IdentityMatrix;
+			irr::core::matrix4 rotation = irr::core::IdentityMatrix;
+			irr::core::matrix4 translation = irr::core::IdentityMatrix;
+
 			Lock();
 			// Invert the camera projection matrix
 			p_cameraProjection.makeInverse();
@@ -288,11 +292,11 @@ namespace Camera
 
 
 
-			// TODO: IS THIS NEEDED?
+			//// TODO: IS THIS NEEDED?
 			//for (unsigned int i = 0; i < m_corners.size(); ++i)
 			//{
 			//	m_corners[i].x -= m_center.x;
-			//	m_corners[i].y -= m_center.x;
+			//	m_corners[i].y -= m_center.y;
 			//}
 
 			//cv::undistortPoints(m_corners, m_corners,
@@ -310,32 +314,52 @@ namespace Camera
 				m_poseTranslation,
 				true);
 
-			// Create a 3D vector to contain the new position
-			irr::core::vector3df pos = irr::core::vector3df(
-				static_cast<float>(m_poseTranslation.at<double>(0, 0) + ltCenterX),
-				static_cast<float>(m_poseTranslation.at<double>(1, 0) + ltCenterY),
-				static_cast<float>(m_poseTranslation.at<double>(2, 0) + 0.0f));
-			// Transform using the inverted camera matrix
-			p_cameraProjection.transformVect(pos);
-
 			// Calculates the ratio betwee the longest game line and longest capture line
 			float ratio = m_gameLine.getLength() / m_line.getLength();
 			// Multiplies the game line length with the ratio to get the pixel distance
 			m_pixelDistance = m_gameLine.getLength() * ratio;
 
+			// -----
+			// Set the rotation
+			// -----
+
+			// Apply the rotation
+			scaling.setScale(irr::core::vector3df(
+				1.0f, 1.0f, 1.0f));
+
+			// -----
+			// Set the rotation
+			// -----
+
+			// Apply rotation
+			rotation.setInverseRotationRadians(irr::core::vector3df(
+				static_cast<float>(0.0),
+				static_cast<float>(m_poseRotation.at<double>(2, 0)),
+				static_cast<float>(0.0)));
+
+			// -----
+			// Set the translation
+			// -----
+
+			// Create a 3D vector to contain the new position
+			irr::core::vector3df position = irr::core::vector3df(
+				static_cast<float>(m_poseTranslation.at<double>(0, 0) + ltCenterX),
+				static_cast<float>(m_poseTranslation.at<double>(1, 0) + ltCenterY),
+				static_cast<float>(m_poseTranslation.at<double>(2, 0) + 0.0f));
+			// Transform using the inverted camera matrix
+			p_cameraProjection.transformVect(position);
+
 			// Apply transformation (y transformation is done in the camera)
-			transformation.setTranslation(irr::core::vector3df(
-				static_cast<float>(pos.Y * (m_pixelDistance / m_sizeHalfed.height)),
-				-static_cast<float>(pos.Z),
-				static_cast<float>(pos.X * (m_pixelDistance / m_sizeHalfed.width))));
+			translation.setTranslation(irr::core::vector3df(
+				 static_cast<float>(position.Y * (m_pixelDistance / m_sizeHalfed.height)),
+				-static_cast<float>(position.Z),
+				 static_cast<float>(position.X * (m_pixelDistance / m_sizeHalfed.width))));
 
-			//// TODO: ROTATION
-			//transformation.setInverseRotationRadians(irr::core::vector3df(
-			//	static_cast<float>(0.0),
-			//	static_cast<float>(m_poseRotation.at<double>(2, 0)),
-			//	static_cast<float>(0.0)));
 
-			// Make inverted
+
+			// Merge scaling, rotation and translation into the transformation
+			transformation = scaling * rotation * translation;
+			// Make it inverted
 			transformation.makeInverse();
 
 			Unlock();
