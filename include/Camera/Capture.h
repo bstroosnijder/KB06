@@ -94,13 +94,20 @@ namespace Camera
 		 * @brief	Gets the game line
 		 * @return	The game line
 		 */
-		irr::core::line2df GetGameLine();
+		irr::core::line2df GetLongestGameLine();
 
 		/**
 		 * @brief	Sets the game line
-		 * @param	p_gameLine The new game line
+		 * @param	p_longestGameLine The new game line
 		 */
-		void SetGameLine(irr::core::line2df p_gameLine);
+		void SetLongestGameLine(irr::core::line2df p_longestGameLine);
+
+
+		/**
+		 * @brief	Gets the game line
+		 * @return	The game line
+		 */
+		irr::core::line2df GetCalculatedShortestGameLine();
 
 	private:
 		typedef std::vector<cv::Point3f> Points3D;
@@ -120,6 +127,7 @@ namespace Camera
 		cv::Size m_size;
 		cv::Size m_sizeHalfed;
 		cv::Point2f m_center;
+		float m_ratio;
 		float m_pixelDistance;
 		cv::Rect m_boundingBox;
 		cv::Scalar m_color;
@@ -127,8 +135,9 @@ namespace Camera
 
 		Points3D m_points3D;
 		Corners m_corners;
-		irr::core::line2df m_line;
-		irr::core::line2df m_gameLine;
+		irr::core::line2df m_shortestLine;
+		irr::core::line2df m_longestLine;
+		irr::core::line2df m_longestGameLine;
 		cv::Mat m_poseRotation;
 		cv::Mat m_poseTranslation;
 
@@ -184,9 +193,8 @@ namespace Camera
 		 * @brief	Calculets the longs corner for compareses with the games longest corner.
 		 *			This can be used to determin the ratio.
 		 * @param	p_corners The corners to use as lines and check for the longest line
-		 * @return	The longest line
 		 */
-		irr::core::line2df CalculateLongestLine(Corners p_corners);
+		void CalculateShortestAndLongestLine(Corners p_corners);
 	};
 }
 

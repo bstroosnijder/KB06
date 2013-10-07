@@ -22,6 +22,7 @@ namespace Camera
 			((m_size.width - 1) / 2),
 			((m_size.height - 1) / 2));
 		m_center = cv::Point(((m_size.width - 1) / 2), ((m_size.height - 1) / 2));
+		m_ratio = 0.0f;
 		m_pixelDistance = 100.0f;
 		m_boundingBox = cv::Rect(0, 0, m_size.width, m_size.height);
 
@@ -194,7 +195,7 @@ namespace Camera
 							m_lost = false;
 							m_center = center;
 							m_corners = approx;
-							m_line = CalculateLongestLine(m_corners);
+							CalculateShortestAndLongestLine(m_corners);
 							Unlock();
 						}
 					}
@@ -300,9 +301,9 @@ namespace Camera
 				true);
 
 			// Calculates the ratio betwee the longest game line and longest capture line
-			float ratio = m_gameLine.getLength() / m_line.getLength();
+			m_ratio = m_longestGameLine.getLength() / m_longestLine.getLength();
 			// Multiplies the game line length with the ratio to get the pixel distance
-			m_pixelDistance = m_gameLine.getLength() * ratio;
+			m_pixelDistance = m_longestGameLine.getLength() * m_ratio;
 
 			// -----
 			// Set the scaling
@@ -376,14 +377,20 @@ namespace Camera
 		return m_pixelDistance;
 	}
 
-	irr::core::line2df Capture::GetGameLine()
+	irr::core::line2df Capture::GetLongestGameLine()
 	{
-		return m_gameLine;
+		return m_longestGameLine;
 	}
 
-	void Capture::SetGameLine(irr::core::line2df p_gameLine)
+	void Capture::SetLongestGameLine(irr::core::line2df p_longestGameLine)
 	{
-		m_gameLine = p_gameLine;
+		m_longestGameLine = p_longestGameLine;
+	}
+
+	irr::core::line2df Capture::GetCalculatedShortestGameLine()
+	{
+		return irr::core::line2df(0.0f, 0.0f, 0.0f,
+			(m_shortestLine.getLength() / m_ratio));
 	}
 
 	void Capture::CaptureAndUndistort()
@@ -467,8 +474,9 @@ namespace Camera
 		return true;
 	}
 
-	irr::core::line2df Capture::CalculateLongestLine(Corners p_corners)
+	void Capture::CalculateShortestAndLongestLine(Corners p_corners)
 	{
+		irr::core::line2df shortestLine;
 		irr::core::line2df longestLine;
 
 		for (unsigned int i = 0; i < p_corners.size(); ++i)
@@ -485,13 +493,14 @@ namespace Camera
 			{
 				longestLine = tmpLine;
 			}
+
+			if (tmpLine.getLength() < shortestLine.getLength() || shortestLine.getLength() <= 2.0f)
+			{
+				shortestLine = tmpLine;
+			}
 		}
 
-		//cv::line(m_image,
-		//	cv::Point2f(longestLine.start.X, longestLine.start.Y),
-		//	cv::Point2f(longestLine.end.X, longestLine.end.Y),
-		//	cv::Scalar(0, 0, 255, 255));
-
-		return longestLine;
+		m_shortestLine = shortestLine;
+		m_longestLine = longestLine;
 	}
 }

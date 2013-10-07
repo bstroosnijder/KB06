@@ -39,7 +39,7 @@ namespace Game
 		// Create a webcam capturer
 		m_capture = new Camera::Capture(m_multiThreaded, m_videoDriver->addTexture(irr::core::dimension2d<irr::u32>(640, 480), "capture_background"));
 		m_capture->SetFov(60.0f);
-		m_capture->SetGameLine(irr::core::line2df(
+		m_capture->SetLongestGameLine(irr::core::line2df(
 			irr::core::vector2df(0, 0),
 			irr::core::vector2df(0, 100)));
 		m_inputHandler->AddListener(m_capture);
@@ -66,6 +66,8 @@ namespace Game
 			// Update the camera height
 			camera->setPosition(
 				irr::core::vector3df(0.0f, m_capture->GetPixelDistance(), 0.0f));
+			// Update the games shortest side
+			m_capture->GetCalculatedShortestGameLine().getLength();
 
 			// Show the fps in the title of the window
 			ShowFPS();
