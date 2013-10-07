@@ -2,18 +2,29 @@
 
 using namespace Game;
 
-irr::video::ITexture* texture;
-
 Tower::Tower(irr::scene::ISceneManager* p_sceneManager,
 			 irr::core::vector3df p_position)
 {
-	m_animatedMesh = p_sceneManager->getMesh("resources/models/animtest10.x");
+	m_animatedMesh = p_sceneManager->getMesh("resources/tower.3ds");
 
 	m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
 	m_meshSceneNode->setPosition(p_position);
 
 	SetMaterialFlags();
 }
+
+void Tower::updatePosition()
+{
+	irr::core::vector3df v = getPosition();
+	
+	if (v.X < 250)
+	{
+		v += irr::core::vector3df(0.04f, 0.0f, 0.0f);
+
+		setPosition(v);
+	}
+}
+
 
 double Tower::getHealthPoints()
 {

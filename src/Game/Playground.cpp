@@ -1,6 +1,8 @@
 #include "Game/Playground.h"
 
 #include "Game/Tower.h"
+#include "Game/Creature.h"
+#include "Game/Projectile.h"
 #include "Game/PathBuilder.h"
 
 #include <time.h>
@@ -24,6 +26,11 @@ float speedScale;
 //Contant values
 float unitLength;
 float speed;
+
+Tower* tower1;
+Tower* tower2;
+Creature* creature1;
+Projectile* projectile1;
 
 Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
 {
@@ -56,8 +63,7 @@ Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
 	irr::core::vector3df endPoint(50.0f, 0.0f, 150.0f);
 	path = pathBuilder->BuildPath(points1, points2, amount, range, startPoint, endPoint);
 
-	new Tower(p_sceneManager, irr::core::vector3df(0.0f));
-	new Tower(p_sceneManager, irr::core::vector3df(100.0f, 0.0f, 0.0f));
+	
 
 	//Constant values
 	unitLength = 10.0f;
@@ -83,6 +89,24 @@ Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
 	speedScale = unitLength / pointCurrent->m_point.getDistanceFrom(pointNext->m_point);
 
 	cube = p_sceneManager->addCubeSceneNode(10.0f, NULL, -1, cubePosition);
+
+	// Create towers
+	tower1 = new Tower(p_sceneManager, irr::core::vector3df(0.0f));
+	tower2 = new Tower(p_sceneManager, irr::core::vector3df(100.0f, 100.0f, 100.0f));
+
+	// Create creature
+	creature1 = new Creature(p_sceneManager, tower1->getPosition());
+
+	projectile1 = new Projectile(p_sceneManager, tower1->getPosition());
+
+	projectile1->setFrom(tower1);
+	projectile1->setTo(tower2);
+}
+
+void UpdateProjectilePosition()
+{
+	projectile1->updatePosition();
+	tower2->updatePosition();
 }
 
 void Playground::SetupPath()
@@ -155,6 +179,7 @@ void Playground::Render(irr::scene::ISceneManager* p_sceneManager)
 	}
 
 	UpdateCubePosition();
+	UpdateProjectilePosition();
 }
 
 /*

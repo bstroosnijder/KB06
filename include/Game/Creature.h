@@ -5,10 +5,16 @@
 
 namespace Game
 {
+	/**
+	* @brief	Creature class.
+	* @author	Thomas Gravekamp
+	*/
 	class Creature : public Entity
 	{
 	public:
 		Creature(irr::scene::ISceneManager* p_sceneManager, irr::core::vector3df p_position);
+
+		void updatePosition();
 
 		double getHealthPoints();
 		double getMovementSpeed();

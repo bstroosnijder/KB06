@@ -6,10 +6,9 @@ Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
 				   irr::core::vector3df p_position)
 {
 	irr::video::ITexture* texture = p_sceneManager->getVideoDriver()->getTexture("resources/tower-texture.jpg");
-	m_animatedMesh = p_sceneManager->getMesh("resourcesa/creeper.3ds");
+	m_animatedMesh = p_sceneManager->getMesh("resources/creature.3ds");
 	
 	m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
-	//m_meshSceneNode->setMaterialTexture(0, texture);
 	m_meshSceneNode->setPosition(p_position);
 	
 	irr::core::vector3df scale(10.0, 10.0, 10.0);
@@ -17,6 +16,11 @@ Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
 	m_meshSceneNode->setScale(scale);
 
 	SetMaterialFlags();
+}
+
+void Creature::updatePosition()
+{
+	return;
 }
 
 double Creature::getHealthPoints()

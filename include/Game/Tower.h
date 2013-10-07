@@ -9,10 +9,13 @@ namespace Game
 	/**
 	* @brief	A Tower is a game object that attacks monsters
 	* @author	Michel van Os
+	* @atuhor	Thomas Gravekamp
 	*/
 	class Tower : public Entity	{
 	public:
 		Tower(irr::scene::ISceneManager* p_sceneManager, irr::core::vector3df p_position);
+
+		void updatePosition();
 
 		double getHealthPoints();
 		double getShootingSpeed();
@@ -21,6 +24,7 @@ namespace Game
 		void setHealthPoints(double p_healthPoints);
 		void setShootingSpeed(double p_shootingSpeed);
 		void setRange(double p_range);
+		
 
 	private:
 		double m_healthPoints;
