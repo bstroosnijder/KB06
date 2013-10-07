@@ -137,6 +137,7 @@ namespace Camera
 		Corners m_corners;
 		irr::core::line2df m_shortestLine;
 		irr::core::line2df m_longestLine;
+		float m_lineRatio;
 		irr::core::line2df m_longestGameLine;
 		cv::Mat m_poseRotation;
 		cv::Mat m_poseTranslation;

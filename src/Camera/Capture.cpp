@@ -389,8 +389,11 @@ namespace Camera
 
 	irr::core::line2df Capture::GetCalculatedShortestGameLine()
 	{
-		return irr::core::line2df(0.0f, 0.0f, 0.0f,
-			(m_shortestLine.getLength() / m_ratio));
+		irr::core::line2df line = irr::core::line2df(
+			irr::core::vector2df(0.0f, 0.0f),
+			irr::core::vector2df(0.0f, (m_longestGameLine.getLength() * m_lineRatio)));
+
+		return line;
 	}
 
 	void Capture::CaptureAndUndistort()
@@ -502,5 +505,6 @@ namespace Camera
 
 		m_shortestLine = shortestLine;
 		m_longestLine = longestLine;
+		m_ratio = m_shortestLine.getLength() / m_longestLine.getLength();
 	}
 }

@@ -67,7 +67,7 @@ namespace Game
 			camera->setPosition(
 				irr::core::vector3df(0.0f, m_capture->GetPixelDistance(), 0.0f));
 			// Update the games shortest side
-			m_capture->GetCalculatedShortestGameLine().getLength();
+			m_capture->GetCalculatedShortestGameLine();
 
 			// Show the fps in the title of the window
 			ShowFPS();
