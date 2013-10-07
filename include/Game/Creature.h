@@ -1,14 +1,17 @@
 #ifndef __GAME__CREATURE__H__
 #define __GAME__CREATURE__H__
 
-#include "Entity.h"
+#include "PathFollower.h"
+#include "PathRoute.h"
 
 namespace Game
 {
-	class Creature : public Entity
+	class Creature : public PathFollower
 	{
 	public:
-		Creature(irr::scene::ISceneManager* p_sceneManager, irr::core::vector3df p_position);
+		Creature(irr::scene::ISceneManager* p_sceneManager,
+			irr::core::vector3df p_position,
+			PathRoute* p_pathRoute);
 
 		double getHealthPoints();
 		double getMovementSpeed();

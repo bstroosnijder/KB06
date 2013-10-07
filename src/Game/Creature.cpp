@@ -3,10 +3,13 @@
 using namespace Game;
 
 Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
-				   irr::core::vector3df p_position)
+		irr::core::vector3df p_position,
+		PathRoute* p_pathRoute)
+		:
+		PathFollower(p_pathRoute)
 {
 	irr::video::ITexture* texture = p_sceneManager->getVideoDriver()->getTexture("resources/tower-texture.jpg");
-	m_animatedMesh = p_sceneManager->getMesh("resourcesa/creeper.3ds");
+	m_animatedMesh = p_sceneManager->getMesh("resources/creeper.3ds");
 	
 	m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
 	//m_meshSceneNode->setMaterialTexture(0, texture);
@@ -16,6 +19,7 @@ Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
 	
 	m_meshSceneNode->setScale(scale);
 
+	StartFollowing();
 	SetMaterialFlags();
 }
 

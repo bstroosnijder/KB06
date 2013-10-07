@@ -10,8 +10,11 @@ namespace Game
 	public:
 		Entity();
 
-		void SetMaterialFlags();
 		void Render(irr::scene::ISceneManager* p_sceneManager);
+		
+		void SetMaterialFlags();
+		irr::core::vector3df GetPosition();
+		void SetPosition(irr::core::vector3df& p_position);
 
 	protected:
 		irr::scene::ISceneNode* m_meshSceneNode;
