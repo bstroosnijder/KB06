@@ -13,45 +13,22 @@ Tower::Tower(irr::scene::ISceneManager* p_sceneManager,
 	SetMaterialFlags();
 }
 
-void Tower::updatePosition()
-{
-	irr::core::vector3df v = getPosition();
-	
-	if (v.X < 250)
-	{
-		v += irr::core::vector3df(0.04f, 0.0f, 0.0f);
-
-		setPosition(v);
-	}
-}
-
-
-double Tower::getHealthPoints()
-{
-	return m_healthPoints;
-}
-
-double Tower::getShootingSpeed()
+double Tower::GetShootingSpeed()
 {
 	return m_shootingSpeed;
 }
 
-double Tower::getRange()
+double Tower::GetRange()
 {
 	return m_range;
 }
 
-void Tower::setHealthPoints(double p_healthPoints)
-{
-	m_healthPoints = p_healthPoints;
-}
-
-void Tower::setShootingSpeed(double p_shootingSpeed)
+void Tower::SetShootingSpeed(double p_shootingSpeed)
 {
 	m_shootingSpeed = p_shootingSpeed;
 }
 
-void Tower::setRange(double p_range)
+void Tower::SetRange(double p_range)
 {
 	m_range = p_range;
 }

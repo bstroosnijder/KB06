@@ -17,21 +17,13 @@ namespace Game
 			irr::core::vector3df p_position,
 			PathRoute* p_pathRoute);
 
-		void updatePosition();
+		void UpdatePosition();
 
-		double getHealthPoints();
-		double getMovementSpeed();
-		double getDamage();
-
-		void setHealthPoints(double p_healthPoints);
-		void setMovementSpeed(double p_movementSpeed);
-		void setDamage(double p_damage);
+		void SetHealthPoints(int p_healthPoints);
+		int GetHealthPoints();
 
 	private:
-        double m_healthPoints;
-		double m_movementSpeed;
-		double m_damage;
-
+        int m_healthPoints;
 	};
 }
 

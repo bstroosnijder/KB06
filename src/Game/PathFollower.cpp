@@ -72,6 +72,16 @@ bool PathFollower::IsEndOfSegmentReached()
 	return (m_segmentPosition.X >= 1);
 }
 
+void PathFollower::SetSpeed(float p_speed)
+{
+	m_speed = p_speed;
+}
+
+float PathFollower::GetSpeed()
+{
+	return m_speed;
+}
+
 void PathFollower::FollowNextSegment()
 {
 	irr::core::vector3df position;

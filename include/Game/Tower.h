@@ -15,19 +15,14 @@ namespace Game
 	public:
 		Tower(irr::scene::ISceneManager* p_sceneManager, irr::core::vector3df p_position);
 
-		void updatePosition();
+		double GetHealthPoints();
+		double GetShootingSpeed();
+		double GetRange();
 
-		double getHealthPoints();
-		double getShootingSpeed();
-		double getRange();
-
-		void setHealthPoints(double p_healthPoints);
-		void setShootingSpeed(double p_shootingSpeed);
-		void setRange(double p_range);
+		void SetShootingSpeed(double p_shootingSpeed);
+		void SetRange(double p_range);
 		
-
 	private:
-		double m_healthPoints;
 		double m_shootingSpeed;
 		double m_range;
 

@@ -3,6 +3,7 @@
 #include "Game/Tower.h"
 #include "Game/Creature.h"
 #include "Game/Projectile.h"
+#include "Game/Castle.h"
 #include "Game/PathBuilder.h"
 
 #include "Utility/Logger.h"
@@ -72,6 +73,8 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	creature1 = new Creature(p_sceneManager, tower1->getPosition(), pathRouteTemp);
 
 	projectile1 = new Projectile(p_sceneManager, tower1->getPosition());
+
+	new Castle(p_sceneManager, irr::core::vector3df());
 
 	projectile1->setFrom(tower1);
 	projectile1->setTo(tower2);

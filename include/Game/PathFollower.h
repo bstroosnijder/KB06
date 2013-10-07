@@ -17,6 +17,9 @@ namespace Game
 		void ResumeFollowing();
 		bool IsFollowing();
 
+		void SetSpeed(float p_speed);
+		float GetSpeed();
+
 	private:
 		bool m_following;
 
