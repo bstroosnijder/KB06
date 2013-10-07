@@ -6,15 +6,11 @@
 
 namespace Game
 {
-<<<<<<< HEAD
 	/**
 	* @brief	Creature class.
 	* @author	Thomas Gravekamp
 	*/
-	class Creature : public Entity
-=======
 	class Creature : public PathFollower
->>>>>>> aa1056c071da2b56e6ed3046a022ae59c3ecf056
 	{
 	public:
 		Creature(irr::scene::ISceneManager* p_sceneManager,

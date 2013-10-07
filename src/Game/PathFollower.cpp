@@ -4,11 +4,16 @@ using namespace Game;
 
 PathFollower::PathFollower(PathRoute* p_pathRoute)
 {
+	m_following = false;
+	m_pathRoute = NULL;
+	m_pointCurrent = NULL;
+	m_pointNext = NULL;
+
 	//Constant values
 	m_unitLength = 10.0f;
-	m_speed = 0.24f;
+	m_speed = 0.04f;
 
-	//Chaning values
+	//Changing values
 	m_pathRoute = p_pathRoute;
 }
 
@@ -31,6 +36,8 @@ void PathFollower::StartFollowing()
 	irr::core::vector3df position;
 
 	//Changing values
+	m_following = true;
+
 	m_pointCurrentIt = m_pathRoute->begin();
 	m_pointNextIt = m_pointCurrentIt;
 	std::advance(m_pointNextIt, 1);
@@ -88,10 +95,6 @@ void PathFollower::FollowNextSegment()
 		m_segmentPosition -= 1;
 		position = m_pointCurrent->m_point + (m_segmentLength * m_segmentPosition);
 		m_meshSceneNode->setPosition(position);
-	}
-	else
-	{
-		StartFollowing();
 	}
 }
 

@@ -8,12 +8,8 @@ Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
 		:
 		PathFollower(p_pathRoute)
 {
-	irr::video::ITexture* texture = p_sceneManager->getVideoDriver()->getTexture("resources/tower-texture.jpg");
-<<<<<<< HEAD
-	m_animatedMesh = p_sceneManager->getMesh("resources/creature.3ds");
-=======
-	m_animatedMesh = p_sceneManager->getMesh("resources/creeper.3ds");
->>>>>>> aa1056c071da2b56e6ed3046a022ae59c3ecf056
+	//irr::video::ITexture* texture = p_sceneManager->getVideoDriver()->getTexture("resources/tower-texture.jpg");
+	m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/creature.3ds");
 	
 	m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
 	m_meshSceneNode->setPosition(p_position);
@@ -21,9 +17,9 @@ Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
 	irr::core::vector3df scale(10.0, 10.0, 10.0);
 	
 	m_meshSceneNode->setScale(scale);
+	SetMaterialFlags();
 
 	StartFollowing();
-	SetMaterialFlags();
 }
 
 void Creature::updatePosition()
