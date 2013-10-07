@@ -14,9 +14,16 @@ namespace Game
 	public:
 		Entity();
 
+<<<<<<< HEAD
 		void SetMaterialFlags();
 		virtual void updatePosition();
+=======
+>>>>>>> aa1056c071da2b56e6ed3046a022ae59c3ecf056
 		void Render(irr::scene::ISceneManager* p_sceneManager);
+		
+		void SetMaterialFlags();
+		irr::core::vector3df GetPosition();
+		void SetPosition(irr::core::vector3df& p_position);
 
 		irr::core::vector3df getPosition();
 		void setPosition(irr::core::vector3df p_vector);

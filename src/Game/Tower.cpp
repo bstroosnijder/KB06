@@ -5,7 +5,11 @@ using namespace Game;
 Tower::Tower(irr::scene::ISceneManager* p_sceneManager,
 			 irr::core::vector3df p_position)
 {
+<<<<<<< HEAD
 	m_animatedMesh = p_sceneManager->getMesh("resources/tower.3ds");
+=======
+	m_animatedMesh = p_sceneManager->getMesh("resources/official/models/Castleofpeaches/Castleofpeaches.x");
+>>>>>>> aa1056c071da2b56e6ed3046a022ae59c3ecf056
 
 	m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
 	m_meshSceneNode->setPosition(p_position);

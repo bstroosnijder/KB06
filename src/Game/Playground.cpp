@@ -4,28 +4,20 @@
 #include "Game/Creature.h"
 #include "Game/Projectile.h"
 #include "Game/PathBuilder.h"
+#include "Game/Creature.h"
+
+#include "Utility/Logger.h"
 
 #include <time.h>
+#include <Windows.h>
 
 using namespace Game;
+using namespace Utility;
 
 irr::scene::IMeshSceneNode* cube;
 
 //Changing values
-Path* path;
-std::list<PathPoint*>* pathRoute;
-std::list<PathPoint*>::iterator pathRouteCurrentIt;
-std::list<PathPoint*>::iterator pathRouteNextIt;
-PathPoint* pointCurrent;
-PathPoint* pointNext;
-irr::core::vector3df segmentLength;
-irr::core::vector3df segmentPosition;
-irr::core::vector3df cubePosition;
-float speedScale;
-
-//Contant values
-float unitLength;
-float speed;
+Creature* creature;
 
 Tower* tower1;
 Tower* tower2;
@@ -34,8 +26,19 @@ Projectile* projectile1;
 
 Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
 {
-	PathBuilder* pathBuilder = new PathBuilder();
+	m_pathBuilder = new PathBuilder();
 
+	Initialize(p_sceneManager);
+}
+
+Playground::~Playground()
+{
+	delete m_pathBuilder;
+}
+
+void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
+{
+	float range = 10.0f;
 	int amount = 8;
 	irr::core::vector3df* points1 = new irr::core::vector3df[amount];
 	irr::core::vector3df* points2 = new irr::core::vector3df[amount];
@@ -57,10 +60,10 @@ Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
 	points1[5].set(25, 0, 100);	points2[5].set(75, 0, 100);	//7
 	points1[6].set(25, 0, 100); points2[6].set(50, 0, 150); //8
 	points1[7].set(75, 0, 100); points2[7].set(50, 0, 150); //9
-
-	float range = 10.0f;
+	
 	irr::core::vector3df startPoint(50.0f, 0.0f, 0.0f);
 	irr::core::vector3df endPoint(50.0f, 0.0f, 150.0f);
+<<<<<<< HEAD
 	path = pathBuilder->BuildPath(points1, points2, amount, range, startPoint, endPoint);
 
 	
@@ -68,26 +71,17 @@ Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
 	//Constant values
 	unitLength = 10.0f;
 	speed = 0.004f;
+=======
+>>>>>>> aa1056c071da2b56e6ed3046a022ae59c3ecf056
 
-	//Changing values
-	std::list<PathRoute*>::iterator pathRouteIt = path->m_routes.begin();
-	std::advance(pathRouteIt, 3);
+	SetupPath(points1, points2, amount, range, startPoint, endPoint);
 
-	pathRoute = (*pathRouteIt);
+	new Tower(p_sceneManager, irr::core::vector3df(0.0f));
+	//new Tower(p_sceneManager, irr::core::vector3df(100.0f, 0.0f, 0.0f));
 
-	pathRouteCurrentIt = pathRoute->begin();
-	pathRouteNextIt = pathRouteCurrentIt;
-	std::advance(pathRouteNextIt, 1);
+	PathRoute* pathRouteTemp = (*m_path->m_routes.begin());
 
-	pointCurrent = (*pathRouteCurrentIt);
-	pointNext = (*pathRouteNextIt);
-	
-	segmentLength = pointNext->m_point - pointCurrent->m_point;
-	segmentPosition = irr::core::vector3df(0.0f);
-	
-	cubePosition = pointCurrent->m_point;
-	speedScale = unitLength / pointCurrent->m_point.getDistanceFrom(pointNext->m_point);
-
+<<<<<<< HEAD
 	cube = p_sceneManager->addCubeSceneNode(10.0f, NULL, -1, cubePosition);
 
 	// Create towers
@@ -107,54 +101,50 @@ void UpdateProjectilePosition()
 {
 	projectile1->updatePosition();
 	tower2->updatePosition();
+=======
+	creature = new Creature(p_sceneManager, irr::core::vector3df(0.0f, 0.0f, 100.0f), pathRouteTemp);
+>>>>>>> aa1056c071da2b56e6ed3046a022ae59c3ecf056
 }
 
-void Playground::SetupPath()
+bool Playground::SetupPath(
+		irr::core::vector3df* p_points1,
+		irr::core::vector3df* p_points2,
+		int p_amount,
+		float p_range,
+		irr::core::vector3df p_pointBegin,
+		irr::core::vector3df p_pointEnd)
 {
-
+	m_path = m_pathBuilder->BuildPath(p_points1, p_points2, p_amount, p_range, p_pointBegin, p_pointEnd);
+	
+	return true;
 }
 
-void UpdateCubePosition()
+float delay = 0.0f;
+
+void Playground::Update(float p_deltaTime)
 {
-	//If the end of the segment is reached
-	if (segmentPosition.X >= 1)
-	{
-		std::list<PathPoint*>::iterator it = pathRouteNextIt;
-		std::list<PathPoint*>::iterator itEnd = pathRoute->end();
-		std::advance(it, 1);
-		
-		//If the end of the route is not reached
-		if (it != itEnd)
-		{
-			std::advance(pathRouteCurrentIt, 1);
-			std::advance(pathRouteNextIt, 1);
+	delay += 0.5f;
 
-			pointCurrent = (*pathRouteCurrentIt);
-			pointNext = (*pathRouteNextIt);
-
-			segmentLength = pointNext->m_point-pointCurrent->m_point;
-			speedScale = unitLength / pointCurrent->m_point.getDistanceFrom(pointNext->m_point);
-
-			segmentPosition = irr::core::vector3df(0.0f);
-			cubePosition = pointCurrent->m_point + (segmentLength * segmentPosition);
-			cube->setPosition(cubePosition);
-		}
-	}
-	else
-	{
-		segmentPosition += speedScale * speed;
-		cubePosition = pointCurrent->m_point + (segmentLength * segmentPosition);
-
-		cube->setPosition(cubePosition);
-	}
+	//Sleep(delay);
+	/*
+	Logger* l = Logger::GetInstance();
+	std::stringstream ss;
+	ss << "- DeltaTime: "
+		<< p_deltaTime
+		<< "- Delay: "
+		<< delay;
+	
+	l->Log(Logger::LOG_MESSAGE, ss.str().c_str());
+	*/
+	creature->FollowPath(p_deltaTime);
 }
 
 void Playground::Render(irr::scene::ISceneManager* p_sceneManager)
 {
 	irr::video::IVideoDriver* videoDriver = p_sceneManager->getVideoDriver();
 
-	std::list<PathPoint*>::iterator front = path->m_pathPoints->begin();
-	std::list<PathPoint*>::iterator last = path->m_pathPoints->end();
+	std::list<PathPoint*>::iterator front = m_path->m_pathPoints->begin();
+	std::list<PathPoint*>::iterator last = m_path->m_pathPoints->end();
 	std::list<PathPoint*>::iterator it;
 	PathPoint* pathPoint;
 
@@ -177,6 +167,7 @@ void Playground::Render(irr::scene::ISceneManager* p_sceneManager)
 			videoDriver->draw3DLine(start, end, color);
 		}
 	}
+<<<<<<< HEAD
 
 	UpdateCubePosition();
 	UpdateProjectilePosition();
@@ -295,3 +286,6 @@ void Playground::Render(irr::scene::ISceneManager* p_sceneManager)
 		cube->setPosition(position);
 	}
 }*/
+=======
+}
+>>>>>>> aa1056c071da2b56e6ed3046a022ae59c3ecf056

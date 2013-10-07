@@ -5,7 +5,9 @@
 #include "../Camera/Calibration.h"
 #include "../Game/EventHandler.h"
 #include "../Game/Gui.h"
-#include "Game/Playground.h"
+#include "Playground.h"
+#include "DeltaTimer.h"
+
 #include <irrlicht.h>
 
 namespace Game
@@ -41,13 +43,14 @@ namespace Game
 
 	private:
 		irr::IrrlichtDevice* m_device;
-		irr::video::IVideoDriver* m_driver;
-		irr::scene::ISceneManager* m_scene;
+		irr::video::IVideoDriver* m_videoDriver;
+		irr::scene::ISceneManager* m_sceneManager;
 		Camera::Capture* m_capture;
 
 		Game::Gui* m_gui;
 		irr::scene::ICameraSceneNode* m_camera;
 		Playground* m_playground;
+		DeltaTimer* m_deltaTimer;		
 
 		/**
 		 * @brief	Show a fps counter in the title of the window
