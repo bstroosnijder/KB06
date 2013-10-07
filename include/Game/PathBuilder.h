@@ -2,26 +2,28 @@
 #define __GAME__PATHBUILDER__H__
 
 #include "Path.h"
-#include "PathSegment.h"
 
 #include <irrlicht.h>
 
 namespace Game
 {
 	/**
-	 * @brief	The PathBuilder handles the creation of a Path and PathRoute(s)
+	 * @brief	The PathBuilder handles the creation of a Path and PathRoute(s) and PathSegments
 	 *
-	 *			
 	 * @author	Michel van Os
 	 * @author	Menno Postma
 	 */
 	class PathBuilder
 	{
 	public:
-		/**
-		 * @brief	Build a path out of given pairs of PathPoints 
+		/*
+		 * @brief	Build a path out of given pairs of 3D Vectors .
 		 *
-		 *			Builds the path out of given pairs of pathpoints and generates all possible routes
+		 *			By giving the PathBuilder a collection of 3D Vectors a Path will becreated with PathPoints.
+		 *			The PathPoints closest to the begin and end Vectors will be marked.
+		 *			Those PathPoints will be used to determine the begin and end point of the PathRoutes.
+		 *			1-directional PathSegments will be created and stored inside Path.
+		 *			Multiple PathRoutes may be calculated for the Path.
 		 * @param	p_points1 is a list with the first points of a pair
 		 * @param	p_points2 is a list with the second points of a pair
 		 * @param	p_pointsCount is the amount of points
@@ -55,14 +57,14 @@ namespace Game
 		 * @author	Menno Postma
 		 * @todo	Currently does not avoid duplicates
 		 */
-		void AddAllowedPathDirectionsFromRoute(Path* p_path, std::list<PathPoint*>* p_pathRoute);
+		void AddAllowedPathDirectionsFromRoute(Path* p_path, PathRoute* p_pathRoute);
 
 		/**
 		 * @brief	Recursively build all routes possible in a path
 		 * @author	Menno Postma
 		 * @author	Michel van Os
 		 */
-		void BuildRoute(Path* path, std::list<PathPoint*>*& p_pathRoute, PathPoint* p_pathPointCurrent);
+		void BuildRoute(Path* path, PathRoute*& p_pathRoute, PathPoint* p_pathPointCurrent);
 
 		/**
 		 * @brief	Creates the connection between a pair of points and puts them in a list

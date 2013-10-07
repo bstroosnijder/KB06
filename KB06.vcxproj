@@ -87,7 +87,6 @@
     <ClCompile Include="src\Game\Path.cpp" />
     <ClCompile Include="src\Game\PathBuilder.cpp" />
     <ClCompile Include="src\Game\PathPoint.cpp" />
-    <ClCompile Include="src\Game\PathRoute.cpp" />
     <ClCompile Include="src\Game\PathSegment.cpp" />
     <ClCompile Include="src\Game\Playground.cpp" />
     <ClCompile Include="src\Game\Projectile.cpp" />

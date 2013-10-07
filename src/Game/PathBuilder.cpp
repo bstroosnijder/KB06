@@ -56,26 +56,41 @@ bool PathBuilder::IsPathDirectionAllowed(Path* p_path, PathPoint* p_pathPoint1, 
 	return true;
 }
 
-void PathBuilder::AddAllowedPathDirectionsFromRoute(Path* p_path, std::list<PathPoint*>* p_pathRoute)
+void PathBuilder::AddAllowedPathDirectionsFromRoute(Path* p_path, PathRoute* p_pathRoute)
 {
-	std::list<PathPoint*>::iterator it = p_pathRoute->begin();
+	PathRoute::iterator it = p_pathRoute->begin();
 	int size = p_pathRoute->size();
 	PathPoint* pathPoint;
 	PathPoint* pathPointNext;
+	std::list<PathSegment*>::iterator itPathSegment;
+	std::list<PathSegment*>::iterator itEnd = p_path->m_pathSegments.end();
+	PathSegment* oldPathSegment;
+	bool allreadyExists;
 
 	for (int itIndex = 0; itIndex < size-1; ++itIndex)
 	{
+		allreadyExists = false;
 		pathPoint = (*it);
 		++it;
 		pathPointNext = (*it);
-
-		p_path->m_pathSegments.push_back(new PathSegment(pathPoint, pathPointNext));
+		for (itPathSegment = p_path->m_pathSegments.begin(); itPathSegment != itEnd; ++itPathSegment)
+		{
+			oldPathSegment = (*itPathSegment);
+			if (oldPathSegment->m_point1 == pathPoint && oldPathSegment->m_point2 == pathPointNext)
+			{
+				allreadyExists = true;
+			}
+		}
+		if(!allreadyExists)
+		{
+			p_path->m_pathSegments.push_back(new PathSegment(pathPoint, pathPointNext));
+		}
 	}
 }
 		
 void PathBuilder::BuildRoute(
 		Path* p_path,
-		std::list<PathPoint*>*& p_pathRoute,
+		PathRoute*& p_pathRoute,
 		PathPoint* p_pathPointCurrent)
 {
 	if (p_path == NULL || p_pathRoute == NULL || p_pathPointCurrent == NULL)
@@ -269,10 +284,12 @@ void PathBuilder::PathDetermineBeginAndEndPathPoints(
 		if (pathPointIt->m_point.getDistanceFrom(p_pointBegin) < p_range)
 		{
 			p_path->m_pointBegin = pathPointIt;
+			pathPointIt->m_point = p_pointBegin;
 		}
 		if (pathPointIt->m_point.getDistanceFrom(p_pointEnd) < p_range)
 		{
 			p_path->m_pointEnd = pathPointIt;
+			pathPointIt->m_point = p_pointEnd;
 		}
 	}
 }

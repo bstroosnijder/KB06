@@ -11,8 +11,8 @@ namespace Game
 	/**
 	 * @brief	A single segment of a Path
 	 *
-	 * A Path will be build of one or more PathSegments. Monsters will follow the PathSegments
-	 * inside the Path.
+	 *			A Path will be build of one or more PathSegments.
+	 *			Creatures will follow the PathSegments inside the Path.
 	 * @author	Michel van Os
 	*/
 	struct PathSegment
