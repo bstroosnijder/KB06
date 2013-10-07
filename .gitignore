@@ -71,6 +71,6 @@ Log
 
 #Resource files
 resources/*
-!resources/models/*
+!resources/models
 !resources/sounds/*
 !resources/textures/*
