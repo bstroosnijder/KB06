@@ -34,7 +34,7 @@ namespace Game
 		int midPositionSidebar = (sideBar->getAbsolutePosition().getWidth()/2);
 		
 		irr::gui::IGUIButton* tower = m_guienv->addButton(irr::core::rect<irr::s32>(midPositionSidebar-40,10,midPositionSidebar+40,40),sideBar,TOWER_BUTTON,L"Tower");
-		tower->setImage(m_guienv->getVideoDriver()->getTexture("resources/textures/tower-texture.jpg"));
+		tower->setImage(m_guienv->getVideoDriver()->getTexture("resources/textures/button.png"));
 		tower->setScaleImage(true);
 
 		irr::gui::IGUIButton* sell = m_guienv->addButton(irr::core::rect<irr::s32>(midPositionSidebar-40,50,midPositionSidebar+40,80),sideBar,SELL_BUTTON,L"Sell");
@@ -52,9 +52,9 @@ namespace Game
 		irr::gui::IGUIImage* image = m_guienv->addImage(irr::core::rect<irr::s32>(0,m_screenHeight-130,250,m_screenHeight-20),sideBar);
 		image->setImage(m_guienv->getVideoDriver()->getTexture("resources/textures/bar.png"));
 		image->setScaleImage(true);
-		m_waveTiming = m_guienv->addStaticText(L"Next wave in : ",irr::core::rect<irr::s32>(10,10,400,40),false,true,image);		
+		m_waveTiming = m_guienv->addStaticText(L" ",irr::core::rect<irr::s32>(10,10,400,40),false,true,image);		
 		m_waveTiming->setOverrideColor(irr::video::SColor(255,0,0,0));
-		m_resources = m_guienv->addStaticText(L"Resource : ",irr::core::rect<irr::s32>(10,30,400,60),false,true,image);
+		m_resources = m_guienv->addStaticText(L" ",irr::core::rect<irr::s32>(10,30,400,60),false,true,image);
 		m_resources->setOverrideColor(irr::video::SColor(255,0,0,0));
 		m_fps = m_guienv->addStaticText(L"FPS : ",irr::core::rect<irr::s32>(10,50,400,80),false,true,image);
 		m_fps->setOverrideColor(irr::video::SColor(255,0,0,0));
@@ -65,12 +65,13 @@ namespace Game
 		Cleanup();
 	}
 
-	void Gui::UpdateGui(int p_waveTimer, int p_resources, int p_fps)
+	void Gui::UpdateGui(int p_waveNumber, int p_AmountOfCreatures, int p_fps)
 	{
 		
+		
 		//STRING CONVERSIE
-		m_waveTiming->setText(stringToWString("Next wave in : ", p_waveTimer).c_str());				
-		m_resources->setText(stringToWString("Resource : ", p_resources).c_str());
+		m_waveTiming->setText(stringToWString("Creatures : ", p_AmountOfCreatures).c_str());				
+		m_resources->setText(stringToWString("Wave : ", p_waveNumber).c_str());
 		m_fps->setText(stringToWString("FPS : ", p_fps).c_str());
 
 		m_guienv->drawAll();

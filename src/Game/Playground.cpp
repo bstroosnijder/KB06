@@ -198,14 +198,9 @@ void Playground::startNextWave()
 			Game::Wave* wave = waves[0];
 			if (wave)
 			{
-
 				wave->SpawnWave(tower1->getPosition());
-				gameStatus = true;
-				if (atWave != 3)
-				{
-					++atWave;						
-				}
-
+				gameStatus = true;				
+				++atWave;
 			}
 		}
 	}
@@ -250,4 +245,14 @@ void Playground::generateTerrain()
 	irr::scene::ICameraSceneNode* camera = m_sceneManager->getActiveCamera();
 	camera->addAnimator(anim);
 	anim->drop();
+}
+
+int Playground::returnWaveNumber()
+{
+	return atWave;
+}
+
+int Playground::returnAmountOfCreatures()
+{
+	return m_creatures.size();
 }

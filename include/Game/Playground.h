@@ -44,6 +44,9 @@ namespace Game
 
 		void startNextWave();
 
+		int returnWaveNumber();
+		int returnAmountOfCreatures();
+
 	private:
 		PathBuilder* m_pathBuilder;
 		Path* m_path;

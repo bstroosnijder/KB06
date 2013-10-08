@@ -59,8 +59,7 @@ namespace Game
 			m_playground->Render(m_sceneManager);
 			
 			m_sceneManager->drawAll();
-			
-			m_gui->UpdateGui(m_device->getCursorControl()->getPosition().X,m_device->getCursorControl()->getPosition().Y,m_videoDriver->getFPS());
+			m_gui->UpdateGui(m_playground->returnWaveNumber(),m_playground->returnAmountOfCreatures(),m_videoDriver->getFPS());
 			m_videoDriver->endScene();
 
 			ShowFPS();

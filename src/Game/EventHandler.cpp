@@ -54,6 +54,7 @@ namespace Game
 				if (id == STARTGAME_BUTTON)
 				{
 					m_playground->startNextWave();
+					return true;
 				}
 			}
 		}
