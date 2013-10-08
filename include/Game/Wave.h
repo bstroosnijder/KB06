@@ -14,26 +14,39 @@ namespace Game
 	{
 	public:
 		
+		/**
+		* @brief The constructor initializes the object.
+		* @param 
+		*/
 		Wave(irr::scene::ISceneManager* p_sceneManager);
 		
 		~Wave();
 
+		/** 
+		* @brief this method initializes the startposition of the creatures and starts the timer of the wave.
+		*/
 		void SpawnWave(irr::core::vector3df p_startPosition);
 
+		/**
+		* @brief This method spawns the creatures onto the map.
+		* @param The creatures are added in the p_creatures pointer
+		* @param the p_path is used to give the creatures a walking path
+		*/
 		void SpawnCreature(std::vector<Creature*>* p_creatures,PathRoute* p_path);
 
+		/**
+		* @brief This method checks the status of the wave.
+		* @param p_creatures is a vector that is used to check if there are still creatures alive
+		*/
 		bool CheckWaveStatus(std::vector<Creature*>* p_creatures);
 
 	private:
-		//std::vector<Game::Creature*> m_creatures;
 		irr::scene::ISceneManager* m_sceneManager;
 		bool m_creaturesSpawned;
 		bool m_isActive;
 		Game::timer* m_timer;
 		irr::core::vector3df m_startPosition;
 		int m_waveSize;
-
-
 	};
 }
 #endif

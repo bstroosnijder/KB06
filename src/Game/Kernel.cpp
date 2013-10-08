@@ -5,7 +5,7 @@ namespace Game
 {
 	Kernel::Kernel()
 	{
-		m_device = irr::createDevice(irr::video::EDT_DIRECT3D9, irr::core::dimension2d<irr::u32>(640, 480));
+		m_device = irr::createDevice(irr::video::EDT_DIRECT3D9, irr::core::dimension2d<irr::u32>(1280, 720));
 		m_videoDriver = m_device->getVideoDriver();
 		m_sceneManager = m_device->getSceneManager();
 		m_deltaTimer = new DeltaTimer(m_device->getTimer());	

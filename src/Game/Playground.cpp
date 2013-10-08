@@ -182,12 +182,13 @@ void Playground::startNextWave()
 	}	
 }
 
+
 void Playground::generateTerrain()
 {
 
 	irr::video::IVideoDriver* driver = m_sceneManager->getVideoDriver();
 	irr::scene::ITerrainSceneNode* terrain = m_sceneManager->addTerrainSceneNode(
-		"resources/terrain-heightmap.bmp",
+		"resources/textures/terrain-heightmap.bmp",
 		0,                  // parent node
 		-1,                 // node id
 		irr::core::vector3df(0.f, 0.f, 0.f),     // position
@@ -201,13 +202,9 @@ void Playground::generateTerrain()
 
 	terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
 
-	terrain->setMaterialTexture(0,
-		driver->getTexture("resources/terrain-texture.jpg"));
-	terrain->setMaterialTexture(1,
-		driver->getTexture("resources/detailmap3.jpg"));
-
+	terrain->setMaterialTexture(0, driver->getTexture("resources/textures/terrain-texture.jpg"));
+	terrain->setMaterialTexture(1, driver->getTexture("resources/textures/detailmap3.jpg"));
 	terrain->setMaterialType(irr::video::EMT_DETAIL_MAP);
-
 	terrain->scaleTexture(1.0f, 20.0f);
 
 
