@@ -21,6 +21,7 @@ namespace Game
 
 		void SetHealthPoints(int p_healthPoints);
 		int GetHealthPoints();
+		void kill();
 
 	private:
         int m_healthPoints;

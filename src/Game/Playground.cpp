@@ -25,6 +25,7 @@ Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
 {
 	m_pathBuilder = new PathBuilder();
 	m_sceneManager = p_sceneManager;
+	gameStatus = false;
 	Initialize(p_sceneManager);
 }
 
@@ -78,7 +79,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	tower2 = new Tower(p_sceneManager, irr::core::vector3df(100.0f, 100.0f, 100.0f));
 
 	// Create creature
-	creature1 = new Creature(p_sceneManager, tower1->getPosition(), m_pathRouteTemp);
+	//creature1 = new Creature(p_sceneManager, tower1->getPosition(), m_pathRouteTemp);
 
 	projectile1 = new Projectile(p_sceneManager, tower1->getPosition());
 
@@ -105,10 +106,21 @@ bool Playground::SetupPath(
 
 void Playground::Update(float p_deltaTime)
 {
-	creature1->FollowPath(p_deltaTime);
+	//creature1->FollowPath(p_deltaTime);
 	for(int i = 0; i<m_creatures.size(); ++i)
 	{
 		m_creatures[i]->FollowPath(p_deltaTime);
+		
+		int z = m_pathRouteTemp->back()->m_point.Z - m_creatures[i]->getPosition().Z;
+		int x = m_pathRouteTemp->back()->m_point.X - m_creatures[i]->getPosition().X;
+		if (x < 2 && x>= 0)
+		{
+			if (z < 2 && z>= 0)
+			{
+				m_creatures[i]->kill();
+				m_creatures.erase(m_creatures.begin()+i);
+			}
+		}
 	}
 }
 
@@ -140,9 +152,19 @@ void Playground::Render(irr::scene::ISceneManager* p_sceneManager)
 			videoDriver->draw3DLine(start, end, color);
 		}
 	}
-	if (atWave-1 != -1)
+	
+	if (waves.size() != 0)
 	{
-		waves[atWave-1]->SpawnCreature(&m_creatures, m_pathRouteTemp);
+		if (waves[0]->CheckWaveStatus(&m_creatures))
+		{
+			waves[0]->SpawnCreature(&m_creatures, m_pathRouteTemp);
+		}
+		else
+		{
+			std::cout << atWave;
+			gameStatus = false;
+			waves.erase(waves.begin());
+		}
 	}
 }
 
@@ -169,17 +191,24 @@ void Playground::SellTower(irr::core::vector2d<irr::s32> p_position)
 
 void Playground::startNextWave()
 {
-	Game::Wave* wave = waves[atWave];
-	if (wave)
+	if (gameStatus == false)
 	{
-		wave->SpawnWave(tower1->getPosition());
+		if (waves.size() != 0)
+		{		
+			Game::Wave* wave = waves[0];
+			if (wave)
+			{
 
-		if (atWave != 3-1)
-		{
-			++atWave;
+				wave->SpawnWave(tower1->getPosition());
+				gameStatus = true;
+				if (atWave != 3)
+				{
+					++atWave;						
+				}
+
+			}
 		}
-
-	}	
+	}
 }
 
 

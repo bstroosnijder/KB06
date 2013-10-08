@@ -55,6 +55,7 @@ namespace Game
 		std::list<Tower*> m_towers;
 		std::list<PathFollower*> m_pathFollowers;
 		PathRoute* m_pathRouteTemp;
+		bool gameStatus;
 
 		float CalculateSpeedScale();
 		void generateTerrain();

@@ -19,6 +19,7 @@ namespace Game
 	void Wave::SpawnWave(irr::core::vector3df p_startPosition)
 	{
 		
+		m_isActive = true;
 		m_startPosition = p_startPosition;
 		m_timer->start();
 	}
@@ -30,7 +31,7 @@ namespace Game
 			if (m_waveSize != 0)
 			{
 			
-				if (m_timer->getTime() == 4)
+				if (m_timer->getTime() == 1)
 				{
 					p_creatures->push_back(new Creature(m_sceneManager,m_startPosition,p_path));
 					m_timer->reset();
