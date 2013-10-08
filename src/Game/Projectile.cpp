@@ -19,68 +19,73 @@ Projectile::Projectile(irr::scene::ISceneManager* p_sceneManager,
 	SetMaterialFlags();
 }
 
-void Projectile::updatePosition()
+void Projectile::Update(float p_deltaTime)
+{
+	UpdatePosition();
+}
+
+void Projectile::UpdatePosition()
 {
 	if (m_from != NULL || m_to != NULL)
 	{
-		irr::core::vector3df v = getPosition();
+		irr::core::vector3df v = GetPosition();
 
-		if (m_to->getPosition().X > this->getPosition().X)
+		if (m_to->GetPosition().X > this->GetPosition().X)
 			v += irr::core::vector3df(0.05f, 0.0f, 0.0f);
-		else if (m_to->getPosition().X < this->getPosition().X)
+		else if (m_to->GetPosition().X < this->GetPosition().X)
 			v -= irr::core::vector3df(0.05f, 0.0f, 0.0f);
 
-		if (m_to->getPosition().Y > this->getPosition().Y)
+		if (m_to->GetPosition().Y > this->GetPosition().Y)
 			v += irr::core::vector3df(0.0f, 0.05f, 0.0f);
-		else if (m_to->getPosition().Y < this->getPosition().Y)
+		else if (m_to->GetPosition().Y < this->GetPosition().Y)
 			v -= irr::core::vector3df(0.0f, 0.05f, 0.0f);
 
-		if (m_to->getPosition().Z > this->getPosition().Y)
+		if (m_to->GetPosition().Z > this->GetPosition().Y)
 			v += irr::core::vector3df(0.0f, 0.0f, 0.05f);
-		else if (m_to->getPosition().Z < this->getPosition().Z)
+		else if (m_to->GetPosition().Z < this->GetPosition().Z)
 			v -= irr::core::vector3df(0.0f, 0.0f, 0.05f);
 
-		setPosition(v);
+		SetPosition(v);
 	}
 
 }
 
-double Projectile::getMovementSpeed()
+double Projectile::GetMovementSpeed()
 {
 	return m_movementSpeed;
 }
 
-double Projectile::getDamage()
+double Projectile::GetDamage()
 {
 	return m_damage;
 }
 
-Game::Entity* Projectile::getFrom()
+Game::Entity* Projectile::GetFrom()
 {
 	return m_from;
 }
 
-Game::Entity* Projectile::getTo()
+Game::Entity* Projectile::GetTo()
 {
 	return m_to;
 }
 
-void Projectile::setMovementSpeed(double p_movementSpeed)
+void Projectile::SetMovementSpeed(double p_movementSpeed)
 {
 	m_movementSpeed = p_movementSpeed;
 }
 
-void Projectile::setDamage(double p_damage)
+void Projectile::SetDamage(double p_damage)
 {
 	m_damage = p_damage;
 }
 
-void Projectile::setFrom(Game::Entity* p_from)
+void Projectile::SetFrom(Game::Entity* p_from)
 {
 	m_from = p_from;
 }
 
-void Projectile::setTo(Game::Entity* p_to)
+void Projectile::SetTo(Game::Entity* p_to)
 {
 	m_to = p_to;
 }

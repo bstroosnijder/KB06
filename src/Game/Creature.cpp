@@ -20,6 +20,11 @@ Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
 	StartFollowing();
 }
 
+void Creature::Update(float p_deltaTime)
+{
+	UpdatePosition();
+}
+
 void Creature::UpdatePosition()
 {
 	return;

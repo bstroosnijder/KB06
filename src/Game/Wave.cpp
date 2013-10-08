@@ -4,36 +4,38 @@ namespace Game
 {
 	Wave::Wave(irr::scene::ISceneManager* p_sceneManager)
 	{
+		m_sceneManager = p_sceneManager;
+
 		m_creaturesSpawned = false;
 		m_isActive = true;
-		m_sceneManager = p_sceneManager;
-		m_timer = new timer();
+		m_timer = new Timer();
 		m_waveSize = 10;
 	}
 
 	Wave::~Wave()
 	{
+		delete m_timer;
 
+		m_timer = NULL;
 	}
 
 	void Wave::SpawnWave(irr::core::vector3df p_startPosition)
 	{
-		
 		m_startPosition = p_startPosition;
-		m_timer->start();
+		m_timer->Start();
 	}
 
 	void Wave::SpawnCreature(std::vector<Creature*>* p_creatures,PathRoute* p_path)
 	{		
-		if (m_timer->isRunning())
+		if (m_timer->IsRunning())
 		{
 			if (m_waveSize != 0)
 			{
 			
-				if (m_timer->getTime() == 4)
+				if (m_timer->GetTime() == 4)
 				{
 					p_creatures->push_back(new Creature(m_sceneManager,m_startPosition,p_path));
-					m_timer->reset();
+					m_timer->Reset();
 					m_creaturesSpawned = true;
 					std::cout << "Creature Spawned";
 					--m_waveSize;
@@ -41,7 +43,7 @@ namespace Game
 			}
 			else
 			{
-				m_timer->stop();
+				m_timer->Stop();
 			}
 		}		
 	}
@@ -52,6 +54,7 @@ namespace Game
 		{
 			m_isActive = false;
 		}
+
 		return m_isActive;
 	}
 }

@@ -1,65 +1,74 @@
 #include "Game/Timer.h"
 
-//////////////////////////////////////////
-// class implementation:
-
-
 namespace Game
 {
-	timer::timer() {
-		resetted = true;
-		running = false;
-		beg = 0;
-		end = 0;
+	Timer::Timer()
+	{
+		m_resetted = true;
+		m_running = false;
+		m_beginTime = 0;
+		m_endTime = 0;
 	}
-
-
-	void timer::start() {
-		if(! running) {
-			if(resetted)
-				beg = (unsigned long) clock();
+	
+	void Timer::Start()
+	{
+		if (!m_running)
+		{
+			if (m_resetted)
+			{
+				m_beginTime = (unsigned long) clock();
+			}
 			else
-				beg -= end - (unsigned long) clock();
-			running = true;
-			resetted = false;
+			{
+				m_beginTime -= m_endTime - (unsigned long) clock();
+			}
+
+			m_running = true;
+			m_resetted = false;
 		}
 	}
 
-
-	void timer::stop() {
-		if(running) {
-			end = (unsigned long) clock();
-			running = false;
+	void Timer::Stop()
+	{
+		if (m_running)
+		{
+			m_endTime = (unsigned long) clock();
+			m_running = false;
 		}
 	}
 
-
-	void timer::reset() {
-		bool wereRunning = running;
-		if(wereRunning)
-			stop();
-		resetted = true;
-		beg = 0;
-		end = 0;
-		if(wereRunning)
-			start();
+	void Timer::Reset()
+	{
+		bool wereRunning = m_running;
+		
+		if (wereRunning)
+			Stop();
+		m_resetted = true;
+		m_beginTime = 0;
+		m_endTime = 0;
+		if (wereRunning)
+			Start();
 	}
 
-
-	bool timer::isRunning() {
-		return running;
+	bool Timer::IsRunning() 
+	{
+		return m_running;
 	}
 
-
-	unsigned long timer::getTime() {
-		if(running)
-			return ((unsigned long) clock() - beg) / CLOCKS_PER_SEC;
+	unsigned long Timer::GetTime()
+	{
+		if (m_running)
+		{
+			return ((unsigned long) clock() - m_beginTime) / CLOCKS_PER_SEC;
+		}
 		else
-			return end - beg;
+		{
+			return m_endTime - m_beginTime;
+		}
 	}
 
-
-	bool timer::isOver(unsigned long seconds) {
-		return seconds >= getTime();
+	bool Timer::IsOver(unsigned long p_seconds)
+	{
+		return p_seconds >= GetTime();
 	}
 }

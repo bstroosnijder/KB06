@@ -4,17 +4,19 @@
 #include "Entity.h"
 
 namespace Game
-
 {
 	/**
 	* @brief	A Tower is a game object that attacks monsters
 	* @author	Michel van Os
 	* @atuhor	Thomas Gravekamp
 	*/
-	class Tower : public Entity	{
+	class Tower : public Entity
+	{
 	public:
 		Tower(irr::scene::ISceneManager* p_sceneManager, irr::core::vector3df p_position);
+		
 
+		virtual void Update(float);
 		double GetHealthPoints();
 		double GetShootingSpeed();
 		double GetRange();

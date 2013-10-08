@@ -19,7 +19,6 @@ namespace Game
 		irr::core::vector3df m_point;
 		std::list<PathPoint*> m_pointsConnected;
 
-		PathPoint();
 		PathPoint(irr::core::vector3df p_point);
 	};
 }

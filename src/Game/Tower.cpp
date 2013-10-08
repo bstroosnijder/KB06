@@ -13,6 +13,11 @@ Tower::Tower(irr::scene::ISceneManager* p_sceneManager,
 	SetMaterialFlags();
 }
 
+void Tower::Update(float p_deltaTime)
+{
+
+}
+
 double Tower::GetShootingSpeed()
 {
 	return m_shootingSpeed;

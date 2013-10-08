@@ -7,6 +7,9 @@
 #include "PathFollower.h"
 #include "Game/Creature.h"
 #include "Game/Wave.h"
+#include "Game/Castle.h"
+#include "Game/Stargate.h"
+
 #include <vector>
 #include <irrlicht.h>
 
@@ -45,9 +48,12 @@ namespace Game
 		void startNextWave();
 
 	private:
+		irr::scene::ISceneManager* m_sceneManager;
 		PathBuilder* m_pathBuilder;
 		Path* m_path;
-		irr::scene::ISceneManager* m_sceneManager;
+		irr::core::vector3df m_pointBegin;
+		irr::core::vector3df m_pointEnd;
+
 		std::vector<Wave*> waves;
 		irr::scene::ITriangleSelector* m_selector;
 		std::vector<Creature*> m_creatures; 
@@ -55,6 +61,9 @@ namespace Game
 		std::list<Tower*> m_towers;
 		std::list<PathFollower*> m_pathFollowers;
 		PathRoute* m_pathRouteTemp;
+
+		Castle* m_castle;
+		Stargate* m_stargate;
 
 		float CalculateSpeedScale();
 		void generateTerrain();

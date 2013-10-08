@@ -17,6 +17,7 @@ namespace Game
 			irr::core::vector3df p_position,
 			PathRoute* p_pathRoute);
 
+		virtual void Update(float);
 		void UpdatePosition();
 
 		void SetHealthPoints(int p_healthPoints);

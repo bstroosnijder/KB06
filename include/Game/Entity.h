@@ -14,17 +14,13 @@ namespace Game
 	public:
 		Entity();
 
+		virtual void Update(float) = 0;
 		virtual void updatePosition();
 		void Render(irr::scene::ISceneManager* p_sceneManager);
 		
 		void SetMaterialFlags();
 		irr::core::vector3df GetPosition();
-		void SetPosition(irr::core::vector3df& p_position);
-
-		irr::core::vector3df getPosition();
-		void setPosition(irr::core::vector3df p_vector);
-
-		
+		void SetPosition(irr::core::vector3df& p_position);		
 
 	protected:
 		irr::scene::ISceneNode* m_meshSceneNode;

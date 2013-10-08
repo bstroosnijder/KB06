@@ -10,3 +10,8 @@ Stargate::Stargate(irr::scene::ISceneManager* p_sceneManager,
 	m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
 	m_meshSceneNode->setPosition(p_position);
 }
+
+void Stargate::Update(float p_deltaTime)
+{
+
+}

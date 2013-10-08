@@ -72,11 +72,14 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(IRRLICHT_DIR)\lib\Win32-visualstudio;$(OPENCV_DIR)\x86\vc11\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Irrlicht.lib;opencv_core246d.lib;opencv_imgproc246d.lib;opencv_highgui246d.lib;opencv_ml246d.lib;opencv_video246d.lib;opencv_features2d246d.lib;opencv_calib3d246d.lib;opencv_objdetect246d.lib;opencv_contrib246d.lib;opencv_legacy246d.lib;opencv_flann246d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Game\Castle.cpp" />
     <ClCompile Include="src\Game\DeltaTimer.cpp" />
+    <ClCompile Include="src\Game\GameManager.cpp" />
     <ClCompile Include="src\Game\PathFollower.cpp" />
     <ClCompile Include="src\Game\Stargate.cpp" />
     <ClCompile Include="src\Game\Timer.cpp" />
@@ -109,6 +112,7 @@
     <ClInclude Include="include\Game\Creature.h" />
     <ClInclude Include="include\Game\DeltaTimer.h" />
     <ClInclude Include="include\Game\EventHandler.h" />
+    <ClInclude Include="include\Game\GameManager.h" />
     <ClInclude Include="include\Game\Gui.h" />
     <ClInclude Include="include\Game\Kernel.h" />
     <ClInclude Include="include\Game\Entity.h" />

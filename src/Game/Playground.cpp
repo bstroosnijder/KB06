@@ -14,23 +14,23 @@
 using namespace Game;
 using namespace Utility;
 
-irr::scene::IMeshSceneNode* cube;
-
-Tower* tower1;
-Tower* tower2;
-Creature* creature1;
-Projectile* projectile1;
-
 Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
 {
-	m_pathBuilder = new PathBuilder();
 	m_sceneManager = p_sceneManager;
+
+	m_pathBuilder = new PathBuilder();
+	m_path = NULL;
+	m_selector = NULL;
+	m_pathRouteTemp;
+
 	Initialize(p_sceneManager);
 }
 
 Playground::~Playground()
 {
 	delete m_pathBuilder;
+
+	m_pathBuilder = NULL;
 }
 
 void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
@@ -74,20 +74,14 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	}
 	
 	// Create towers
-	tower1 = new Tower(p_sceneManager, irr::core::vector3df(0.0f));
-	tower2 = new Tower(p_sceneManager, irr::core::vector3df(100.0f, 100.0f, 100.0f));
+	m_towers.push_back(new Tower(p_sceneManager, irr::core::vector3df()));
+	m_towers.push_back(new Tower(p_sceneManager, irr::core::vector3df(100.0f, 100.0f, 100.0f)));
 
 	// Create creature
-	creature1 = new Creature(p_sceneManager, tower1->getPosition(), m_pathRouteTemp);
-
-	projectile1 = new Projectile(p_sceneManager, tower1->getPosition());
-
-	new Castle(p_sceneManager, irr::core::vector3df());
-
-	projectile1->setFrom(tower1);
-	projectile1->setTo(tower2);
-
-	generateTerrain();
+	m_creatures.push_back(new Creature(p_sceneManager, irr::core::vector3df(), m_pathRouteTemp));
+	
+	m_castle = new Castle(p_sceneManager, irr::core::vector3df());
+	m_stargate = new Stargate(p_sceneManager, irr::core::vector3df());
 }
 
 bool Playground::SetupPath(
@@ -105,7 +99,6 @@ bool Playground::SetupPath(
 
 void Playground::Update(float p_deltaTime)
 {
-	creature1->FollowPath(p_deltaTime);
 	for(int i = 0; i<m_creatures.size(); ++i)
 	{
 		m_creatures[i]->FollowPath(p_deltaTime);
@@ -172,7 +165,7 @@ void Playground::startNextWave()
 	Game::Wave* wave = waves[atWave];
 	if (wave)
 	{
-		wave->SpawnWave(tower1->getPosition());
+		wave->SpawnWave(m_path->m_pointBegin->m_point);
 
 		if (atWave != 3-1)
 		{

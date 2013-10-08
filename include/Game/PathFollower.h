@@ -31,8 +31,8 @@ namespace Game
 
 		irr::core::vector3df m_segmentLength;
 		irr::core::vector3df m_segmentPosition;
-		float m_speedScale;
 
+		float m_speedScale;
 		float m_unitLength;
 		float m_speed;
 
