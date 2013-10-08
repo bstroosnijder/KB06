@@ -1,11 +1,13 @@
 #ifndef __GAME__PLAYGROUND__H__
-#define __GAME__PLAYGORUND__H__
+#define __GAME__PLAYGROUND__H__
 
 #include "Path.h" 
 #include "PathBuilder.h"
 #include "Tower.h"
 #include "PathFollower.h"
-
+#include "Game/Creature.h"
+#include "Game/Wave.h"
+#include <vector>
 #include <irrlicht.h>
 
 namespace Game
@@ -36,14 +38,26 @@ namespace Game
 				irr::core::vector3df p_pointEnd
 			);
 
+		void SpawnTower(irr::core::vector2d<irr::s32>);
+
+		void SellTower(irr::core::vector2d<irr::s32>);
+
+		void startNextWave();
+
 	private:
 		PathBuilder* m_pathBuilder;
 		Path* m_path;
-
+		irr::scene::ISceneManager* m_sceneManager;
+		std::vector<Wave*> waves;
+		irr::scene::ITriangleSelector* m_selector;
+		std::vector<Creature*> m_creatures; 
+		int atWave;
 		std::list<Tower*> m_towers;
 		std::list<PathFollower*> m_pathFollowers;
+		PathRoute* m_pathRouteTemp;
 
 		float CalculateSpeedScale();
+		void generateTerrain();
 	};
 }
 

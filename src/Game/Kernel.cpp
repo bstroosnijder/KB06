@@ -19,8 +19,14 @@ namespace Game
 		m_camera = m_sceneManager->addCameraSceneNodeFPS();
 		m_camera->setPosition(irr::core::vector3df(0.0f, 100.0f, -20.0f));
 		m_camera->setRotation(irr::core::vector3df(0.0f, 0.0f, 70.0f));
+		m_camera->setInputReceiverEnabled(false);
+		m_device->getCursorControl()->setVisible(true);
 
-		m_playground = new Playground(m_sceneManager);	
+		m_playground = new Playground(m_sceneManager);
+
+		m_gui = new Game::Gui(m_device->getGUIEnvironment());
+		Game::EventHandler* eventHandler = new Game::EventHandler(m_device,m_gui,m_playground);
+		m_device->setEventReceiver(eventHandler);
 	}
 
 	Kernel::~Kernel()
@@ -54,6 +60,7 @@ namespace Game
 			
 			m_sceneManager->drawAll();
 			
+			m_gui->UpdateGui(m_device->getCursorControl()->getPosition().X,m_device->getCursorControl()->getPosition().Y,m_videoDriver->getFPS());
 			m_videoDriver->endScene();
 
 			ShowFPS();

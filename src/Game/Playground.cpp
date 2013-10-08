@@ -24,7 +24,7 @@ Projectile* projectile1;
 Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
 {
 	m_pathBuilder = new PathBuilder();
-
+	m_sceneManager = p_sceneManager;
 	Initialize(p_sceneManager);
 }
 
@@ -63,14 +63,22 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 
 	SetupPath(points1, points2, amount, range, startPoint, endPoint);
 
-	PathRoute* pathRouteTemp = (*m_path->m_routes.begin());
+	 m_pathRouteTemp = (*m_path->m_routes.begin());
 
+	
+	//Setup Waves
+	atWave = 0;
+	for(int i = 0; i<3; ++i)
+	{
+		waves.push_back(new Game::Wave(p_sceneManager));
+	}
+	
 	// Create towers
 	tower1 = new Tower(p_sceneManager, irr::core::vector3df(0.0f));
 	tower2 = new Tower(p_sceneManager, irr::core::vector3df(100.0f, 100.0f, 100.0f));
 
 	// Create creature
-	creature1 = new Creature(p_sceneManager, tower1->getPosition(), pathRouteTemp);
+	creature1 = new Creature(p_sceneManager, tower1->getPosition(), m_pathRouteTemp);
 
 	projectile1 = new Projectile(p_sceneManager, tower1->getPosition());
 
@@ -78,6 +86,8 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 
 	projectile1->setFrom(tower1);
 	projectile1->setTo(tower2);
+
+	generateTerrain();
 }
 
 bool Playground::SetupPath(
@@ -96,6 +106,10 @@ bool Playground::SetupPath(
 void Playground::Update(float p_deltaTime)
 {
 	creature1->FollowPath(p_deltaTime);
+	for(int i = 0; i<m_creatures.size(); ++i)
+	{
+		m_creatures[i]->FollowPath(p_deltaTime);
+	}
 }
 
 void Playground::Render(irr::scene::ISceneManager* p_sceneManager)
@@ -126,4 +140,88 @@ void Playground::Render(irr::scene::ISceneManager* p_sceneManager)
 			videoDriver->draw3DLine(start, end, color);
 		}
 	}
+	if (atWave-1 != -1)
+	{
+		waves[atWave-1]->SpawnCreature(&m_creatures, m_pathRouteTemp);
+	}
+}
+
+void Playground::SpawnTower(irr::core::vector2d<irr::s32> p_position)
+{
+	irr::core::line3d<irr::f32> line = m_sceneManager->getSceneCollisionManager()->getRayFromScreenCoordinates(p_position,m_sceneManager->getActiveCamera());
+	irr::core::vector3df towerPosition;
+	irr::core::triangle3df triangle;
+	irr::scene::ISceneNode* sceneNodeOut;
+	m_sceneManager->getSceneCollisionManager()->getCollisionPoint(line,m_selector, towerPosition,triangle, sceneNodeOut);
+	new Tower(m_sceneManager,towerPosition);
+	m_sceneManager->getVideoDriver()->draw3DTriangle(triangle,irr::video::SColor(0,255,0,0));
+}
+
+void Playground::SellTower(irr::core::vector2d<irr::s32> p_position)
+{
+	irr::core::line3d<irr::f32> line = m_sceneManager->getSceneCollisionManager()->getRayFromScreenCoordinates(p_position,m_sceneManager->getActiveCamera());
+	irr::core::vector3df towerPosition;
+	irr::core::triangle3df triangle;
+	irr::scene::ISceneNode* sceneNodeOut;
+	m_sceneManager->getSceneCollisionManager()->getCollisionPoint(line,m_selector, towerPosition,triangle, sceneNodeOut);
+	sceneNodeOut->drop();
+}
+
+void Playground::startNextWave()
+{
+	Game::Wave* wave = waves[atWave];
+	if (wave)
+	{
+		wave->SpawnWave(tower1->getPosition());
+
+		if (atWave != 3-1)
+		{
+			++atWave;
+		}
+
+	}	
+}
+
+void Playground::generateTerrain()
+{
+
+	irr::video::IVideoDriver* driver = m_sceneManager->getVideoDriver();
+	irr::scene::ITerrainSceneNode* terrain = m_sceneManager->addTerrainSceneNode(
+		"resources/terrain-heightmap.bmp",
+		0,                  // parent node
+		-1,                 // node id
+		irr::core::vector3df(0.f, 0.f, 0.f),     // position
+		irr::core::vector3df(0.f, 0.f, 0.f),     // rotation
+		irr::core::vector3df(2.f, 0.22f, 2.f),  // scale
+		irr::video::SColor ( 255, 255, 255, 255 ),   // vertexColor
+		5,                  // maxLOD
+		irr::scene::ETPS_17,             // patchSize
+		4                   // smoothFactor
+		);
+
+	terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+
+	terrain->setMaterialTexture(0,
+		driver->getTexture("resources/terrain-texture.jpg"));
+	terrain->setMaterialTexture(1,
+		driver->getTexture("resources/detailmap3.jpg"));
+
+	terrain->setMaterialType(irr::video::EMT_DETAIL_MAP);
+
+	terrain->scaleTexture(1.0f, 20.0f);
+
+
+	// create triangle selector for the terrain	 
+	m_selector = m_sceneManager->createTerrainTriangleSelector(terrain, 0);
+	terrain->setTriangleSelector(m_selector);
+
+	// create collision response animator and attach it to the camera
+	irr::scene::ISceneNodeAnimator* anim = m_sceneManager->createCollisionResponseAnimator(
+		m_selector, m_sceneManager->getActiveCamera(), irr::core::vector3df(60,100,60),
+		irr::core::vector3df(0,0,0),
+		irr::core::vector3df(0,50,0));
+	m_selector->drop();
+	irr::scene::ICameraSceneNode* camera = m_sceneManager->getActiveCamera();
+	camera->addAnimator(anim);
+	anim->drop();
 }
