@@ -7,6 +7,7 @@
 #include "PathFollower.h"
 #include "Game/Creature.h"
 #include "Game/Wave.h"
+#include "Game/Terrain.h"
 #include <vector>
 #include <irrlicht.h>
 
@@ -61,7 +62,6 @@ namespace Game
 		bool gameStatus;
 
 		float CalculateSpeedScale();
-		void generateTerrain();
 	};
 }
 

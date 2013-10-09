@@ -65,6 +65,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	SetupPath(points1, points2, amount, range, startPoint, endPoint);
 
 	 m_pathRouteTemp = (*m_path->m_routes.begin());
+	 
 
 	
 	//Setup Waves
@@ -88,7 +89,9 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	projectile1->setFrom(tower1);
 	projectile1->setTo(tower2);
 
-	generateTerrain();
+	Terrain* terrain = new Terrain();
+	m_selector = terrain->GenerateTerrain(p_sceneManager, 10.0);
+	
 }
 
 bool Playground::SetupPath(
@@ -206,46 +209,6 @@ void Playground::startNextWave()
 	}
 }
 
-
-void Playground::generateTerrain()
-{
-
-	irr::video::IVideoDriver* driver = m_sceneManager->getVideoDriver();
-	irr::scene::ITerrainSceneNode* terrain = m_sceneManager->addTerrainSceneNode(
-		"resources/textures/terrain-heightmap.bmp",
-		0,                  // parent node
-		-1,                 // node id
-		irr::core::vector3df(0.f, 0.f, 0.f),     // position
-		irr::core::vector3df(0.f, 0.f, 0.f),     // rotation
-		irr::core::vector3df(2.f, 0.22f, 2.f),  // scale
-		irr::video::SColor ( 255, 255, 255, 255 ),   // vertexColor
-		5,                  // maxLOD
-		irr::scene::ETPS_17,             // patchSize
-		4                   // smoothFactor
-		);
-
-	terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-
-	terrain->setMaterialTexture(0, driver->getTexture("resources/textures/terrain-texture.jpg"));
-	terrain->setMaterialTexture(1, driver->getTexture("resources/textures/detailmap3.jpg"));
-	terrain->setMaterialType(irr::video::EMT_DETAIL_MAP);
-	terrain->scaleTexture(1.0f, 20.0f);
-
-
-	// create triangle selector for the terrain	 
-	m_selector = m_sceneManager->createTerrainTriangleSelector(terrain, 0);
-	terrain->setTriangleSelector(m_selector);
-
-	// create collision response animator and attach it to the camera
-	irr::scene::ISceneNodeAnimator* anim = m_sceneManager->createCollisionResponseAnimator(
-		m_selector, m_sceneManager->getActiveCamera(), irr::core::vector3df(60,100,60),
-		irr::core::vector3df(0,0,0),
-		irr::core::vector3df(0,50,0));
-	m_selector->drop();
-	irr::scene::ICameraSceneNode* camera = m_sceneManager->getActiveCamera();
-	camera->addAnimator(anim);
-	anim->drop();
-}
 
 int Playground::returnWaveNumber()
 {

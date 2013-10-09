@@ -98,6 +98,7 @@
     <ClCompile Include="src\Game\Projectile.cpp" />
     <ClCompile Include="src\Game\Tower.cpp" />
     <ClCompile Include="src\Utility\Logger.cpp" />
+    <ClCompile Include="src\Game\Terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Camera.h" />
@@ -125,6 +126,7 @@
     <ClInclude Include="include\Game\Tower.h" />
     <ClInclude Include="include\Game\Wave.h" />
     <ClInclude Include="include\Utility\Logger.h" />
+    <ClInclude Include="include\Game\Terrain.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
