@@ -216,33 +216,72 @@ namespace Camera
 					curve.release();
 				}
 
-				//if (m_corners.size() == 4 && m_chosen)
-				//{
-				//	// define the destination image
-				//	cv::Mat quad = cv::Mat::zeros(300, 300, CV_8U);
+				if (m_corners.size() == 4 && m_chosen)
+				{
+					// define the destination image
+					cv::Mat quad = cv::Mat::zeros(300, 300, CV_8U);
 
-				//	// corners of the destination image
-				//	Corners quad_pts;
-				//	quad_pts.push_back(cv::Point2f(0, 0));
-				//	quad_pts.push_back(cv::Point2f(quad.cols, 0));
-				//	quad_pts.push_back(cv::Point2f(quad.cols, quad.rows));
-				//	quad_pts.push_back(cv::Point2f(0, quad.rows));
+					// corners of the destination image
+					Corners quad_pts;
+					quad_pts.push_back(cv::Point2f(0, 0));
+					quad_pts.push_back(cv::Point2f(quad.cols, 0));
+					quad_pts.push_back(cv::Point2f(quad.cols, quad.rows));
+					quad_pts.push_back(cv::Point2f(0, quad.rows));
 
-				//	Lock();
-				//	// get transformation matrix
-				//	m_matrix = cv::getPerspectiveTransform(m_corners, quad_pts);
-				//	Unlock();
-
-
-				//	//	//// Apply perspective transformation
-				//	//	//cv::warpPerspective(m_image, quad, m_matrix, quad.size());
-				//	//	//cv::imshow("quadrilateral", quad);
-				//}
+					Lock();
+					// get transformation matrix
+					cv::Mat matrix = cv::getPerspectiveTransform(m_corners, quad_pts);
+					Unlock();
 
 
+					// Apply perspective transformation
+					cv::warpPerspective(m_image, quad, matrix, quad.size());
+					cv::imshow("quadrilateral", quad);
+					cv::waitKey(1);
+
+					cv::Mat bw;
+					cv::cvtColor(quad, bw, CV_BGR2GRAY);
+					cv::blur(bw, bw, cv::Size(3, 3));
+					cv::threshold(bw, bw, 200, 255, cv::THRESH_BINARY);
+					
+					cv::imshow("bw quadrilateral", bw);
+					cv::waitKey(1);
+					//cv::Canny(bw, bw, 100, 100, 3);
+
+					std::vector<std::vector<cv::Point>> quadContours;
+					cv::findContours(bw, quadContours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE, cv::Point(10, 10));
+
+					for (int i = 0; i < quadContours.size(); i++)
+					{
+						cv::Mat curve = cv::Mat(quadContours[i]);
+						Corners approx;
+						// Convert from std::vector<cv::Point> to Corners
+						curve.convertTo(curve, cv::Mat(approx).type());
+
+						cv::approxPolyDP(curve, approx, (cv::arcLength(curve, true) * 0.02), true);
+						/*if (std::fabs(cv::contourArea(quadContours[i])) > 50 || !cv::isContourConvex(approx))
+						{
+							continue;
+						}*/
+
+						double areaSize = std::fabs(cv::contourArea(quadContours[i]));
+						if (areaSize < 5)
+						{
+							continue;
+						}
 
 
+						if (approx.size() >= 4)
+						{
+							cv::Rect boundingBox = cv::boundingRect(approx);
+							cv::rectangle(m_image, boundingBox, cv::Scalar(0, 255, 0));
 
+						}
+					}
+
+					//cv::imshow("bw boundingbox", bw);
+					//cv::waitKey(1);
+				}
 
 				if (m_chosen && lost)
 				{
@@ -383,9 +422,9 @@ namespace Camera
 
 			// Apply transformation (y transformation is done in the camera)
 			translation.setTranslation(irr::core::vector3df(
-				 static_cast<float>(position.Y * (m_pixelDistance / m_sizeHalfed.height)),
+				static_cast<float>(position.Y * (m_pixelDistance / m_sizeHalfed.height)),
 				-static_cast<float>(position.Z),
-				 static_cast<float>(position.X * (m_pixelDistance / m_sizeHalfed.width))));
+				static_cast<float>(position.X * (m_pixelDistance / m_sizeHalfed.width))));
 
 			// Merge scaling, rotation and translation into the transformation
 			transformation = scaling * rotation * translation;
