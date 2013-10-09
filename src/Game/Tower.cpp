@@ -48,7 +48,7 @@ Creature* Tower::SearchNearestCreature(std::list<Creature*>* p_creatureList)
 			objectNearest = (*iterator);
 		}
 	}
-
+	 
 	m_target = objectNearest;
 	
 	return objectNearest;
