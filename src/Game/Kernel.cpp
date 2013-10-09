@@ -65,7 +65,6 @@ namespace Game
 =======
 			//m_videoDriver->draw2DImage(m_videoDriver->getTexture("capture_background"), irr::core::vector2d<irr::s32>(0, 0));
 			m_playground->Update(m_sceneManager, m_deltaTimer->GetDelta());
->>>>>>> f11f62c1742e416e9e896fd3d066a5ceed8c3059
 			m_playground->Render(m_sceneManager);
 			
 			m_sceneManager->drawAll();

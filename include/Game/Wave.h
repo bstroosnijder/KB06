@@ -15,7 +15,6 @@ namespace Game
 <<<<<<< HEAD
 =======
 		
->>>>>>> f11f62c1742e416e9e896fd3d066a5ceed8c3059
 	/**
 	 * @brief	This Class creates a collection of creatures and spawns them in certain times on certain places, following certain routes.
 	 *			
@@ -27,7 +26,6 @@ namespace Game
 <<<<<<< HEAD
 =======
 		
->>>>>>> f11f62c1742e416e9e896fd3d066a5ceed8c3059
 		/**
 		* @brief The constructor initializes the object.
 		* @param p_scenemanager is used to create creatures in the class

@@ -24,8 +24,8 @@ namespace Game
 <<<<<<< HEAD
 =======
 		
->>>>>>> f11f62c1742e416e9e896fd3d066a5ceed8c3059
 		m_isActive = true;
+
 		m_startPosition = p_startPosition;
 		m_timer->Start();
 	}

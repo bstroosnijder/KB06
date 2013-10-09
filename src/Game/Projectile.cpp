@@ -40,11 +40,7 @@ void Projectile::UpdatePosition()
 		else if (m_to->GetPosition().Y < this->GetPosition().Y)
 			v -= irr::core::vector3df(0.0f, 0.05f, 0.0f);
 
-<<<<<<< HEAD
-		if (m_to->GetPosition().Z > this->GetPosition().Y)
-=======
 		if (m_to->GetPosition().Z > this->GetPosition().Z)
->>>>>>> f11f62c1742e416e9e896fd3d066a5ceed8c3059
 			v += irr::core::vector3df(0.0f, 0.0f, 0.05f);
 		else if (m_to->GetPosition().Z < this->GetPosition().Z)
 			v -= irr::core::vector3df(0.0f, 0.0f, 0.05f);

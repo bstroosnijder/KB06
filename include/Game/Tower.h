@@ -35,12 +35,8 @@ namespace Game
 		double m_shootingSpeed;
 		double m_range;
 
-<<<<<<< HEAD
-		irr::scene::ISceneNode* m_jointCrystal;
-
-=======
 		Creature* m_target;
->>>>>>> f11f62c1742e416e9e896fd3d066a5ceed8c3059
+		irr::scene::ISceneNode* m_jointCrystal;
 	};
 }
 

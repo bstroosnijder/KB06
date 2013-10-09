@@ -19,11 +19,6 @@ Tower::Tower(irr::scene::ISceneManager* p_sceneManager,
 	SetMaterialFlags();
 }
 
-<<<<<<< HEAD
-void Tower::Update(float p_deltaTime)
-{
-
-=======
 void Tower::updatePosition()
 {
 	irr::core::vector3df v = GetPosition();
@@ -35,7 +30,6 @@ void Tower::updatePosition()
 		SetPosition(v);
 	}
 }
-
 
 Creature* Tower::SearchNearestCreature(std::list<Creature*>* p_creatureList)
 {
@@ -74,7 +68,6 @@ Projectile* Tower::ShootAtTarget(irr::scene::ISceneManager* p_sceneManager)
 	projectile->setTo(m_target);
 
 	return projectile;
->>>>>>> f11f62c1742e416e9e896fd3d066a5ceed8c3059
 }
 
 double Tower::GetShootingSpeed()

@@ -28,6 +28,7 @@ Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
 =======
 	gameStatus = false;
 >>>>>>> f11f62c1742e416e9e896fd3d066a5ceed8c3059
+	gameStatus = false;
 	Initialize(p_sceneManager);
 }
 
@@ -114,7 +115,6 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 
 	m_creatures.push_back(creature1);
 	m_creatures.push_back(creature2);
->>>>>>> f11f62c1742e416e9e896fd3d066a5ceed8c3059
 }
 bool Playground::SetupPath(
 		irr::core::vector3df* p_points1,
@@ -130,7 +130,6 @@ bool Playground::SetupPath(
 
 void Playground::Update(irr::scene::ISceneManager* p_sceneManager, float p_deltaTime)
 {
-<<<<<<< HEAD
 	for(int i = 0; i<m_creatures.size(); ++i)
 	{
 		irr::core::vector3df position = m_creatures[i]->GetPosition();
@@ -140,35 +139,7 @@ void Playground::Update(irr::scene::ISceneManager* p_sceneManager, float p_delta
 		position.Y = y;
 		m_creatures[i]->SetPosition(position);
 		int x = m_pathRouteTemp->back()->m_point.X - m_creatures[i]->GetPosition().X;
-		int z = m_pathRouteTemp->back()->m_point.Z - m_creatures[i]->GetPosition().Z;
-
-=======
-	//creature1->FollowPath(p_deltaTime);
-	for(int i = 0; i<m_creatures.size(); ++i)
-	{
-		irr::core::vector3df position = m_creatures[i]->getPosition();
-		int y = position.Y;
-		m_creatures[i]->FollowPath(p_deltaTime);
-		position = m_creatures[i]->getPosition();
-		position.Y = y;
-		m_creatures[i]->setPosition(position);
-		int z = m_pathRouteTemp->back()->m_point.Z - m_creatures[i]->getPosition().Z;
-		int x = m_pathRouteTemp->back()->m_point.X - m_creatures[i]->getPosition().X;
->>>>>>> f11f62c1742e416e9e896fd3d066a5ceed8c3059
-		if (x < 2 && x>= 0)
-		{
-			if (z < 2 && z>= 0)
-			{
-				m_creatures[i]->kill();
-				m_creatures.erase(m_creatures.begin()+i);
-			}
-		}
-<<<<<<< HEAD
-=======
-	}
-	// Update creature position
-	creature1->FollowPath(p_deltaTime);
-
+		int z = m_pathRouteTemp->back()->m_point.Z - m_creatures[i]->GetPosition().Z;	}
 	// Update targets
 	for (std::list<Tower*>::const_iterator iterator = m_towers.begin(), end = m_towers.end(); iterator != end; ++iterator) {
 		(*iterator)->SearchNearestCreature(&m_creatures);
@@ -179,7 +150,6 @@ void Playground::Update(irr::scene::ISceneManager* p_sceneManager, float p_delta
 		{
 			m_projectiles.push_back(projectile);
 		}
->>>>>>> f11f62c1742e416e9e896fd3d066a5ceed8c3059
 	}
 
 
@@ -187,7 +157,6 @@ void Playground::Update(irr::scene::ISceneManager* p_sceneManager, float p_delta
 	{
 		(*iterator)->updatePosition();
 	}
-
 }
 
 void Playground::Render(irr::scene::ISceneManager* p_sceneManager)
@@ -265,12 +234,7 @@ void Playground::startNextWave()
 			Game::Wave* wave = waves[0];
 			if (wave)
 			{
-<<<<<<< HEAD
-				wave->SpawnWave(m_path->m_pointBegin->m_point);
-		
-=======
 				wave->SpawnWave(tower1->getPosition());
->>>>>>> f11f62c1742e416e9e896fd3d066a5ceed8c3059
 				gameStatus = true;				
 				++atWave;
 			}
@@ -278,10 +242,7 @@ void Playground::startNextWave()
 	}
 }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> f11f62c1742e416e9e896fd3d066a5ceed8c3059
 int Playground::returnWaveNumber()
 {
 	return atWave;

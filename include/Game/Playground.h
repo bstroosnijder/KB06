@@ -9,14 +9,9 @@
 #include "PathFollower.h"
 #include "Game/Creature.h"
 #include "Game/Wave.h"
-<<<<<<< HEAD
 #include "Game/Castle.h"
 #include "Game/Stargate.h"
 #include "Game/Terrain.h"
-
-=======
-#include "Game/Terrain.h"
->>>>>>> f11f62c1742e416e9e896fd3d066a5ceed8c3059
 #include <vector>
 #include <irrlicht.h>
 
@@ -84,7 +79,6 @@ namespace Game
 =======
 		PathRoute* m_pathRouteTemp;
 		bool gameStatus;
->>>>>>> f11f62c1742e416e9e896fd3d066a5ceed8c3059
 
 		float CalculateSpeedScale();
 	};
