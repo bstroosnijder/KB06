@@ -23,8 +23,8 @@ namespace Game
 		double GetShootingSpeed();
 		double GetRange();
 
-		void SetShootingSpeed(double p_shootingSpeed);
-		void SetRange(double p_range);
+		Creature* SearchNearestCreature(std::list<Creature*>* p_creatureList);
+		Projectile* ShootAtTarget(irr::scene::ISceneManager* p_sceneManager);
 
 		Creature* SearchNearestCreature(std::list<Creature*>* p_creatureList);
 		Projectile* ShootAtTarget(irr::scene::ISceneManager* p_sceneManager);

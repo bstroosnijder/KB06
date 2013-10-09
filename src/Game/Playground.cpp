@@ -113,7 +113,6 @@ bool Playground::SetupPath(
 
 void Playground::Update(irr::scene::ISceneManager* p_sceneManager, float p_deltaTime)
 {
-<<<<<<< HEAD
 	//creature1->FollowPath(p_deltaTime);
 	for(int i = 0; i<m_creatures.size(); ++i)
 	{
@@ -134,7 +133,6 @@ void Playground::Update(irr::scene::ISceneManager* p_sceneManager, float p_delta
 			}
 		}
 	}
-=======
 	// Update creature position
 	creature1->FollowPath(p_deltaTime);
 
@@ -156,7 +154,6 @@ void Playground::Update(irr::scene::ISceneManager* p_sceneManager, float p_delta
 		(*iterator)->updatePosition();
 	}
 
->>>>>>> Added creature detection
 }
 
 void Playground::Render(irr::scene::ISceneManager* p_sceneManager)
