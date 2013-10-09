@@ -18,11 +18,9 @@ namespace Game
 		void Render(irr::scene::ISceneManager* p_sceneManager);
 		
 		void SetMaterialFlags();
+
 		irr::core::vector3df GetPosition();
 		void SetPosition(irr::core::vector3df& p_position);
-
-		irr::core::vector3df getPosition();
-		void setPosition(irr::core::vector3df p_vector);
 
 		
 

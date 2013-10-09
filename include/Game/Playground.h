@@ -4,6 +4,8 @@
 #include "Path.h" 
 #include "PathBuilder.h"
 #include "Tower.h"
+#include "Creature.h"
+#include "Projectile.h"
 #include "PathFollower.h"
 
 #include <irrlicht.h>
@@ -16,6 +18,7 @@ namespace Game
 	*			The playground consist of Tower(s)  Monster(s)  and a Path
 	* @author	Michel van Os
 	* @author	Menno Postma
+	* @author	Thomas Gravekamp
 	*/
 	class Playground
 	{
@@ -24,8 +27,8 @@ namespace Game
 		~Playground();
 
 		void Initialize(irr::scene::ISceneManager* p_sceneManager);
-		void Update(float p_deltaTime);
-		void Render(irr::scene::ISceneManager*);
+		void Update(irr::scene::ISceneManager* p_sceneManager, float p_deltaTime);
+		void Render(irr::scene::ISceneManager* p_sceneManager);
 
 		bool SetupPath(
 				irr::core::vector3df* p_points1,
@@ -41,6 +44,8 @@ namespace Game
 		Path* m_path;
 
 		std::list<Tower*> m_towers;
+		std::list<Creature*> m_creatures;
+		std::list<Projectile*> m_projectiles;
 		std::list<PathFollower*> m_pathFollowers;
 
 		float CalculateSpeedScale();
