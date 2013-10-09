@@ -4,12 +4,13 @@ using namespace Game;
 
 Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
 		irr::core::vector3df p_position,
-		PathRoute* p_pathRoute)
+		PathRoute* p_pathRoute,
+		irr::scene::ITriangleSelector* p_selector)
 		:
 		PathFollower(p_pathRoute)
 {
 	//m_animatedMesh = p_sceneManager->getMesh("resources/temp/models/animtest9.x");///creature/goomba/goombawalk1.1.x");
-	m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk1.8.x");
+	m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk1.1.x");
 	m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
 
 	irr::scene::IAnimatedMeshSceneNode* animatedMeshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
@@ -18,6 +19,14 @@ Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
 
 	m_meshSceneNode->setPosition(p_position);
 	
+
+	irr::scene::ISceneNodeAnimator* anim = p_sceneManager->createCollisionResponseAnimator(
+	p_selector, m_meshSceneNode, irr::core::vector3df(10,3,10),
+	irr::core::vector3df(0,-10,0),
+	irr::core::vector3df(0,0,0));
+	m_meshSceneNode->addAnimator(anim);
+	anim->drop();
+
 	m_healthPoints = 100;
 
 	SetMaterialFlags();
@@ -47,3 +56,4 @@ void Creature::kill()
 {
 	m_meshSceneNode->remove();
 }
+

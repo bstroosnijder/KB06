@@ -9,6 +9,7 @@
 #include "Game/Wave.h"
 #include "Game/Castle.h"
 #include "Game/Stargate.h"
+#include "Game/Terrain.h"
 
 #include <vector>
 #include <irrlicht.h>
@@ -70,7 +71,6 @@ namespace Game
 		Stargate* m_stargate;
 
 		float CalculateSpeedScale();
-		void generateTerrain();
 	};
 }
 

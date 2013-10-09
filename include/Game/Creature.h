@@ -15,7 +15,8 @@ namespace Game
 	public:
 		Creature(irr::scene::ISceneManager* p_sceneManager,
 			irr::core::vector3df p_position,
-			PathRoute* p_pathRoute);
+			PathRoute* p_pathRoute,
+			irr::scene::ITriangleSelector* p_selector);
 
 		virtual void Update(float);
 		void UpdatePosition();

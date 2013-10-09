@@ -23,6 +23,7 @@ Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
 	m_pathRouteTemp;
 
 	gameStatus = false;
+	gameStatus = false;
 	Initialize(p_sceneManager);
 }
 
@@ -63,8 +64,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 
 	SetupPath(points1, points2, amount, range, startPoint, endPoint);
 
-	 m_pathRouteTemp = (*m_path->m_routes.begin());
-
+	m_pathRouteTemp = (*m_path->m_routes.begin());
 	
 	//Setup Waves
 	atWave = 0;
@@ -73,13 +73,12 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 		waves.push_back(new Game::Wave(p_sceneManager));
 	}
 	
-	// Create towers
-	m_creatures.push_back(new Creature(p_sceneManager, irr::core::vector3df(), m_pathRouteTemp));
-	
 	m_castle = new Castle(p_sceneManager, irr::core::vector3df());
 	m_stargate = new Stargate(p_sceneManager, irr::core::vector3df(0, 0, 1200));
-	generateTerrain();}
 
+	Terrain* terrain = new Terrain();
+	m_selector = terrain->GenerateTerrain(p_sceneManager, 10.0);
+}
 bool Playground::SetupPath(
 		irr::core::vector3df* p_points1,
 		irr::core::vector3df* p_points2,
@@ -94,11 +93,14 @@ bool Playground::SetupPath(
 }
 
 void Playground::Update(float p_deltaTime)
-{
-	for(int i = 0; i<m_creatures.size(); ++i)
+{	for(int i = 0; i<m_creatures.size(); ++i)
 	{
+		irr::core::vector3df position = m_creatures[i]->GetPosition();
+		int y = position.Y;
 		m_creatures[i]->FollowPath(p_deltaTime);
-		
+		position = m_creatures[i]->GetPosition();
+		position.Y = y;
+		m_creatures[i]->SetPosition(position);
 		int z = m_pathRouteTemp->back()->m_point.Z - m_creatures[i]->GetPosition().Z;
 		int x = m_pathRouteTemp->back()->m_point.X - m_creatures[i]->GetPosition().X;
 		if (x < 2 && x>= 0)
@@ -145,7 +147,8 @@ void Playground::Render(irr::scene::ISceneManager* p_sceneManager)
 	{
 		if (waves[0]->CheckWaveStatus(&m_creatures))
 		{
-			waves[0]->SpawnCreature(&m_creatures, m_pathRouteTemp);
+			waves[0]->SpawnCreature(&m_creatures, m_pathRouteTemp,m_selector);
+			
 		}
 		else
 		{
@@ -195,46 +198,6 @@ void Playground::startNextWave()
 }
 
 
-void Playground::generateTerrain()
-{
-
-	irr::video::IVideoDriver* driver = m_sceneManager->getVideoDriver();
-	irr::scene::ITerrainSceneNode* terrain = m_sceneManager->addTerrainSceneNode(
-		"resources/textures/terrain-heightmap.bmp",
-		0,                  // parent node
-		-1,                 // node id
-		irr::core::vector3df(0.f, 0.f, 0.f),     // position
-		irr::core::vector3df(0.f, 0.f, 0.f),     // rotation
-		irr::core::vector3df(2.f, 0.22f, 2.f),  // scale
-		irr::video::SColor ( 255, 255, 255, 255 ),   // vertexColor
-		5,                  // maxLOD
-		irr::scene::ETPS_17,             // patchSize
-		4                   // smoothFactor
-		);
-
-	terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-
-	terrain->setMaterialTexture(0, driver->getTexture("resources/textures/terrain-texture.jpg"));
-	terrain->setMaterialTexture(1, driver->getTexture("resources/textures/detailmap3.jpg"));
-	terrain->setMaterialType(irr::video::EMT_DETAIL_MAP);
-	terrain->scaleTexture(1.0f, 20.0f);
-
-
-	// create triangle selector for the terrain	 
-	m_selector = m_sceneManager->createTerrainTriangleSelector(terrain, 0);
-	terrain->setTriangleSelector(m_selector);
-
-	// create collision response animator and attach it to the camera
-	irr::scene::ISceneNodeAnimator* anim = m_sceneManager->createCollisionResponseAnimator(
-		m_selector, m_sceneManager->getActiveCamera(), irr::core::vector3df(60,100,60),
-		irr::core::vector3df(0,0,0),
-		irr::core::vector3df(0,50,0));
-	m_selector->drop();
-	irr::scene::ICameraSceneNode* camera = m_sceneManager->getActiveCamera();
-	camera->addAnimator(anim);
-	anim->drop();
-}
-
 int Playground::returnWaveNumber()
 {
 	return atWave;
@@ -243,4 +206,5 @@ int Playground::returnWaveNumber()
 int Playground::returnAmountOfCreatures()
 {
 	return m_creatures.size();
+
 }
