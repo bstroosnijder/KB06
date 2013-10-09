@@ -77,21 +77,26 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	
 	// Create towers
 	tower1 = new Tower(p_sceneManager, irr::core::vector3df(0.0f));
-	tower2 = new Tower(p_sceneManager, irr::core::vector3df(100.0f, 100.0f, 100.0f));
+	tower2 = new Tower(p_sceneManager, irr::core::vector3df(100.0f, 0.0f, 0.0f));
+
+	m_towers.push_back(tower1);
+	m_towers.push_back(tower2);
 
 	// Create creature
-	//creature1 = new Creature(p_sceneManager, tower1->getPosition(), m_pathRouteTemp);
+	creature1 = new Creature(p_sceneManager, tower1->GetPosition(), pathRouteTemp);
 
-	projectile1 = new Projectile(p_sceneManager, tower1->getPosition());
+
+	Creature* creature2 = new Creature(p_sceneManager, irr::core::vector3df(50.0f, 0.0f, 0.0f), pathRouteTemp);
+	creature2->StopFollowing();
 
 	new Castle(p_sceneManager, irr::core::vector3df());
-
-	projectile1->setFrom(tower1);
-	projectile1->setTo(tower2);
 
 	Terrain* terrain = new Terrain();
 	m_selector = terrain->GenerateTerrain(p_sceneManager, 10.0);
 	
+
+	m_creatures.push_back(creature1);
+	m_creatures.push_back(creature2);
 }
 
 bool Playground::SetupPath(
@@ -102,13 +107,13 @@ bool Playground::SetupPath(
 		irr::core::vector3df p_pointBegin,
 		irr::core::vector3df p_pointEnd)
 {
-	m_path = m_pathBuilder->BuildPath(p_points1, p_points2, p_amount, p_range, p_pointBegin, p_pointEnd);
-	
+	m_path = m_pathBuilder->BuildPath(p_points1, p_points2, p_amount, p_range, p_pointBegin, p_pointEnd);	
 	return true;
 }
 
-void Playground::Update(float p_deltaTime)
+void Playground::Update(irr::scene::ISceneManager* p_sceneManager, float p_deltaTime)
 {
+<<<<<<< HEAD
 	//creature1->FollowPath(p_deltaTime);
 	for(int i = 0; i<m_creatures.size(); ++i)
 	{
@@ -129,6 +134,29 @@ void Playground::Update(float p_deltaTime)
 			}
 		}
 	}
+=======
+	// Update creature position
+	creature1->FollowPath(p_deltaTime);
+
+	// Update targets
+	for (std::list<Tower*>::const_iterator iterator = m_towers.begin(), end = m_towers.end(); iterator != end; ++iterator) {
+		(*iterator)->SearchNearestCreature(&m_creatures);
+
+		Projectile* projectile = (*iterator)->ShootAtTarget(p_sceneManager);
+
+		if (projectile != NULL)
+		{
+			m_projectiles.push_back(projectile);
+		}
+	}
+
+
+	for (std::list<Projectile*>::const_iterator iterator = m_projectiles.begin(), end = m_projectiles.end(); iterator != end; ++iterator)
+	{
+		(*iterator)->updatePosition();
+	}
+
+>>>>>>> Added creature detection
 }
 
 void Playground::Render(irr::scene::ISceneManager* p_sceneManager)

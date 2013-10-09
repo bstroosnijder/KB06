@@ -20,12 +20,12 @@ void Entity::SetMaterialFlags()
 	m_meshSceneNode->setMaterialType(irr::video::E_MATERIAL_TYPE::EMT_TRANSPARENT_ALPHA_CHANNEL_REF);
 }
 
-irr::core::vector3df Entity::getPosition()
+irr::core::vector3df Entity::GetPosition()
 {
 	return m_meshSceneNode->getPosition();
 }
 
-void Entity::setPosition(irr::core::vector3df p_vector)
+void Entity::SetPosition(irr::core::vector3df& p_vector)
 {
 	m_meshSceneNode->setPosition(p_vector);
 }
