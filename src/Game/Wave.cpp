@@ -24,7 +24,7 @@ namespace Game
 		m_timer->start();
 	}
 
-	void Wave::SpawnCreature(std::vector<Creature*>* p_creatures,PathRoute* p_path)
+	void Wave::SpawnCreature(std::vector<Creature*>* p_creatures,PathRoute* p_path,irr::scene::ITriangleSelector* p_selector)
 	{		
 		if (m_timer->isRunning())
 		{
@@ -33,7 +33,8 @@ namespace Game
 			
 				if (m_timer->getTime() == 1)
 				{
-					p_creatures->push_back(new Creature(m_sceneManager,m_startPosition,p_path));
+					p_creatures->push_back(new Creature(m_sceneManager,m_startPosition,p_path,p_selector));
+
 					m_timer->reset();
 					m_creaturesSpawned = true;
 					std::cout << "Creature Spawned";

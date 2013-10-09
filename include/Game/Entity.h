@@ -24,7 +24,7 @@ namespace Game
 		irr::core::vector3df getPosition();
 		void setPosition(irr::core::vector3df p_vector);
 
-		
+		irr::scene::ISceneNode* getSceneNode();
 
 	protected:
 		irr::scene::ISceneNode* m_meshSceneNode;

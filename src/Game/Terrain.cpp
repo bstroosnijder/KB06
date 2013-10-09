@@ -15,7 +15,7 @@ namespace Game
 			"resources/textures/terrain-heightmap.bmp",
 			0,                  // parent node
 			-1,                 // node id
-			irr::core::vector3df(0.f, 0.f, 0.f),     // position
+			irr::core::vector3df(-300.f, -300.f, -300.f),     // position
 			irr::core::vector3df(0.f, 0.f, 0.f),     // rotation
 			irr::core::vector3df(2.f, 0.22f, 2.f)*p_scale,  // scale
 			irr::video::SColor ( 255, 255, 255, 255 ),   // vertexColor
@@ -36,14 +36,7 @@ namespace Game
 		selector = p_sceneManager->createTerrainTriangleSelector(terrain, 0);
 		terrain->setTriangleSelector(selector);
 
-		// create collision response animator and attach it to the camera
-		irr::scene::ISceneNodeAnimator* anim = p_sceneManager->createCollisionResponseAnimator(
-			selector, p_sceneManager->getActiveCamera(), irr::core::vector3df(60,100,60),
-			irr::core::vector3df(0,0,0),
-			irr::core::vector3df(0,50,0));
-		irr::scene::ICameraSceneNode* camera = p_sceneManager->getActiveCamera();
-		camera->addAnimator(anim);
-		anim->drop();
+		
 
 		return selector;
 	}

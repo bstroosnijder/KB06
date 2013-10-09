@@ -10,13 +10,18 @@
 namespace Game
 {
 		
+	/**
+	 * @brief	This Class creates a collection of creatures and spawns them in certain times on certain places, following certain routes.
+	 *			
+	 * @author	Bram van Elderen
+	 */
 	class Wave
 	{
 	public:
 		
 		/**
 		* @brief The constructor initializes the object.
-		* @param 
+		* @param p_scenemanager is used to create creatures in the class
 		*/
 		Wave(irr::scene::ISceneManager* p_sceneManager);
 		
@@ -32,7 +37,7 @@ namespace Game
 		* @param The creatures are added in the p_creatures pointer
 		* @param the p_path is used to give the creatures a walking path
 		*/
-		void SpawnCreature(std::vector<Creature*>* p_creatures,PathRoute* p_path);
+		void SpawnCreature(std::vector<Creature*>* p_creatures,PathRoute* p_path, irr::scene::ITriangleSelector* p_selector);
 
 		/**
 		* @brief This method checks the status of the wave.

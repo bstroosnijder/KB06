@@ -112,8 +112,12 @@ void Playground::Update(float p_deltaTime)
 	//creature1->FollowPath(p_deltaTime);
 	for(int i = 0; i<m_creatures.size(); ++i)
 	{
+		irr::core::vector3df position = m_creatures[i]->getPosition();
+		int y = position.Y;
 		m_creatures[i]->FollowPath(p_deltaTime);
-		
+		position = m_creatures[i]->getPosition();
+		position.Y = y;
+		m_creatures[i]->setPosition(position);
 		int z = m_pathRouteTemp->back()->m_point.Z - m_creatures[i]->getPosition().Z;
 		int x = m_pathRouteTemp->back()->m_point.X - m_creatures[i]->getPosition().X;
 		if (x < 2 && x>= 0)
@@ -160,7 +164,8 @@ void Playground::Render(irr::scene::ISceneManager* p_sceneManager)
 	{
 		if (waves[0]->CheckWaveStatus(&m_creatures))
 		{
-			waves[0]->SpawnCreature(&m_creatures, m_pathRouteTemp);
+			waves[0]->SpawnCreature(&m_creatures, m_pathRouteTemp,m_selector);
+			
 		}
 		else
 		{
@@ -218,4 +223,5 @@ int Playground::returnWaveNumber()
 int Playground::returnAmountOfCreatures()
 {
 	return m_creatures.size();
+
 }
