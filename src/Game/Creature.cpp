@@ -16,7 +16,7 @@ Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
 	
 
 	irr::scene::ISceneNodeAnimator* anim = p_sceneManager->createCollisionResponseAnimator(
-	p_selector, m_meshSceneNode, irr::core::vector3df(30,60,30),
+	p_selector, m_meshSceneNode, irr::core::vector3df(10,3,10),
 	irr::core::vector3df(0,-10,0),
 	irr::core::vector3df(0,0,0));
 	m_meshSceneNode->addAnimator(anim);
