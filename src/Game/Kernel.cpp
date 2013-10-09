@@ -54,7 +54,7 @@ namespace Game
 
 		// Create a test cube
 		irr::scene::ISceneNode* cube = m_sceneManager->addCubeSceneNode(20.0f, root, NULL,
-			irr::core::vector3df(0.0f, 0.0f, 0.0f));
+			irr::core::vector3df(0.0f, 10.0f, 0.0f));
 		cube->setMaterialTexture(0, m_videoDriver->getTexture("resources\\textures\\purple.jpg"));
 		cube->setMaterialFlag(irr::video::EMF_LIGHTING, false);
 
