@@ -5,10 +5,16 @@ using namespace Game;
 Tower::Tower(irr::scene::ISceneManager* p_sceneManager,
 			 irr::core::vector3df p_position)
 {
-	m_animatedMesh = p_sceneManager->getMesh("resources/models/tower/tower.3ds");
+	m_animatedMesh = p_sceneManager->getMesh("resources/models/tower/LOLturret/lolturret1.2.x");
 
-	m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
-	m_meshSceneNode->setPosition(p_position);
+	irr::scene::IAnimatedMeshSceneNode* animatedMeshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
+	m_meshSceneNode = animatedMeshSceneNode;
+
+	if (m_meshSceneNode != NULL)
+	{
+		m_meshSceneNode->setPosition(p_position);
+		m_jointCrystal = animatedMeshSceneNode->getJointNode("shootingbone");
+	}
 
 	SetMaterialFlags();
 }

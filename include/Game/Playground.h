@@ -47,6 +47,9 @@ namespace Game
 
 		void startNextWave();
 
+		int returnWaveNumber();
+		int returnAmountOfCreatures();
+
 	private:
 		irr::scene::ISceneManager* m_sceneManager;
 		PathBuilder* m_pathBuilder;
@@ -61,6 +64,7 @@ namespace Game
 		std::list<Tower*> m_towers;
 		std::list<PathFollower*> m_pathFollowers;
 		PathRoute* m_pathRouteTemp;
+		bool gameStatus;
 
 		Castle* m_castle;
 		Stargate* m_stargate;

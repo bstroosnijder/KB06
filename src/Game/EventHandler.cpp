@@ -54,6 +54,7 @@ namespace Game
 				if (id == STARTGAME_BUTTON)
 				{
 					m_playground->startNextWave();
+					return true;
 				}
 			}
 		}
@@ -91,7 +92,6 @@ namespace Game
 				{
 					
 					irr::core::vector2d<irr::s32> mousePosition = m_device->getCursorControl()->getPosition();
-					//mousePosition.X = mousePosition.X +100;
 					m_playground->SpawnTower(mousePosition);
 					clickEvent = NULL;
 					return true;

@@ -5,7 +5,7 @@ namespace Game
 {
 	Kernel::Kernel()
 	{
-		m_device = irr::createDevice(irr::video::EDT_DIRECT3D9, irr::core::dimension2d<irr::u32>(640, 480));
+		m_device = irr::createDevice(irr::video::EDT_DIRECT3D9, irr::core::dimension2d<irr::u32>(1280, 720));
 		m_videoDriver = m_device->getVideoDriver();
 		m_sceneManager = m_device->getSceneManager();
 		m_deltaTimer = new DeltaTimer(m_device->getTimer());	
@@ -64,8 +64,7 @@ namespace Game
 			m_playground->Render(m_sceneManager);
 			
 			m_sceneManager->drawAll();
-			
-			m_gui->UpdateGui(m_device->getCursorControl()->getPosition().X,m_device->getCursorControl()->getPosition().Y,m_videoDriver->getFPS());
+			m_gui->UpdateGui(m_playground->returnWaveNumber(),m_playground->returnAmountOfCreatures(),m_videoDriver->getFPS());
 			m_videoDriver->endScene();
 
 			ShowFPS();

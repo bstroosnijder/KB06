@@ -17,12 +17,12 @@ using namespace Utility;
 Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
 {
 	m_sceneManager = p_sceneManager;
-
 	m_pathBuilder = new PathBuilder();
 	m_path = NULL;
 	m_selector = NULL;
 	m_pathRouteTemp;
 
+	gameStatus = false;
 	Initialize(p_sceneManager);
 }
 
@@ -74,15 +74,11 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	}
 	
 	// Create towers
-	m_towers.push_back(new Tower(p_sceneManager, irr::core::vector3df()));
-	m_towers.push_back(new Tower(p_sceneManager, irr::core::vector3df(100.0f, 100.0f, 100.0f)));
-
-	// Create creature
 	m_creatures.push_back(new Creature(p_sceneManager, irr::core::vector3df(), m_pathRouteTemp));
 	
 	m_castle = new Castle(p_sceneManager, irr::core::vector3df());
-	m_stargate = new Stargate(p_sceneManager, irr::core::vector3df());
-}
+	m_stargate = new Stargate(p_sceneManager, irr::core::vector3df(0, 0, 1200));
+	generateTerrain();}
 
 bool Playground::SetupPath(
 		irr::core::vector3df* p_points1,
@@ -102,6 +98,17 @@ void Playground::Update(float p_deltaTime)
 	for(int i = 0; i<m_creatures.size(); ++i)
 	{
 		m_creatures[i]->FollowPath(p_deltaTime);
+		
+		int z = m_pathRouteTemp->back()->m_point.Z - m_creatures[i]->GetPosition().Z;
+		int x = m_pathRouteTemp->back()->m_point.X - m_creatures[i]->GetPosition().X;
+		if (x < 2 && x>= 0)
+		{
+			if (z < 2 && z>= 0)
+			{
+				m_creatures[i]->kill();
+				m_creatures.erase(m_creatures.begin()+i);
+			}
+		}
 	}
 }
 
@@ -133,9 +140,19 @@ void Playground::Render(irr::scene::ISceneManager* p_sceneManager)
 			videoDriver->draw3DLine(start, end, color);
 		}
 	}
-	if (atWave-1 != -1)
+	
+	if (waves.size() != 0)
 	{
-		waves[atWave-1]->SpawnCreature(&m_creatures, m_pathRouteTemp);
+		if (waves[0]->CheckWaveStatus(&m_creatures))
+		{
+			waves[0]->SpawnCreature(&m_creatures, m_pathRouteTemp);
+		}
+		else
+		{
+			std::cout << atWave;
+			gameStatus = false;
+			waves.erase(waves.begin());
+		}
 	}
 }
 
@@ -162,25 +179,28 @@ void Playground::SellTower(irr::core::vector2d<irr::s32> p_position)
 
 void Playground::startNextWave()
 {
-	Game::Wave* wave = waves[atWave];
-	if (wave)
+	if (gameStatus == false)
 	{
-		wave->SpawnWave(m_path->m_pointBegin->m_point);
-
-		if (atWave != 3-1)
-		{
-			++atWave;
+		if (waves.size() != 0)
+		{		
+			Game::Wave* wave = waves[0];
+			if (wave)
+			{
+				wave->SpawnWave(m_path->m_pointBegin->m_point);
+				gameStatus = true;				
+				++atWave;
+			}
 		}
-
-	}	
+	}
 }
+
 
 void Playground::generateTerrain()
 {
 
 	irr::video::IVideoDriver* driver = m_sceneManager->getVideoDriver();
 	irr::scene::ITerrainSceneNode* terrain = m_sceneManager->addTerrainSceneNode(
-		"resources/terrain-heightmap.bmp",
+		"resources/textures/terrain-heightmap.bmp",
 		0,                  // parent node
 		-1,                 // node id
 		irr::core::vector3df(0.f, 0.f, 0.f),     // position
@@ -194,13 +214,9 @@ void Playground::generateTerrain()
 
 	terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
 
-	terrain->setMaterialTexture(0,
-		driver->getTexture("resources/terrain-texture.jpg"));
-	terrain->setMaterialTexture(1,
-		driver->getTexture("resources/detailmap3.jpg"));
-
+	terrain->setMaterialTexture(0, driver->getTexture("resources/textures/terrain-texture.jpg"));
+	terrain->setMaterialTexture(1, driver->getTexture("resources/textures/detailmap3.jpg"));
 	terrain->setMaterialType(irr::video::EMT_DETAIL_MAP);
-
 	terrain->scaleTexture(1.0f, 20.0f);
 
 
@@ -217,4 +233,14 @@ void Playground::generateTerrain()
 	irr::scene::ICameraSceneNode* camera = m_sceneManager->getActiveCamera();
 	camera->addAnimator(anim);
 	anim->drop();
+}
+
+int Playground::returnWaveNumber()
+{
+	return atWave;
+}
+
+int Playground::returnAmountOfCreatures()
+{
+	return m_creatures.size();
 }

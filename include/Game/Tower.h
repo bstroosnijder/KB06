@@ -28,6 +28,8 @@ namespace Game
 		double m_shootingSpeed;
 		double m_range;
 
+		irr::scene::ISceneNode* m_jointCrystal;
+
 	};
 }
 
