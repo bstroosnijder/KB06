@@ -6,15 +6,15 @@ Projectile::Projectile(irr::scene::ISceneManager* p_sceneManager,
 					   irr::core::vector3df p_position)
 {
 	//irr::video::ITexture* texture = p_sceneManager->getVideoDriver()->getTexture("resources/tower-texture.jpg");
-	m_animatedMesh = p_sceneManager->getMesh("resources/models/projectile/projectile.3ds");
+	m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/creature.3ds");
 	
 	m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
 	//m_meshSceneNode->setMaterialTexture(0, texture);
 	m_meshSceneNode->setPosition(p_position);
 	
-	irr::core::vector3df scale(10.0, 10.0, 10.0);
+	//irr::core::vector3df scale(10.0, 10.0, 10.0);
 	
-	m_meshSceneNode->setScale(scale);
+	//m_meshSceneNode->setScale(scale);
 
 	SetMaterialFlags();
 }
@@ -26,7 +26,7 @@ void Projectile::Update(float p_deltaTime)
 
 void Projectile::UpdatePosition()
 {
-	if (m_from != NULL || m_to != NULL)
+	if (m_from != NULL && m_to != NULL)
 	{
 		irr::core::vector3df v = GetPosition();
 
@@ -40,7 +40,11 @@ void Projectile::UpdatePosition()
 		else if (m_to->GetPosition().Y < this->GetPosition().Y)
 			v -= irr::core::vector3df(0.0f, 0.05f, 0.0f);
 
+<<<<<<< HEAD
 		if (m_to->GetPosition().Z > this->GetPosition().Y)
+=======
+		if (m_to->GetPosition().Z > this->GetPosition().Z)
+>>>>>>> f11f62c1742e416e9e896fd3d066a5ceed8c3059
 			v += irr::core::vector3df(0.0f, 0.0f, 0.05f);
 		else if (m_to->GetPosition().Z < this->GetPosition().Z)
 			v -= irr::core::vector3df(0.0f, 0.0f, 0.05f);

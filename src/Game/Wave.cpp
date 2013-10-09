@@ -21,7 +21,10 @@ namespace Game
 
 	void Wave::SpawnWave(irr::core::vector3df p_startPosition)
 	{
-		m_isActive = true;
+<<<<<<< HEAD
+=======
+		
+>>>>>>> f11f62c1742e416e9e896fd3d066a5ceed8c3059
 		m_isActive = true;
 		m_startPosition = p_startPosition;
 		m_timer->Start();
@@ -33,12 +36,20 @@ namespace Game
 		{
 			if (m_waveSize != 0)
 			{
-			
+<<<<<<< HEAD
 				if (m_timer->GetTime() == 1)
 				{
 					p_creatures->push_back(new Creature(m_sceneManager,m_startPosition,p_path,p_selector));
 
 					m_timer->Reset();
+=======
+			
+				if (m_timer->getTime() == 1)
+				{
+					p_creatures->push_back(new Creature(m_sceneManager,m_startPosition,p_path,p_selector));
+
+					m_timer->reset();
+>>>>>>> f11f62c1742e416e9e896fd3d066a5ceed8c3059
 					m_creaturesSpawned = true;
 					std::cout << "Creature Spawned";
 					--m_waveSize;

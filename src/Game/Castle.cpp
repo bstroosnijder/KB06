@@ -12,7 +12,7 @@ Castle::Castle(irr::scene::ISceneManager* p_sceneManager,
 	m_meshSceneNode = animatedMeshSceneNode;
 	m_meshSceneNode->setPosition(p_position);
 
-	/*
+	/*	
 	int jointCount = animatedMeshSceneNode->getJointCount();
 
 	for (int i = 0; i < jointCount; i++)

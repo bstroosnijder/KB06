@@ -4,13 +4,19 @@
 #include "Path.h" 
 #include "PathBuilder.h"
 #include "Tower.h"
+#include "Creature.h"
+#include "Projectile.h"
 #include "PathFollower.h"
 #include "Game/Creature.h"
 #include "Game/Wave.h"
+<<<<<<< HEAD
 #include "Game/Castle.h"
 #include "Game/Stargate.h"
 #include "Game/Terrain.h"
 
+=======
+#include "Game/Terrain.h"
+>>>>>>> f11f62c1742e416e9e896fd3d066a5ceed8c3059
 #include <vector>
 #include <irrlicht.h>
 
@@ -22,6 +28,7 @@ namespace Game
 	*			The playground consist of Tower(s)  Monster(s)  and a Path
 	* @author	Michel van Os
 	* @author	Menno Postma
+	* @author	Thomas Gravekamp
 	*/
 	class Playground
 	{
@@ -30,8 +37,8 @@ namespace Game
 		~Playground();
 
 		void Initialize(irr::scene::ISceneManager* p_sceneManager);
-		void Update(float p_deltaTime);
-		void Render(irr::scene::ISceneManager*);
+		void Update(irr::scene::ISceneManager* p_sceneManager, float p_deltaTime);
+		void Render(irr::scene::ISceneManager* p_sceneManager);
 
 		bool SetupPath(
 				irr::core::vector3df* p_points1,
@@ -54,21 +61,30 @@ namespace Game
 	private:
 		irr::scene::ISceneManager* m_sceneManager;
 		PathBuilder* m_pathBuilder;
+
 		Path* m_path;
+		PathRoute* m_pathRouteTemp;
 		irr::core::vector3df m_pointBegin;
 		irr::core::vector3df m_pointEnd;
 
-		std::vector<Wave*> waves;
 		irr::scene::ITriangleSelector* m_selector;
 		std::vector<Creature*> m_creatures; 
-		int atWave;
 		std::list<Tower*> m_towers;
+		std::list<Creature*> m_creatures;
+		std::list<Projectile*> m_projectiles;
 		std::list<PathFollower*> m_pathFollowers;
-		PathRoute* m_pathRouteTemp;
+<<<<<<< HEAD
+		std::vector<Wave*> waves;
+
+		int atWave;
 		bool gameStatus;
 
 		Castle* m_castle;
 		Stargate* m_stargate;
+=======
+		PathRoute* m_pathRouteTemp;
+		bool gameStatus;
+>>>>>>> f11f62c1742e416e9e896fd3d066a5ceed8c3059
 
 		float CalculateSpeedScale();
 	};
