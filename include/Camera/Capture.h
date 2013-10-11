@@ -134,6 +134,8 @@ namespace Camera
 		float m_fov;
 
 		Points3D m_points3D;
+		int m_times90;
+		cv::Point2f m_topLeft;
 		Corners m_corners;
 		irr::core::line2df m_shortestLine;
 		irr::core::line2df m_longestLine;
@@ -188,7 +190,7 @@ namespace Camera
 		 * @param	p_center The center around which to sort the corners
 		 * @return	Whether or not the corners were correctly sorted
 		 */
-		bool SortCorners(Corners p_corners, cv::Point2f p_center);
+		bool SortCorners(Corners& p_corners, cv::Point2f p_center);
 
 		/**
 		 * @brief	Calculets the longs corner for compareses with the games longest corner.

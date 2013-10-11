@@ -29,10 +29,11 @@ namespace Camera
 		// Create a quadriliant in 3D space as comparment for the 2D quadrilian detected by opencv
 		float offset = 1.0f;
 		m_points3D.push_back(cv::Point3f(-offset, 0.0f, -offset));
-		m_points3D.push_back(cv::Point3f( offset, 0.0f, -offset));
-		m_points3D.push_back(cv::Point3f(-offset, 0.0f,  offset));
-		m_points3D.push_back(cv::Point3f( offset, 0.0f,  offset));
+		m_points3D.push_back(cv::Point3f(offset, 0.0f, -offset));
+		m_points3D.push_back(cv::Point3f(-offset, 0.0f, offset));
+		m_points3D.push_back(cv::Point3f(offset, 0.0f, offset));
 
+		m_times90 = 0;
 		m_corners = Corners();
 		m_poseTranslation = (cv::Mat_<double>(3, 1) << 0.0, 0.0, 0.0);
 		m_poseRotation = (cv::Mat_<double>(3, 1) << 0.0, 0.0, 0.0);
@@ -45,8 +46,8 @@ namespace Camera
 			double fy;
 			fx = fy = (m_sizeHalfed.width / std::tan((m_fov / 2) * (irr::core::PI / 180)));
 			m_params->SetCameraMatrix((cv::Mat_<double>(3, 3) <<
-				fx,  0.0, m_sizeHalfed.width,
-				0.0, fy,  m_sizeHalfed.height,
+				fx, 0.0, m_sizeHalfed.width,
+				0.0, fy, m_sizeHalfed.height,
 				0.0, 0.0, 1.0));
 		}
 	}
@@ -107,7 +108,7 @@ namespace Camera
 
 	void Capture::Work()
 	{
-		m_lost = true;
+		bool lost = true;
 		if (m_capture.isOpened())
 		{
 			CaptureAndUndistort();
@@ -192,10 +193,21 @@ namespace Camera
 							// -----
 
 							Lock();
-							m_lost = false;
+							lost = false;
 							m_center = center;
+							m_corners.clear();
 							m_corners = approx;
 							CalculateShortestAndLongestLine(m_corners);
+
+							irr::core::line2df top = irr::core::line2df(
+								irr::core::vector2df(m_corners.at(0).x, m_corners.at(0).y),
+								irr::core::vector2df(m_corners.at(1).x, m_corners.at(1).y));
+							irr::core::line2df left = irr::core::line2df(
+								irr::core::vector2df(m_corners.at(1).x, m_corners.at(1).y),
+								irr::core::vector2df(m_corners.at(2).x, m_corners.at(2).y));
+
+							m_lineRatio = left.getLength() / top.getLength();
+
 							Unlock();
 						}
 					}
@@ -273,13 +285,15 @@ namespace Camera
 					//cv::waitKey(1);
 				}
 
-				if (m_chosen && m_lost)
+				if (m_chosen && lost)
 				{
 					// ERROR BOUNDINGBOX
 					cv::rectangle(m_image, m_boundingBox, cv::Scalar(0, 0, 255));
 				}
 
+				m_lost = lost;
 				//cv::imshow("surface", surface);
+				//cv::waitKey(1);
 				surface.release();
 
 				// Update the irrlicht texture with the camera frame
@@ -318,7 +332,7 @@ namespace Camera
 		irr::core::matrix4 transformation = irr::core::IdentityMatrix;
 
 		// Only do calculations when we have 4 corners
-		if (m_corners.size() ==  4)
+		if (m_corners.size() == 4)
 		{
 			irr::core::matrix4 scaling = irr::core::IdentityMatrix;
 			irr::core::matrix4 rotation = irr::core::IdentityMatrix;
@@ -350,7 +364,7 @@ namespace Camera
 			// Set the scaling
 			// -----
 
-			// Apply the scaling (no scaling to 1.0f)
+			// Apply the scaling (no scaling; default to 1.0f)
 			scaling.setScale(irr::core::vector3df(
 				1.0f, 1.0f, 1.0f));
 
@@ -358,11 +372,37 @@ namespace Camera
 			// Set the rotation
 			// -----
 
-			// Apply rotation
-			rotation.setInverseRotationRadians(irr::core::vector3df(
-				static_cast<float>(0.0),
-				static_cast<float>(m_poseRotation.at<double>(2, 0)),
-				static_cast<float>(0.0)));
+			irr::core::line2df upVec = irr::core::line2df(
+				irr::core::vector2df(m_corners.at(0).x, m_corners.at(0).y),
+				irr::core::vector2df(m_corners.at(0).x, (m_corners.at(0).y + 1.0f)));
+
+			irr::core::line2df top = irr::core::line2df(
+				irr::core::vector2df(m_corners.at(0).x, m_corners.at(0).y),
+				irr::core::vector2df(m_corners.at(1).x, m_corners.at(1).y));
+
+			irr::core::line2df bottom = irr::core::line2df(
+				irr::core::vector2df(m_corners.at(2).x, m_corners.at(2).y),
+				irr::core::vector2df(m_corners.at(3).x, m_corners.at(3).y));
+
+			irr::core::line2df right = irr::core::line2df(
+				irr::core::vector2df(m_corners.at(1).x, m_corners.at(1).y),
+				irr::core::vector2df(m_corners.at(2).x, m_corners.at(2).y));
+
+			irr::core::line2df left = irr::core::line2df(
+				irr::core::vector2df(m_corners.at(3).x, m_corners.at(3).y),
+				irr::core::vector2df(m_corners.at(0).x, m_corners.at(0).y));
+
+			// Create a 3D vector to contain the new angles
+			irr::core::vector3df angles = irr::core::vector3df(
+				static_cast<float>((top.getLength() / bottom.getLength()) - 1.0f),
+				static_cast<float>(top.getAngleWith(upVec)),
+				static_cast<float>((right.getLength() / left.getLength()) - 1.0f));
+
+			float range = 0.2f;
+			rotation.setRotationRadians(irr::core::vector3df(
+				-static_cast<float>(angles.X * (irr::core::HALF_PI / range)),
+				 static_cast<float>(angles.Y * (irr::core::PI / 180.0F)),
+				 static_cast<float>(angles.Z * (irr::core::HALF_PI / range))));
 
 			// -----
 			// Set the translation
@@ -378,9 +418,9 @@ namespace Camera
 
 			// Apply transformation (y transformation is done in the camera)
 			translation.setTranslation(irr::core::vector3df(
-				static_cast<float>(position.Y * (m_pixelDistance / m_sizeHalfed.height)),
-				-static_cast<float>(position.Z),
-				static_cast<float>(position.X * (m_pixelDistance / m_sizeHalfed.width))));
+				 static_cast<float>(position.X * (m_pixelDistance / m_sizeHalfed.width)),
+				 static_cast<float>(position.Z),
+				-static_cast<float>(position.Y * (m_pixelDistance / m_sizeHalfed.height))));	
 
 			// Merge scaling, rotation and translation into the transformation
 			transformation = scaling * rotation * translation;
@@ -483,10 +523,10 @@ namespace Camera
 		}
 	}
 
-	bool Capture::SortCorners(Corners p_corners, cv::Point2f p_center)
+	bool Capture::SortCorners(Corners& p_corners, cv::Point2f p_center)
 	{
-		std::vector<cv::Point2f> top;
-		std::vector<cv::Point2f> bot;
+		Corners top;
+		Corners bot;
 		for (unsigned int i = 0; i < p_corners.size(); i++)
 		{
 			if (p_corners[i].y < p_center.y)
@@ -504,17 +544,63 @@ namespace Camera
 			return false;
 		}
 
-		cv::Point2f tl = top[0].x > top[1].x ? top[1] : top[0];
-		cv::Point2f tr = top[0].x > top[1].x ? top[0] : top[1];
-		cv::Point2f bl = bot[0].x > bot[1].x ? bot[1] : bot[0];
-		cv::Point2f br = bot[0].x > bot[1].x ? bot[0] : bot[1];
+		Corners corners;
+		corners.push_back(top[0].x > top[1].x ? top[1] : top[0]);
+		corners.push_back(top[0].x > top[1].x ? top[0] : top[1]);
+		// I have rotated these from > to < .. this might cause issues but we will see.
+		corners.push_back(bot[0].x < bot[1].x ? bot[1] : bot[0]);
+		corners.push_back(bot[0].x < bot[1].x ? bot[0] : bot[1]);
+
+		if (m_topLeft.x > 0 && m_topLeft.y > 0 && m_chosen)
+		{
+			int offset = 30;
+			cv::Rect tlbb = cv::Rect(
+				static_cast<int>(m_topLeft.x - offset),
+				static_cast<int>(m_topLeft.y - offset),
+				offset * 2,
+				offset * 2);
+
+			for (unsigned int i = 0; i < corners.size(); ++i)
+			{
+				corners.push_back(corners.front());
+				corners.erase(corners.begin());
+
+				switch (i)
+				{
+				default:
+				case 3:
+					m_times90 = 0;
+					break;
+
+				case 0:
+					m_times90 = 1;
+					break;
+
+				case 2:
+					m_times90 = 2;
+					break;
+
+				case 1:
+					m_times90 = 3;
+					break;
+
+				}
+
+				if (tlbb.contains(corners.at(0)))
+				{
+					break;
+				}
+			}
+		}
+
+		// Update m_topLeft
+		m_topLeft = corners.at(0);
 
 		p_corners.clear();
-		p_corners.push_back(tl);
-		p_corners.push_back(tr);
-		p_corners.push_back(br);
-		p_corners.push_back(bl);
-
+		p_corners.push_back(corners.at(0));
+		p_corners.push_back(corners.at(1));
+		p_corners.push_back(corners.at(2));
+		p_corners.push_back(corners.at(3));
 		return true;
 	}
 

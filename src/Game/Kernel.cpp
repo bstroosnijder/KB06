@@ -49,14 +49,14 @@ namespace Game
 
 		// Create a static camera
 		irr::scene::ICameraSceneNode* camera = m_sceneManager->addCameraSceneNode(NULL,
-			irr::core::vector3df(0.0f, m_capture->GetPixelDistance(), 0.0f),
+			irr::core::vector3df(0.0f, m_capture->GetPixelDistance(), 1.0f),
 			irr::core::vector3df(0.0f, 0.0f, 0.0f));
 
 		// Create a test cube
-		/*irr::scene::ISceneNode* cube = m_sceneManager->addCubeSceneNode(20.0f, root, NULL,
-			irr::core::vector3df(0.0f, 0.0f, 0.0f));
+		irr::scene::ISceneNode* cube = m_sceneManager->addCubeSceneNode(20.0f, root, NULL,
+			irr::core::vector3df(0.0f, 10.0f, 0.0f));
 		cube->setMaterialTexture(0, m_videoDriver->getTexture("resources\\textures\\purple.jpg"));
-		cube->setMaterialFlag(irr::video::EMF_LIGHTING, false);*/
+		cube->setMaterialFlag(irr::video::EMF_LIGHTING, false);
 
 		// Game loop
 		while (m_device->run())
@@ -65,7 +65,7 @@ namespace Game
 			m_capture->Start();
 			// Update the camera height
 			camera->setPosition(
-				irr::core::vector3df(0.0f, m_capture->GetPixelDistance(), 0.0f));
+				irr::core::vector3df(0.0f, m_capture->GetPixelDistance(), 1.0f));
 			// Update the games shortest side
 			m_capture->GetCalculatedShortestGameLine();
 
