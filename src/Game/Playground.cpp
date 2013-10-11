@@ -240,12 +240,22 @@ void Playground::SellTower(irr::core::vector2d<irr::s32> p_position)
 	std::list<Tower*>::iterator itTower;
 	std::list<Tower*>::iterator itTowerEnd = m_towers.end();
 	Tower* tower;
-	for (itTower = m_towers.begin(); itTower != itTowerEnd; ++itTower)
-	{
+
+
+	itTower = m_towers.begin();
+	while (itTower != itTowerEnd)
+	{		
 		if (sceneNodeOut  == (*itTower)->GetSceneNode())
 		{
+			tower = (*itTower);
+			
+			++itTower;
 			sceneNodeOut->remove();
+			m_towers.remove(tower);
 			return;
+		} else
+		{
+			++itTower;
 		}
 	}
 }
