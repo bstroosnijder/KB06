@@ -27,6 +27,13 @@ namespace Game
 	*/
 	class Playground
 	{
+		enum GameStatus
+		{
+			GAME_OVER = 1,
+			WAVE_SPAWNED = 2,
+			BUILD_PHASE = 3,
+			VICTORY = 4
+		};
 	public:
 		Playground(irr::scene::ISceneManager* p_sceneManager);
 		~Playground();
@@ -50,15 +57,16 @@ namespace Game
 
 		void startNextWave();
 
-		int returnWaveNumber();
-		int returnAmountOfCreatures();
+		int GetWaveNumber();
+		int GetAmountOfCreatures();
+		int GetGameStatus();
+		int GetPlayerHealth();
 
 	private:
 		irr::scene::ISceneManager* m_sceneManager;
 		PathBuilder* m_pathBuilder;
 
 		Path* m_path;
-		PathRoute* m_pathRouteTemp;
 		irr::core::vector3df m_pointBegin;
 		irr::core::vector3df m_pointEnd;
 
@@ -67,13 +75,16 @@ namespace Game
 		std::list<Tower*> m_towers;
 		std::list<Projectile*> m_projectiles;
 		std::list<PathFollower*> m_pathFollowers;
+		std::list<Game::PathRoute*> m_paths;
+		std::list<PathRoute*>::iterator m_pathNumber;
 
 		std::vector<Wave*> waves;
 
 		Creature* creature1;
 
-		int atWave;
-		bool gameStatus;
+		int m_waveNumber;
+		int m_gameStatus;
+		int m_playerHealth;
 
 		Castle* m_castle;
 		Stargate* m_stargate;

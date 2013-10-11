@@ -9,7 +9,7 @@ namespace Game
 		m_creaturesSpawned = false;
 		m_isActive = true;
 		m_timer = new Timer();
-		m_waveSize = 100;
+		m_waveSize = 1;
 	}
 
 	Wave::~Wave()

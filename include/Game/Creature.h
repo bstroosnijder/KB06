@@ -25,12 +25,11 @@ namespace Game
 
 		void SetHealthPoints(int p_healthPoints);
 		int GetHealthPoints();
-		void kill();
+		void Kill();
 
 	private:
-		irr::scene::ISceneNodeAnimator* m_sceneNodeAnimator;
-		
         int m_healthPoints;
+		irr::scene::ISceneNodeAnimator* m_sceneNodeAnimator;
 	};
 }
 

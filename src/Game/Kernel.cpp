@@ -53,6 +53,11 @@ namespace Game
 		{
 			// Update the texture with the camera capture
 			//m_capture->Update();
+			if(m_playground->GetGameStatus() == 4)
+			{
+				m_gui->displayVictory();
+			}
+
 
 			m_videoDriver->beginScene(true, true, irr::video::SColor(255, 0, 0, 255));
 			
@@ -66,7 +71,7 @@ namespace Game
 			m_playground->Render();
 			
 			m_sceneManager->drawAll();
-			m_gui->UpdateGui(m_playground->returnWaveNumber(),m_playground->returnAmountOfCreatures(),m_videoDriver->getFPS());
+			m_gui->UpdateGui(m_playground->GetWaveNumber(),m_playground->GetAmountOfCreatures(),m_videoDriver->getFPS(), m_playground->GetPlayerHealth());
 			m_videoDriver->endScene();
 
 			ShowFPS();

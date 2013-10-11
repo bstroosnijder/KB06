@@ -33,10 +33,11 @@ Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
 	SetMaterialFlags(sceneNodeTemp);
 
 	m_sceneNodeAnimator = p_sceneManager->createCollisionResponseAnimator(
-			p_selector, m_meshSceneNode, irr::core::vector3df(10,3,10),
-			irr::core::vector3df(0,-10,0),
-			irr::core::vector3df(0,0,0)
-	);
+		p_selector, m_meshSceneNode, irr::core::vector3df(10,3,10),
+		irr::core::vector3df(0,-10,0),
+		irr::core::vector3df(0,0,0)
+		);
+	m_meshSceneNode->addAnimator(m_sceneNodeAnimator);
 	
 
 	m_sceneNodeAnimator->grab();
@@ -71,7 +72,7 @@ int Creature::GetHealthPoints()
 	return m_healthPoints;
 }
 
-void Creature::kill()
+void Creature::Kill()
 {
 	m_meshSceneNode->remove();
 }

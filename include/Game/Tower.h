@@ -22,7 +22,6 @@ namespace Game
 		
 
 		virtual void Update(float);
-		void updatePosition();
 
 		void SetShootingSpeed(double);
 		void SetRange(double);
