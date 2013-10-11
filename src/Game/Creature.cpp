@@ -17,12 +17,13 @@ Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
 	m_meshSceneNode = animatedMeshSceneNode;
 	m_meshSceneNode->setPosition(p_position);	
 
-	m_sceneNodeAnimator = p_sceneManager->createCollisionResponseAnimator(
+	irr::scene::ISceneNodeAnimator* anim = p_sceneManager->createCollisionResponseAnimator(
 			p_selector, m_meshSceneNode, irr::core::vector3df(10,3,10),
 			irr::core::vector3df(0,-10,0),
 			irr::core::vector3df(0,0,0)
 	);
-	m_sceneNodeAnimator->grab();
+	m_meshSceneNode->addAnimator(anim);
+	anim->drop();
 
 	m_healthPoints = 100;
 
@@ -32,8 +33,7 @@ Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
 
 Creature::~Creature()
 {
-	m_sceneNodeAnimator->drop();
-	m_sceneNodeAnimator = NULL;
+
 }
 
 void Creature::Update(float p_deltaTime)
@@ -55,7 +55,7 @@ int Creature::GetHealthPoints()
 	return m_healthPoints;
 }
 
-void Creature::kill()
+void Creature::Kill()
 {
 	m_meshSceneNode->remove();
 }

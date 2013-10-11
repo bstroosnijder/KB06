@@ -66,7 +66,7 @@ namespace Game
 			m_playground->Render();
 			
 			m_sceneManager->drawAll();
-			m_gui->UpdateGui(m_playground->returnWaveNumber(),m_playground->returnAmountOfCreatures(),m_videoDriver->getFPS());
+			m_gui->UpdateGui(m_playground->GetWaveNumber(),m_playground->GetAmountOfCreatures(),m_videoDriver->getFPS(), m_playground->GetPlayerHealth());
 			m_videoDriver->endScene();
 
 			ShowFPS();

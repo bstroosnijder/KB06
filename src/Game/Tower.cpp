@@ -83,3 +83,8 @@ void Tower::SetRange(double p_range)
 {
 	m_range = p_range;
 }
+
+void Tower::Update(float)
+{
+	return;
+}
