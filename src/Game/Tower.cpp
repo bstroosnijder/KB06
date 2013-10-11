@@ -5,10 +5,22 @@ using namespace Game;
 Tower::Tower(irr::scene::ISceneManager* p_sceneManager,
 			 irr::core::vector3df p_position)
 {
-	m_animatedMesh = p_sceneManager->getMesh("resources/models/tower/tower.3ds");
+	m_shootingSpeed = 0.0f;
+	m_range = 0.0f;
+	m_target = NULL;
+	m_jointCrystal = NULL;
 
-	m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
-	m_meshSceneNode->setPosition(p_position);
+	m_animatedMesh = p_sceneManager->getMesh("resources/models/tower/LOLturret/lolturret1.2.x");
+
+	irr::scene::IAnimatedMeshSceneNode* animatedMeshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
+	m_meshSceneNode = animatedMeshSceneNode;
+
+	if (m_meshSceneNode != NULL)
+	{
+		m_meshSceneNode->setPosition(p_position);
+		m_jointCrystal = animatedMeshSceneNode->getJointNode("shootingbone");
+	}
+
 
 	SetMaterialFlags();
 }
@@ -46,8 +58,8 @@ Projectile* Tower::ShootAtTarget(irr::scene::ISceneManager* p_sceneManager)
 	Projectile* projectile = new Projectile(p_sceneManager, GetPosition());
 
 	projectile->SetPosition(this->GetPosition());
-	projectile->setFrom(this);
-	projectile->setTo(m_target);
+	projectile->SetFrom(this);
+	projectile->SetTo(m_target);
 
 	return projectile;
 }

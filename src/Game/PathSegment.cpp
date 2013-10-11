@@ -2,12 +2,6 @@
 
 using namespace Game;
 
-PathSegment::PathSegment()
-{
-	m_point1 = NULL;
-	m_point2 = NULL;
-}
-
 PathSegment::PathSegment(PathPoint* p_point1, PathPoint* p_point2)
 {
 	m_point1 = p_point1;

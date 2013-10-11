@@ -13,22 +13,19 @@ namespace Game
 	{
 	public:
 		Projectile(irr::scene::ISceneManager* p_sceneManager, irr::core::vector3df p_position);
+		
+		virtual void Update(float);
+		void UpdatePosition();
 
-		void updatePosition();
+		double GetMovementSpeed();
+		double GetDamage();
+		Game::Entity* GetFrom();
+		Game::Entity* GetTo();
 
-
-		double getMovementSpeed();
-		double getDamage();
-		Game::Entity* getFrom();
-		Game::Entity* getTo();
-
-
-
-		void setMovementSpeed(double p_movementSpeed);
-		void setDamage(double p_damage);
-		void setFrom(Game::Entity* p_from);
-		void setTo(Game::Entity* p_to);
-
+		void SetMovementSpeed(double p_movementSpeed);
+		void SetDamage(double p_damage);
+		void SetFrom(Game::Entity* p_from);
+		void SetTo(Game::Entity* p_to);
 
 	private:
 		double m_movementSpeed;
@@ -36,7 +33,6 @@ namespace Game
 
 		Game::Entity* m_from;
 		Game::Entity* m_to;
-
 	};
 }
 

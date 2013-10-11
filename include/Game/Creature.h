@@ -18,6 +18,9 @@ namespace Game
 			PathRoute* p_pathRoute,
 			irr::scene::ITriangleSelector* p_selector);
 
+		~Creature();
+
+		virtual void Update(float);
 		void UpdatePosition();
 
 		void SetHealthPoints(int p_healthPoints);
@@ -25,6 +28,8 @@ namespace Game
 		void kill();
 
 	private:
+		irr::scene::ISceneNodeAnimator* m_sceneNodeAnimator;
+		
         int m_healthPoints;
 	};
 }

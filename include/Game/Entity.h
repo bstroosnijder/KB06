@@ -14,6 +14,7 @@ namespace Game
 	public:
 		Entity();
 
+		virtual void Update(float) = 0;
 		virtual void updatePosition();
 		void Render(irr::scene::ISceneManager* p_sceneManager);
 		
@@ -23,8 +24,11 @@ namespace Game
 		void SetPosition(irr::core::vector3df& p_position);
 
 	protected:
+
 		irr::scene::ISceneNode* m_meshSceneNode;
 		irr::scene::IAnimatedMesh* m_animatedMesh;
+
+		irr::scene::ISceneNode* getSceneNode();
 	};
 }
 

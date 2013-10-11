@@ -23,10 +23,12 @@ namespace Game
 		m_device->getCursorControl()->setVisible(true);
 
 		m_playground = new Playground(m_sceneManager);
-
+		//m_gameManager = new GameManager(m_device);
+		
 		m_gui = new Game::Gui(m_device->getGUIEnvironment());
 		Game::EventHandler* eventHandler = new Game::EventHandler(m_device,m_gui,m_playground);
 		m_device->setEventReceiver(eventHandler);
+		
 	}
 
 	Kernel::~Kernel()
@@ -53,10 +55,15 @@ namespace Game
 			//m_capture->Update();
 
 			m_videoDriver->beginScene(true, true, irr::video::SColor(255, 0, 0, 255));
-
+			
+			/*
+			m_gameManager->Update();
+			m_gameManager->Render();
+			*/
+			
 			//m_videoDriver->draw2DImage(m_videoDriver->getTexture("capture_background"), irr::core::vector2d<irr::s32>(0, 0));
-			m_playground->Update(m_sceneManager, m_deltaTimer->GetDelta());
-			m_playground->Render(m_sceneManager);
+			m_playground->Update(m_deltaTimer->GetDelta());
+			m_playground->Render();
 			
 			m_sceneManager->drawAll();
 			m_gui->UpdateGui(m_playground->returnWaveNumber(),m_playground->returnAmountOfCreatures(),m_videoDriver->getFPS());

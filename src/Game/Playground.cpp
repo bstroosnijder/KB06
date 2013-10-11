@@ -14,28 +14,31 @@
 using namespace Game;
 using namespace Utility;
 
-irr::scene::IMeshSceneNode* cube;
-
-Tower* tower1;
-Tower* tower2;
-Creature* creature1;
-Projectile* projectile1;
-
 Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
 {
-	m_pathBuilder = new PathBuilder();
 	m_sceneManager = p_sceneManager;
+	m_pathBuilder = new PathBuilder();
+	m_path = NULL;
+	m_selector = NULL;
+	m_pathRouteTemp;
+	
 	gameStatus = false;
+	
 	Initialize(p_sceneManager);
 }
 
 Playground::~Playground()
 {
 	delete m_pathBuilder;
+
+	m_pathBuilder = NULL;
 }
 
 void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 {
+	m_castle = new Castle(p_sceneManager, irr::core::vector3df());
+	m_stargate = new Stargate(p_sceneManager, irr::core::vector3df(0, 0, 1200));
+
 	float range = 10.0f;
 	int amount = 8;
 	irr::core::vector3df* points1 = new irr::core::vector3df[amount];
@@ -64,9 +67,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 
 	SetupPath(points1, points2, amount, range, startPoint, endPoint);
 
-	 m_pathRouteTemp = (*m_path->m_routes.begin());
-	 
-
+	m_pathRouteTemp = (*m_path->m_routes.begin());
 	
 	//Setup Waves
 	atWave = 0;
@@ -75,25 +76,18 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 		waves.push_back(new Game::Wave(p_sceneManager));
 	}
 	
-	// Create towers
-	tower1 = new Tower(p_sceneManager, irr::core::vector3df(0.0f));
-	tower2 = new Tower(p_sceneManager, irr::core::vector3df(100.0f, 0.0f, 0.0f));
-
-	m_towers.push_back(tower1);
-	m_towers.push_back(tower2);
-
-	// Create creature
-	creature1 = new Creature(p_sceneManager, tower1->GetPosition(), m_pathRouteTemp);
-
-
-	Creature* creature2 = new Creature(p_sceneManager, irr::core::vector3df(50.0f, 0.0f, 0.0f), m_pathRouteTemp);
-	creature2->StopFollowing();
-
-	new Castle(p_sceneManager, irr::core::vector3df());
-
 	Terrain* terrain = new Terrain();
 	m_selector = terrain->GenerateTerrain(p_sceneManager, 10.0);
 	
+	// Create towers
+	m_towers.push_back(new Tower(p_sceneManager, irr::core::vector3df(0.0f)));
+	m_towers.push_back(new Tower(p_sceneManager, irr::core::vector3df(100.0f, 0.0f, 0.0f)));
+
+	// Create creature
+	creature1 = new Creature(p_sceneManager, irr::core::vector3df(), m_pathRouteTemp, m_selector);
+
+	Creature* creature2 = new Creature(p_sceneManager, irr::core::vector3df(50.0f, 0.0f, 0.0f), m_pathRouteTemp, m_selector);
+	creature2->StopFollowing();
 
 	m_creatures.push_back(creature1);
 	m_creatures.push_back(creature2);
@@ -111,36 +105,36 @@ bool Playground::SetupPath(
 	return true;
 }
 
-void Playground::Update(irr::scene::ISceneManager* p_sceneManager, float p_deltaTime)
+void Playground::Update(float p_deltaTime)
 {
-	//creature1->FollowPath(p_deltaTime);
-	for(int i = 0; i<m_creatures.size(); ++i)
+	std::list<Creature*>::iterator itCreature;
+	std::list<Creature*>::iterator itCreatureEnd = m_creatures.end();
+	Creature* creature;
+
+	for (itCreature = m_creatures.begin(); itCreature != itCreatureEnd; ++itCreature)
 	{
-		irr::core::vector3df position = m_creatures[i]->GetPosition();
-		int y = position.Y;
-		m_creatures[i]->FollowPath(p_deltaTime);
-		position = m_creatures[i]->GetPosition();
+		creature = (*itCreature);
+
+		irr::core::vector3df position = creature->GetPosition();
+		float y = position.Y;
+		creature->FollowPath(p_deltaTime);
+		position = creature->GetPosition();
 		position.Y = y;
-		m_creatures[i]->SetPosition(position);
-		int z = m_pathRouteTemp->back()->m_point.Z - m_creatures[i]->GetPosition().Z;
-		int x = m_pathRouteTemp->back()->m_point.X - m_creatures[i]->GetPosition().X;
-		if (x < 2 && x>= 0)
-		{
-			if (z < 2 && z>= 0)
-			{
-				m_creatures[i]->kill();
-				m_creatures.erase(m_creatures.begin()+i);
-			}
-		}
+		creature->SetPosition(position);
+		float x = m_pathRouteTemp->back()->m_point.X - creature->GetPosition().X;
+		float z = m_pathRouteTemp->back()->m_point.Z - creature->GetPosition().Z;
 	}
-	// Update creature position
-	creature1->FollowPath(p_deltaTime);
 
-	// Update targets
-	for (std::list<Tower*>::const_iterator iterator = m_towers.begin(), end = m_towers.end(); iterator != end; ++iterator) {
-		(*iterator)->SearchNearestCreature(&m_creatures);
+	//Update targets
+	std::list<Tower*>::iterator itTower;
+	std::list<Tower*>::iterator itTowerEnd = m_towers.end();
+	Tower* tower;
+	for (itTower = m_towers.begin(); itTower != itTowerEnd; ++itTower)
+	{
+		tower = (*itTower);
+		tower->SearchNearestCreature(&m_creatures);
 
-		Projectile* projectile = (*iterator)->ShootAtTarget(p_sceneManager);
+		Projectile* projectile = tower->ShootAtTarget(m_sceneManager);
 
 		if (projectile != NULL)
 		{
@@ -148,17 +142,15 @@ void Playground::Update(irr::scene::ISceneManager* p_sceneManager, float p_delta
 		}
 	}
 
-
 	for (std::list<Projectile*>::const_iterator iterator = m_projectiles.begin(), end = m_projectiles.end(); iterator != end; ++iterator)
 	{
 		(*iterator)->updatePosition();
 	}
-
 }
 
-void Playground::Render(irr::scene::ISceneManager* p_sceneManager)
+void Playground::Render()
 {
-	irr::video::IVideoDriver* videoDriver = p_sceneManager->getVideoDriver();
+	irr::video::IVideoDriver* videoDriver = m_sceneManager->getVideoDriver();
 
 	std::list<PathPoint*>::iterator front = m_path->m_pathPoints->begin();
 	std::list<PathPoint*>::iterator last = m_path->m_pathPoints->end();
@@ -187,10 +179,9 @@ void Playground::Render(irr::scene::ISceneManager* p_sceneManager)
 	
 	if (waves.size() != 0)
 	{
-		if (waves[0]->CheckWaveStatus(&m_creatures))
+		if (waves[0]->CheckWaveStatus(m_creatures))
 		{
-			waves[0]->SpawnCreature(&m_creatures, m_pathRouteTemp,m_selector);
-			
+			waves[0]->SpawnCreature(m_creatures, m_pathRouteTemp,m_selector);
 		}
 		else
 		{
@@ -231,7 +222,7 @@ void Playground::startNextWave()
 			Game::Wave* wave = waves[0];
 			if (wave)
 			{
-				wave->SpawnWave(tower1->GetPosition());
+				wave->SpawnWave(m_path->m_pointBegin->m_point);
 				gameStatus = true;				
 				++atWave;
 			}

@@ -6,7 +6,7 @@ Projectile::Projectile(irr::scene::ISceneManager* p_sceneManager,
 					   irr::core::vector3df p_position)
 {
 	//irr::video::ITexture* texture = p_sceneManager->getVideoDriver()->getTexture("resources/tower-texture.jpg");
-	m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/creature.3ds");
+	m_animatedMesh = p_sceneManager->getMesh("resources/models/projectile/projectile.3ds");
 	
 	m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
 	//m_meshSceneNode->setMaterialTexture(0, texture);
@@ -19,7 +19,12 @@ Projectile::Projectile(irr::scene::ISceneManager* p_sceneManager,
 	SetMaterialFlags();
 }
 
-void Projectile::updatePosition()
+void Projectile::Update(float p_deltaTime)
+{
+	UpdatePosition();
+}
+
+void Projectile::UpdatePosition()
 {
 	if (m_from != NULL && m_to != NULL)
 	{
@@ -45,42 +50,42 @@ void Projectile::updatePosition()
 
 }
 
-double Projectile::getMovementSpeed()
+double Projectile::GetMovementSpeed()
 {
 	return m_movementSpeed;
 }
 
-double Projectile::getDamage()
+double Projectile::GetDamage()
 {
 	return m_damage;
 }
 
-Game::Entity* Projectile::getFrom()
+Game::Entity* Projectile::GetFrom()
 {
 	return m_from;
 }
 
-Game::Entity* Projectile::getTo()
+Game::Entity* Projectile::GetTo()
 {
 	return m_to;
 }
 
-void Projectile::setMovementSpeed(double p_movementSpeed)
+void Projectile::SetMovementSpeed(double p_movementSpeed)
 {
 	m_movementSpeed = p_movementSpeed;
 }
 
-void Projectile::setDamage(double p_damage)
+void Projectile::SetDamage(double p_damage)
 {
 	m_damage = p_damage;
 }
 
-void Projectile::setFrom(Game::Entity* p_from)
+void Projectile::SetFrom(Game::Entity* p_from)
 {
 	m_from = p_from;
 }
 
-void Projectile::setTo(Game::Entity* p_to)
+void Projectile::SetTo(Game::Entity* p_to)
 {
 	m_to = p_to;
 }

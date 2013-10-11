@@ -9,6 +9,8 @@
 #include "PathFollower.h"
 #include "Game/Creature.h"
 #include "Game/Wave.h"
+#include "Game/Castle.h"
+#include "Game/Stargate.h"
 #include "Game/Terrain.h"
 #include <vector>
 #include <irrlicht.h>
@@ -30,8 +32,8 @@ namespace Game
 		~Playground();
 
 		void Initialize(irr::scene::ISceneManager* p_sceneManager);
-		void Update(irr::scene::ISceneManager* p_sceneManager, float p_deltaTime);
-		void Render(irr::scene::ISceneManager* p_sceneManager);
+		void Update(float p_deltaTime);
+		void Render();
 
 		bool SetupPath(
 				irr::core::vector3df* p_points1,
@@ -52,19 +54,29 @@ namespace Game
 		int returnAmountOfCreatures();
 
 	private:
-		PathBuilder* m_pathBuilder;
-		Path* m_path;
 		irr::scene::ISceneManager* m_sceneManager;
-		std::vector<Wave*> waves;
+		PathBuilder* m_pathBuilder;
+
+		Path* m_path;
+		PathRoute* m_pathRouteTemp;
+		irr::core::vector3df m_pointBegin;
+		irr::core::vector3df m_pointEnd;
+
 		irr::scene::ITriangleSelector* m_selector;
-		//std::vector<Creature*> m_creatures; 
-		int atWave;
-		std::list<Tower*> m_towers;
 		std::list<Creature*> m_creatures;
+		std::list<Tower*> m_towers;
 		std::list<Projectile*> m_projectiles;
 		std::list<PathFollower*> m_pathFollowers;
-		PathRoute* m_pathRouteTemp;
+
+		std::vector<Wave*> waves;
+
+		Creature* creature1;
+
+		int atWave;
 		bool gameStatus;
+
+		Castle* m_castle;
+		Stargate* m_stargate;
 
 		float CalculateSpeedScale();
 	};

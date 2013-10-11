@@ -3,24 +3,27 @@
 
 #include <iostream>
 #include <conio.h>
-#include <time.h>	// class needs this inclusion
+#include <time.h>
 
 namespace Game
 {
-	class timer {
+	class Timer
+	{
 	public:
-		timer();
-		void           start();
-		void           stop();
-		void           reset();
-		bool           isRunning();
-		unsigned long  getTime();
-		bool           isOver(unsigned long seconds);
+		Timer();
+
+		void Start();
+		void Stop();
+		void Reset();
+		bool IsRunning();
+		unsigned long GetTime();
+		bool IsOver(unsigned long seconds);
+
 	private:
-		bool           resetted;
-		bool           running;
-		unsigned long  beg;
-		unsigned long  end;
+		bool m_resetted;
+		bool m_running;
+		unsigned long m_beginTime;
+		unsigned long m_endTime;
 	};
 }
 

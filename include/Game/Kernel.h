@@ -5,6 +5,7 @@
 #include "../Camera/Calibration.h"
 #include "../Game/EventHandler.h"
 #include "../Game/Gui.h"
+#include "GameManager.h"
 #include "Playground.h"
 #include "DeltaTimer.h"
 
@@ -50,6 +51,7 @@ namespace Game
 		Game::Gui* m_gui;
 		irr::scene::ICameraSceneNode* m_camera;
 		Playground* m_playground;
+		//GameManager* m_gameManager;
 		DeltaTimer* m_deltaTimer;		
 
 		/**
