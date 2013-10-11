@@ -49,7 +49,7 @@ namespace Game
 
 		// Create a static camera
 		irr::scene::ICameraSceneNode* camera = m_sceneManager->addCameraSceneNode(NULL,
-			irr::core::vector3df(0.0f, m_capture->GetPixelDistance(), 0.0f),
+			irr::core::vector3df(0.0f, m_capture->GetPixelDistance(), 1.0f),
 			irr::core::vector3df(0.0f, 0.0f, 0.0f));
 
 		// Create a test cube
@@ -65,7 +65,7 @@ namespace Game
 			m_capture->Start();
 			// Update the camera height
 			camera->setPosition(
-				irr::core::vector3df(0.0f, m_capture->GetPixelDistance(), 0.0f));
+				irr::core::vector3df(0.0f, m_capture->GetPixelDistance(), 1.0f));
 			// Update the games shortest side
 			m_capture->GetCalculatedShortestGameLine();
 

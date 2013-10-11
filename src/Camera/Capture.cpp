@@ -362,7 +362,7 @@ namespace Camera
 			// Set the scaling
 			// -----
 
-			// Apply the scaling (no scaling to 1.0f)
+			// Apply the scaling (no scaling; default to 1.0f)
 			scaling.setScale(irr::core::vector3df(
 				1.0f, 1.0f, 1.0f));
 
@@ -378,35 +378,29 @@ namespace Camera
 				irr::core::vector2df(m_corners.at(0).x, m_corners.at(0).y),
 				irr::core::vector2df(m_corners.at(1).x, m_corners.at(1).y));
 
-			irr::core::line2df right = irr::core::line2df(
-				irr::core::vector2df(m_corners.at(1).x, m_corners.at(1).y),
-				irr::core::vector2df(m_corners.at(2).x, m_corners.at(2).y));
-
 			irr::core::line2df bottom = irr::core::line2df(
 				irr::core::vector2df(m_corners.at(2).x, m_corners.at(2).y),
 				irr::core::vector2df(m_corners.at(3).x, m_corners.at(3).y));
+
+			irr::core::line2df right = irr::core::line2df(
+				irr::core::vector2df(m_corners.at(1).x, m_corners.at(1).y),
+				irr::core::vector2df(m_corners.at(2).x, m_corners.at(2).y));
 
 			irr::core::line2df left = irr::core::line2df(
 				irr::core::vector2df(m_corners.at(3).x, m_corners.at(3).y),
 				irr::core::vector2df(m_corners.at(0).x, m_corners.at(0).y));
 
+			// Create a 3D vector to contain the new angles
+			irr::core::vector3df angles = irr::core::vector3df(
+				static_cast<float>((top.getLength() / bottom.getLength()) - 1.0f),
+				static_cast<float>(top.getAngleWith(upVec)),
+				static_cast<float>((right.getLength() / left.getLength()) - 1.0f));
+
 			float range = 0.2f;
-
-			// X Rotation
-			float rotX = (((top.getLength() / bottom.getLength()) - 1.0f) * (irr::core::HALF_PI / range));
-
-			// Y Rotation
-			float rotY = (top.getAngleWith(upVec) * (irr::core::PI / 180.0f));
-
-			// Z Rotation
-			float rotZ = (((right.getLength() / left.getLength()) - 1.0f) * (irr::core::HALF_PI / range));
-
-
-			// Apply rotation
-			rotation.setInverseRotationRadians(irr::core::vector3df(
-				 static_cast<float>(rotZ),
-				-static_cast<float>(rotY),
-				 static_cast<float>(rotX)));
+			rotation.setRotationRadians(irr::core::vector3df(
+				-static_cast<float>(angles.X * (irr::core::HALF_PI / range)),
+				 static_cast<float>(angles.Y * (irr::core::PI / 180.0F)),
+				 static_cast<float>(angles.Z * (irr::core::HALF_PI / range))));
 
 			// -----
 			// Set the translation
@@ -422,9 +416,9 @@ namespace Camera
 
 			// Apply transformation (y transformation is done in the camera)
 			translation.setTranslation(irr::core::vector3df(
-				static_cast<float>(position.Y * (m_pixelDistance / m_sizeHalfed.height)),
-				-static_cast<float>(position.Z),
-				static_cast<float>(position.X * (m_pixelDistance / m_sizeHalfed.width))));
+				 static_cast<float>(position.X * (m_pixelDistance / m_sizeHalfed.width)),
+				 static_cast<float>(position.Z),
+				-static_cast<float>(position.Y * (m_pixelDistance / m_sizeHalfed.height))));	
 
 			// Merge scaling, rotation and translation into the transformation
 			transformation = scaling * rotation * translation;
