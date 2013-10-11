@@ -79,18 +79,18 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	Terrain* terrain = new Terrain();
 	m_selector = terrain->GenerateTerrain(p_sceneManager, 10.0);
 	
-	// Create towers
-	m_towers.push_back(new Tower(p_sceneManager, irr::core::vector3df(0.0f)));
-	m_towers.push_back(new Tower(p_sceneManager, irr::core::vector3df(100.0f, 0.0f, 0.0f)));
+	//// Create towers
+	//m_towers.push_back(new Tower(p_sceneManager, irr::core::vector3df(0.0f)));
+	//m_towers.push_back(new Tower(p_sceneManager, irr::core::vector3df(100.0f, 0.0f, 0.0f)));
 
-	// Create creature
-	creature1 = new Creature(p_sceneManager, irr::core::vector3df(), *m_pathNumber, m_selector);
+	//// Create creature
+	//creature1 = new Creature(p_sceneManager, irr::core::vector3df(), *m_pathNumber, m_selector);
 
-	Creature* creature2 = new Creature(p_sceneManager, irr::core::vector3df(50.0f, 0.0f, 0.0f), *m_pathNumber, m_selector);
-	creature2->StopFollowing();
+	//Creature* creature2 = new Creature(p_sceneManager, irr::core::vector3df(50.0f, 0.0f, 0.0f), *m_pathNumber, m_selector);
+	//creature2->StopFollowing();
 
-	m_creatures.push_back(creature1);
-	m_creatures.push_back(creature2);
+	//m_creatures.push_back(creature1);
+	//m_creatures.push_back(creature2);
 }
 
 bool Playground::SetupPath(

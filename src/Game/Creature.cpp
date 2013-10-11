@@ -11,19 +11,16 @@ Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
 {
 	m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk2.0.x");
 	m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
-
-	irr::scene::IAnimatedMeshSceneNode* animatedMeshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
 	
-	m_meshSceneNode = animatedMeshSceneNode;
 	m_meshSceneNode->setPosition(p_position);	
 
-	irr::scene::ISceneNodeAnimator* anim = p_sceneManager->createCollisionResponseAnimator(
-			p_selector, m_meshSceneNode, irr::core::vector3df(10,3,10),
-			irr::core::vector3df(0,-10,0),
-			irr::core::vector3df(0,0,0)
-	);
-	m_meshSceneNode->addAnimator(anim);
-	anim->drop();
+	m_sceneNodeAnimator = p_sceneManager->createCollisionResponseAnimator(
+		p_selector, m_meshSceneNode, irr::core::vector3df(10,3,10),
+		irr::core::vector3df(0,-10,0),
+		irr::core::vector3df(0,0,0)
+		);
+	m_meshSceneNode->addAnimator(m_sceneNodeAnimator);
+	m_sceneNodeAnimator->grab();
 
 	m_healthPoints = 100;
 
@@ -33,7 +30,8 @@ Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
 
 Creature::~Creature()
 {
-
+	m_sceneNodeAnimator->drop();
+	m_sceneNodeAnimator = NULL;
 }
 
 void Creature::Update(float p_deltaTime)

@@ -29,6 +29,7 @@ namespace Game
 
 	private:
         int m_healthPoints;
+		irr::scene::ISceneNodeAnimator* m_sceneNodeAnimator;
 	};
 }
 
