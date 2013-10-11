@@ -2,6 +2,7 @@
 #define __CAMERA__CAPTURE__H__
 
 #include "CalibrationParams.h"
+#include "PointDetector.h"
 #include <irrlicht.h>
 #include <opencv/cv.h>
 #include <opencv/highgui.h>

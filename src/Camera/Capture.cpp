@@ -218,6 +218,11 @@ namespace Camera
 
 				if (m_corners.size() == 4 && m_chosen)
 				{
+					PointDetector pd;
+
+					pd.FindPointsInFrame(m_image, m_corners);
+
+					/*
 					// define the destination image
 					cv::Mat quad = cv::Mat::zeros(300, 300, CV_8U);
 
@@ -242,7 +247,7 @@ namespace Camera
 					cv::Mat bw;
 					cv::cvtColor(quad, bw, CV_BGR2GRAY);
 					cv::blur(bw, bw, cv::Size(3, 3));
-					cv::threshold(bw, bw, 200, 255, cv::THRESH_BINARY);
+					cv::threshold(bw, bw, 120, 255, cv::THRESH_BINARY);
 
 					cv::imshow("bw quadrilateral", bw);
 					cv::waitKey(1);
@@ -262,7 +267,7 @@ namespace Camera
 
 						// Skip contour area's smaller then 100px and larger then 1000px
 						double areaSize = std::fabs(cv::contourArea(quadContours[i]));
-						if (areaSize < 100 || areaSize > 1000)
+						if (areaSize < 100 || areaSize > 5000)
 						{
 							continue;
 						}
@@ -277,12 +282,12 @@ namespace Camera
 
 
 							cv::Rect boundingBox = cv::boundingRect(approx);
-							cv::rectangle(m_image, boundingBox, cv::Scalar(0, 255, 0));
+							cv::rectangle(quad, boundingBox, cv::Scalar(0, 255, 0));
 						}
 					}
 
-					//cv::imshow("bw boundingbox", bw);
-					//cv::waitKey(1);
+					cv::imshow("bw boundingbox", quad);
+					cv::waitKey(1);*/
 				}
 
 				if (m_chosen && lost)

@@ -2,7 +2,10 @@
 #define __CAMERA__POINTDETECTOR__H__
 
 #include <opencv/cv.h>
+#include <opencv/highgui.h>
 #include <irrlicht.h>
+#include <vector>
+#include <list>
 
 namespace Camera
 {
@@ -12,7 +15,7 @@ namespace Camera
 		PointDetector(void);
 		~PointDetector(void);
 
-		void FindPointsInFrame(cv::Mat frame);
+		void FindPointsInFrame(cv::Mat frame, std::vector<cv::Point2f> corners);
 		
 		irr::core::vector3df* GetStartPoints();
 		irr::core::vector3df* GetEndPoints();
