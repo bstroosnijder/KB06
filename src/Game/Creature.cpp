@@ -9,24 +9,40 @@ Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
 		:
 		PathFollower(p_pathRoute)
 {
-	m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk2.0.x");
-	m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
+	m_meshSceneNode = p_sceneManager->addEmptySceneNode();
+	irr::scene::ISceneNode* sceneNodeTemp = NULL;
 
-	irr::scene::IAnimatedMeshSceneNode* animatedMeshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
+	//Head
+	m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk2.7H.x");
+	sceneNodeTemp = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, m_meshSceneNode);
+	SetMaterialFlags(sceneNodeTemp);
 	
-	m_meshSceneNode = animatedMeshSceneNode;
-	m_meshSceneNode->setPosition(p_position);	
+	//Body
+	m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk2.7L.x");///testanim1.1.x");
+	sceneNodeTemp = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, m_meshSceneNode);
+	SetMaterialFlags(sceneNodeTemp);
+
+	//Left Foot
+	m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk2.7LF.x");
+	sceneNodeTemp = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, m_meshSceneNode);
+	SetMaterialFlags(sceneNodeTemp);
+
+	//Right Foot
+	m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk2.7RF.x");
+	sceneNodeTemp = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, m_meshSceneNode);
+	SetMaterialFlags(sceneNodeTemp);
 
 	m_sceneNodeAnimator = p_sceneManager->createCollisionResponseAnimator(
 			p_selector, m_meshSceneNode, irr::core::vector3df(10,3,10),
 			irr::core::vector3df(0,-10,0),
 			irr::core::vector3df(0,0,0)
 	);
+	
+
 	m_sceneNodeAnimator->grab();
 
 	m_healthPoints = 100;
 
-	SetMaterialFlags();
 	StartFollowing();
 }
 

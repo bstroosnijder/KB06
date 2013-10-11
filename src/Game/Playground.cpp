@@ -36,7 +36,7 @@ Playground::~Playground()
 
 void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 {
-	m_castle = new Castle(p_sceneManager, irr::core::vector3df());
+	m_castle = new Castle(p_sceneManager, irr::core::vector3df(0, 0, -1200));
 	m_stargate = new Stargate(p_sceneManager, irr::core::vector3df(0, 0, 1200));
 
 	float range = 10.0f;
@@ -78,7 +78,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	
 	Terrain* terrain = new Terrain();
 	m_selector = terrain->GenerateTerrain(p_sceneManager, 10.0);
-	
+	/*
 	// Create towers
 	m_towers.push_back(new Tower(p_sceneManager, irr::core::vector3df(0.0f)));
 	m_towers.push_back(new Tower(p_sceneManager, irr::core::vector3df(100.0f, 0.0f, 0.0f)));
@@ -91,6 +91,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 
 	m_creatures.push_back(creature1);
 	m_creatures.push_back(creature2);
+	*/
 }
 
 bool Playground::SetupPath(

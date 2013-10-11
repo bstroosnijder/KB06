@@ -18,7 +18,7 @@ namespace Game
 		virtual void updatePosition();
 		void Render(irr::scene::ISceneManager* p_sceneManager);
 		
-		void SetMaterialFlags();
+		void SetMaterialFlags(irr::scene::ISceneNode* p_sceneNode = NULL);
 
 		irr::core::vector3df GetPosition();
 		void SetPosition(irr::core::vector3df& p_position);
