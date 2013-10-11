@@ -7,6 +7,7 @@ namespace Game
 		m_guienv = p_guienv;
 		m_menuIsActive = false;
 		m_controlsMenuIsActive = false;
+		m_victoryIsActive = false;
 		//getting screen resolution for placing buttons on the right place
 		const irr::core::dimension2d<irr::u32>& screenResolution = m_guienv->getVideoDriver()->getScreenSize();
 		m_screenHeight = screenResolution.Height;
@@ -127,6 +128,18 @@ namespace Game
 		{
 			m_controls->remove();
 			m_controlsMenuIsActive = false;
+		}
+
+	}
+
+	void Gui::displayVictory()
+	{
+		if (m_victoryIsActive == false)
+		{
+			irr::gui::IGUIImage* victory = m_guienv->addImage(irr::core::rect<irr::s32>((m_screenWidth/2)-300,(m_screenHeight/2)-169,(m_screenWidth/2)+300,(m_screenHeight/2)+169),0,5);
+			victory->setImage(m_guienv->getVideoDriver()->getTexture("resources/textures/victory.png"));
+			victory->setScaleImage(true);
+			m_victoryIsActive = true;
 		}
 
 	}

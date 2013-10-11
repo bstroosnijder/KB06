@@ -53,6 +53,11 @@ namespace Game
 		{
 			// Update the texture with the camera capture
 			//m_capture->Update();
+			if(m_playground->GetGameStatus() == 4)
+			{
+				m_gui->displayVictory();
+			}
+
 
 			m_videoDriver->beginScene(true, true, irr::video::SColor(255, 0, 0, 255));
 			

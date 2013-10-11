@@ -251,6 +251,7 @@ void Playground::SellTower(irr::core::vector2d<irr::s32> p_position)
 			
 			++itTower;
 			sceneNodeOut->remove();
+			delete tower;
 			m_towers.remove(tower);
 			return;
 		} else

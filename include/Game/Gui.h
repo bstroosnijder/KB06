@@ -65,6 +65,7 @@ namespace Game
 		 */
 		void Cleanup();
 
+		void displayVictory();
 
 
 	private:
@@ -79,6 +80,7 @@ namespace Game
 		int m_screenHeight;
 		bool m_menuIsActive;
 		bool m_controlsMenuIsActive;
+		bool m_victoryIsActive;
 
 		/** 
 		 * @brief Converts a string and an int to a wString so it can be used easily with Irrlicht
