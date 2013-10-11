@@ -6,7 +6,7 @@ Projectile::Projectile(irr::scene::ISceneManager* p_sceneManager,
 					   irr::core::vector3df p_position)
 {
 	//irr::video::ITexture* texture = p_sceneManager->getVideoDriver()->getTexture("resources/tower-texture.jpg");
-	m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/creature.3ds");
+	m_animatedMesh = p_sceneManager->getMesh("resources/models/projectile/projectile.3ds");
 	
 	m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
 	//m_meshSceneNode->setMaterialTexture(0, texture);

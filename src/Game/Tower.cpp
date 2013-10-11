@@ -5,6 +5,11 @@ using namespace Game;
 Tower::Tower(irr::scene::ISceneManager* p_sceneManager,
 			 irr::core::vector3df p_position)
 {
+	m_shootingSpeed = 0.0f;
+	m_range = 0.0f;
+	m_target = NULL;
+	m_jointCrystal = NULL;
+
 	m_animatedMesh = p_sceneManager->getMesh("resources/models/tower/LOLturret/lolturret1.2.x");
 
 	irr::scene::IAnimatedMeshSceneNode* animatedMeshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
@@ -16,7 +21,13 @@ Tower::Tower(irr::scene::ISceneManager* p_sceneManager,
 		m_jointCrystal = animatedMeshSceneNode->getJointNode("shootingbone");
 	}
 
+
 	SetMaterialFlags();
+}
+
+void Tower::Update(float p_deltaTime)
+{
+
 }
 
 void Tower::updatePosition()
@@ -64,8 +75,8 @@ Projectile* Tower::ShootAtTarget(irr::scene::ISceneManager* p_sceneManager)
 	Projectile* projectile = new Projectile(p_sceneManager, GetPosition());
 
 	projectile->SetPosition(this->GetPosition());
-	projectile->setFrom(this);
-	projectile->setTo(m_target);
+	projectile->SetFrom(this);
+	projectile->SetTo(m_target);
 
 	return projectile;
 }

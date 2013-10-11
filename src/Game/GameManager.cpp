@@ -32,5 +32,5 @@ void GameManager::Update()
 
 void GameManager::Render()
 {
-	m_playground->Render(m_device->getSceneManager());
+	m_playground->Render();
 }

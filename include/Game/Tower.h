@@ -1,11 +1,12 @@
 #ifndef __GAME__TOWER__H__
 #define __GAME__TOWER__H__
 
-#include <list>
-#include <cmath>
 #include "Entity.h"
 #include "Creature.h"
 #include "Projectile.h"
+
+#include <list>
+#include <cmath>
 
 namespace Game
 {
@@ -21,12 +22,14 @@ namespace Game
 		
 
 		virtual void Update(float);
+		void updatePosition();
+
+		void SetShootingSpeed(double);
+		void SetRange(double);
+
 		double GetHealthPoints();
 		double GetShootingSpeed();
 		double GetRange();
-
-		Creature* SearchNearestCreature(std::list<Creature*>* p_creatureList);
-		Projectile* ShootAtTarget(irr::scene::ISceneManager* p_sceneManager);
 
 		Creature* SearchNearestCreature(std::list<Creature*>* p_creatureList);
 		Projectile* ShootAtTarget(irr::scene::ISceneManager* p_sceneManager);
