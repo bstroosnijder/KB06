@@ -29,8 +29,3 @@ void Entity::SetPosition(irr::core::vector3df& p_vector)
 {
 	m_meshSceneNode->setPosition(p_vector);
 }
-
-irr::scene::ISceneNode* Entity::getSceneNode()
-{
-	return m_meshSceneNode;
-}

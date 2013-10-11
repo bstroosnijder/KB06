@@ -57,7 +57,7 @@ namespace Game
 		irr::scene::ISceneManager* m_sceneManager;
 		std::vector<Wave*> waves;
 		irr::scene::ITriangleSelector* m_selector;
-		std::vector<Creature*> m_creatures; 
+		//std::vector<Creature*> m_creatures; 
 		int atWave;
 		std::list<Tower*> m_towers;
 		std::list<Creature*> m_creatures;

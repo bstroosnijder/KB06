@@ -70,7 +70,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	
 	//Setup Waves
 	atWave = 0;
-	for(int i = 0; i<3; ++i)
+	for(int i = 0; i < 3; ++i)
 	{
 		waves.push_back(new Game::Wave(p_sceneManager));
 	}
@@ -83,10 +83,10 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	m_towers.push_back(tower2);
 
 	// Create creature
-	creature1 = new Creature(p_sceneManager, tower1->GetPosition(), pathRouteTemp);
+	creature1 = new Creature(p_sceneManager, tower1->GetPosition(), m_pathRouteTemp);
 
 
-	Creature* creature2 = new Creature(p_sceneManager, irr::core::vector3df(50.0f, 0.0f, 0.0f), pathRouteTemp);
+	Creature* creature2 = new Creature(p_sceneManager, irr::core::vector3df(50.0f, 0.0f, 0.0f), m_pathRouteTemp);
 	creature2->StopFollowing();
 
 	new Castle(p_sceneManager, irr::core::vector3df());
@@ -116,14 +116,14 @@ void Playground::Update(irr::scene::ISceneManager* p_sceneManager, float p_delta
 	//creature1->FollowPath(p_deltaTime);
 	for(int i = 0; i<m_creatures.size(); ++i)
 	{
-		irr::core::vector3df position = m_creatures[i]->getPosition();
+		irr::core::vector3df position = m_creatures[i]->GetPosition();
 		int y = position.Y;
 		m_creatures[i]->FollowPath(p_deltaTime);
-		position = m_creatures[i]->getPosition();
+		position = m_creatures[i]->GetPosition();
 		position.Y = y;
-		m_creatures[i]->setPosition(position);
-		int z = m_pathRouteTemp->back()->m_point.Z - m_creatures[i]->getPosition().Z;
-		int x = m_pathRouteTemp->back()->m_point.X - m_creatures[i]->getPosition().X;
+		m_creatures[i]->SetPosition(position);
+		int z = m_pathRouteTemp->back()->m_point.Z - m_creatures[i]->GetPosition().Z;
+		int x = m_pathRouteTemp->back()->m_point.X - m_creatures[i]->GetPosition().X;
 		if (x < 2 && x>= 0)
 		{
 			if (z < 2 && z>= 0)
@@ -231,7 +231,7 @@ void Playground::startNextWave()
 			Game::Wave* wave = waves[0];
 			if (wave)
 			{
-				wave->SpawnWave(tower1->getPosition());
+				wave->SpawnWave(tower1->GetPosition());
 				gameStatus = true;				
 				++atWave;
 			}

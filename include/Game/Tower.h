@@ -19,16 +19,15 @@ namespace Game
 	public:
 		Tower(irr::scene::ISceneManager* p_sceneManager, irr::core::vector3df p_position);
 
-		double GetHealthPoints();
+		Creature* SearchNearestCreature(std::list<Creature*>* p_creatureList);
+		Projectile* ShootAtTarget(irr::scene::ISceneManager* p_sceneManager);
+
 		double GetShootingSpeed();
 		double GetRange();
-
-		Creature* SearchNearestCreature(std::list<Creature*>* p_creatureList);
-		Projectile* ShootAtTarget(irr::scene::ISceneManager* p_sceneManager);
-
-		Creature* SearchNearestCreature(std::list<Creature*>* p_creatureList);
-		Projectile* ShootAtTarget(irr::scene::ISceneManager* p_sceneManager);
 		
+		void SetShootingSpeed(double p_shootingSpeed);
+		void SetRange(double p_range);
+
 	private:
 		double m_shootingSpeed;
 		double m_range;

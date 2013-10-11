@@ -13,19 +13,6 @@ Tower::Tower(irr::scene::ISceneManager* p_sceneManager,
 	SetMaterialFlags();
 }
 
-void Tower::updatePosition()
-{
-	irr::core::vector3df v = GetPosition();
-	
-	if (v.X < 250)
-	{
-		v += irr::core::vector3df(0.04f, 0.0f, 0.0f);
-
-		SetPosition(v);
-	}
-}
-
-
 Creature* Tower::SearchNearestCreature(std::list<Creature*>* p_creatureList)
 {
 	float distanceNearest = 0;
@@ -48,7 +35,7 @@ Creature* Tower::SearchNearestCreature(std::list<Creature*>* p_creatureList)
 			objectNearest = (*iterator);
 		}
 	}
-	 
+	
 	m_target = objectNearest;
 	
 	return objectNearest;
