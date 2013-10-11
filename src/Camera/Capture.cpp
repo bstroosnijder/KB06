@@ -231,7 +231,7 @@ namespace Camera
 					cv::cvtColor(quad, bw, CV_BGR2GRAY);
 					cv::blur(bw, bw, cv::Size(3, 3));
 					cv::threshold(bw, bw, 200, 255, cv::THRESH_BINARY);
-					
+
 					cv::imshow("bw quadrilateral", bw);
 					cv::waitKey(1);
 					//cv::Canny(bw, bw, 100, 100, 3);
@@ -247,23 +247,25 @@ namespace Camera
 						curve.convertTo(curve, cv::Mat(approx).type());
 
 						cv::approxPolyDP(curve, approx, (cv::arcLength(curve, true) * 0.02), true);
-						/*if (std::fabs(cv::contourArea(quadContours[i])) > 50 || !cv::isContourConvex(approx))
-						{
-							continue;
-						}*/
 
+						// Skip contour area's smaller then 100px and larger then 1000px
 						double areaSize = std::fabs(cv::contourArea(quadContours[i]));
-						if (areaSize < 5)
+						if (areaSize < 100 || areaSize > 1000)
 						{
 							continue;
 						}
 
+						std::cout << i << ") " << areaSize << std::endl;
+
+
 
 						if (approx.size() >= 4)
 						{
+
+
+
 							cv::Rect boundingBox = cv::boundingRect(approx);
 							cv::rectangle(m_image, boundingBox, cv::Scalar(0, 255, 0));
-
 						}
 					}
 

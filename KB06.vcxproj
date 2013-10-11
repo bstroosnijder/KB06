@@ -76,6 +76,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera\CalibrationParams.cpp" />
+    <ClCompile Include="src\Camera\PointDetector.cpp" />
     <ClCompile Include="src\Game\Object.cpp" />
     <ClCompile Include="src\Camera\Calibration.cpp" />
     <ClCompile Include="src\Camera\CalibrationSettings.cpp" />
@@ -102,6 +103,7 @@
     <ClInclude Include="include\Camera\Calibration.h" />
     <ClInclude Include="include\Camera\CalibrationSettings.h" />
     <ClInclude Include="include\Camera\Capture.h" />
+    <ClInclude Include="include\Camera\PointDetector.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\Game\Creature.h" />
     <ClInclude Include="include\Game\EventHandler.h" />
