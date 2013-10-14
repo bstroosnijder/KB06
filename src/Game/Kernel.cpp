@@ -90,10 +90,11 @@ namespace Game
 
 				/*
 					Example code to get start and end points from the capture class.
-				irr::core::vector3df* p_startPoints;
-				irr::core::vector3df* p_endPoints;
+					*/
+				irr::core::vector3df* p_startPoints = new irr::core::vector3df();
+				irr::core::vector3df* p_endPoints = new irr::core::vector3df();
 				m_capture->FindStartAndEndPoints(m_capture->GetImage(), p_startPoints, p_endPoints);
-				*/
+				
 			}
 
 			m_sceneManager->drawAll();
