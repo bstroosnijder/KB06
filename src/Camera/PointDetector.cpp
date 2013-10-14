@@ -32,8 +32,16 @@ namespace Camera
 
 		cv::Mat bw;
 		cv::cvtColor(quad, bw, CV_BGR2GRAY);
+		cv::imshow("bw", bw);
+		cv::waitKey(1);
+
 		cv::blur(bw, bw, cv::Size(3, 3));
-		cv::threshold(bw, bw, 120, 255, cv::THRESH_BINARY);
+		cv::imshow("bw+blur", bw);
+		cv::waitKey(1);
+
+		cv::threshold(bw, bw, 190, 255, cv::THRESH_BINARY);
+		cv::imshow("bw+blur+treshold", bw);
+		cv::waitKey(1);
 
 		// Find contours in the black & white image.
 		std::vector<std::vector<cv::Point>> contours;
@@ -54,12 +62,22 @@ namespace Camera
 				continue;
 			}
 
+			cv::Mat curve = cv::Mat(contours[i]);
+			std::vector<cv::Point2f> approx;
+			curve.convertTo(curve, cv::Mat(approx).type());
+			cv::approxPolyDP(curve, approx, (cv::arcLength(curve, true) * 0.02), true);
+
+			if (approx.size() != 4)
+			{
+				continue;
+			}
+
 			contoursSize++;
 			pointContours.push_back(contours[i]);
 		}
 
 
-		if (contoursSize > 0)
+		if (contoursSize == 4)
 		{
 			m_startPoints = new irr::core::vector3df[contoursSize];
 			m_endPoints = new irr::core::vector3df[contoursSize];
@@ -74,9 +92,10 @@ namespace Camera
 				cv::approxPolyDP(curve, approx, (cv::arcLength(curve, true) * 0.02), true);
 
 				// Only use approx when it has at least 4 points.
-				if (approx.size() >= 4)
+				if (approx.size() == 4)
 				{
 					std::cout << i << ") " << approx.size() << std::endl;
+
 					std::cout << i << ") a: 0, x: " << approx.at(0).x << ", y: "<< approx.at(0).y << std::endl;
 					std::cout << i << ") a: 1, x: " << approx.at(1).x << ", y: "<< approx.at(1).y << std::endl;
 					std::cout << i << ") a: 2, x: " << approx.at(2).x << ", y: "<< approx.at(2).y << std::endl;
@@ -114,6 +133,11 @@ namespace Camera
 			m_startPoints = NULL;
 			m_endPoints = NULL;
 		}
+	}
+
+	bool InRange(cv::Point2f a, cv::Point2f b, int range)
+	{
+		return sqrt(abs(a.x - b.x) * abs(a.x - b.x) + abs(a.y - b.y) * abs(a.y - b.y)) < range;
 	}
 
 	irr::core::vector3df* PointDetector::GetStartPoints()
