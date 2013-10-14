@@ -69,9 +69,10 @@ namespace Game
 
 		void ProjectileCreated(Projectile*);
 		void ProjectileDestroyed(Projectile*);
-		void CreatureHit(Creature*, Projectile*);
+
 		void CreatureCreated(Creature*);
 		void CreatureDestroyed(Creature*);
+		void CreatureHit(Creature*, Projectile*);
 		void CreatureRouteEndReached(Creature*);
 
 	private:

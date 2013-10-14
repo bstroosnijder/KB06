@@ -50,11 +50,11 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	points1[3].set(25, 0, 50);	points2[3].set(25, 0, 100);	//5
 	points1[4].set(75, 0, 50);	points2[4].set(75, 0, 100);	//6
 	points1[5].set(25, 0, 100);	points2[5].set(75, 0, 100);	//7
-	points1[6].set(25, 0, 100); points2[6].set(50, 0, 150); //8
-	points1[7].set(75, 0, 100); points2[7].set(50, 0, 150); //9
+	points1[6].set(25, 0, 100); points2[6].set(50, 0, 300); //8
+	points1[7].set(75, 0, 100); points2[7].set(50, 0, 300); //9
 	
 	irr::core::vector3df startPoint(50.0f, 0.0f, 0.0f);
-	irr::core::vector3df endPoint(50.0f, 0.0f, 150.0f);
+	irr::core::vector3df endPoint(50.0f, 0.0f, 300.0f);
 
 	SetupPath(points1, points2, amount, range, startPoint, endPoint);
 
@@ -84,7 +84,7 @@ bool Playground::SetupPath(
 
 void Playground::Update(float p_deltaTime)
 {
-	p_deltaTime *= 4;
+	//p_deltaTime *= 4;
 
 	if (m_playerHealth <= 0)
 	{
@@ -233,8 +233,8 @@ void Playground::SellTower(irr::core::vector2d<irr::s32> p_position)
 	std::list<Tower*>::iterator itTowerEnd = m_towers.end();
 	Tower* tower;
 
-
 	itTower = m_towers.begin();
+
 	while (itTower != itTowerEnd)
 	{		
 		if (sceneNodeOut  == (*itTower)->GetSceneNode())
@@ -246,8 +246,10 @@ void Playground::SellTower(irr::core::vector2d<irr::s32> p_position)
 			delete tower;
 			m_towers.remove(tower);
 			m_playerResources += 250;
+
 			return;
-		} else
+		}
+		else
 		{
 			++itTower;
 		}
