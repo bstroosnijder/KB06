@@ -42,7 +42,7 @@ namespace Game
 		 * @param	UpdateGui uses p_wavetimer to display the time untill the next wave in the GUI
 		 * @param	p_resources is used to display the resources available in the GUI
 		 */
-		void UpdateGui(int p_waveTimer,int p_resources,int p_fps);
+		void UpdateGui(int p_waveNumber,int p_amountOfCreatures,int p_fps, int p_playerHealth, int p_resources);
 
 		/**
 		 *	@brief Creates the menu or destroys the menu
@@ -65,19 +65,23 @@ namespace Game
 		 */
 		void Cleanup();
 
+		void displayVictory();
 
 
 	private:
 		irr::gui::IGUIEnvironment* m_guienv;
 		irr::gui::IGUIImage* m_menu;
 		irr::gui::IGUIImage* m_controls;
-		irr::gui::IGUIStaticText* m_waveTiming;
-		irr::gui::IGUIStaticText* m_resources;
+		irr::gui::IGUIStaticText* m_amountOfCreatures;
+		irr::gui::IGUIStaticText* m_waveNumber;
 		irr::gui::IGUIStaticText* m_fps;
+		irr::gui::IGUIStaticText* m_playerHealth;
+		irr::gui::IGUIStaticText* m_playerResources;
 		int m_screenWidth;
 		int m_screenHeight;
 		bool m_menuIsActive;
 		bool m_controlsMenuIsActive;
+		bool m_victoryIsActive;
 
 		/** 
 		 * @brief Converts a string and an int to a wString so it can be used easily with Irrlicht

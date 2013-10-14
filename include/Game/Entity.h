@@ -18,17 +18,18 @@ namespace Game
 		virtual void updatePosition();
 		void Render(irr::scene::ISceneManager* p_sceneManager);
 		
-		void SetMaterialFlags();
+		void SetMaterialFlags(irr::scene::ISceneNode* p_sceneNode = NULL);
 
 		irr::core::vector3df GetPosition();
 		void SetPosition(irr::core::vector3df& p_position);
+		irr::scene::ISceneNode* GetSceneNode();
 
 	protected:
 
 		irr::scene::ISceneNode* m_meshSceneNode;
 		irr::scene::IAnimatedMesh* m_animatedMesh;
 
-		irr::scene::ISceneNode* getSceneNode();
+		
 	};
 }
 

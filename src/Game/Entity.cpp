@@ -13,13 +13,18 @@ void Entity::updatePosition()
 	return;
 }
 
-void Entity::SetMaterialFlags()
+void Entity::SetMaterialFlags(irr::scene::ISceneNode* p_sceneNode)
 {
-	m_meshSceneNode->setMaterialFlag(irr::video::E_MATERIAL_FLAG::EMF_LIGHTING, false);
-	m_meshSceneNode->setMaterialFlag(irr::video::E_MATERIAL_FLAG::EMF_ANTI_ALIASING, true);
-	m_meshSceneNode->setMaterialType(irr::video::E_MATERIAL_TYPE::EMT_TRANSPARENT_ALPHA_CHANNEL_REF);
-	//m_meshSceneNode->setMaterialFlag(irr::video::E_MATERIAL_FLAG::EMF_BACK_FACE_CULLING, false);
-	//m_meshSceneNode->setMaterialFlag(irr::video::E_MATERIAL_FLAG::EMF_FRONT_FACE_CULLING, false);
+	if (p_sceneNode == NULL)
+	{
+		p_sceneNode = m_meshSceneNode;
+	}
+
+	p_sceneNode->setMaterialFlag(irr::video::E_MATERIAL_FLAG::EMF_LIGHTING, false);
+	p_sceneNode->setMaterialFlag(irr::video::E_MATERIAL_FLAG::EMF_ANTI_ALIASING, true);
+	p_sceneNode->setMaterialType(irr::video::E_MATERIAL_TYPE::EMT_TRANSPARENT_ALPHA_CHANNEL_REF);
+	//p_sceneNode->setMaterialFlag(irr::video::E_MATERIAL_FLAG::EMF_BACK_FACE_CULLING, false);
+	//p_sceneNode->setMaterialFlag(irr::video::E_MATERIAL_FLAG::EMF_FRONT_FACE_CULLING, false);
 }
 
 irr::core::vector3df Entity::GetPosition()
@@ -30,4 +35,9 @@ irr::core::vector3df Entity::GetPosition()
 void Entity::SetPosition(irr::core::vector3df& p_vector)
 {
 	m_meshSceneNode->setPosition(p_vector);
+}
+
+irr::scene::ISceneNode* Entity::GetSceneNode()
+{
+	return m_meshSceneNode;
 }

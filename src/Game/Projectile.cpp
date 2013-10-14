@@ -21,10 +21,10 @@ Projectile::Projectile(irr::scene::ISceneManager* p_sceneManager,
 
 void Projectile::Update(float p_deltaTime)
 {
-	UpdatePosition();
+	UpdatePosition(p_deltaTime);
 }
 
-void Projectile::UpdatePosition()
+void Projectile::UpdatePosition(float p_deltaTime)
 {
 	if (m_from != NULL && m_to != NULL)
 	{

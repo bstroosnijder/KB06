@@ -7,11 +7,12 @@ namespace Game
 		m_guienv = p_guienv;
 		m_menuIsActive = false;
 		m_controlsMenuIsActive = false;
+		m_victoryIsActive = false;
 		//getting screen resolution for placing buttons on the right place
 		const irr::core::dimension2d<irr::u32>& screenResolution = m_guienv->getVideoDriver()->getScreenSize();
 		m_screenHeight = screenResolution.Height;
 		m_screenWidth = screenResolution.Width;
-		
+
 		m_guienv->setSkin(m_guienv->createSkin(irr::gui::EGST_WINDOWS_CLASSIC));
 		irr::gui::IGUISkin* skin = m_guienv->getSkin();
 		irr::gui::IGUIFont* font = m_guienv->getFont("resources/textures/fontlucida.png");		
@@ -32,7 +33,7 @@ namespace Game
 		//initializing user interface		
 		irr::gui::IGUIImage* sideBar = m_guienv->addImage(m_guienv->getVideoDriver()->getTexture("resources/textures/sidebar.png"),irr::core::position2d<int>(m_screenWidth-200,0));
 		int midPositionSidebar = (sideBar->getAbsolutePosition().getWidth()/2);
-		
+
 		irr::gui::IGUIButton* tower = m_guienv->addButton(irr::core::rect<irr::s32>(midPositionSidebar-40,10,midPositionSidebar+40,40),sideBar,TOWER_BUTTON,L"Tower");
 		tower->setImage(m_guienv->getVideoDriver()->getTexture("resources/textures/button.png"));
 		tower->setScaleImage(true);
@@ -52,12 +53,16 @@ namespace Game
 		irr::gui::IGUIImage* image = m_guienv->addImage(irr::core::rect<irr::s32>(0,m_screenHeight-130,250,m_screenHeight-20),sideBar);
 		image->setImage(m_guienv->getVideoDriver()->getTexture("resources/textures/bar.png"));
 		image->setScaleImage(true);
-		m_waveTiming = m_guienv->addStaticText(L" ",irr::core::rect<irr::s32>(10,10,400,40),false,true,image);		
-		m_waveTiming->setOverrideColor(irr::video::SColor(255,0,0,0));
-		m_resources = m_guienv->addStaticText(L" ",irr::core::rect<irr::s32>(10,30,400,60),false,true,image);
-		m_resources->setOverrideColor(irr::video::SColor(255,0,0,0));
+		m_amountOfCreatures = m_guienv->addStaticText(L" ",irr::core::rect<irr::s32>(10,10,400,40),false,true,image);		
+		m_amountOfCreatures->setOverrideColor(irr::video::SColor(255,0,0,0));
+		m_waveNumber = m_guienv->addStaticText(L" ",irr::core::rect<irr::s32>(10,30,400,60),false,true,image);
+		m_waveNumber->setOverrideColor(irr::video::SColor(255,0,0,0));
 		m_fps = m_guienv->addStaticText(L"FPS : ",irr::core::rect<irr::s32>(10,50,400,80),false,true,image);
 		m_fps->setOverrideColor(irr::video::SColor(255,0,0,0));
+		m_playerHealth = m_guienv->addStaticText(L"PlayerHealth : ",irr::core::rect<irr::s32>(10,70,400,100),false,true,image);
+		m_playerHealth->setOverrideColor(irr::video::SColor(255,0,0,0));
+		m_playerResources = m_guienv->addStaticText(L"PlayerResources : ",irr::core::rect<irr::s32>(10,90,400,120),false,true,image);
+		m_playerResources->setOverrideColor(irr::video::SColor(255,0,0,0));
 	}
 
 	Gui::~Gui()
@@ -65,14 +70,16 @@ namespace Game
 		Cleanup();
 	}
 
-	void Gui::UpdateGui(int p_waveNumber, int p_AmountOfCreatures, int p_fps)
+	void Gui::UpdateGui(int p_waveNumber, int p_AmountOfCreatures, int p_fps, int p_playerHealth, int p_resources)
 	{
-		
-		
+
+
 		//STRING CONVERSIE
-		m_waveTiming->setText(stringToWString("Creatures : ", p_AmountOfCreatures).c_str());				
-		m_resources->setText(stringToWString("Wave : ", p_waveNumber).c_str());
+		m_amountOfCreatures->setText(stringToWString("Creatures : ", p_AmountOfCreatures).c_str());				
+		m_waveNumber->setText(stringToWString("Wave : ", p_waveNumber).c_str());
 		m_fps->setText(stringToWString("FPS : ", p_fps).c_str());
+		m_playerHealth->setText(stringToWString("Player Health : ", p_playerHealth).c_str());
+		m_playerResources->setText(stringToWString("Player Resources : ", p_resources).c_str());
 
 		m_guienv->drawAll();
 	}
@@ -128,6 +135,18 @@ namespace Game
 
 	}
 
+	void Gui::displayVictory()
+	{
+		if (m_victoryIsActive == false)
+		{
+			irr::gui::IGUIImage* victory = m_guienv->addImage(irr::core::rect<irr::s32>((m_screenWidth/2)-300,(m_screenHeight/2)-169,(m_screenWidth/2)+300,(m_screenHeight/2)+169),0,5);
+			victory->setImage(m_guienv->getVideoDriver()->getTexture("resources/textures/victory.png"));
+			victory->setScaleImage(true);
+			m_victoryIsActive = true;
+		}
+
+	}
+
 	void Gui::Clear()
 	{
 		m_guienv->clear();		
@@ -138,8 +157,8 @@ namespace Game
 		delete m_guienv;
 		delete m_menu;
 		delete m_controls;
-		delete m_resources;
-		delete m_waveTiming;
+		delete m_waveNumber;
+		delete m_amountOfCreatures;
 	}
 
 	std::wstring Gui::stringToWString(std::string p_string,int p_int)

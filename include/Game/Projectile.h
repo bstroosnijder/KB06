@@ -14,8 +14,8 @@ namespace Game
 	public:
 		Projectile(irr::scene::ISceneManager* p_sceneManager, irr::core::vector3df p_position);
 		
-		virtual void Update(float);
-		void UpdatePosition();
+		virtual void Update(float p_deltaTime);
+		void UpdatePosition(float p_deltaTime);
 
 		double GetMovementSpeed();
 		double GetDamage();
