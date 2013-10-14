@@ -8,7 +8,7 @@ Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
 		PathRoute* p_pathRoute,
 		irr::scene::ITriangleSelector* p_selector)
 		:
-		PathFollower(p_playgroundListener, p_pathRoute)
+		PathFollower(p_sceneManager, p_playgroundListener, p_pathRoute)
 {
 	m_meshSceneNode = p_sceneManager->addEmptySceneNode();
 	irr::scene::ISceneNode* sceneNodeTemp = NULL;

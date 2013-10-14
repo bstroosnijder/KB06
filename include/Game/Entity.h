@@ -15,7 +15,7 @@ namespace Game
 	{
 	public:
 		Entity();
-		Entity(PlaygroundListener*);
+		Entity(irr::scene::ISceneManager*, PlaygroundListener*);
 		~Entity();
 
 		virtual void Update(float) = 0;
@@ -29,12 +29,11 @@ namespace Game
 		irr::scene::ISceneNode* GetSceneNode();
 
 	protected:
+		irr::scene::ISceneManager* m_sceneManager;
 		PlaygroundListener* m_playgroundListener;
 
 		irr::scene::ISceneNode* m_meshSceneNode;
 		irr::scene::IAnimatedMesh* m_animatedMesh;
-
-		
 	};
 }
 

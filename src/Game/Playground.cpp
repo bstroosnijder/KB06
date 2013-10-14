@@ -1,15 +1,6 @@
 #include "Game/Playground.h"
 
-#include "Game/Tower.h"
-#include "Game/Creature.h"
-#include "Game/Projectile.h"
-#include "Game/Castle.h"
-#include "Game/PathBuilder.h"
-
 #include "Utility/Logger.h"
-
-#include <time.h>
-#include <Windows.h>
 
 using namespace Game;
 using namespace Utility;
@@ -117,20 +108,16 @@ void Playground::Update(float p_deltaTime)
 	}
 
 	//Update targets
-	std::list<Tower*>::iterator itTower;
+	std::list<Tower*>::iterator itTower = m_towers.begin();
 	std::list<Tower*>::iterator itTowerEnd = m_towers.end();
 	Tower* tower;
-	for (itTower = m_towers.begin(); itTower != itTowerEnd; ++itTower)
+
+	while (itTower != itTowerEnd)
 	{
 		tower = (*itTower);
-		tower->SearchNearestCreature(&m_creatures);
+		++itTower;
 
-		Projectile* projectile = tower->ShootAtTarget(m_sceneManager);
-
-		if (projectile != NULL)
-		{
-			m_projectiles.push_back(projectile);
-		}
+		tower->ShootAtNearestCreature(m_creatures);
 	}
 
 	for (std::list<Projectile*>::const_iterator iterator = m_projectiles.begin(), end = m_projectiles.end(); iterator != end; ++iterator)

@@ -9,7 +9,7 @@ namespace Game
 	class PathFollower : public Entity
 	{
 	public:
-		PathFollower(PlaygroundListener*, PathRoute* p_pathRoute);
+		PathFollower(irr::scene::ISceneManager*, PlaygroundListener*, PathRoute* p_pathRoute);
 
 		void FollowPath(float p_deltaTime);
 		void StartFollowing();

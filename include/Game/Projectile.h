@@ -12,7 +12,9 @@ namespace Game
 	class Projectile : public Entity
 	{
 	public:
-		Projectile(irr::scene::ISceneManager* p_sceneManager, irr::core::vector3df p_position);
+		Projectile(irr::scene::ISceneManager* p_sceneManager,
+				PlaygroundListener* p_playgroundListener,
+				irr::core::vector3df p_position);
 		
 		virtual void Update(float);
 		void UpdatePosition();

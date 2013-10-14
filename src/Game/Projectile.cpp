@@ -2,8 +2,12 @@
 
 using namespace Game;
 
-Projectile::Projectile(irr::scene::ISceneManager* p_sceneManager,
-					   irr::core::vector3df p_position)
+Projectile::Projectile(
+		irr::scene::ISceneManager* p_sceneManager,
+		PlaygroundListener* p_playgroundListener,
+		irr::core::vector3df p_position)
+		:
+		Entity(p_sceneManager, p_playgroundListener)
 {
 	//irr::video::ITexture* texture = p_sceneManager->getVideoDriver()->getTexture("resources/tower-texture.jpg");
 	m_animatedMesh = p_sceneManager->getMesh("resources/models/projectile/projectile.3ds");
