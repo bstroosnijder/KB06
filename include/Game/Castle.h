@@ -5,11 +5,24 @@
 
 namespace Game
 {
+	/**
+	 * @brief Contains a Castle.
+	 * @author Michel van Os
+	 */
 	class Castle : public Entity
 	{
 	public:
-		Castle(irr::scene::ISceneManager*, irr::core::vector3df&);
+		/**
+		 * @brief Constructor to initialize a castle
+		 * @param p_sceneManager is used to add the castle scene to the scenemanager.
+		 * @param p_position sets the position of the castle
+		 */
+		Castle(irr::scene::ISceneManager* p_sceneManager, irr::core::vector3df& p_position);
 		
+		/**
+		 * @brief Update updates the location of the castle
+		 * @param We give a float which represents a deltatime.
+		 */
 		virtual void Update(float);
 	};
 }

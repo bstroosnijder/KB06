@@ -65,7 +65,7 @@ namespace Game
 		 */
 		void Cleanup();
 
-		void displayVictory();
+		void endGame(int);
 
 
 	private:
@@ -82,6 +82,7 @@ namespace Game
 		bool m_menuIsActive;
 		bool m_controlsMenuIsActive;
 		bool m_victoryIsActive;
+		bool m_defeatSceenIsActive;
 
 		/** 
 		 * @brief Converts a string and an int to a wString so it can be used easily with Irrlicht
