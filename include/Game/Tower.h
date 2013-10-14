@@ -20,8 +20,7 @@ namespace Game
 	public:
 		Tower(irr::scene::ISceneManager* p_sceneManager, irr::core::vector3df p_position);
 		
-
-		//virtual void Update(float);
+		void Update(float);
 
 		void SetShootingSpeed(double);
 		void SetRange(double);
