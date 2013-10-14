@@ -42,7 +42,7 @@ namespace Game
 		 * @param	UpdateGui uses p_wavetimer to display the time untill the next wave in the GUI
 		 * @param	p_resources is used to display the resources available in the GUI
 		 */
-		void UpdateGui(int p_waveTimer,int p_resources,int p_fps, int playerHealth);
+		void UpdateGui(int p_waveNumber,int p_amountOfCreatures,int p_fps, int p_playerHealth, int p_resources);
 
 		/**
 		 *	@brief Creates the menu or destroys the menu
@@ -76,6 +76,7 @@ namespace Game
 		irr::gui::IGUIStaticText* m_waveNumber;
 		irr::gui::IGUIStaticText* m_fps;
 		irr::gui::IGUIStaticText* m_playerHealth;
+		irr::gui::IGUIStaticText* m_playerResources;
 		int m_screenWidth;
 		int m_screenHeight;
 		bool m_menuIsActive;

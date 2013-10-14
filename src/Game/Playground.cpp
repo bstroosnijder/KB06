@@ -23,7 +23,7 @@ Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
 	
 	m_gameStatus = GameStatus::BUILD_PHASE;
 	m_playerHealth = 100;
-	
+	m_playerResources = 1000;
 	Initialize(p_sceneManager);
 }
 
@@ -218,19 +218,23 @@ void Playground::Render()
 			std::cout << m_waveNumber;
 			m_gameStatus = GameStatus::BUILD_PHASE;
 			waves.erase(waves.begin());
+			m_playerResources += 1000;
 		}
 	}
 }
 
 void Playground::SpawnTower(irr::core::vector2d<irr::s32> p_position)
-{
-	irr::core::line3d<irr::f32> line = m_sceneManager->getSceneCollisionManager()->getRayFromScreenCoordinates(p_position,m_sceneManager->getActiveCamera());
-	irr::core::vector3df towerPosition;
-	irr::core::triangle3df triangle;
-	irr::scene::ISceneNode* sceneNodeOut;
-	m_sceneManager->getSceneCollisionManager()->getCollisionPoint(line,m_selector, towerPosition,triangle, sceneNodeOut);
-	m_towers.push_back(new Tower(m_sceneManager,towerPosition));
-	
+{	
+	if ((m_playerResources - 500 ) >= 0)
+	{
+		m_playerResources -= 500;
+		irr::core::line3d<irr::f32> line = m_sceneManager->getSceneCollisionManager()->getRayFromScreenCoordinates(p_position,m_sceneManager->getActiveCamera());
+		irr::core::vector3df towerPosition;
+		irr::core::triangle3df triangle;
+		irr::scene::ISceneNode* sceneNodeOut;
+		m_sceneManager->getSceneCollisionManager()->getCollisionPoint(line,m_selector, towerPosition,triangle, sceneNodeOut);
+		m_towers.push_back(new Tower(m_sceneManager,towerPosition));
+	}	
 }
 
 void Playground::SellTower(irr::core::vector2d<irr::s32> p_position)
@@ -254,6 +258,7 @@ void Playground::SellTower(irr::core::vector2d<irr::s32> p_position)
 			sceneNodeOut->remove();
 			delete tower;
 			m_towers.remove(tower);
+			m_playerResources += 250;
 			return;
 		} else
 		{
@@ -299,4 +304,9 @@ int Playground::GetGameStatus()
 int Playground::GetPlayerHealth()
 {
 	return m_playerHealth;
+}
+
+int Playground::GetPlayerResources()
+{
+	return m_playerResources;
 }

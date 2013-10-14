@@ -61,6 +61,7 @@ namespace Game
 		int GetAmountOfCreatures();
 		int GetGameStatus();
 		int GetPlayerHealth();
+		int GetPlayerResources();
 
 	private:
 		irr::scene::ISceneManager* m_sceneManager;
@@ -85,6 +86,7 @@ namespace Game
 		int m_waveNumber;
 		int m_gameStatus;
 		int m_playerHealth;
+		int m_playerResources;
 
 		Castle* m_castle;
 		Stargate* m_stargate;
