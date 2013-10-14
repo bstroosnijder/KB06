@@ -28,24 +28,20 @@ namespace Game
 			irr::scene::ITriangleSelector* p_selector);
 
 		/**
-		 * @brief Destructor
+		 * @brief	Destroys the Creature
 		 */
 		~Creature();
 
-		/**
-		 * @brief Update the position of the creature
-		 * @param Float delta_time is used to update the calculate the position on the path
-		 */
-		void Update(float);
+		void FollowPath(float p_deltaTime);
 
 		/**
-		 * @brief Set the HealthPoints of the creature
-		 * @param The HP value is p_healthPoints
+		 * @brief	Set the HealthPoints of the creature
+		 * @param	The HP value is p_healthPoints
 		 */
 		void SetHealthPoints(int p_healthPoints);
 
 		/**
-		 * @brief Return the HealthPoints of the creature
+		 * @brief	Return the HealthPoints of the creature
 		 */
 		int GetHealthPoints();
 

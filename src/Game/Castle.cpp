@@ -23,8 +23,3 @@ Castle::Castle(irr::scene::ISceneManager* p_sceneManager,
 
 	SetMaterialFlags();
 }
-
-void Castle::Update(float p_deltaTime)
-{
-
-}

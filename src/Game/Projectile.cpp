@@ -23,11 +23,7 @@ Projectile::Projectile(
 	SetMaterialFlags();
 }
 
-void Projectile::Update(float p_deltaTime)
-{
-	
-}
-
+///@todo	Check if the movement is correct
 void Projectile::MoveTowardsTarget(float p_deltaTime)
 {
 	if (m_target != NULL)

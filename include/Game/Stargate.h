@@ -9,8 +9,6 @@ namespace Game
 	{
 	public:
 		Stargate(irr::scene::ISceneManager*, irr::core::vector3df&);
-		
-		virtual void Update(float);
 	};
 }
 

@@ -105,7 +105,7 @@ void Playground::Update(float p_deltaTime)
 		creature = (*itCreature);
 		++itCreature;
 
-		creature->Update(p_deltaTime);
+		creature->FollowPath(p_deltaTime);
 	}
 	
 	//Update Towers
@@ -190,12 +190,9 @@ void Playground::SpawnTower(irr::core::vector2d<irr::s32> p_position)
 {	
 	if ((m_playerResources - 500 ) >= 0)
 	{
-
-
 		irr::scene::ISceneNode* sceneNodeOut;
 		sceneNodeOut = m_sceneManager->getSceneCollisionManager()->getSceneNodeFromScreenCoordinatesBB(p_position);
-
-
+		
 		std::list<Tower*>::iterator itTower;
 		std::list<Tower*>::iterator itTowerEnd = m_towers.end();
 		bool towerB = false;
@@ -208,9 +205,7 @@ void Playground::SpawnTower(irr::core::vector2d<irr::s32> p_position)
 			} 
 			++itTower;
 		}
-
-
-
+		
 		if (!towerB)
 		{
 			m_playerResources -= 0;
@@ -256,7 +251,7 @@ void Playground::SellTower(irr::core::vector2d<irr::s32> p_position)
 	}
 }
 
-void Playground::startNextWave()
+void Playground::StartNextWave()
 {
 	if (m_gameStatus == GameStatus::BUILD_PHASE)
 	{

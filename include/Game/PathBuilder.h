@@ -55,7 +55,6 @@ namespace Game
 		 * @param	p_pathRoute is a PathRoute
 		 * @author	Michel van Os
 		 * @author	Menno Postma
-		 * @todo	Currently does not avoid duplicates
 		 */
 		void AddAllowedPathDirectionsFromRoute(Path* p_path, PathRoute* p_pathRoute);
 

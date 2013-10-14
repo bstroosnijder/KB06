@@ -73,15 +73,20 @@ void PathBuilder::AddAllowedPathDirectionsFromRoute(Path* p_path, PathRoute* p_p
 		pathPoint = (*it);
 		++it;
 		pathPointNext = (*it);
+
+		//Check for duplicates
 		for (itPathSegment = p_path->m_pathSegments.begin(); itPathSegment != itEnd; ++itPathSegment)
 		{
 			oldPathSegment = (*itPathSegment);
+
 			if (oldPathSegment->m_point1 == pathPoint && oldPathSegment->m_point2 == pathPointNext)
 			{
 				allreadyExists = true;
 			}
 		}
-		if(!allreadyExists)
+
+		//If there was no duplicate
+		if (!allreadyExists)
 		{
 			p_path->m_pathSegments.push_back(new PathSegment(pathPoint, pathPointNext));
 		}

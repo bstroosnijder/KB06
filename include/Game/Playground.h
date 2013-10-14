@@ -58,7 +58,7 @@ namespace Game
 
 		void SellTower(irr::core::vector2d<irr::s32>);
 
-		void startNextWave();
+		void StartNextWave();
 
 		int GetWaveNumber();
 		int GetAmountOfCreatures();
