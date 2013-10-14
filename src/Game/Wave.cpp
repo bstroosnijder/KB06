@@ -2,8 +2,9 @@
 
 namespace Game
 {
-	Wave::Wave(irr::scene::ISceneManager* p_sceneManager)
+	Wave::Wave(irr::scene::ISceneManager* p_sceneManager, PlaygroundListener* p_playgroundListener)
 	{
+		m_playgroundListener = p_playgroundListener;
 		m_sceneManager = p_sceneManager;
 
 		m_creaturesSpawned = false;
@@ -35,7 +36,9 @@ namespace Game
 			{
 				if (m_timer->GetTime() == 1)
 				{
-					p_creatures.push_back(new Creature(m_sceneManager,m_startPosition,p_path,p_selector));
+					Creature* creature = new Creature(m_sceneManager, m_playgroundListener, m_startPosition,p_path,p_selector);
+					p_creatures.push_back(creature);
+					m_playgroundListener->CreatureCreated(creature);
 
 					m_timer->Reset();
 					m_creaturesSpawned = true;

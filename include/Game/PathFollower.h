@@ -9,17 +9,18 @@ namespace Game
 	class PathFollower : public Entity
 	{
 	public:
-		PathFollower(PathRoute* p_pathRoute);
-		void FollowPath(float p_deltaTime);
+		PathFollower(PlaygroundListener*, PathRoute* p_pathRoute);
 
+		void FollowPath(float p_deltaTime);
 		void StartFollowing();
 		void StopFollowing();
 		void ResumeFollowing();
 		bool IsFollowing();
+		bool IsEndOfSegmentReached();
+		bool IsEndOfRouteReached();
 
 		void SetSpeed(float p_speed);
 		float GetSpeed();
-		PathPoint* m_pointCurrent;
 
 	private:
 		bool m_following;
@@ -28,6 +29,7 @@ namespace Game
 		PathRoute::iterator m_pointCurrentIt;
 		PathRoute::iterator m_pointNextIt;
 		
+		PathPoint* m_pointCurrent;
 		PathPoint* m_pointNext;
 
 		irr::core::vector3df m_segmentLength;
@@ -39,7 +41,6 @@ namespace Game
 
 		void FollowNextSegment();
 		void FollowCurrentSegment(float p_deltaTime);
-		bool IsEndOfSegmentReached();
 	};
 };
 

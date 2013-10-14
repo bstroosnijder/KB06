@@ -4,8 +4,21 @@ using namespace Game;
 
 Entity::Entity()
 {
+	m_playgroundListener = NULL;
 	m_meshSceneNode = NULL;
 	m_animatedMesh = NULL;
+}
+
+Entity::Entity(PlaygroundListener* p_playgroundListener)
+{
+	m_playgroundListener = p_playgroundListener;
+	m_meshSceneNode = NULL;
+	m_animatedMesh = NULL;
+}
+
+Entity::~Entity()
+{
+	m_meshSceneNode->remove();
 }
 
 void Entity::updatePosition()

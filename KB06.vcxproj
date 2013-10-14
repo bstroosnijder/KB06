@@ -124,6 +124,7 @@
     <ClInclude Include="include\Game\PathRoute.h" />
     <ClInclude Include="include\Game\PathSegment.h" />
     <ClInclude Include="include\Game\Playground.h" />
+    <ClInclude Include="include\Game\PlaygroundListener.h" />
     <ClInclude Include="include\Game\Projectile.h" />
     <ClInclude Include="include\Game\Stargate.h" />
     <ClInclude Include="include\Game\Timer.h" />

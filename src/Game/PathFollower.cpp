@@ -2,7 +2,8 @@
 
 using namespace Game;
 
-PathFollower::PathFollower(PathRoute* p_pathRoute)
+PathFollower::PathFollower(PlaygroundListener* p_playgroundListener,
+		PathRoute* p_pathRoute) : Entity(p_playgroundListener)
 {
 	m_following = false;
 	m_pathRoute = NULL;
@@ -35,7 +36,6 @@ void PathFollower::StartFollowing()
 {
 	irr::core::vector3df position;
 
-	//Changing values
 	m_following = true;
 
 	m_pointCurrentIt = m_pathRoute->begin();
@@ -70,6 +70,11 @@ bool PathFollower::IsFollowing()
 bool PathFollower::IsEndOfSegmentReached()
 {
 	return (m_segmentPosition.X >= 1);
+}
+
+bool PathFollower::IsEndOfRouteReached()
+{
+	return (m_pointNext == m_pathRoute->back() && IsEndOfSegmentReached());
 }
 
 void PathFollower::SetSpeed(float p_speed)

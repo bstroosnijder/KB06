@@ -14,18 +14,17 @@ namespace Game
 	{
 	public:
 		Creature(irr::scene::ISceneManager* p_sceneManager,
+			PlaygroundListener*,
 			irr::core::vector3df p_position,
 			PathRoute* p_pathRoute,
 			irr::scene::ITriangleSelector* p_selector);
 
 		~Creature();
 
-		virtual void Update(float);
-		void UpdatePosition();
+		void Update(float);
 
 		void SetHealthPoints(int p_healthPoints);
 		int GetHealthPoints();
-		void Kill();
 
 	private:
         int m_healthPoints;
