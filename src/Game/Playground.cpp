@@ -99,6 +99,7 @@ void Playground::Update(float p_deltaTime)
 	std::list<Creature*>::iterator itCreatureEnd = m_creatures.end();
 	Creature* creature;
 	
+	//Update Creatures
 	while (itCreature != itCreatureEnd)
 	{
 		creature = (*itCreature);
@@ -106,8 +107,8 @@ void Playground::Update(float p_deltaTime)
 
 		creature->Update(p_deltaTime);
 	}
-
-	//Update targets
+	
+	//Update Towers
 	std::list<Tower*>::iterator itTower = m_towers.begin();
 	std::list<Tower*>::iterator itTowerEnd = m_towers.end();
 	Tower* tower;
@@ -119,10 +120,18 @@ void Playground::Update(float p_deltaTime)
 
 		tower->ShootAtNearestCreature(m_creatures);
 	}
+	
+	//Update Projectiles
+	std::list<Projectile*>::iterator itProjectile = m_projectiles.begin();
+	std::list<Projectile*>::iterator itProjectileEnd = m_projectiles.end();
+	Projectile* projectile;
 
-	for (std::list<Projectile*>::const_iterator iterator = m_projectiles.begin(), end = m_projectiles.end(); iterator != end; ++iterator)
+	while (itProjectile != itProjectileEnd)
 	{
-		(*iterator)->updatePosition();
+		projectile = (*itProjectile);
+		++itProjectile;
+
+		projectile->MoveTowardsTarget(p_deltaTime);
 	}
 }
 
@@ -269,7 +278,16 @@ void Playground::ProjectileCreated(Projectile* p_projectile)
 {
 	if (p_projectile != NULL)
 	{
+		m_projectiles.push_back(p_projectile);
+	}
+}
 
+void Playground::ProjectileDestroyed(Projectile* p_projectile)
+{
+	if (p_projectile != NULL)
+	{
+		m_projectiles.remove(p_projectile);
+		delete p_projectile;
 	}
 }
 
@@ -285,7 +303,16 @@ void Playground::CreatureCreated(Creature* p_creature)
 {
 	if (p_creature != NULL)
 	{
+		m_creatures.push_back(p_creature);
+	}
+}
 
+void Playground::CreatureDestroyed(Creature* p_creature)
+{
+	if (p_creature != NULL)
+	{
+		m_creatures.remove(p_creature);
+		delete p_creature;
 	}
 }
 

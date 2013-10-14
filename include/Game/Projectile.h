@@ -1,7 +1,7 @@
 #ifndef __GAME__PROJECTILE__H__
 #define __GAME__PROJECTILE__H__
 
-#include "Entity.h"
+#include "Creature.h"
 
 namespace Game
 {
@@ -17,24 +17,21 @@ namespace Game
 				irr::core::vector3df p_position);
 		
 		virtual void Update(float);
-		void UpdatePosition();
+		void MoveTowardsTarget(float p_deltaTime);
 
 		double GetMovementSpeed();
 		double GetDamage();
-		Game::Entity* GetFrom();
-		Game::Entity* GetTo();
+		Game::Creature* GetTarget();
 
 		void SetMovementSpeed(double p_movementSpeed);
 		void SetDamage(double p_damage);
-		void SetFrom(Game::Entity* p_from);
-		void SetTo(Game::Entity* p_to);
+		void SetTarget(Game::Creature* p_creature);
 
 	private:
+		Game::Creature* m_target;
+
 		double m_movementSpeed;
 		double m_damage;
-
-		Game::Entity* m_from;
-		Game::Entity* m_to;
 	};
 }
 

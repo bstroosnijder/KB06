@@ -68,8 +68,10 @@ namespace Game
 		int GetPlayerResources();
 
 		void ProjectileCreated(Projectile*);
+		void ProjectileDestroyed(Projectile*);
 		void CreatureHit(Creature*, Projectile*);
 		void CreatureCreated(Creature*);
+		void CreatureDestroyed(Creature*);
 		void CreatureRouteEndReached(Creature*);
 
 	private:

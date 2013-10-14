@@ -93,8 +93,7 @@ void Tower::ShootProjectileAtCreature(Creature* p_creature)
 	if (p_creature != NULL)
 	{
 		Projectile* projectile = new Projectile(m_sceneManager, m_playgroundListener, GetPosition());
-		projectile->SetFrom(this);
-		projectile->SetTo(p_creature);
+		projectile->SetTarget(p_creature);
 
 		m_playgroundListener->ProjectileCreated(projectile);
 	}
