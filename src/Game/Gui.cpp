@@ -61,6 +61,8 @@ namespace Game
 		m_fps->setOverrideColor(irr::video::SColor(255,0,0,0));
 		m_playerHealth = m_guienv->addStaticText(L"PlayerHealth : ",irr::core::rect<irr::s32>(10,70,400,100),false,true,image);
 		m_playerHealth->setOverrideColor(irr::video::SColor(255,0,0,0));
+		m_playerResources = m_guienv->addStaticText(L"PlayerResources : ",irr::core::rect<irr::s32>(10,90,400,120),false,true,image);
+		m_playerResources->setOverrideColor(irr::video::SColor(255,0,0,0));
 	}
 
 	Gui::~Gui()
@@ -68,7 +70,7 @@ namespace Game
 		Cleanup();
 	}
 
-	void Gui::UpdateGui(int p_waveNumber, int p_AmountOfCreatures, int p_fps, int p_playerHealth)
+	void Gui::UpdateGui(int p_waveNumber, int p_AmountOfCreatures, int p_fps, int p_playerHealth, int p_resources)
 	{
 
 
@@ -77,6 +79,7 @@ namespace Game
 		m_waveNumber->setText(stringToWString("Wave : ", p_waveNumber).c_str());
 		m_fps->setText(stringToWString("FPS : ", p_fps).c_str());
 		m_playerHealth->setText(stringToWString("Player Health : ", p_playerHealth).c_str());
+		m_playerResources->setText(stringToWString("Player Resources : ", p_resources).c_str());
 
 		m_guienv->drawAll();
 	}

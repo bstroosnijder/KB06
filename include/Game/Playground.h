@@ -64,6 +64,8 @@ namespace Game
 		int GetGameStatus();
 		int GetPlayerHealth();
 		
+		int GetPlayerResources();
+
 		void ProjectileCreated(Projectile*);
 		void CreatureHit(Creature*, Projectile*);
 		void CreatureCreated(Creature*);
@@ -91,6 +93,7 @@ namespace Game
 		int m_waveNumber;
 		int m_gameStatus;
 		int m_playerHealth;
+		int m_playerResources;
 
 		Castle* m_castle;
 		Stargate* m_stargate;
