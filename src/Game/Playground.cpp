@@ -1,15 +1,6 @@
 #include "Game/Playground.h"
 
-#include "Game/Tower.h"
-#include "Game/Creature.h"
-#include "Game/Projectile.h"
-#include "Game/Castle.h"
-#include "Game/PathBuilder.h"
-
 #include "Utility/Logger.h"
-
-#include <time.h>
-#include <Windows.h>
 
 using namespace Game;
 using namespace Utility;
@@ -67,31 +58,16 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 
 	SetupPath(points1, points2, amount, range, startPoint, endPoint);
 
-	m_paths = m_path->m_routes;
-	m_pathNumber = m_paths.begin();
+	m_pathNumber = m_path->m_routes.begin();
 	//Setup Waves
 	m_waveNumber = 0;
 	for(int i = 0; i<3; ++i)
 	{
-		waves.push_back(new Game::Wave(p_sceneManager));
+		waves.push_back(new Game::Wave(p_sceneManager, this));
 	}
 	
 	Terrain* terrain = new Terrain();
 	m_selector = terrain->GenerateTerrain(p_sceneManager, 10.0);
-	/*
-	//// Create towers
-	//m_towers.push_back(new Tower(p_sceneManager, irr::core::vector3df(0.0f)));
-	//m_towers.push_back(new Tower(p_sceneManager, irr::core::vector3df(100.0f, 0.0f, 0.0f)));
-
-	//// Create creature
-	//creature1 = new Creature(p_sceneManager, irr::core::vector3df(), *m_pathNumber, m_selector);
-
-	//Creature* creature2 = new Creature(p_sceneManager, irr::core::vector3df(50.0f, 0.0f, 0.0f), *m_pathNumber, m_selector);
-	//creature2->StopFollowing();
-
-	//m_creatures.push_back(creature1);
-	//m_creatures.push_back(creature2);
-	*/
 }
 
 bool Playground::SetupPath(
@@ -108,6 +84,8 @@ bool Playground::SetupPath(
 
 void Playground::Update(float p_deltaTime)
 {
+	p_deltaTime *= 4;
+
 	if (m_playerHealth <= 0)
 	{
 		m_gameStatus = GameStatus::GAME_OVER;
@@ -117,53 +95,29 @@ void Playground::Update(float p_deltaTime)
 		m_gameStatus = GameStatus::VICTORY;
 	}
 	
-	std::list<Creature*>::iterator itCreature;
+	std::list<Creature*>::iterator itCreature = m_creatures.begin();
 	std::list<Creature*>::iterator itCreatureEnd = m_creatures.end();
 	Creature* creature;
-	itCreature = m_creatures.begin();
+	
 	while (itCreature != itCreatureEnd)
 	{
 		creature = (*itCreature);
-
-		irr::core::vector3df position = creature->GetPosition();
-		float y = position.Y;
-		creature->FollowPath(p_deltaTime);
-		position = creature->GetPosition();
-		position.Y = y;
-		creature->SetPosition(position);
-
-
-		Game::PathRoute* pathtemp = *m_paths.begin();
-		int z = pathtemp->back()->m_point.Z - creature->GetPosition().Z;
-		int x = pathtemp->back()->m_point.X - creature->GetPosition().X;
 		++itCreature;
-		if (x < 2 && x>= 0)
-		{
-			if (z < 2 && z>= 0)
-			{
-				m_playerHealth-=2;
-				creature->Kill();
-				m_creatures.remove(creature);
-				delete creature;
-			}
-		}
+
+		creature->Update(p_deltaTime);
 	}
 
 	//Update targets
-	std::list<Tower*>::iterator itTower;
+	std::list<Tower*>::iterator itTower = m_towers.begin();
 	std::list<Tower*>::iterator itTowerEnd = m_towers.end();
 	Tower* tower;
-	for (itTower = m_towers.begin(); itTower != itTowerEnd; ++itTower)
+
+	while (itTower != itTowerEnd)
 	{
 		tower = (*itTower);
-		tower->SearchNearestCreature(&m_creatures);
+		++itTower;
 
-		Projectile* projectile = tower->ShootAtTarget(m_sceneManager);
-
-		if (projectile != NULL)
-		{
-			m_projectiles.push_back(projectile);
-		}
+		tower->ShootAtNearestCreature(m_creatures);
 	}
 
 	for (std::list<Projectile*>::const_iterator iterator = m_projectiles.begin(), end = m_projectiles.end(); iterator != end; ++iterator)
@@ -205,9 +159,9 @@ void Playground::Render()
 	{
 		if (waves[0]->CheckWaveStatus(m_creatures))
 		{
-			if (*m_pathNumber == m_paths.back())
+			if (*m_pathNumber == m_path->m_routes.back())
 			{
-				m_pathNumber = m_paths.begin();
+				m_pathNumber = m_path->m_routes.begin();
 			}
 			std::advance(m_pathNumber,1);
 			waves[0]->SpawnCreature(m_creatures, *m_pathNumber,m_selector);
@@ -309,4 +263,39 @@ int Playground::GetPlayerHealth()
 int Playground::GetPlayerResources()
 {
 	return m_playerResources;
+}
+
+void Playground::ProjectileCreated(Projectile* p_projectile)
+{
+	if (p_projectile != NULL)
+	{
+
+	}
+}
+
+void Playground::CreatureHit(Creature* p_creature, Projectile* p_projectile)
+{
+	if (p_creature != NULL && p_projectile != NULL)
+	{
+
+	}
+}
+
+void Playground::CreatureCreated(Creature* p_creature)
+{
+	if (p_creature != NULL)
+	{
+
+	}
+}
+
+void Playground::CreatureRouteEndReached(Creature* p_creature)
+{
+	if (p_creature != NULL)
+	{
+		m_creatures.remove(p_creature);
+		delete p_creature;
+
+		m_playerHealth -= 1;
+	}
 }

@@ -1,6 +1,7 @@
 #ifndef __GAME__PLAYGROUND__H__
 #define __GAME__PLAYGROUND__H__
 
+#include "PlaygroundListener.h"
 #include "Path.h" 
 #include "PathBuilder.h"
 #include "Tower.h"
@@ -12,6 +13,7 @@
 #include "Game/Castle.h"
 #include "Game/Stargate.h"
 #include "Game/Terrain.h"
+
 #include <vector>
 #include <irrlicht.h>
 
@@ -25,7 +27,7 @@ namespace Game
 	* @author	Menno Postma
 	* @author	Thomas Gravekamp
 	*/
-	class Playground
+	class Playground : public PlaygroundListener
 	{
 		enum GameStatus
 		{
@@ -40,6 +42,7 @@ namespace Game
 
 		void Initialize(irr::scene::ISceneManager* p_sceneManager);
 		void Update(float p_deltaTime);
+
 		void Render();
 
 		bool SetupPath(
@@ -61,7 +64,13 @@ namespace Game
 		int GetAmountOfCreatures();
 		int GetGameStatus();
 		int GetPlayerHealth();
+		
 		int GetPlayerResources();
+
+		void ProjectileCreated(Projectile*);
+		void CreatureHit(Creature*, Projectile*);
+		void CreatureCreated(Creature*);
+		void CreatureRouteEndReached(Creature*);
 
 	private:
 		irr::scene::ISceneManager* m_sceneManager;
@@ -76,7 +85,6 @@ namespace Game
 		std::list<Tower*> m_towers;
 		std::list<Projectile*> m_projectiles;
 		std::list<PathFollower*> m_pathFollowers;
-		std::list<Game::PathRoute*> m_paths;
 		std::list<PathRoute*>::iterator m_pathNumber;
 
 		std::vector<Wave*> waves;

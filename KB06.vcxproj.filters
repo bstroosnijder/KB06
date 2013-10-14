@@ -215,5 +215,8 @@
     <ClInclude Include="include\Game\Terrain.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="include\Game\PlaygroundListener.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

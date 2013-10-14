@@ -3,11 +3,12 @@
 using namespace Game;
 
 Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
+		PlaygroundListener* p_playgroundListener,
 		irr::core::vector3df p_position,
 		PathRoute* p_pathRoute,
 		irr::scene::ITriangleSelector* p_selector)
 		:
-		PathFollower(p_pathRoute)
+		PathFollower(p_sceneManager, p_playgroundListener, p_pathRoute)
 {
 	m_meshSceneNode = p_sceneManager->addEmptySceneNode();
 	irr::scene::ISceneNode* sceneNodeTemp = NULL;
@@ -54,14 +55,20 @@ Creature::~Creature()
 }
 
 void Creature::Update(float p_deltaTime)
-{
-	UpdatePosition();
+{		
+	irr::core::vector3df position = GetPosition();
+	FollowPath(p_deltaTime);
+	float y = position.Y;
+	position = GetPosition();
+	position.Y = y;
+	SetPosition(position);
+
+	if (IsEndOfRouteReached())
+	{
+		m_playgroundListener->CreatureRouteEndReached(this);
+	}
 }
 
-void Creature::UpdatePosition()
-{
-	return;
-}
 void Creature::SetHealthPoints(int p_healthPoints)
 {
 	m_healthPoints = p_healthPoints;
@@ -71,9 +78,3 @@ int Creature::GetHealthPoints()
 {
 	return m_healthPoints;
 }
-
-void Creature::Kill()
-{
-	m_meshSceneNode->remove();
-}
-

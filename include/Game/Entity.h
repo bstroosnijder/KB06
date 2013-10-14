@@ -1,6 +1,8 @@
 #ifndef __GAME__OBJECT__H__
 #define __GAME__OBJECT__H__
 
+#include "PlaygroundListener.h"
+
 #include <irrlicht.h>
 
 namespace Game
@@ -13,6 +15,8 @@ namespace Game
 	{
 	public:
 		Entity();
+		Entity(irr::scene::ISceneManager*, PlaygroundListener*);
+		~Entity();
 
 		virtual void Update(float) = 0;
 		virtual void updatePosition();
@@ -25,11 +29,11 @@ namespace Game
 		irr::scene::ISceneNode* GetSceneNode();
 
 	protected:
+		irr::scene::ISceneManager* m_sceneManager;
+		PlaygroundListener* m_playgroundListener;
 
 		irr::scene::ISceneNode* m_meshSceneNode;
 		irr::scene::IAnimatedMesh* m_animatedMesh;
-
-		
 	};
 }
 
