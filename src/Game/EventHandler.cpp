@@ -1,4 +1,5 @@
 #include "Game/EventHandler.h"
+
 namespace Game
 {
 	EventHandler::EventHandler(irr::IrrlichtDevice* p_device, Game::Gui* p_gui, Game::Playground* p_playground)

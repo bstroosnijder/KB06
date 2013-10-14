@@ -2,8 +2,11 @@
 
 using namespace Game;
 
-PathFollower::PathFollower(PlaygroundListener* p_playgroundListener,
-		PathRoute* p_pathRoute) : Entity(p_playgroundListener)
+PathFollower::PathFollower(irr::scene::ISceneManager* p_sceneManager,
+		PlaygroundListener* p_playgroundListener,
+		PathRoute* p_pathRoute)
+		:
+		Entity(p_sceneManager, p_playgroundListener)
 {
 	m_following = false;
 	m_pathRoute = NULL;

@@ -9,8 +9,9 @@ Entity::Entity()
 	m_animatedMesh = NULL;
 }
 
-Entity::Entity(PlaygroundListener* p_playgroundListener)
+Entity::Entity(irr::scene::ISceneManager* p_sceneManager, PlaygroundListener* p_playgroundListener)
 {
+	m_sceneManager = p_sceneManager;
 	m_playgroundListener = p_playgroundListener;
 	m_meshSceneNode = NULL;
 	m_animatedMesh = NULL;

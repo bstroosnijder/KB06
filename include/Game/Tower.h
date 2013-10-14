@@ -29,8 +29,7 @@ namespace Game
 		double GetShootingSpeed();
 		double GetRange();
 
-		Creature* SearchNearestCreature(std::list<Creature*>* p_creatureList);
-		Projectile* ShootAtTarget(irr::scene::ISceneManager* p_sceneManager);
+		void ShootAtNearestCreature(std::list<Creature*>&);
 		
 	private:
 		double m_shootingSpeed;
@@ -38,6 +37,9 @@ namespace Game
 
 		Creature* m_target;
 		irr::scene::ISceneNode* m_jointCrystal;
+
+		Creature* SearchNearestCreature(std::list<Creature*>& p_creatureList);
+		void ShootProjectileAtCreature(Creature* p_creature);
 	};
 }
 

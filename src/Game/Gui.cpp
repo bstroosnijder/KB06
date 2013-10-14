@@ -8,6 +8,7 @@ namespace Game
 		m_menuIsActive = false;
 		m_controlsMenuIsActive = false;
 		m_victoryIsActive = false;
+		m_defeatSceenIsActive= false;
 		//getting screen resolution for placing buttons on the right place
 		const irr::core::dimension2d<irr::u32>& screenResolution = m_guienv->getVideoDriver()->getScreenSize();
 		m_screenHeight = screenResolution.Height;
@@ -132,19 +133,30 @@ namespace Game
 			m_controls->remove();
 			m_controlsMenuIsActive = false;
 		}
-
 	}
 
-	void Gui::displayVictory()
-	{
-		if (m_victoryIsActive == false)
+	void Gui::endGame(int p_endGame)
+	{		
+		if (p_endGame == 4)
 		{
-			irr::gui::IGUIImage* victory = m_guienv->addImage(irr::core::rect<irr::s32>((m_screenWidth/2)-300,(m_screenHeight/2)-169,(m_screenWidth/2)+300,(m_screenHeight/2)+169),0,5);
-			victory->setImage(m_guienv->getVideoDriver()->getTexture("resources/textures/victory.png"));
-			victory->setScaleImage(true);
-			m_victoryIsActive = true;
+			if (m_victoryIsActive == false)
+			{
+				irr::gui::IGUIImage* victory = m_guienv->addImage(irr::core::rect<irr::s32>((m_screenWidth/2)-300,(m_screenHeight/2)-169,(m_screenWidth/2)+300,(m_screenHeight/2)+169),0,5);
+				victory->setImage(m_guienv->getVideoDriver()->getTexture("resources/textures/victory.png"));
+				victory->setScaleImage(true);
+				m_victoryIsActive = true;
+			}
 		}
-
+		if (p_endGame == 1)
+		{
+			if (m_defeatSceenIsActive == false)
+			{
+				irr::gui::IGUIImage* defeat = m_guienv->addImage(irr::core::rect<irr::s32>((m_screenWidth/2)-300,(m_screenHeight/2)-169,(m_screenWidth/2)+300,(m_screenHeight/2)+169),0,5);
+				defeat->setImage(m_guienv->getVideoDriver()->getTexture("resources/textures/defeat.png"));
+				defeat->setScaleImage(true);
+				m_defeatSceenIsActive = true;
+			}
+		}
 	}
 
 	void Gui::Clear()
