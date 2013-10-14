@@ -11,7 +11,7 @@ namespace Camera
 	{
 	}
 
-	void PointDetector::FindPointsInFrame(cv::Mat frame, std::vector<cv::Point2f> corners)
+	void PointDetector::FindPointsInFrame(cv::Mat frame, std::vector<cv::Point2f> corners, irr::core::vector3df* p_startPoints, irr::core::vector3df* p_endPoints)
 	{
 		cv::Mat quad = cv::Mat::zeros(300, 300, CV_8U);
 
@@ -43,6 +43,10 @@ namespace Camera
 		cv::imshow("bw+blur+treshold", bw);
 		cv::waitKey(1);
 
+		/*cv::Canny( bw, bw, 100, 200, 3 );
+		cv::imshow("bw+blur+treshold+canny", bw);
+		cv::waitKey(1);*/
+
 		// Find contours in the black & white image.
 		std::vector<std::vector<cv::Point>> contours;
 		cv::findContours(bw, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE, cv::Point(10, 10));
@@ -67,7 +71,7 @@ namespace Camera
 			curve.convertTo(curve, cv::Mat(approx).type());
 			cv::approxPolyDP(curve, approx, (cv::arcLength(curve, true) * 0.02), true);
 
-			if (approx.size() != 4)
+			if (approx.size() < 4)
 			{
 				continue;
 			}
@@ -77,10 +81,10 @@ namespace Camera
 		}
 
 
-		if (contoursSize == 4)
+		if (contoursSize > 0)
 		{
-			m_startPoints = new irr::core::vector3df[contoursSize];
-			m_endPoints = new irr::core::vector3df[contoursSize];
+			p_startPoints = new irr::core::vector3df[contoursSize];
+			p_endPoints = new irr::core::vector3df[contoursSize];
 
 			for (int i = 0; i < contoursSize; i++)
 			{
@@ -92,33 +96,74 @@ namespace Camera
 				cv::approxPolyDP(curve, approx, (cv::arcLength(curve, true) * 0.02), true);
 
 				// Only use approx when it has at least 4 points.
-				if (approx.size() == 4)
+				if (approx.size() >= 4)
 				{
-					std::cout << i << ") " << approx.size() << std::endl;
+					std::cout << i << ") " << approx.size() << std::endl; // Debug how many approxes are in the contour.
 
-					std::cout << i << ") a: 0, x: " << approx.at(0).x << ", y: "<< approx.at(0).y << std::endl;
-					std::cout << i << ") a: 1, x: " << approx.at(1).x << ", y: "<< approx.at(1).y << std::endl;
-					std::cout << i << ") a: 2, x: " << approx.at(2).x << ", y: "<< approx.at(2).y << std::endl;
-					std::cout << i << ") a: 3, x: " << approx.at(3).x << ", y: "<< approx.at(3).y << std::endl;
+					// Define 2 points for begin and end, it does not matter if A or B is the top or lower point.
+					cv::Point2f pointA, pointB;
 
-					for (int i = 0; i < approx.size(); i++)
+					// Define a skip length. If points are in this range only one of the points will be used.
+					int pointSkipLength = 15;
+
+					// Loop through all of the points in the contour
+					for (int j = 0; j < approx.size(); j++)
 					{
-						cv::circle(quad, cv::Point(approx.at(i).x, approx.at(i).y), 3, cv::Scalar(255, 0, 0));
+						cv::circle(quad, cv::Point(approx.at(j).x, approx.at(j).y), 3, cv::Scalar(255, 0, 0)); // DUMMY visualizer for all points in the contour.
+
+						// Only set point A If it is not set yet.
+						if (pointA.x == 0 && pointA.y == 0)
+						{
+							pointA.x = approx.at(j).x;
+							pointA.y = approx.at(j).y;
+
+							cv::circle(quad, pointA, 4, cv::Scalar(0, 0, 255)); // DUMMY visualizer for point A.
+						}
+						else
+						{
+							// If points are within the range we can skip this point.
+							if (abs(pointA.x - approx.at(j).x) < pointSkipLength && abs(pointA.y - approx.at(j).y) < pointSkipLength)
+							{
+								continue;
+							}
+							else
+							{
+								// Only set point B if it is not set, yet.
+								if (pointB.x == 0 && pointB.y == 0)
+								{
+									pointB.x = approx.at(j).x;
+									pointB.y = approx.at(j).y;
+
+									cv::circle(quad, pointB, 4, cv::Scalar(0, 0, 255)); // DUMMY visualizer for point B.
+
+									// We got point A and B, no need to look further.
+									break;
+								}
+							}
+						}
 					}
-					//cv::circle(quad, cv::Point(approx.at(0).x, approx.at(0).y), 3, cv::Scalar(255, 0, 0));
+					
+					// Determine which point is top or bottom.
+					if (pointA.y > pointB.y)
+					{
+						p_startPoints[i].X = pointA.x;
+						p_startPoints[i].Y = 0;
+						p_startPoints[i].Z = pointA.y;
 
-					//cv::circle(quad, cv::Point(approx.at(0).x, approx.at(0).y), 3, cv::Scalar(255, 0, 0));
-					//cv::circle(quad, cv::Point(approx.at(1).x, approx.at(1).y), 3, cv::Scalar(0, 255, 0));
-					//cv::circle(quad, cv::Point(approx.at(2).x, approx.at(2).y), 3, cv::Scalar(0, 0, 255));
-					//cv::circle(quad, cv::Point(approx.at(3).x, approx.at(3).y), 3, cv::Scalar(255, 0, 255));
+						p_endPoints[i].X = pointB.x;
+						p_endPoints[i].Y = 0;
+						p_endPoints[i].Z = pointB.y;
+					}
+					else
+					{
+						p_startPoints[i].X = pointB.x;
+						p_startPoints[i].Y = 0;
+						p_startPoints[i].Z = pointB.y;
 
-					m_startPoints[i].X = 1;
-					m_startPoints[i].Y = 0;
-					m_startPoints[i].Z = 1;
-
-					m_endPoints[i].X = 1;
-					m_endPoints[i].Y = 0;
-					m_endPoints[i].Z = 1;
+						p_endPoints[i].X = pointA.x;
+						p_endPoints[i].Y = 0;
+						p_endPoints[i].Z = pointA.y;
+					}
 
 					// Draw a bounding box around the contour.
 					cv::Rect boundingBox = cv::boundingRect(approx);
@@ -128,25 +173,5 @@ namespace Camera
 				cv::imshow("bw boundingbox", quad);
 			}
 		}
-		else
-		{
-			m_startPoints = NULL;
-			m_endPoints = NULL;
-		}
-	}
-
-	bool InRange(cv::Point2f a, cv::Point2f b, int range)
-	{
-		return sqrt(abs(a.x - b.x) * abs(a.x - b.x) + abs(a.y - b.y) * abs(a.y - b.y)) < range;
-	}
-
-	irr::core::vector3df* PointDetector::GetStartPoints()
-	{
-		return m_startPoints;
-	}
-
-	irr::core::vector3df* PointDetector::GetEndPoints()
-	{
-		return m_endPoints;
 	}
 }

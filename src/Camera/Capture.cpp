@@ -216,80 +216,6 @@ namespace Camera
 					curve.release();
 				}
 
-				if (m_corners.size() == 4 && m_chosen)
-				{
-					PointDetector pd;
-
-					pd.FindPointsInFrame(m_image, m_corners);
-
-					/*
-					// define the destination image
-					cv::Mat quad = cv::Mat::zeros(300, 300, CV_8U);
-
-					// corners of the destination image
-					Corners quad_pts;
-					quad_pts.push_back(cv::Point2f(0, 0));
-					quad_pts.push_back(cv::Point2f(quad.cols, 0));
-					quad_pts.push_back(cv::Point2f(quad.cols, quad.rows));
-					quad_pts.push_back(cv::Point2f(0, quad.rows));
-
-					Lock();
-					// get transformation matrix
-					cv::Mat matrix = cv::getPerspectiveTransform(m_corners, quad_pts);
-					Unlock();
-
-
-					// Apply perspective transformation
-					cv::warpPerspective(m_image, quad, matrix, quad.size());
-					cv::imshow("quadrilateral", quad);
-					cv::waitKey(1);
-
-					cv::Mat bw;
-					cv::cvtColor(quad, bw, CV_BGR2GRAY);
-					cv::blur(bw, bw, cv::Size(3, 3));
-					cv::threshold(bw, bw, 120, 255, cv::THRESH_BINARY);
-
-					cv::imshow("bw quadrilateral", bw);
-					cv::waitKey(1);
-					//cv::Canny(bw, bw, 100, 100, 3);
-
-					std::vector<std::vector<cv::Point>> quadContours;
-					cv::findContours(bw, quadContours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE, cv::Point(10, 10));
-
-					for (int i = 0; i < quadContours.size(); i++)
-					{
-						cv::Mat curve = cv::Mat(quadContours[i]);
-						Corners approx;
-						// Convert from std::vector<cv::Point> to Corners
-						curve.convertTo(curve, cv::Mat(approx).type());
-
-						cv::approxPolyDP(curve, approx, (cv::arcLength(curve, true) * 0.02), true);
-
-						// Skip contour area's smaller then 100px and larger then 1000px
-						double areaSize = std::fabs(cv::contourArea(quadContours[i]));
-						if (areaSize < 100 || areaSize > 5000)
-						{
-							continue;
-						}
-
-						std::cout << i << ") " << areaSize << std::endl;
-
-
-
-						if (approx.size() >= 4)
-						{
-
-
-
-							cv::Rect boundingBox = cv::boundingRect(approx);
-							cv::rectangle(quad, boundingBox, cv::Scalar(0, 255, 0));
-						}
-					}
-
-					cv::imshow("bw boundingbox", quad);
-					cv::waitKey(1);*/
-				}
-
 				if (m_chosen && lost)
 				{
 					// ERROR BOUNDINGBOX
@@ -312,6 +238,16 @@ namespace Camera
 		while (m_running)
 		{
 			Work();
+		}
+	}
+
+	void Capture::FindStartAndEndPoints(cv::Mat frame, irr::core::vector3df* p_startPoints, irr::core::vector3df* p_endPoints)
+	{
+		if (m_corners.size() == 4 && m_chosen)
+		{
+			PointDetector pd;
+
+			pd.FindPointsInFrame(frame, m_corners, p_startPoints, p_endPoints);
 		}
 	}
 
@@ -406,8 +342,8 @@ namespace Camera
 			float range = 0.2f;
 			rotation.setRotationRadians(irr::core::vector3df(
 				-static_cast<float>(angles.X * (irr::core::HALF_PI / range)),
-				 static_cast<float>(angles.Y * (irr::core::PI / 180.0F)),
-				 static_cast<float>(angles.Z * (irr::core::HALF_PI / range))));
+				static_cast<float>(angles.Y * (irr::core::PI / 180.0F)),
+				static_cast<float>(angles.Z * (irr::core::HALF_PI / range))));
 
 			// -----
 			// Set the translation
@@ -423,8 +359,8 @@ namespace Camera
 
 			// Apply transformation (y transformation is done in the camera)
 			translation.setTranslation(irr::core::vector3df(
-				 static_cast<float>(position.X * (m_pixelDistance / m_sizeHalfed.width)),
-				 static_cast<float>(position.Z),
+				static_cast<float>(position.X * (m_pixelDistance / m_sizeHalfed.width)),
+				static_cast<float>(position.Z),
 				-static_cast<float>(position.Y * (m_pixelDistance / m_sizeHalfed.height))));	
 
 			// Merge scaling, rotation and translation into the transformation
@@ -638,5 +574,10 @@ namespace Camera
 		m_shortestLine = shortestLine;
 		m_longestLine = longestLine;
 		m_ratio = m_shortestLine.getLength() / m_longestLine.getLength();
+	}
+
+	cv::Mat Capture::GetImage()
+	{
+		return m_image;
 	}
 }

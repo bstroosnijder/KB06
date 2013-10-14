@@ -110,6 +110,20 @@ namespace Camera
 		 */
 		irr::core::line2df GetCalculatedShortestGameLine();
 
+		/**
+		 * @brief	Finds start and end points in a frame.
+		 * @param	frame The frame to capture points in
+		 * @param   p_startPoints A pointer to a vector3df array to store start points.
+		 * @param   p_endPoints A pointer to a vector3df array to store end points.
+		 */
+		void FindStartAndEndPoints(cv::Mat frame, irr::core::vector3df* p_startPoints, irr::core::vector3df* p_endPoints);
+
+		/**
+		 * @brief	Gets the current frame of the camera
+		 * @return	Returns the current image captured by the camera.
+		 */
+		cv::Mat GetImage();
+
 	private:
 		typedef std::vector<cv::Point3f> Points3D;
 		typedef std::vector<cv::Point2f> Corners;
@@ -194,7 +208,7 @@ namespace Camera
 		bool SortCorners(Corners& p_corners, cv::Point2f p_center);
 
 		/**
-		 * @brief	Calculets the longs corner for compareses with the games longest corner.
+		 * @brief	Calculates the longs corner for compareses with the games longest corner.
 		 *			This can be used to determin the ratio.
 		 * @param	p_corners The corners to use as lines and check for the longest line
 		 */

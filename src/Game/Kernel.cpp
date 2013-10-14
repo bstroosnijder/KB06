@@ -87,6 +87,13 @@ namespace Game
 				irr::core::matrix4 transformation = m_capture->GetTransformMatrix(camera->getProjectionMatrix());
 				root->setPosition(transformation.getTranslation());
 				root->setRotation(transformation.getRotationDegrees());
+
+				/*
+					Example code to get start and end points from the capture class.
+				irr::core::vector3df* p_startPoints;
+				irr::core::vector3df* p_endPoints;
+				m_capture->FindStartAndEndPoints(m_capture->GetImage(), p_startPoints, p_endPoints);
+				*/
 			}
 
 			m_sceneManager->drawAll();
