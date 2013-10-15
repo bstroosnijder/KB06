@@ -1,9 +1,10 @@
 #ifndef __GAME__WAVE__H__
 #define __GAME__WAVE__H__
 
+#include "PlaygroundListener.h"
 #include "Game/Creature.h"
 #include "Game/Timer.h"
-
+#include "Utility/Logger.h"
 
 #include <vector>
 #include <list>
@@ -24,7 +25,7 @@ namespace Game
 		* @brief The constructor initializes the object.
 		* @param p_scenemanager is used to create creatures in the class
 		*/
-		Wave(irr::scene::ISceneManager* p_sceneManager);
+		Wave(irr::scene::ISceneManager* p_sceneManager, PlaygroundListener*);
 		~Wave();
 
 		/** 
@@ -46,6 +47,7 @@ namespace Game
 		bool CheckWaveStatus(std::list<Creature*>& p_creatures);
 
 	private:
+		PlaygroundListener* m_playgroundListener;
 		irr::scene::ISceneManager* m_sceneManager;
 		bool m_creaturesSpawned;
 		bool m_isActive;

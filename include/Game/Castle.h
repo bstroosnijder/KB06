@@ -3,14 +3,23 @@
 
 #include "Entity.h"
 
+#include <string>
+
 namespace Game
 {
+	/**
+	 * @brief Contains a Castle.
+	 * @author Michel van Os
+	 */
 	class Castle : public Entity
 	{
 	public:
-		Castle(irr::scene::ISceneManager*, irr::core::vector3df&);
-		
-		virtual void Update(float);
+		/**
+		 * @brief Constructor to initialize a castle
+		 * @param p_sceneManager is used to add the castle scene to the scenemanager.
+		 * @param p_position sets the position of the castle
+		 */
+		Castle(irr::scene::ISceneManager* p_sceneManager, irr::core::vector3df& p_position);
 	};
 }
 

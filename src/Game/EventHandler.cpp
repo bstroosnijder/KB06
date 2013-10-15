@@ -1,4 +1,5 @@
 #include "Game/EventHandler.h"
+
 namespace Game
 {
 	EventHandler::EventHandler(irr::IrrlichtDevice* p_device, Game::Gui* p_gui, Game::Playground* p_playground)
@@ -53,7 +54,7 @@ namespace Game
 				}
 				if (id == STARTGAME_BUTTON)
 				{
-					m_playground->startNextWave();
+					m_playground->StartNextWave();
 					return true;
 				}
 			}
@@ -115,4 +116,4 @@ namespace Game
 		delete m_gui;
 		delete m_device;
 	}
-}	
+}
