@@ -7,6 +7,7 @@ int main (int argc, char* argv[])
 	logger->SetFileLoggingState(false);
 	logger->Log(Utility::Logger::LOG_MESSAGE, "Main: Game started");
 
+	// Cheat to be able to switch between game en calibration; Calibration doesn't work at the moment. :(
 	if (true)
 	{
 		Game::Kernel* kernel = new Game::Kernel();

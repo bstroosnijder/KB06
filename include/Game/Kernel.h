@@ -3,6 +3,7 @@
 
 #include "../Camera/Capture.h"
 #include "../Camera/Calibration.h"
+#include "InputHandler.h"
 #include "../Game/EventHandler.h"
 #include "../Game/Gui.h"
 #include "GameManager.h"
@@ -54,12 +55,11 @@ namespace Game
 		irr::IrrlichtDevice* m_device;
 		irr::video::IVideoDriver* m_videoDriver;
 		irr::scene::ISceneManager* m_sceneManager;
+		InputHandler* m_inputHandler;
 		Camera::Capture* m_capture;
 
-		Game::Gui* m_gui;
-		irr::scene::ICameraSceneNode* m_camera;
+		Gui* m_gui;
 		Playground* m_playground;
-		//GameManager* m_gameManager;
 		DeltaTimer* m_deltaTimer;		
 
 		/**

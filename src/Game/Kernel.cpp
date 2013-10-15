@@ -6,31 +6,24 @@ namespace Game
 	Kernel::Kernel()
 	{
 		m_title = "KB06: Game";
-		m_device = irr::createDevice(irr::video::EDT_DIRECT3D9, irr::core::dimension2d<irr::u32>(1280, 720));
 		m_multiThreaded = false;
+		m_device = irr::createDevice(irr::video::EDT_DIRECT3D9, irr::core::dimension2d<irr::u32>(1280, 720));
 		m_videoDriver = m_device->getVideoDriver();
 		m_sceneManager = m_device->getSceneManager();
-		m_deltaTimer = new DeltaTimer(m_device->getTimer());	
+		m_deltaTimer = new DeltaTimer(m_device->getTimer());
 	
-		//m_capture = new Camera::Capture(m_videoDriver->addTexture(irr::core::dimension2d<irr::u32>(640, 480), "capture_background"));
-		m_capture = NULL;
-
 		// The L is needed to have a long string. Irrlicht uses this. 
 		m_device->setWindowCaption(m_title.c_str());
-		
-		m_camera = m_sceneManager->addCameraSceneNodeFPS();
-		m_camera->setPosition(irr::core::vector3df(0.0f, 100.0f, -20.0f));
-		m_camera->setRotation(irr::core::vector3df(0.0f, 0.0f, 70.0f));
-		m_camera->setInputReceiverEnabled(false);
+		// Set the cursor to visible
 		m_device->getCursorControl()->setVisible(true);
 
 		m_playground = new Playground(m_sceneManager);
-		//m_gameManager = new GameManager(m_device);
-		
 		m_gui = new Game::Gui(m_device->getGUIEnvironment());
-		Game::EventHandler* eventHandler = new Game::EventHandler(m_device,m_gui,m_playground);
-		m_device->setEventReceiver(eventHandler);
-		
+
+		// Input listener observer
+		m_inputHandler = new InputHandler();
+		m_device->setEventReceiver(m_inputHandler);
+		m_inputHandler->AddListener(new EventHandler(m_device, m_gui, m_playground));
 	}
 
 	Kernel::~Kernel()
@@ -51,31 +44,74 @@ namespace Game
 
 	void Kernel::Start()
 	{
+		// Create a webcam capturer
+		m_capture = new Camera::Capture(m_multiThreaded, m_videoDriver->addTexture(irr::core::dimension2d<irr::u32>(640, 480), "capture_background"));
+		m_capture->SetFov(60.0f);
+		m_capture->SetLongestGameLine(irr::core::line2df(
+			irr::core::vector2df(0, 0),
+			irr::core::vector2df(0, 100)));
+		// Adds the capturer to the input listener
+		m_inputHandler->AddListener(m_capture);
+
+		// Create a root node for all other nodes to inherit the AR movement
+		irr::scene::ISceneNode* root = m_sceneManager->addEmptySceneNode();
+
+		// Create a static camera
+		irr::scene::ICameraSceneNode* camera = m_sceneManager->addCameraSceneNode(NULL,
+			irr::core::vector3df(0.0f, m_capture->GetPixelDistance(), 1.0f),
+			irr::core::vector3df(0.0f, 0.0f, 0.0f));
+
+		// Or an FPS camera
+		//irr::scene::ICameraSceneNode* camera = m_sceneManager->addCameraSceneNodeFPS();
+		//camera->setPosition(irr::core::vector3df(0.0f, 100.0f, -20.0f));
+		//camera->setRotation(irr::core::vector3df(0.0f, 0.0f, 70.0f));
+		//camera->setInputReceiverEnabled(false);
+
+		// TEH game loop yo!
 		while (m_device->run())
 		{
-			// Update the texture with the camera capture
-			//m_capture->Update();
+			// Start the capture thread
+			m_capture->Start();
+			// Update the camera height
+			camera->setPosition(
+				irr::core::vector3df(0.0f, m_capture->GetPixelDistance(), 1.0f));
+			// Update the games shortest side
+			m_capture->GetCalculatedShortestGameLine();
+			// gui something? TODO
 			m_gui->endGame(m_playground->GetGameStatus());
-			
-			
 
-
+			// BEGIN
 			m_videoDriver->beginScene(true, true, irr::video::SColor(255, 0, 0, 255));
-			
-			/*
-			m_gameManager->Update();
-			m_gameManager->Render();
-			*/
-			
-			//m_videoDriver->draw2DImage(m_videoDriver->getTexture("capture_background"), irr::core::vector2d<irr::s32>(0, 0));
+			// Updates the playground
 			m_playground->Update(m_deltaTimer->GetDelta());
+			// Renders the playground
 			m_playground->Render();
+			// Update the gui
+			m_gui->UpdateGui(m_playground->GetWaveNumber(), m_playground->GetAmountOfCreatures(), m_videoDriver->getFPS(), m_playground->GetPlayerHealth(), m_playground->GetPlayerResources());
 			
-			m_sceneManager->drawAll();
-			m_gui->UpdateGui(m_playground->GetWaveNumber(),m_playground->GetAmountOfCreatures(),m_videoDriver->getFPS(), m_playground->GetPlayerHealth(), m_playground->GetPlayerResources());
-			m_videoDriver->endScene();
+			// Draw the camera in the screen
+			m_videoDriver->draw2DImage(m_videoDriver->getTexture("capture_background"), irr::core::vector2d<irr::s32>(0, 0));
+			if (m_capture->HasChosen())
+			{
+				if (m_capture->IsLost() == false)
+				{
+					if (m_inputHandler->Contains(m_capture))
+					{
+						m_inputHandler->RemoveListener(m_capture);
+					}
 
-			ShowFPS();
+					// Get the transformation matrix needed to transform the world based on the AR
+					irr::core::matrix4 transformation = m_capture->GetTransformMatrix(camera->getProjectionMatrix());
+					root->setPosition(transformation.getTranslation());
+					root->setRotation(transformation.getRotationDegrees());
+				}
+
+				// Actually draw the scene, but only once the playground surface has been chosen
+				m_sceneManager->drawAll();
+			}
+			
+			// END
+			m_videoDriver->endScene();
 		}
 	}
 
@@ -83,6 +119,7 @@ namespace Game
 	{
 		m_multiThreaded = p_multiThreaded;
 	}
+
 	void Kernel::ShowFPS()
 	{
 		irr::core::stringw title = m_title;
