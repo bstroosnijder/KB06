@@ -16,13 +16,13 @@ namespace Game
 	{
 	public:
 		/**
-		* @brief Constructor
-		*
-		*/
+		 * @brief Constructor
+		 */
 		Entity();
 
 		/**
-		 * @brief Constructor override with a Scenemanager to attach itself to
+		 * @brief Constructor override with a Scenemanager to attach itself to.
+		 *
 		 * @param SceneManager is required to attach the entity scenenode to the manager
 		 * @param The PlaygroundListener is used to sent events to the playground
 		 */
@@ -62,6 +62,7 @@ namespace Game
 		irr::scene::ISceneNode* GetSceneNode();
 
 	protected:
+
 		irr::scene::ISceneManager* m_sceneManager;
 		PlaygroundListener* m_playgroundListener;
 

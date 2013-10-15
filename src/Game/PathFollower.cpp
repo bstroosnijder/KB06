@@ -2,17 +2,6 @@
 
 namespace Game
 {
-<<<<<<< HEAD
-	m_following = false;
-	m_pathRoute = NULL;
-	m_pointCurrent = NULL;
-	m_pointNext = NULL;
-	m_toTarget - NULL;
-
-	//Constant values
-	m_unitLength = 10.0f;
-	m_speed = 0.08f;
-=======
 	PathFollower::PathFollower(irr::scene::ISceneManager* p_sceneManager,
 			PlaygroundListener* p_playgroundListener,
 			PathRoute* p_pathRoute)
@@ -26,7 +15,7 @@ namespace Game
 
 		//Constant values
 		m_unitLength = 10.0f;
-		m_speed = 0.04f;
+		m_speed = 0.08f;
 	}
 
 	void PathFollower::FollowPath(float p_deltaTime)
