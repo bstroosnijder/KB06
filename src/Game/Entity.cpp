@@ -1,14 +1,7 @@
 #include "Game/Entity.h"
 
 namespace Game
-{/*
-	Entity::Entity()
-	{
-		m_playgroundListener = NULL;
-		m_meshSceneNode = NULL;
-		m_animatedMesh = NULL;
-	}*/
-
+{
 	Entity::Entity(irr::scene::ISceneManager* p_sceneManager, PlaygroundListener* p_playgroundListener)
 	{
 		m_sceneManager = p_sceneManager;

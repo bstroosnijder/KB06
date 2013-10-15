@@ -15,6 +15,9 @@ namespace Game
 		m_device->setWindowCaption(m_title.c_str());
 		// Set the cursor to visible
 		m_device->getCursorControl()->setVisible(true);
+		
+		// Create a root node for all other nodes to inherit the AR movement
+		irr::scene::ISceneNode* root = m_sceneManager->addEmptySceneNode(NULL, C_EMPTY_ROOT_SCENENODE);
 
 		m_playground = new Playground(m_sceneManager);
 		m_gui = new Game::Gui(m_device->getGUIEnvironment());
@@ -51,11 +54,11 @@ namespace Game
 			irr::core::vector2df(0, 400)));
 		// Adds the capturer to the input listener
 		m_inputHandler->AddListener(m_capture);
+		
+		// fetch the root scene node so we can update it
+		irr::scene::ISceneNode* root = m_sceneManager->getSceneNodeFromId(C_EMPTY_ROOT_SCENENODE);
 
-		// Create a root node for all other nodes to inherit the AR movement
-		irr::scene::ISceneNode* root = m_sceneManager->addEmptySceneNode(NULL, C_EMPTY_ROOT_SCENENODE);
-
-		// Create a static camera
+		// Create a static camera (only object not dependent on our root object)
 		irr::scene::ICameraSceneNode* camera = m_sceneManager->addCameraSceneNode(NULL,
 			irr::core::vector3df(0.0f, m_capture->GetPixelDistance(), 1.0f),
 			irr::core::vector3df(0.0f, 0.0f, 0.0f));
