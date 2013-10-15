@@ -10,7 +10,7 @@ namespace Game
 	{
 		m_animatedMesh = p_sceneManager->getMesh("resources/models/stargate/Stargatev01.x");
 		
-		m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
+		m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, p_sceneManager->getSceneNodeFromId(C_EMPTY_ROOT_SCENENODE));
 		m_meshSceneNode->setPosition(p_position);
 
 		SetMaterialFlags();

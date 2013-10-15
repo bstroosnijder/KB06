@@ -1,6 +1,7 @@
 #ifndef __GAME__OBJECT__H__
 #define __GAME__OBJECT__H__
 
+#include "Defines.h"
 #include "PlaygroundListener.h"
 
 #include <irrlicht.h>

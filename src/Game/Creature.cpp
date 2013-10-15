@@ -10,7 +10,7 @@ namespace Game
 			:
 			PathFollower(p_sceneManager, p_playgroundListener, p_pathRoute)
 	{
-		m_meshSceneNode = p_sceneManager->addEmptySceneNode();
+		m_meshSceneNode = p_sceneManager->addEmptySceneNode(p_sceneManager->getSceneNodeFromId(C_EMPTY_ROOT_SCENENODE));
 		irr::scene::ISceneNode* sceneNodeTemp = NULL;
 
 		//Head

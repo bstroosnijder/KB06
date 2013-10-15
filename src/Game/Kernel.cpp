@@ -48,7 +48,7 @@ namespace Game
 		m_capture->SetFov(60.0f);
 		m_capture->SetLongestGameLine(irr::core::line2df(
 			irr::core::vector2df(0, 0),
-			irr::core::vector2df(0, 300)));
+			irr::core::vector2df(0, 400)));
 		// Adds the capturer to the input listener
 		m_inputHandler->AddListener(m_capture);
 
