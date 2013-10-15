@@ -8,46 +8,47 @@
 namespace Game
 {
 	/**
-	 * @brief This class acts as a timer to control events in our game
+	 * @brief	This class acts as a timer to control events in our game
 	 * 
-	 * @author Bram van Elderen
+	 * @author	Bram van Elderen
+	 * @author	Michel van Os
 	 */
 	class Timer
 	{
 	public:
 		/**
-		 * @brief Constructor
+		 * @brief	Creates the Timer.
 		 */
 		Timer();
 
 		/**
-		 * @brief Start the timer
+		 * @brief	Start the timer.
 		 */
 		void Start();
 
 		/**
-		 * @brief Stop the timer
+		 * @brie	Stop the timer.
 		 */
 		void Stop();
 
 		/**
-		 * @brief Reset the timer
+		 * @brief	Reset the timer.
 		 */
 		void Reset();
 
 		/**
-		 * @brief Returns the state of the timer
+		 * @brief	Returns the state of the timer.
 		 */
 		bool IsRunning();
 
 		/**
-		 * @brief Returns the current time of the Timer
+		 * @brief	Returns the current time of the Timer.
 		 */
 		unsigned long GetTime();
 
 		/**
-		 * @brief Returns if the timer is passed the given parameter
-		 * @param The timer uses p_seconds to check if the counter passed
+		 * @brief	Returns if the timer is passed the given parameter
+		 * @param	p_seconds The timer uses p_seconds to check if the counter passed
 		 * that point or not
 		 */
 		bool IsOver(unsigned long p_seconds);

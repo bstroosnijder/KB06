@@ -12,8 +12,3 @@ Stargate::Stargate(irr::scene::ISceneManager* p_sceneManager,
 
 	SetMaterialFlags();
 }
-
-void Stargate::Update(float p_deltaTime)
-{
-
-}

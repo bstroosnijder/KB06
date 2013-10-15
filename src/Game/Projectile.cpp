@@ -16,20 +16,34 @@ Projectile::Projectile(
 	//m_meshSceneNode->setMaterialTexture(0, texture);
 	m_meshSceneNode->setPosition(p_position);
 	
-	//irr::core::vector3df scale(10.0, 10.0, 10.0);
+	irr::core::vector3df scale(10.0, 10.0, 10.0);
 	
 	//m_meshSceneNode->setScale(scale);
 
 	SetMaterialFlags();
 }
 
-void Projectile::Update(float p_deltaTime)
+///@todo	Check if the movement is correct
+void Projectile::MoveTowardsTarget(float p_deltaTime)
 {
-	UpdatePosition(p_deltaTime);
-}
+	if (m_target != NULL)
+	{
+		irr::core::vector3df position = GetPosition();
+		irr::core::vector3df target = m_target->GetPosition();
 
-void Projectile::UpdatePosition(float p_deltaTime)
-{
+		irr::core::vector3df distance = target - position;
+		
+		float unitLength = 10.0f;
+		float speed = 0.04f;
+		float speedScale = unitLength / position.getDistanceFrom(target);
+
+		position = position + speed * speedScale * p_deltaTime * 60;
+
+
+		int x = 0;
+	}
+
+		/*
 	if (m_from != NULL && m_to != NULL)
 	{
 		irr::core::vector3df v = GetPosition();
@@ -51,6 +65,7 @@ void Projectile::UpdatePosition(float p_deltaTime)
 
 		SetPosition(v);
 	}
+		*/
 
 }
 
@@ -64,14 +79,9 @@ double Projectile::GetDamage()
 	return m_damage;
 }
 
-Game::Entity* Projectile::GetFrom()
+Game::Creature* Projectile::GetTarget()
 {
-	return m_from;
-}
-
-Game::Entity* Projectile::GetTo()
-{
-	return m_to;
+	return m_target;
 }
 
 void Projectile::SetMovementSpeed(double p_movementSpeed)
@@ -84,12 +94,7 @@ void Projectile::SetDamage(double p_damage)
 	m_damage = p_damage;
 }
 
-void Projectile::SetFrom(Game::Entity* p_from)
+void Projectile::SetTarget(Game::Creature* p_target)
 {
-	m_from = p_from;
-}
-
-void Projectile::SetTo(Game::Entity* p_to)
-{
-	m_to = p_to;
+	m_target = p_target;
 }

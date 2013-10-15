@@ -22,11 +22,6 @@ Entity::~Entity()
 	m_meshSceneNode->remove();
 }
 
-void Entity::updatePosition()
-{
-	return;
-}
-
 void Entity::SetMaterialFlags(irr::scene::ISceneNode* p_sceneNode)
 {
 	if (p_sceneNode == NULL)

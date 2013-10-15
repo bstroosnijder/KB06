@@ -13,15 +13,15 @@ namespace Game
 		irr::video::IVideoDriver* driver = p_sceneManager->getVideoDriver();
 		irr::scene::ITerrainSceneNode* terrain = p_sceneManager->addTerrainSceneNode(
 			"resources/textures/terrain-heightmap.bmp",
-			0,                  // parent node
-			-1,                 // node id
-			irr::core::vector3df(-300.f, -300.f, -300.f),     // position
-			irr::core::vector3df(0.f, 0.f, 0.f),     // rotation
-			irr::core::vector3df(2.f, 0.22f, 2.f)*p_scale,  // scale
-			irr::video::SColor ( 255, 255, 255, 255 ),   // vertexColor
-			5,                  // maxLOD
-			irr::scene::ETPS_17,             // patchSize
-			4                   // smoothFactor
+			0,												// parent node
+			-1,												// node id
+			irr::core::vector3df(-300.f, -300.f, -300.f),	// position
+			irr::core::vector3df(0.f, 0.f, 0.f),			// rotation
+			irr::core::vector3df(2.f, 0.22f, 2.f)*p_scale,	// scale
+			irr::video::SColor ( 255, 255, 255, 255 ),		// vertexColor
+			5,												// maxLOD
+			irr::scene::ETPS_17,							// patchSize
+			4												// smoothFactor
 			);
 
 		terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);

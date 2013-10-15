@@ -6,7 +6,7 @@ Tower::Tower(irr::scene::ISceneManager* p_sceneManager,
 			 irr::core::vector3df p_position)
 {
 	m_shootingSpeed = 0.0f;
-	m_range = 0.0f;
+	m_shootingRange = 0.0f;
 	m_target = NULL;
 	m_jointCrystal = NULL;
 
@@ -25,16 +25,6 @@ Tower::Tower(irr::scene::ISceneManager* p_sceneManager,
 	SetMaterialFlags();
 }
 
-double Tower::GetShootingSpeed()
-{
-	return m_shootingSpeed;
-}
-
-double Tower::GetRange()
-{
-	return m_range;
-}
-
 void Tower::SetShootingSpeed(double p_shootingSpeed)
 {
 	m_shootingSpeed = p_shootingSpeed;
@@ -42,12 +32,17 @@ void Tower::SetShootingSpeed(double p_shootingSpeed)
 
 void Tower::SetRange(double p_range)
 {
-	m_range = p_range;
+	m_shootingRange = p_range;
 }
 
-void Tower::Update(float p_deltaTime)
+double Tower::GetShootingSpeed()
 {
-	return;
+	return m_shootingSpeed;
+}
+
+double Tower::GetRange()
+{
+	return m_shootingRange;
 }
 
 void Tower::ShootAtNearestCreature(std::list<Creature*>& p_creatureList)
@@ -93,8 +88,7 @@ void Tower::ShootProjectileAtCreature(Creature* p_creature)
 	if (p_creature != NULL)
 	{
 		Projectile* projectile = new Projectile(m_sceneManager, m_playgroundListener, GetPosition());
-		projectile->SetFrom(this);
-		projectile->SetTo(p_creature);
+		projectile->SetTarget(p_creature);
 
 		m_playgroundListener->ProjectileCreated(projectile);
 	}

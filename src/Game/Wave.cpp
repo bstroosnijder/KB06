@@ -1,5 +1,9 @@
 #include "Game/Wave.h"
 
+#include "Utility/Logger.h"
+
+using namespace Utility;
+
 namespace Game
 {
 	Wave::Wave(irr::scene::ISceneManager* p_sceneManager, PlaygroundListener* p_playgroundListener)
@@ -29,7 +33,9 @@ namespace Game
 	}
 
 	void Wave::SpawnCreature(std::list<Creature*>& p_creatures, PathRoute* p_path,irr::scene::ITriangleSelector* p_selector)
-	{		
+	{
+		Logger* logger = Logger::GetInstance();
+
 		if (m_timer->IsRunning())
 		{
 			if (m_waveSize != 0)
@@ -37,20 +43,22 @@ namespace Game
 				if (m_timer->GetTime() == 1)
 				{
 					Creature* creature = new Creature(m_sceneManager, m_playgroundListener, m_startPosition,p_path,p_selector);
-					p_creatures.push_back(creature);
 					m_playgroundListener->CreatureCreated(creature);
 
 					m_timer->Reset();
 					m_creaturesSpawned = true;
-					std::cout << "Creature Spawned";
 					--m_waveSize;
+
+					logger->Log(Logger::LOG_MESSAGE, "Creature spawned", __LINE__, __FILE__);
 				}
 			}
 			else
 			{
 				m_timer->Stop();
+				
+				logger->Log(Logger::LOG_MESSAGE, "Creature spawning stopped", __LINE__, __FILE__);
 			}
-		}		
+		}
 	}
 
 	bool Wave::CheckWaveStatus(std::list<Creature*>& p_creatures)

@@ -50,11 +50,11 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	points1[3].set(25, 0, 50);	points2[3].set(25, 0, 100);	//5
 	points1[4].set(75, 0, 50);	points2[4].set(75, 0, 100);	//6
 	points1[5].set(25, 0, 100);	points2[5].set(75, 0, 100);	//7
-	points1[6].set(25, 0, 100); points2[6].set(50, 0, 150); //8
-	points1[7].set(75, 0, 100); points2[7].set(50, 0, 150); //9
+	points1[6].set(25, 0, 100); points2[6].set(50, 0, 300); //8
+	points1[7].set(75, 0, 100); points2[7].set(50, 0, 300); //9
 	
 	irr::core::vector3df startPoint(50.0f, 0.0f, 0.0f);
-	irr::core::vector3df endPoint(50.0f, 0.0f, 150.0f);
+	irr::core::vector3df endPoint(50.0f, 0.0f, 300.0f);
 
 	SetupPath(points1, points2, amount, range, startPoint, endPoint);
 
@@ -84,7 +84,7 @@ bool Playground::SetupPath(
 
 void Playground::Update(float p_deltaTime)
 {
-	p_deltaTime *= 4;
+	//p_deltaTime *= 4;
 
 	if (m_playerHealth <= 0)
 	{
@@ -99,15 +99,16 @@ void Playground::Update(float p_deltaTime)
 	std::list<Creature*>::iterator itCreatureEnd = m_creatures.end();
 	Creature* creature;
 	
+	//Update Creatures
 	while (itCreature != itCreatureEnd)
 	{
 		creature = (*itCreature);
 		++itCreature;
 
-		creature->Update(p_deltaTime);
+		creature->FollowPath(p_deltaTime);
 	}
-
-	//Update targets
+	
+	//Update Towers
 	std::list<Tower*>::iterator itTower = m_towers.begin();
 	std::list<Tower*>::iterator itTowerEnd = m_towers.end();
 	Tower* tower;
@@ -119,10 +120,18 @@ void Playground::Update(float p_deltaTime)
 
 		tower->ShootAtNearestCreature(m_creatures);
 	}
+	
+	//Update Projectiles
+	std::list<Projectile*>::iterator itProjectile = m_projectiles.begin();
+	std::list<Projectile*>::iterator itProjectileEnd = m_projectiles.end();
+	Projectile* projectile;
 
-	for (std::list<Projectile*>::const_iterator iterator = m_projectiles.begin(), end = m_projectiles.end(); iterator != end; ++iterator)
+	while (itProjectile != itProjectileEnd)
 	{
-		(*iterator)->updatePosition();
+		projectile = (*itProjectile);
+		++itProjectile;
+
+		projectile->MoveTowardsTarget(p_deltaTime);
 	}
 }
 
@@ -181,12 +190,9 @@ void Playground::SpawnTower(irr::core::vector2d<irr::s32> p_position)
 {	
 	if ((m_playerResources - 500 ) >= 0)
 	{
-
-
 		irr::scene::ISceneNode* sceneNodeOut;
 		sceneNodeOut = m_sceneManager->getSceneCollisionManager()->getSceneNodeFromScreenCoordinatesBB(p_position);
-
-
+		
 		std::list<Tower*>::iterator itTower;
 		std::list<Tower*>::iterator itTowerEnd = m_towers.end();
 		bool towerB = false;
@@ -199,9 +205,7 @@ void Playground::SpawnTower(irr::core::vector2d<irr::s32> p_position)
 			} 
 			++itTower;
 		}
-
-
-
+		
 		if (!towerB)
 		{
 			m_playerResources -= 0;
@@ -224,8 +228,8 @@ void Playground::SellTower(irr::core::vector2d<irr::s32> p_position)
 	std::list<Tower*>::iterator itTowerEnd = m_towers.end();
 	Tower* tower;
 
-
 	itTower = m_towers.begin();
+
 	while (itTower != itTowerEnd)
 	{		
 		if (sceneNodeOut  == (*itTower)->GetSceneNode())
@@ -237,15 +241,17 @@ void Playground::SellTower(irr::core::vector2d<irr::s32> p_position)
 			delete tower;
 			m_towers.remove(tower);
 			m_playerResources += 250;
+
 			return;
-		} else
+		}
+		else
 		{
 			++itTower;
 		}
 	}
 }
 
-void Playground::startNextWave()
+void Playground::StartNextWave()
 {
 	if (m_gameStatus == GameStatus::BUILD_PHASE)
 	{
@@ -293,7 +299,16 @@ void Playground::ProjectileCreated(Projectile* p_projectile)
 {
 	if (p_projectile != NULL)
 	{
+		m_projectiles.push_back(p_projectile);
+	}
+}
 
+void Playground::ProjectileDestroyed(Projectile* p_projectile)
+{
+	if (p_projectile != NULL)
+	{
+		m_projectiles.remove(p_projectile);
+		delete p_projectile;
 	}
 }
 
@@ -309,7 +324,16 @@ void Playground::CreatureCreated(Creature* p_creature)
 {
 	if (p_creature != NULL)
 	{
+		m_creatures.push_back(p_creature);
+	}
+}
 
+void Playground::CreatureDestroyed(Creature* p_creature)
+{
+	if (p_creature != NULL)
+	{
+		m_creatures.remove(p_creature);
+		delete p_creature;
 	}
 }
 

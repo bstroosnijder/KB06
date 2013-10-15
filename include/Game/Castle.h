@@ -18,12 +18,6 @@ namespace Game
 		 * @param p_position sets the position of the castle
 		 */
 		Castle(irr::scene::ISceneManager* p_sceneManager, irr::core::vector3df& p_position);
-		
-		/**
-		 * @brief Update updates the location of the castle
-		 * @param We give a float which represents a deltatime.
-		 */
-		virtual void Update(float);
 	};
 }
 

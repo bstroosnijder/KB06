@@ -26,21 +26,11 @@ namespace Game
 		 * @param The PlaygroundListener is used to sent events to the playground
 		 */
 		Entity(irr::scene::ISceneManager*, PlaygroundListener*);
+		
 		/**
 		 * @brief Destructor
 		 */
 		~Entity();
-
-		/**
-		 * @brief Update the entity
-		 * @param A float delta_timer is used for movement updates
-		 */
-		virtual void Update(float) = 0;
-
-		/**
-		 * @brief Update the position of the entity
-		 */
-		virtual void updatePosition();
 
 		/**
 		 * @brief Render the entity

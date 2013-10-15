@@ -54,11 +54,16 @@ Creature::~Creature()
 	m_sceneNodeAnimator = NULL;
 }
 
-void Creature::Update(float p_deltaTime)
-{		
-	irr::core::vector3df position = GetPosition();
-	FollowPath(p_deltaTime);
+void Creature::FollowPath(float p_deltaTime)
+{
+	//Store old coords
+	irr::core::vector3df position = GetPosition();	
 	float y = position.Y;
+
+	//Move along path
+	PathFollower::FollowPath(p_deltaTime);
+
+	//Determine new position
 	position = GetPosition();
 	position.Y = y;
 	SetPosition(position);
