@@ -18,6 +18,11 @@ namespace Game
 	class Tower : public Entity
 	{
 	public:
+		/**
+		 * @brief Initialize Tower
+		 * @param p_sceneManager Used to register the scenenode to the scenemanager.
+		 * @param p_position Position to place this tower.
+		 */
 		Tower(irr::scene::ISceneManager* p_sceneManager, irr::core::vector3df p_position);
 		
 		void Update(float);
