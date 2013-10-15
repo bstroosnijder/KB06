@@ -24,8 +24,8 @@ namespace Game
 
 void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 {
-	m_castle = new Castle(p_sceneManager, irr::core::vector3df(0, 0, -1200));
-	m_stargate = new Stargate(p_sceneManager, irr::core::vector3df(0, 0, 1200));
+	m_castle = new Castle(p_sceneManager, this, irr::core::vector3df(0, 0, -1200));
+	m_stargate = new Stargate(p_sceneManager, this, irr::core::vector3df(0, 0, 1200));
 
 	float range = 10.0f;
 	int amount = 8;
@@ -144,9 +144,6 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 				{
 					std::advance(m_pathNumber,1);
 				}
-
-
-
 			}
 			else
 			{
