@@ -19,7 +19,9 @@ namespace Game
 		 * @param p_sceneManager is used to add the castle scene to the scenemanager.
 		 * @param p_position sets the position of the castle
 		 */
-		Castle(irr::scene::ISceneManager* p_sceneManager, irr::core::vector3df& p_position);
+		Castle(irr::scene::ISceneManager* p_sceneManager,
+				PlaygroundListener* p_playgroundListener,
+				irr::core::vector3df& p_position);
 	};
 }
 

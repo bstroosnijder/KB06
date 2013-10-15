@@ -22,10 +22,10 @@ namespace Game
 		m_pathBuilder = NULL;
 	}
 
-	void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
-	{
-		m_castle = new Castle(p_sceneManager, irr::core::vector3df(0, 0, -1200));
-		m_stargate = new Stargate(p_sceneManager, irr::core::vector3df(0, 0, 1200));
+void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
+{
+	m_castle = new Castle(p_sceneManager, this, irr::core::vector3df(0, 0, -1200));
+	m_stargate = new Stargate(p_sceneManager, this, irr::core::vector3df(0, 0, 1200));
 
 		float range = 10.0f;
 		int amount = 8;
