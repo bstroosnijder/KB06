@@ -252,25 +252,6 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	{
 		if (m_gameStatus == GameStatus::BUILD_PHASE)
 		{
-<<<<<<< HEAD
-			if (*m_pathNumber == m_paths.back())
-			{
-				waves[0]->SpawnCreature(m_creatures, *m_pathNumber,m_selector);
-				m_pathNumber = m_paths.begin();
-			}
-			else
-			{
-			waves[0]->SpawnCreature(m_creatures, *m_pathNumber,m_selector);
-			std::advance(m_pathNumber,1);
-			}
-		}
-		else
-		{
-			std::cout << m_waveNumber;
-			m_gameStatus = GameStatus::BUILD_PHASE;
-			waves.erase(waves.begin());
-			m_playerResources += 1000;
-=======
 			if (waves.size() != 0)
 			{		
 				Game::Wave* wave = waves[0];
@@ -281,7 +262,6 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 					++m_waveNumber;
 				}
 			}
->>>>>>> a8662c55839ff62e76220b5eed7712dd1b1309a7
 		}
 	}
 
