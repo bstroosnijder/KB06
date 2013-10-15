@@ -10,7 +10,6 @@ namespace Game
 	{
 		m_shootingSpeed = 0.0f;
 		m_shootingRange = 0.0f;
-		m_target = NULL;
 		m_jointCrystal = NULL;
 
 		m_animatedMesh = p_sceneManager->getMesh("resources/models/tower/LOLturret/lolturret1.2.x");
@@ -23,7 +22,6 @@ namespace Game
 			m_meshSceneNode->setPosition(p_position);
 			m_jointCrystal = animatedMeshSceneNode->getJointNode("shootingbone");
 		}
-
 
 		SetMaterialFlags();
 	}
@@ -60,30 +58,27 @@ namespace Game
 
 	Creature* Tower::SearchNearestCreature(std::list<Creature*>& p_creatureList)
 	{
-		float distanceNearest = 0;
-		Creature* objectNearest = NULL;
+		Creature* targetCreature = NULL;
+		float targetDistance = -1;
 
-		for (std::list<Creature*>::const_iterator iterator = p_creatureList.begin(), end = p_creatureList.end(); iterator != end; ++iterator)
+		std::list<Creature*>::iterator creatureIt;
+		std::list<Creature*>::iterator creatureItEnd = p_creatureList.end();
+		Creature* creatureCurrent = NULL;
+		float creatureDistance;
+
+		for (creatureIt = p_creatureList.begin(); creatureIt != creatureItEnd; ++creatureIt)
 		{
-			float x = GetPosition().X - (*iterator)->GetPosition().X;
-			float y = GetPosition().Y - (*iterator)->GetPosition().Y;
+			creatureCurrent = (*creatureIt);
+			creatureDistance = GetPosition().getDistanceFrom(creatureCurrent->GetPosition());
 
-			float result = std::sqrt(std::pow(x, 2.0f) + std::pow(y, 2.0f));
-
-			if (distanceNearest == 0)
+			if (targetDistance ==  -1 || creatureDistance < targetDistance)
 			{
-				distanceNearest = result;
-			}
-			else if (result < distanceNearest)
-			{
-				distanceNearest = result;
-				objectNearest = (*iterator);
+				targetDistance = creatureDistance;
+				targetCreature = creatureCurrent;
 			}
 		}
-	
-		m_target = objectNearest;
-	
-		return objectNearest;
+
+		return targetCreature;
 	}
 
 	void Tower::ShootProjectileAtCreature(Creature* p_creature)
