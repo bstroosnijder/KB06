@@ -92,7 +92,7 @@ namespace Game
 		std::list<Projectile*> m_projectiles;
 		std::list<PathFollower*> m_pathFollowers;
 		std::list<PathRoute*>::iterator m_pathNumber;
-		std::list<Marker*> m_signs;
+		std::list<Marker*> m_Marker;
 
 		std::vector<Wave*> waves;
 

@@ -84,8 +84,8 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 
 
 
-			std::list<Marker*>::iterator itSigns = m_signs.begin();
-			std::list<Marker*>::iterator itSignsEnd = m_signs.end();
+			std::list<Marker*>::iterator itSigns = m_Marker.begin();
+			std::list<Marker*>::iterator itSignsEnd = m_Marker.end();
 			while (itSigns != itSignsEnd)
 			{
 				if (position1 == (*itSigns)->GetPosition())
@@ -100,11 +100,11 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 			}
 			if (!exist1)
 			{
-				m_signs.push_back(new Game::Marker(m_sceneManager,this,position1));
+				m_Marker.push_back(new Game::Marker(m_sceneManager,this,position1));
 			}
 			if (!exist2)
 			{
-				m_signs.push_back(new Game::Marker(m_sceneManager,this,position2));
+				m_Marker.push_back(new Game::Marker(m_sceneManager,this,position2));
 			}			
 			++itSegments;			
 		}
@@ -198,12 +198,12 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 		}
 
 		//Update signs (go up and down)
-		std::list<Marker*>::iterator itSigns = m_signs.begin();
-		std::list<Marker*>::iterator itSignsEnd = m_signs.end();
-		while (itSigns != itSignsEnd)
+		std::list<Marker*>::iterator itMarkers = m_Marker.begin();
+		std::list<Marker*>::iterator itMarkersEnd = m_Marker.end();
+		while (itMarkers != itMarkersEnd)
 		{
-			(*itSigns)->UpdatePosition(p_deltaTime);
-			++itSigns;
+			(*itMarkers)->UpdatePosition(p_deltaTime);
+			++itMarkers;
 		}
 	}
 

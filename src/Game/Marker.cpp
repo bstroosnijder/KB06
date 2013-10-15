@@ -3,6 +3,8 @@
 namespace Game
 {
 	Marker::Marker(irr::scene::ISceneManager* p_sceneManager, PlaygroundListener* p_listener,irr::core::vector3df p_position)
+		:
+		Entity(p_sceneManager, p_listener)
 	{
 		/*irr::scene::IAnimatedMesh * animMesh = p_sceneManager->getMesh("resources/models/Trafficsign.3ds");
 		m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(animMesh,m_meshSceneNode);
