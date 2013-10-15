@@ -4,7 +4,6 @@ namespace Game
 {
 	Terrain::Terrain()
 	{
-
 	}
 
 	irr::scene::ITriangleSelector* Terrain::GenerateTerrain(irr::scene::ISceneManager* p_sceneManager, float p_scale)
@@ -13,7 +12,7 @@ namespace Game
 		irr::video::IVideoDriver* driver = p_sceneManager->getVideoDriver();
 		irr::scene::ITerrainSceneNode* terrain = p_sceneManager->addTerrainSceneNode(
 			"resources/textures/terrain-heightmap.bmp",
-			0,												// parent node
+			p_sceneManager->getSceneNodeFromId(C_EMPTY_ROOT_SCENENODE), // parent node
 			-1,												// node id
 			irr::core::vector3df(-300.f, -300.f, -300.f),	// position
 			irr::core::vector3df(0.f, 0.f, 0.f),			// rotation

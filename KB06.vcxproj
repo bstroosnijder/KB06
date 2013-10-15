@@ -116,6 +116,7 @@
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\Game\Castle.h" />
     <ClInclude Include="include\Game\Creature.h" />
+    <ClInclude Include="include\Game\Defines.h" />
     <ClInclude Include="include\Game\DeltaTimer.h" />
     <ClInclude Include="include\Game\EventHandler.h" />
     <ClInclude Include="include\Game\GameManager.h" />

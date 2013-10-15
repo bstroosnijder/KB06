@@ -1,6 +1,7 @@
 #ifndef __GAME__KERNEL__H__
 #define __GAME__KERNEL__H__
 
+#include "Defines.h"
 #include "../Camera/Capture.h"
 #include "../Camera/Calibration.h"
 #include "InputHandler.h"

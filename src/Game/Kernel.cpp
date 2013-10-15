@@ -1,5 +1,4 @@
 #include "Game/Kernel.h"
-#include "Game/Tower.h"
 
 namespace Game
 {
@@ -49,12 +48,12 @@ namespace Game
 		m_capture->SetFov(60.0f);
 		m_capture->SetLongestGameLine(irr::core::line2df(
 			irr::core::vector2df(0, 0),
-			irr::core::vector2df(0, 100)));
+			irr::core::vector2df(0, 300)));
 		// Adds the capturer to the input listener
 		m_inputHandler->AddListener(m_capture);
 
 		// Create a root node for all other nodes to inherit the AR movement
-		irr::scene::ISceneNode* root = m_sceneManager->addEmptySceneNode();
+		irr::scene::ISceneNode* root = m_sceneManager->addEmptySceneNode(NULL, C_EMPTY_ROOT_SCENENODE);
 
 		// Create a static camera
 		irr::scene::ICameraSceneNode* camera = m_sceneManager->addCameraSceneNode(NULL,

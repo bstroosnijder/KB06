@@ -1,6 +1,7 @@
 #ifndef __GAME__TERRAIN__H__
 #define __GAME__TERRAIN__H__
 
+#include "Defines.h"
 #include <irrlicht.h>
 
 namespace Game
