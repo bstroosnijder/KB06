@@ -5,6 +5,9 @@
 
 namespace Game
 {
+	/**
+	 * @todo	Needs comments.
+	*/
 	class Stargate : public Entity
 	{
 	public:

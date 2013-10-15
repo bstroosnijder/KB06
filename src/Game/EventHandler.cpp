@@ -116,4 +116,4 @@ namespace Game
 		delete m_gui;
 		delete m_device;
 	}
-}	
+}

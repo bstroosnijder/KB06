@@ -18,6 +18,7 @@ namespace Game
 
 		/**
 		 * @brief	Moves the Projectile towards the target Creature.
+		 *
 		 * @param	p_deltaTime	The delta time used for the movement.
 		 * @author	Michel van Os.
 		 */

@@ -15,11 +15,23 @@ namespace Game
 	 *
 	 * @author	Michel van Os
 	 * @author	Thomas Gravekamp
+	 * @todo	Add Initialization function.
+	 * @todo	Commment private parts.
 	 */
 	class Tower : public Entity
 	{
 	public:
-		Tower(irr::scene::ISceneManager* p_sceneManager, irr::core::vector3df p_position);
+		/***
+		 * @brief	Creates a Tower.
+		 *
+		 * @param	p_sceneManager The irr::scene::ISceneManager used to store the SceneNode.
+		 * @param	p_playgroundListener the PlaygroundListener to handle events.
+		 * @param	p_position The position of the Tower
+		 * @author	Michel van Os
+		 */
+		Tower(irr::scene::ISceneManager* p_sceneManager,
+				PlaygroundListener* m_playgroundListener,
+				irr::core::vector3df p_position);
 
 		/**
 		 * @brief	Sets the shooting speed.

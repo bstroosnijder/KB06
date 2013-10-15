@@ -1,9 +1,5 @@
 #include "Game/Wave.h"
 
-#include "Utility/Logger.h"
-
-using namespace Utility;
-
 namespace Game
 {
 	Wave::Wave(irr::scene::ISceneManager* p_sceneManager, PlaygroundListener* p_playgroundListener)
@@ -34,7 +30,7 @@ namespace Game
 
 	void Wave::SpawnCreature(std::list<Creature*>& p_creatures, PathRoute* p_path,irr::scene::ITriangleSelector* p_selector)
 	{
-		Logger* logger = Logger::GetInstance();
+		Utility::Logger* logger = Utility::Logger::GetInstance();
 
 		if (m_timer->IsRunning())
 		{
@@ -49,14 +45,14 @@ namespace Game
 					m_creaturesSpawned = true;
 					--m_waveSize;
 
-					logger->Log(Logger::LOG_MESSAGE, "Creature spawned", __LINE__, __FILE__);
+					logger->Log(Utility::Logger::LOG_MESSAGE, "Creature spawned", __LINE__, __FILE__);
 				}
 			}
 			else
 			{
 				m_timer->Stop();
 				
-				logger->Log(Logger::LOG_MESSAGE, "Creature spawning stopped", __LINE__, __FILE__);
+				logger->Log(Utility::Logger::LOG_MESSAGE, "Creature spawning stopped", __LINE__, __FILE__);
 			}
 		}
 	}
