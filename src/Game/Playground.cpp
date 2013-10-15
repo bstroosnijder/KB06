@@ -53,17 +53,17 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	points1[6].set(27, 0, 76);	points2[6].set(71, 0, 74);	//7
 	*/
 
-	points1[0].set(50, 0, 0);	points2[0].set(25, 0, 50);	//2
-	points1[1].set(50, 0, 0);	points2[1].set(75, 0, 50);	//3
-	points1[2].set(25, 0, 50);	points2[2].set(75, 0, 50);	//4
-	points1[3].set(25, 0, 50);	points2[3].set(25, 0, 100);	//5
-	points1[4].set(75, 0, 50);	points2[4].set(75, 0, 100);	//6
-	points1[5].set(25, 0, 100);	points2[5].set(75, 0, 100);	//7
-	points1[6].set(25, 0, 100); points2[6].set(50, 0, 150); //8
-	points1[7].set(75, 0, 100); points2[7].set(50, 0, 150); //9
+	points1[0].set(500, 0, 0);		points2[0].set(250, 0, 500);	//2
+	points1[1].set(500, 0, 0);		points2[1].set(750, 0, 500);	//3
+	points1[2].set(250, 0, 500);	points2[2].set(750, 0, 500);	//4
+	points1[3].set(250, 0, 500);	points2[3].set(250, 0, 1000);	//5
+	points1[4].set(750, 0, 500);	points2[4].set(750, 0, 1000);	//6
+	points1[5].set(250, 0, 1000);	points2[5].set(750, 0, 1000);	//7
+	points1[6].set(250, 0, 1000);	 points2[6].set(500, 0, 1500); //8
+	points1[7].set(750, 0, 1000);	points2[7].set(500, 0, 1500); //9
 	
-	irr::core::vector3df startPoint(50.0f, 0.0f, 0.0f);
-	irr::core::vector3df endPoint(50.0f, 0.0f, 150.0f);
+	irr::core::vector3df startPoint(500.0f, 0.0f, 0.0f);
+	irr::core::vector3df endPoint(500.0f, 0.0f, 1500.0f);
 
 	SetupPath(points1, points2, amount, range, startPoint, endPoint);
 
@@ -207,11 +207,14 @@ void Playground::Render()
 		{
 			if (*m_pathNumber == m_paths.back())
 			{
+				waves[0]->SpawnCreature(m_creatures, *m_pathNumber,m_selector);
 				m_pathNumber = m_paths.begin();
 			}
-			std::advance(m_pathNumber,1);
+			else
+			{
 			waves[0]->SpawnCreature(m_creatures, *m_pathNumber,m_selector);
-
+			std::advance(m_pathNumber,1);
+			}
 		}
 		else
 		{

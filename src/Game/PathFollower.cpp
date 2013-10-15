@@ -8,10 +8,11 @@ PathFollower::PathFollower(PathRoute* p_pathRoute)
 	m_pathRoute = NULL;
 	m_pointCurrent = NULL;
 	m_pointNext = NULL;
+	m_toTarget - NULL;
 
 	//Constant values
 	m_unitLength = 10.0f;
-	m_speed = 0.04f;
+	m_speed = 0.08f;
 
 	//Changing values
 	m_pathRoute = p_pathRoute;
@@ -50,6 +51,9 @@ void PathFollower::StartFollowing()
 	m_speedScale = m_unitLength / m_pointCurrent->m_point.getDistanceFrom(m_pointNext->m_point);
 	position = m_pointCurrent->m_point + (m_segmentLength * m_segmentPosition);
 	m_meshSceneNode->setPosition(position);
+	
+	m_toTarget = m_pointNext->m_point - m_pointCurrent->m_point;
+	m_meshSceneNode->setRotation(m_toTarget.getHorizontalAngle());
 }
 
 void PathFollower::StopFollowing()
@@ -105,6 +109,9 @@ void PathFollower::FollowNextSegment()
 		m_segmentPosition -= 1;
 		position = m_pointCurrent->m_point + (m_segmentLength * m_segmentPosition);
 		m_meshSceneNode->setPosition(position);
+
+		m_toTarget = m_pointNext->m_point - m_pointCurrent->m_point;
+		m_meshSceneNode->setRotation(m_toTarget.getHorizontalAngle());
 	}
 }
 
