@@ -21,7 +21,6 @@ namespace Game
 		Game::PathPoint* m_point1;
 		Game::PathPoint* m_point2;
 
-		PathSegment();
 		PathSegment(PathPoint* p_point1, PathPoint* p_point2);
 		
 		/**

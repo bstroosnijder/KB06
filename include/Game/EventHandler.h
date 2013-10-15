@@ -2,29 +2,41 @@
 #define __EventHandler__H__
 
 #include <irrlicht.h>
+#include "Game/Gui.h"
+#include "Game/Playground.h"
 
 namespace Game
 {
-	enum
-	{
-		QUIT_BUTTON = 101,
-		MENU_BUTTON = 102
-	};
-	
-	
 	/**
-	 * @brief	This Class creates handles incoming events from the graphical user interface.
+	 * @brief	This Class creates handles incoming events from different inputs.
 	 *			
 	 * @author	Bram van Elderen
 	 */
 	class EventHandler	:	public irr::IEventReceiver
 	{
+		enum
+		{
+			QUIT_BUTTON = 101,
+			MENU_BUTTON = 102,
+			ClEAR_BUTTON = 103,
+			TOWER_BUTTON = 104,
+			SELL_BUTTON = 105,
+			CONTROLS_BUTTON = 107,
+			STARTGAME_BUTTON = 108
+		};
+
+		enum ClickEvent
+		{
+			TOWER_PRESSED = 1,
+			SELL_PRESSED = 2
+		};
+
 	public:
 		
 		/**
 		 * @brief Constructor
 		 */
-		EventHandler(irr::IrrlichtDevice* p_device);
+		EventHandler(irr::IrrlichtDevice* p_device,Game::Gui* p_gui, Game::Playground* p_playground);
 		
 		/**
 		 * @brief Deconstructor
@@ -32,20 +44,20 @@ namespace Game
 		~EventHandler();
 
 		/**
-		 *	@brief handles events
+		 * @brief handles events
 		 */
 		virtual bool OnEvent(const irr::SEvent& event);
 
 		/**
-		 *	@brief returns event
+		 * @brief	Properly destructs all the member properties
 		 */
-		const irr::SEvent* getEvent();
-
+		void Cleanup();
 
 	private:
+		Game::Gui* m_gui;
+		Game::Playground* m_playground;
 		irr::IrrlichtDevice* m_device;
-		const irr::SEvent* m_event;
-
+		int clickEvent;
 	};
 
 }

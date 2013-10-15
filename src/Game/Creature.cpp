@@ -1,50 +1,86 @@
 #include "Game/Creature.h"
 
-using namespace Game;
-
-Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
-				   irr::core::vector3df p_position)
+namespace Game
 {
-	irr::video::ITexture* texture = p_sceneManager->getVideoDriver()->getTexture("resources/tower-texture.jpg");
-	m_animatedMesh = p_sceneManager->getMesh("resourcesa/creeper.3ds");
+	Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
+			PlaygroundListener* p_playgroundListener,
+			irr::core::vector3df p_position,
+			PathRoute* p_pathRoute,
+			irr::scene::ITriangleSelector* p_selector)
+			:
+			PathFollower(p_sceneManager, p_playgroundListener, p_pathRoute)
+	{
+		m_meshSceneNode = p_sceneManager->addEmptySceneNode();
+		irr::scene::ISceneNode* sceneNodeTemp = NULL;
+
+		//Head
+		m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk2.7H.x");
+		sceneNodeTemp = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, m_meshSceneNode);
+		SetMaterialFlags(sceneNodeTemp);
 	
-	m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
-	//m_meshSceneNode->setMaterialTexture(0, texture);
-	m_meshSceneNode->setPosition(p_position);
+		//Body
+		m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk2.7L.x");///testanim1.1.x");
+		sceneNodeTemp = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, m_meshSceneNode);
+		SetMaterialFlags(sceneNodeTemp);
+
+		//Left Foot
+		m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk2.7LF.x");
+		sceneNodeTemp = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, m_meshSceneNode);
+		SetMaterialFlags(sceneNodeTemp);
+
+		//Right Foot
+		m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk2.7RF.x");
+		sceneNodeTemp = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, m_meshSceneNode);
+		SetMaterialFlags(sceneNodeTemp);
+
+		m_sceneNodeAnimator = p_sceneManager->createCollisionResponseAnimator(
+			p_selector, m_meshSceneNode, irr::core::vector3df(10,3,10),
+			irr::core::vector3df(0,-10,0),
+			irr::core::vector3df(0,0,0)
+			);
+		m_meshSceneNode->addAnimator(m_sceneNodeAnimator);
 	
-	irr::core::vector3df scale(10.0, 10.0, 10.0);
-	
-	m_meshSceneNode->setScale(scale);
 
-	SetMaterialFlags();
-}
+		m_sceneNodeAnimator->grab();
 
-double Creature::getHealthPoints()
-{
-	return m_healthPoints;
-}
+		m_healthPoints = 100;
 
-double Creature::getMovementSpeed()
-{
-	return m_movementSpeed;
-}
+		StartFollowing();
+	}
 
-double Creature::getDamage()
-{
-	return m_damage;
-}
+	Creature::~Creature()
+	{
+		m_sceneNodeAnimator->drop();
+		m_sceneNodeAnimator = NULL;
+	}
 
-void Creature::setHealthPoints(double p_healthPoints)
-{
-	m_healthPoints = p_healthPoints;
-}
+	void Creature::FollowPath(float p_deltaTime)
+	{
+		//Store old coords
+		irr::core::vector3df position = GetPosition();	
+		float y = position.Y;
 
-void Creature::setMovementSpeed(double p_movementSpeed)
-{
-	m_movementSpeed = p_movementSpeed;
-}
+		//Move along path
+		PathFollower::FollowPath(p_deltaTime);
 
-void Creature::setDamage(double p_damage)
-{
-	m_damage = p_damage;
+		//Determine new position
+		position = GetPosition();
+		position.Y = y;
+		SetPosition(position);
+
+		if (IsEndOfRouteReached())
+		{
+			m_playgroundListener->CreatureRouteEndReached(this);
+		}
+	}
+
+	void Creature::SetHealthPoints(int p_healthPoints)
+	{
+		m_healthPoints = p_healthPoints;
+	}
+
+	int Creature::GetHealthPoints()
+	{
+		return m_healthPoints;
+	}
 }

@@ -37,7 +37,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(IRRLICHT_DIR)\include;$(OPENCV_DIR)\include;$(ProjectDir)\libs;$(ProjectDir)\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(IRRLICHT_DIR)\include;$(OPENCV_DIR)\include;$(ProjectDir)\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(IRRLICHT_DIR)\lib\Win32-visualstudio;$(OPENCV_DIR)\x86\vc11\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -45,7 +45,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -72,21 +72,26 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(IRRLICHT_DIR)\lib\Win32-visualstudio;$(OPENCV_DIR)\x86\vc11\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Irrlicht.lib;opencv_core246d.lib;opencv_imgproc246d.lib;opencv_highgui246d.lib;opencv_ml246d.lib;opencv_video246d.lib;opencv_features2d246d.lib;opencv_calib3d246d.lib;opencv_objdetect246d.lib;opencv_contrib246d.lib;opencv_legacy246d.lib;opencv_flann246d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Camera\CalibrationParams.cpp" />
-    <ClCompile Include="src\Camera\PointDetector.cpp" />
-    <ClCompile Include="src\Game\Object.cpp" />
+    <ClCompile Include="src\Game\Castle.cpp" />
+    <ClCompile Include="src\Game\DeltaTimer.cpp" />
+    <ClCompile Include="src\Game\GameManager.cpp" />
+    <ClCompile Include="src\Game\PathFollower.cpp" />
+    <ClCompile Include="src\Game\Stargate.cpp" />
+    <ClCompile Include="src\Game\Timer.cpp" />
+    <ClCompile Include="src\Game\Wave.cpp" />
+    <ClCompile Include="src\Program.cpp" />
     <ClCompile Include="src\Camera\Calibration.cpp" />
     <ClCompile Include="src\Camera\CalibrationSettings.cpp" />
     <ClCompile Include="src\Camera\Capture.cpp" />
-    <ClCompile Include="src\Game\InputHandler.cpp" />
     <ClCompile Include="src\Game\Creature.cpp" />
     <ClCompile Include="src\Game\EventHandler.cpp" />
     <ClCompile Include="src\Game\Gui.cpp" />
     <ClCompile Include="src\Game\Kernel.cpp" />
-    <ClCompile Include="src\Program.cpp" />
     <ClCompile Include="src\Game\Entity.cpp" />
     <ClCompile Include="src\Game\Path.cpp" />
     <ClCompile Include="src\Game\PathBuilder.cpp" />
@@ -96,31 +101,37 @@
     <ClCompile Include="src\Game\Projectile.cpp" />
     <ClCompile Include="src\Game\Tower.cpp" />
     <ClCompile Include="src\Utility\Logger.cpp" />
+    <ClCompile Include="src\Game\Terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Camera\CalibrationParams.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\Camera\Calibration.h" />
     <ClInclude Include="include\Camera\CalibrationSettings.h" />
     <ClInclude Include="include\Camera\Capture.h" />
-    <ClInclude Include="include\Camera\PointDetector.h" />
     <ClInclude Include="include\Game.h" />
+    <ClInclude Include="include\Game\Castle.h" />
     <ClInclude Include="include\Game\Creature.h" />
+    <ClInclude Include="include\Game\DeltaTimer.h" />
     <ClInclude Include="include\Game\EventHandler.h" />
+    <ClInclude Include="include\Game\GameManager.h" />
     <ClInclude Include="include\Game\Gui.h" />
-    <ClInclude Include="include\Game\InputHandler.h" />
     <ClInclude Include="include\Game\Kernel.h" />
-    <ClInclude Include="include\Game\Object.h" />
     <ClInclude Include="include\Game\Entity.h" />
     <ClInclude Include="include\Game\Path.h" />
     <ClInclude Include="include\Game\PathBuilder.h" />
+    <ClInclude Include="include\Game\PathFollower.h" />
     <ClInclude Include="include\Game\PathPoint.h" />
     <ClInclude Include="include\Game\PathRoute.h" />
     <ClInclude Include="include\Game\PathSegment.h" />
     <ClInclude Include="include\Game\Playground.h" />
+    <ClInclude Include="include\Game\PlaygroundListener.h" />
     <ClInclude Include="include\Game\Projectile.h" />
+    <ClInclude Include="include\Game\Stargate.h" />
+    <ClInclude Include="include\Game\Timer.h" />
     <ClInclude Include="include\Game\Tower.h" />
+    <ClInclude Include="include\Game\Wave.h" />
     <ClInclude Include="include\Utility\Logger.h" />
+    <ClInclude Include="include\Game\Terrain.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,12 +1,14 @@
 #ifndef __GAME__KERNEL__H__
 #define __GAME__KERNEL__H__
 
-#include "InputHandler.h"
 #include "../Camera/Capture.h"
 #include "../Camera/Calibration.h"
 #include "../Game/EventHandler.h"
 #include "../Game/Gui.h"
-#include "Game/Playground.h"
+#include "GameManager.h"
+#include "Playground.h"
+#include "DeltaTimer.h"
+
 #include <irrlicht.h>
 
 namespace Game
@@ -40,25 +42,17 @@ namespace Game
 		 */
 		void Start();
 
-		/**
-		 * @brief	Sets multi threaded
-		 * @param	p_multiThreaded Whether to use multithreading or not
-		 */
-		void SetMultiThreaded(bool p_multiThreaded);
-
 	private:
-		irr::core::stringw m_title;
-		bool m_multiThreaded;
 		irr::IrrlichtDevice* m_device;
 		irr::video::IVideoDriver* m_videoDriver;
-		irr::gui::IGUIEnvironment* m_guiEnvironment;
 		irr::scene::ISceneManager* m_sceneManager;
-		InputHandler* m_inputHandler;
 		Camera::Capture* m_capture;
 
 		Game::Gui* m_gui;
 		irr::scene::ICameraSceneNode* m_camera;
 		Playground* m_playground;
+		//GameManager* m_gameManager;
+		DeltaTimer* m_deltaTimer;		
 
 		/**
 		 * @brief	Show a fps counter in the title of the window

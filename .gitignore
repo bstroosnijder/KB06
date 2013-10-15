@@ -70,9 +70,10 @@ doxygen/html
 Log
 
 #Resource files
-resources/models/*
-resources/sounds/*
-resources/textures/*
+resources/*
+!resources/models
+!resources/sounds/*
+!resources/textures
 
 #Camera calibratie shit
 out_camera_data.xml
