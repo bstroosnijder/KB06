@@ -5,7 +5,9 @@ namespace Game
 {
 	Kernel::Kernel()
 	{
+		m_title = "KB06: Game";
 		m_device = irr::createDevice(irr::video::EDT_DIRECT3D9, irr::core::dimension2d<irr::u32>(1280, 720));
+		m_multiThreaded = false;
 		m_videoDriver = m_device->getVideoDriver();
 		m_sceneManager = m_device->getSceneManager();
 		m_deltaTimer = new DeltaTimer(m_device->getTimer());	
@@ -14,7 +16,7 @@ namespace Game
 		m_capture = NULL;
 
 		// The L is needed to have a long string. Irrlicht uses this. 
-		m_device->setWindowCaption(L"KB01: Game");
+		m_device->setWindowCaption(m_title.c_str());
 		
 		m_camera = m_sceneManager->addCameraSceneNodeFPS();
 		m_camera->setPosition(irr::core::vector3df(0.0f, 100.0f, -20.0f));
@@ -77,9 +79,13 @@ namespace Game
 		}
 	}
 
+	void Kernel::SetMultiThreaded(bool p_multiThreaded)
+	{
+		m_multiThreaded = p_multiThreaded;
+	}
 	void Kernel::ShowFPS()
 	{
-		irr::core::stringw title = "KB01: Game";
+		irr::core::stringw title = m_title;
 		title += " - FPS: ";
 		title += m_videoDriver->getFPS();
 

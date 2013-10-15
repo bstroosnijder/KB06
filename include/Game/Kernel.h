@@ -42,7 +42,15 @@ namespace Game
 		 */
 		void Start();
 
+		/**
+		 * @brief	Sets multi threaded
+		 * @param	p_multiThreaded Whether to use multithreading or not
+		 */
+		void SetMultiThreaded(bool p_multiThreaded);
+
 	private:
+		irr::core::stringw m_title;
+		bool m_multiThreaded;
 		irr::IrrlichtDevice* m_device;
 		irr::video::IVideoDriver* m_videoDriver;
 		irr::scene::ISceneManager* m_sceneManager;

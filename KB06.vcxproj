@@ -77,9 +77,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Camera\CalibrationParams.cpp" />
+    <ClCompile Include="src\Camera\PointDetector.cpp" />
     <ClCompile Include="src\Game\Castle.cpp" />
     <ClCompile Include="src\Game\DeltaTimer.cpp" />
     <ClCompile Include="src\Game\GameManager.cpp" />
+    <ClCompile Include="src\Game\InputHandler.cpp" />
     <ClCompile Include="src\Game\PathFollower.cpp" />
     <ClCompile Include="src\Game\Stargate.cpp" />
     <ClCompile Include="src\Game\Timer.cpp" />
@@ -106,8 +109,10 @@
   <ItemGroup>
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\Camera\Calibration.h" />
+    <ClInclude Include="include\Camera\CalibrationParams.h" />
     <ClInclude Include="include\Camera\CalibrationSettings.h" />
     <ClInclude Include="include\Camera\Capture.h" />
+    <ClInclude Include="include\Camera\PointDetector.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\Game\Castle.h" />
     <ClInclude Include="include\Game\Creature.h" />
@@ -115,6 +120,7 @@
     <ClInclude Include="include\Game\EventHandler.h" />
     <ClInclude Include="include\Game\GameManager.h" />
     <ClInclude Include="include\Game\Gui.h" />
+    <ClInclude Include="include\Game\InputHandler.h" />
     <ClInclude Include="include\Game\Kernel.h" />
     <ClInclude Include="include\Game\Entity.h" />
     <ClInclude Include="include\Game\Path.h" />
