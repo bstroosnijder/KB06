@@ -130,6 +130,32 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 
 			projectile->MoveTowardsTarget(p_deltaTime);
 		}
+
+		if (waves.size() != 0)
+		{
+			if (waves[0]->CheckWaveStatus(m_creatures))
+			{
+				waves[0]->SpawnCreature(m_creatures, *m_pathNumber,m_selector);
+				if (*m_pathNumber == m_path->m_routes.back())
+				{
+					m_pathNumber = m_path->m_routes.begin();
+				}
+				else
+				{
+					std::advance(m_pathNumber,1);
+				}
+
+
+
+			}
+			else
+			{
+				std::cout << m_waveNumber;
+				m_gameStatus = GameStatus::BUILD_PHASE;
+				waves.erase(waves.begin());
+				m_playerResources += 1000;
+			}
+		}
 	}
 
 	void Playground::Render()
@@ -159,33 +185,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 
 				videoDriver->draw3DLine(start, end, color);
 			}
-		}
-	
-		if (waves.size() != 0)
-		{
-			if (waves[0]->CheckWaveStatus(m_creatures))
-			{
-				waves[0]->SpawnCreature(m_creatures, *m_pathNumber,m_selector);
-				if (*m_pathNumber == m_path->m_routes.back())
-				{
-					m_pathNumber = m_path->m_routes.begin();
-				}
-				else
-				{
-					std::advance(m_pathNumber,1);
-				}
-				
-				
-
-			}
-			else
-			{
-				std::cout << m_waveNumber;
-				m_gameStatus = GameStatus::BUILD_PHASE;
-				waves.erase(waves.begin());
-				m_playerResources += 1000;
-			}
-		}
+		}		
 	}
 
 	void Playground::SpawnTower(irr::core::vector2d<irr::s32> p_position)
