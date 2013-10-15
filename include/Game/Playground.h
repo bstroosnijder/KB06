@@ -13,10 +13,12 @@
 #include "Game/Castle.h"
 #include "Game/Stargate.h"
 #include "Game/Terrain.h"
+#include "Game/Marker.h"
 #include "Utility/Logger.h"
 
 #include <vector>
 #include <irrlicht.h>
+#include <math.h>
 
 namespace Game
 {
@@ -90,10 +92,13 @@ namespace Game
 		std::list<Projectile*> m_projectiles;
 		std::list<PathFollower*> m_pathFollowers;
 		std::list<PathRoute*>::iterator m_pathNumber;
+		std::list<Marker*> m_signs;
 
 		std::vector<Wave*> waves;
 
 		Creature* creature1;
+
+		Terrain* m_terrain;
 
 		int m_waveNumber;
 		int m_gameStatus;

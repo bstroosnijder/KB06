@@ -30,6 +30,10 @@ namespace Game
 			 */
 			irr::scene::ITriangleSelector* GenerateTerrain(irr::scene::ISceneManager* p_sceneManager, float p_scale);
 
+			irr::f32 GetTerrainHeight(irr::core::vector3df p_position);
+	private:
+		irr::scene::ITerrainSceneNode* m_terrain;
+
 	};
 }
 

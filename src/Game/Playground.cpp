@@ -22,39 +22,38 @@ namespace Game
 		m_pathBuilder = NULL;
 	}
 
-void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
-{
-	m_castle = new Castle(p_sceneManager, irr::core::vector3df(0, 0, -1200));
-	m_stargate = new Stargate(p_sceneManager, irr::core::vector3df(0, 0, 1200));
+	void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
+	{
+		m_castle = new Castle(p_sceneManager, irr::core::vector3df(0, 0, -1200));
+		m_stargate = new Stargate(p_sceneManager, irr::core::vector3df(0, 0, 1200));
 
-	float range = 10.0f;
-	int amount = 8;
-	irr::core::vector3df* points1 = new irr::core::vector3df[amount];
-	irr::core::vector3df* points2 = new irr::core::vector3df[amount];
-	/*
-	points1[0].set(50, 0, 0	);	points2[0].set(50, 0, 50);	//1
-	points1[1].set(48, 0, 52);	points2[1].set(25, 0, 75);	//2
-	points1[2].set(52, 0, 52);	points2[2].set(75, 0, 75);	//3
-	points1[3].set(25, 0, 77);	points2[3].set(48, 0, 100);	//4
-	points1[4].set(75, 0, 77);	points2[4].set(52, 0, 100);	//5
-	points1[5].set(50, 0, 102);	points2[5].set(50, 0, 150);	//6
-	points1[6].set(27, 0, 76);	points2[6].set(71, 0, 74);	//7
-	*/
+		float range = 10.0f;
+		int amount = 8;
+		irr::core::vector3df* points1 = new irr::core::vector3df[amount];
+		irr::core::vector3df* points2 = new irr::core::vector3df[amount];
+		/*
+		points1[0].set(50, 0, 0	);	points2[0].set(50, 0, 50);	//1
+		points1[1].set(48, 0, 52);	points2[1].set(25, 0, 75);	//2
+		points1[2].set(52, 0, 52);	points2[2].set(75, 0, 75);	//3
+		points1[3].set(25, 0, 77);	points2[3].set(48, 0, 100);	//4
+		points1[4].set(75, 0, 77);	points2[4].set(52, 0, 100);	//5
+		points1[5].set(50, 0, 102);	points2[5].set(50, 0, 150);	//6
+		points1[6].set(27, 0, 76);	points2[6].set(71, 0, 74);	//7
+		*/
 
-	points1[0].set(500, 0, 0);		points2[0].set(250, 0, 500);	//2
-	points1[1].set(500, 0, 0);		points2[1].set(750, 0, 500);	//3
-	points1[2].set(250, 0, 500);	points2[2].set(750, 0, 500);	//4
-	points1[3].set(250, 0, 500);	points2[3].set(250, 0, 1000);	//5
-	points1[4].set(750, 0, 500);	points2[4].set(750, 0, 1000);	//6
-	points1[5].set(250, 0, 1000);	points2[5].set(750, 0, 1000);	//7
-	points1[6].set(250, 0, 1000);	 points2[6].set(500, 0, 1500); //8
-	points1[7].set(750, 0, 1000);	points2[7].set(500, 0, 1500); //9
+		points1[0].set(500, 0, 0);		points2[0].set(250, 0, 500);	//2
+		points1[1].set(500, 0, 0);		points2[1].set(750, 0, 500);	//3
+		points1[2].set(250, 0, 500);	points2[2].set(750, 0, 500);	//4
+		points1[3].set(250, 0, 500);	points2[3].set(250, 0, 1000);	//5
+		points1[4].set(750, 0, 500);	points2[4].set(750, 0, 1000);	//6
+		points1[5].set(250, 0, 1000);	points2[5].set(750, 0, 1000);	//7
+		points1[6].set(250, 0, 1000);	 points2[6].set(500, 0, 1500); //8
+		points1[7].set(750, 0, 1000);	points2[7].set(500, 0, 1500); //9
 	
-	irr::core::vector3df startPoint(500.0f, 0.0f, 0.0f);
-	irr::core::vector3df endPoint(500.0f, 0.0f, 1500.0f);
+		irr::core::vector3df startPoint(500.0f, 0.0f, 0.0f);
+		irr::core::vector3df endPoint(500.0f, 0.0f, 1500.0f);
 
 		SetupPath(points1, points2, amount, range, startPoint, endPoint);
-
 		m_pathNumber = m_path->m_routes.begin();
 		//Setup Waves
 		m_waveNumber = 0;
@@ -63,8 +62,52 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 			waves.push_back(new Game::Wave(p_sceneManager, this));
 		}
 	
-		Terrain* terrain = new Terrain();
-		m_selector = terrain->GenerateTerrain(p_sceneManager, 10.0);
+		m_terrain = new Terrain();
+		m_selector = m_terrain->GenerateTerrain(p_sceneManager, 10.0);
+
+		//Setup signs above the path		
+		std::list<PathSegment*>::iterator itSegments = m_path->m_pathSegments.begin();
+		std::list<PathSegment*>::iterator itSegmentsEnd = m_path->m_pathSegments.end();
+		while (itSegments != itSegmentsEnd)
+		{			
+			
+			
+			bool exist1 = false;
+			irr::core::vector3df position1 = (*itSegments)->m_point1->m_point;
+			irr::f32 height1 = m_terrain->GetTerrainHeight(position1);
+			position1.Y = (height1+100);
+
+			bool exist2 = false;
+			irr::core::vector3df position2 = (*itSegments)->m_point2->m_point;
+			irr::f32 height2 = m_terrain->GetTerrainHeight(position2);
+			position2.Y = (height2+100);
+
+
+
+			std::list<Marker*>::iterator itSigns = m_signs.begin();
+			std::list<Marker*>::iterator itSignsEnd = m_signs.end();
+			while (itSigns != itSignsEnd)
+			{
+				if (position1 == (*itSigns)->GetPosition())
+				{
+					exist1 = true;
+				}
+				if (position2 == (*itSigns)->GetPosition())
+				{
+					exist2 = true;
+				}
+				++itSigns;
+			}
+			if (!exist1)
+			{
+				m_signs.push_back(new Game::Marker(m_sceneManager,this,position1));
+			}
+			if (!exist2)
+			{
+				m_signs.push_back(new Game::Marker(m_sceneManager,this,position2));
+			}			
+			++itSegments;			
+		}
 	}
 
 	bool Playground::SetupPath(
@@ -102,7 +145,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 			creature = (*itCreature);
 			++itCreature;
 
-			creature->FollowPath(p_deltaTime);
+			creature->FollowPath(p_deltaTime,m_terrain);
 		}
 	
 		//Update Towers
@@ -135,7 +178,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 		{
 			if (waves[0]->CheckWaveStatus(m_creatures))
 			{
-				waves[0]->SpawnCreature(m_creatures, *m_pathNumber,m_selector);
+				waves[0]->SpawnCreature(m_creatures, *m_pathNumber);
 				if (*m_pathNumber == m_path->m_routes.back())
 				{
 					m_pathNumber = m_path->m_routes.begin();
@@ -144,9 +187,6 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 				{
 					std::advance(m_pathNumber,1);
 				}
-
-
-
 			}
 			else
 			{
@@ -156,7 +196,17 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 				m_playerResources += 1000;
 			}
 		}
+
+		//Update signs (go up and down)
+		std::list<Marker*>::iterator itSigns = m_signs.begin();
+		std::list<Marker*>::iterator itSignsEnd = m_signs.end();
+		while (itSigns != itSignsEnd)
+		{
+			(*itSigns)->UpdatePosition(p_deltaTime);
+			++itSigns;
+		}
 	}
+
 
 	void Playground::Render()
 	{
@@ -210,7 +260,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 		
 			if (!towerB)
 			{
-				m_playerResources -= 0;
+				m_playerResources -= 500;
 				irr::core::line3d<irr::f32> line = m_sceneManager->getSceneCollisionManager()->getRayFromScreenCoordinates(p_position,m_sceneManager->getActiveCamera());
 				irr::core::vector3df towerPosition;
 				irr::core::triangle3df triangle;
@@ -239,7 +289,6 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 				tower = (*itTower);
 			
 				++itTower;
-				sceneNodeOut->remove();
 				delete tower;
 				m_towers.remove(tower);
 				m_playerResources += 250;
