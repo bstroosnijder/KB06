@@ -165,12 +165,17 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 		{
 			if (waves[0]->CheckWaveStatus(m_creatures))
 			{
+				waves[0]->SpawnCreature(m_creatures, *m_pathNumber,m_selector);
 				if (*m_pathNumber == m_path->m_routes.back())
 				{
 					m_pathNumber = m_path->m_routes.begin();
 				}
-				std::advance(m_pathNumber,1);
-				waves[0]->SpawnCreature(m_creatures, *m_pathNumber,m_selector);
+				else
+				{
+					std::advance(m_pathNumber,1);
+				}
+				
+				
 
 			}
 			else
