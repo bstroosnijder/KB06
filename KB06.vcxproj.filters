@@ -123,6 +123,15 @@
     <ClCompile Include="src\Game\Marker.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="src\Camera\CalibrationParams.cpp">
+      <Filter>Source Files\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera\PointDetector.cpp">
+      <Filter>Source Files\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\InputHandler.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Camera.h">
@@ -222,6 +231,18 @@
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="include\Game\Marker.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Camera\CalibrationParams.h">
+      <Filter>Header Files\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Camera\PointDetector.h">
+      <Filter>Header Files\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\Defines.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\InputHandler.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
