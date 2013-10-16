@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "Creature.h"
 #include "Projectile.h"
+#include "Timer.h"
 
 #include <list>
 #include <cmath>
@@ -71,10 +72,12 @@ namespace Game
 		void ShootAtNearestCreature(std::list<Creature*>&);
 		
 	private:
-		double m_shootingSpeed;
+		unsigned long m_shootingSpeed;
 		double m_shootingRange;
 
 		irr::scene::ISceneNode* m_jointCrystal;
+
+		Timer* m_timer;
 
 		/**
 		 * @brief	Searches the Creature closest to the Tower.
