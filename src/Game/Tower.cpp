@@ -52,7 +52,7 @@ namespace Game
 
 		if (creature != NULL)
 		{
-			ShootProjectileAtCreature(creature);
+			//ShootProjectileAtCreature(creature);
 		}
 	}
 

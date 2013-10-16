@@ -3,6 +3,8 @@
 
 #include "Playground.h"
 #include "DeltaTimer.h"
+#include "EventHandler.h"
+#include "Utility/Logger.h"
 
 #include <irrlicht.h>
 
@@ -11,17 +13,26 @@ namespace Game
 	class GameManager
 	{
 	public:
-		GameManager(irr::IrrlichtDevice*);
+		GameManager(irr::IrrlichtDevice* p_device);
 		~GameManager();
-
-		void Update();
-		void Render();
+		
+		irr::IEventReceiver* GetEventReceiver();
+		void GameTick();
 
 	private:
 		irr::IrrlichtDevice* m_device;
+		irr::scene::ISceneManager* m_sceneManager;
+		irr::video::IVideoDriver* m_videoDriver;
+		irr::scene::ICameraSceneNode* m_camera;
 
-		Game::DeltaTimer* m_deltaTimer;
-		Game::Playground* m_playground;
+		Playground* m_playground;
+		Gui* m_gui;
+		EventHandler* m_eventHandler;
+		DeltaTimer* m_deltaTimer;
+		
+		void Update();
+		void Render();
+		void SetupCamera();
 	};
 }
 
