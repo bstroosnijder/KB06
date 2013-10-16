@@ -8,55 +8,52 @@
 namespace Game
 {
 	/**
-	* @brief	General entity class.
-	* @author	Thomas Gravekamp
-	*/
+	 * @brief	General entity class.
+	 *
+	 * @author	Thomas Gravekamp
+	 * @todo		Comment private parts.
+	 */
 	class Entity
 	{
 	public:
 		/**
-		* @brief Constructor
-		*
-		*/
-		Entity();
-
-		/**
-		 * @brief Constructor override with a Scenemanager to attach itself to
-		 * @param SceneManager is required to attach the entity scenenode to the manager
-		 * @param The PlaygroundListener is used to sent events to the playground
+		 * @brief	Constructor override with a Scenemanager to attach itself to.
+		 *
+		 * @param	SceneManager is required to attach the entity scenenode to the manager
+		 * @param	The PlaygroundListener is used to sent events to the playground
 		 */
 		Entity(irr::scene::ISceneManager*, PlaygroundListener*);
 		
 		/**
-		 * @brief Destructor
+		 * @brief	Destructor
 		 */
 		~Entity();
 
 		/**
-		 * @brief Render the entity
-		 * @param p_sceneManager
+		 * @brief	Render the entity
+		 * @param	p_sceneManager
 		 */
 		void Render(irr::scene::ISceneManager* p_sceneManager);
 		
 		/**
-		 * @brief Set the MaterialFlags of the entity
-		 * @param The MaterialFlags of the p_sceneNode will be changed
+		 * @brief	Set the MaterialFlags of the entity
+		 * @param	The MaterialFlags of the p_sceneNode will be changed
 		 */
 		void SetMaterialFlags(irr::scene::ISceneNode* p_sceneNode = NULL);
 
 		/**
-		 * @brief Return the position of the entity in a vector3df
+		 * @brief	Return the position of the entity in a vector3df
 		 */
 		irr::core::vector3df GetPosition();
 
 		/**
-		 * @brief Set the position of the entity
-		 * @param p_position is the new position of the entity
+		 * @brief	Set the position of the entity
+		 * @param	p_position is the new position of the entity
 		 */
 		void SetPosition(irr::core::vector3df& p_position);
 
 		/**
-		 * @brief Return the SceneNode of the entity
+		 * @brief	Return the SceneNode of the entity
 		 */
 		irr::scene::ISceneNode* GetSceneNode();
 

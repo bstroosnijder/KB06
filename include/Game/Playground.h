@@ -13,6 +13,7 @@
 #include "Game/Castle.h"
 #include "Game/Stargate.h"
 #include "Game/Terrain.h"
+#include "Utility/Logger.h"
 
 #include <vector>
 #include <irrlicht.h>

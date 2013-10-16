@@ -32,6 +32,13 @@ namespace Game
 		 */
 		~Creature();
 
+		/**
+		 * @brief	Moves the Creature along the Path.
+		 *
+		 *			The speed of the Creature is adapter to the delta time.
+		 * @param	p_deltaTime	The delta time used for the movement.
+		 * @author	Michel van Os.
+		 */
 		void FollowPath(float p_deltaTime);
 
 		/**

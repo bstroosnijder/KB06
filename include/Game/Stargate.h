@@ -5,10 +5,25 @@
 
 namespace Game
 {
+	/**
+	 * @brief	The Stargate is used as the spawn point for Creatures.
+	 *
+	 *			The Creatures will be spawned at the Stargate. From that
+	 *			the creatures will following the path towards the Castle.
+	 * @author	Michel van Os.
+	*/
 	class Stargate : public Entity
 	{
 	public:
-		Stargate(irr::scene::ISceneManager*, irr::core::vector3df&);
+		/**
+		 * @brief	Creates a Stargate.
+		 *
+		 * @author	Michel van Os.
+		 * @param	
+		 */
+		Stargate(irr::scene::ISceneManager* p_sceneManager,
+				PlaygroundListener* p_playgroundListener,
+				irr::core::vector3df& p_position);
 	};
 }
 

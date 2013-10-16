@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "Creature.h"
 #include "Projectile.h"
+#include "Timer.h"
 
 #include <list>
 #include <cmath>
@@ -15,17 +16,23 @@ namespace Game
 	 *
 	 * @author	Michel van Os
 	 * @author	Thomas Gravekamp
+	 * @todo	Add Initialization function.
+	 * @todo	Commment private parts.
 	 */
 	class Tower : public Entity
 	{
 	public:
-		/**
-		 * @brief Initialize Tower
-		 * @param p_sceneManager Used to register the scenenode to the scenemanager.
-		 * @param p_position Position to place this tower.
+		/***
+		 * @brief	Creates a Tower.
+		 *
+		 * @param	p_sceneManager The irr::scene::ISceneManager used to store the SceneNode.
+		 * @param	p_playgroundListener the PlaygroundListener to handle events.
+		 * @param	p_position The position of the Tower
+		 * @author	Michel van Os
 		 */
-		Tower(irr::scene::ISceneManager* p_sceneManager, irr::core::vector3df p_position);
-		void Update(float);
+		Tower(irr::scene::ISceneManager* p_sceneManager,
+				PlaygroundListener* m_playgroundListener,
+				irr::core::vector3df p_position);
 
 		/**
 		 * @brief	Sets the shooting speed.
@@ -65,11 +72,13 @@ namespace Game
 		void ShootAtNearestCreature(std::list<Creature*>&);
 		
 	private:
-		double m_shootingSpeed;
+		unsigned long m_shootingSpeed;
 		double m_shootingRange;
 
 		Creature* m_target;
 		irr::scene::ISceneNode* m_jointCrystal;
+
+		Timer* m_timer;
 
 		Creature* SearchNearestCreature(std::list<Creature*>& p_creatureList);
 		void ShootProjectileAtCreature(Creature* p_creature);

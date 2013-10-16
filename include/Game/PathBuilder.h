@@ -2,8 +2,11 @@
 #define __GAME__PATHBUILDER__H__
 
 #include "Path.h"
+#include "Utility/Logger.h"
 
 #include <irrlicht.h>
+#include <list>
+#include <stack>
 
 namespace Game
 {
