@@ -9,17 +9,11 @@ namespace Game
 			:
 			Entity(p_sceneManager, p_playgroundListener)
 	{
-		//irr::video::ITexture* texture = p_sceneManager->getVideoDriver()->getTexture("resources/tower-texture.jpg");
 		m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk2.7H.x");
 	
-		m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, p_sceneManager->getSceneNodeFromId(C_EMPTY_ROOT_SCENENODE));
-		//m_meshSceneNode->setMaterialTexture(0, texture);
+		m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
 		m_meshSceneNode->setPosition(p_position);
 	
-		//irr::core::vector3df scale(10.0, 10.0, 10.0);
-	
-		//m_meshSceneNode->setScale(scale);
-
 		SetMaterialFlags();
 	}
 
@@ -38,9 +32,6 @@ namespace Game
 			float speedScale = unitLength / position.getDistanceFrom(target);
 
 			position = position + speed * speedScale * p_deltaTime * 60;
-
-
-			int x = 0;
 		}
 
 			/*

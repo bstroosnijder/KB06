@@ -28,7 +28,7 @@ namespace Game
 		m_timer->Start();
 	}
 
-	void Wave::SpawnCreature(std::list<Creature*>& p_creatures, PathRoute* p_path,irr::scene::ITriangleSelector* p_selector)
+	void Wave::SpawnCreature(std::list<Creature*>& p_creatures, PathRoute* p_path)
 	{
 		Utility::Logger* logger = Utility::Logger::GetInstance();
 
@@ -38,7 +38,7 @@ namespace Game
 			{
 				if (m_timer->GetTime() == 1)
 				{
-					Creature* creature = new Creature(m_sceneManager, m_playgroundListener, m_startPosition,p_path,p_selector);
+					Creature* creature = new Creature(m_sceneManager, m_playgroundListener, m_startPosition,p_path);
 					m_playgroundListener->CreatureCreated(creature);
 
 					m_timer->Reset();
