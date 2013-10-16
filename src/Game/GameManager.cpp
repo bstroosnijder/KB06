@@ -17,7 +17,7 @@ namespace Game
 			// Create a root scene node
 			m_sceneManager->addEmptySceneNode(NULL, C_EMPTY_ROOT_SCENENODE);
 
-			m_playground = new Playground(m_sceneManager);
+			m_playground = new Playground(this, m_sceneManager);
 			m_gui = new Gui(m_device->getGUIEnvironment());
 			m_eventHandler = new EventHandler(m_device, m_gui, m_playground);
 			m_deltaTimer = new DeltaTimer(p_device->getTimer());

@@ -12,12 +12,12 @@ namespace Game
 		void SetPlayerScore(int p_playerNumber, int p_score);
 		void ResetPlayerScore(int p_playerNumber);
 
-		int CastleReached(int p_playerNumber);
-		int PencilBought(int p_playerNumber);
-		int CreatureKilled(int p_playerNumber);
-		int TowerIncreasedSpeed(int p_playerNumber);
-		int TowerIncreasedRange(int p_playerNumber);
-		int TowerIncreasedDamage(int p_playerNumber);
+		void CastleReached(int p_playerNumber);
+		void PencilBought(int p_playerNumber);
+		void CreatureKilled(int p_playerNumber);
+		void TowerIncreasedSpeed(int p_playerNumber);
+		void TowerIncreasedRange(int p_playerNumber);
+		void TowerIncreasedDamage(int p_playerNumber);
 
 	private:
 		int m_playerPoints[2];

@@ -133,6 +133,7 @@
     <ClInclude Include="include\Game\PathPoint.h" />
     <ClInclude Include="include\Game\PathRoute.h" />
     <ClInclude Include="include\Game\PathSegment.h" />
+    <ClInclude Include="include\Game\PlayerType.h" />
     <ClInclude Include="include\Game\Playground.h" />
     <ClInclude Include="include\Game\PlaygroundListener.h" />
     <ClInclude Include="include\Game\Projectile.h" />

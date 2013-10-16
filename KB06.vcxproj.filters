@@ -254,5 +254,8 @@
     <ClInclude Include="include\Game\GameListener.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="include\Game\PlayerType.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

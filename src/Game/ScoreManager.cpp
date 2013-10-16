@@ -25,7 +25,7 @@ namespace Game
 
 	void ScoreManager::SetPlayerScore(int p_playerNumber, int p_score)
 	{
-		m_playerPoints[p_playerNumber] = p_score];
+		m_playerPoints[p_playerNumber] = p_score;
 	}
 
 	void ScoreManager::ResetPlayerScore(int p_playerNumber)
@@ -33,32 +33,32 @@ namespace Game
 		m_playerPoints[p_playerNumber] = m_playerPointsDefault[p_playerNumber];
 	}
 
-	int ScoreManager::CastleReached(int p_playerNumber)
+	void ScoreManager::CastleReached(int p_playerNumber)
 	{
 		m_playerPoints[p_playerNumber] += m_pointsCastleReached;
 	}
 
-	int ScoreManager::PencilBought(int p_playerNumber)
+	void ScoreManager::PencilBought(int p_playerNumber)
 	{
 		m_playerPoints[p_playerNumber] += m_pointsPencilBought;
 	}
 
-	int ScoreManager::CreatureKilled(int p_playerNumber)
+	void ScoreManager::CreatureKilled(int p_playerNumber)
 	{
 		m_playerPoints[p_playerNumber] += m_pointsCreatureKilled;
 	}
 
-	int ScoreManager::TowerIncreasedSpeed(int p_playerNumber)
+	void ScoreManager::TowerIncreasedSpeed(int p_playerNumber)
 	{
 		m_playerPoints[p_playerNumber] += m_pointsTowerIncreasedSpeed;
 	}
 
-	int ScoreManager::TowerIncreasedRange(int p_playerNumber)
+	void ScoreManager::TowerIncreasedRange(int p_playerNumber)
 	{
 		m_playerPoints[p_playerNumber] += m_pointsTowerIncreasedRange;
 	}
 
-	int ScoreManager::TowerIncreasedDamage(int p_playerNumber)
+	void ScoreManager::TowerIncreasedDamage(int p_playerNumber)
 	{
 		m_playerPoints[p_playerNumber] += m_pointsTowerIncreasedDamage;
 	}

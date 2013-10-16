@@ -2,8 +2,9 @@
 
 namespace Game
 {
-	Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
+	Playground::Playground(GameListener* p_gameListener, irr::scene::ISceneManager* p_sceneManager)
 	{
+		m_gameListener = p_gameListener;
 		m_sceneManager = p_sceneManager;
 		m_pathBuilder = new PathBuilder();
 		m_path = NULL;
