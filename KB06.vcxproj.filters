@@ -132,6 +132,9 @@
     <ClCompile Include="src\Game\InputHandler.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="src\Game\ScoreManager.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Camera.h">
@@ -243,6 +246,12 @@
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="include\Game\InputHandler.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\ScoreManager.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\GameListener.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>

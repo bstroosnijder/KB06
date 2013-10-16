@@ -120,4 +120,39 @@ namespace Game
 	{
 		m_videoDriver->endScene();
 	}
+
+	void GameManager::CreatureSpawned()
+	{
+
+	}
+
+	void GameManager::CreatureReachedCastle()
+	{
+
+	}
+
+	void GameManager::CreatureKilled()
+	{
+
+	}
+
+	void GameManager::CreatureHit()
+	{
+
+	}
+
+	void GameManager::ProjectileMissed()
+	{
+
+	}
+
+	void GameManager::ProjectileFired()
+	{
+
+	}
+
+	void GameManager::WaveEnded()
+	{
+
+	}
 }

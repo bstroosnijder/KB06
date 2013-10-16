@@ -64,6 +64,7 @@ namespace Game
 			m_gameManager->BeginScene();
 			// Always draw the camera background
 			m_gameManager->DrawCameraTexture();
+			
 			if (capture->HasChosen())
 			{
 				if (capture->IsLost() == false)
