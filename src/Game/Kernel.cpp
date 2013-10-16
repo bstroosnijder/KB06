@@ -50,8 +50,8 @@ namespace Game
 		m_inputHandler->AddListener(capture);
 		capture->SetFov(60);
 		capture->SetLongestGameLine(irr::core::line2df(
-			irr::core::vector2df(0.0, 0.0),
-			irr::core::vector2df(0.0, 100.0f)));
+			irr::core::vector2df(0.0f, 0.0f),
+			irr::core::vector2df(0.0f, 450.0f)));
 
 		while (m_device->run())
 		{
@@ -73,9 +73,9 @@ namespace Game
 						m_inputHandler->RemoveListener(capture);
 					}
 
-					//irr::core::matrix4 transformation = m_capture->GetTransformMatrix(m_gameManager->GetCameraProjectionMatrix());
-					//root->setPosition(transformation.getTranslation());
-					//root->setRotation(transformation.getRotationDegrees());
+					irr::core::matrix4 transformation = capture->GetTransformMatrix(m_gameManager->GetCameraProjectionMatrix());
+					root->setPosition(transformation.getTranslation());
+					root->setRotation(transformation.getRotationDegrees());
 				}
 
 				// Actually draw the scene, but only once the playground surface has been chosen

@@ -103,7 +103,10 @@ namespace Game
 
 	void GameManager::DrawCameraTexture()
 	{
-		m_videoDriver->draw2DImage(m_videoDriver->getTexture("capture_background"), irr::core::vector2d<irr::s32>(0, 0));
+		//1024, 768
+		m_videoDriver->draw2DImage(m_videoDriver->getTexture("capture_background"),
+			irr::core::rect<irr::s32>(0.0f, 0.0f, 1280, 720),
+			irr::core::rect<irr::s32>(0.0f, 0.0f, 640, 480));
 	}
 
 	irr::core::matrix4 GameManager::GetCameraProjectionMatrix()

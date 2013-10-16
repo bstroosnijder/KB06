@@ -47,7 +47,6 @@ namespace Game
 
 	private:
 		irr::IrrlichtDevice* m_device;
-		Camera::Capture* m_capture;
 		bool m_multiThreaded;
 
 		InputHandler* m_inputHandler;

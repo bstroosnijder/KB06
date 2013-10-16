@@ -255,8 +255,8 @@ namespace Camera
 	{
 		if (P_EVT.EventType == irr::EEVENT_TYPE::EET_MOUSE_INPUT_EVENT)
 		{
-			m_center.x = static_cast<float>(P_EVT.MouseInput.X);
-			m_center.y = static_cast<float>(P_EVT.MouseInput.Y);
+			m_center.x = static_cast<float>(P_EVT.MouseInput.X / (1280 / 640));
+			m_center.y = static_cast<float>(P_EVT.MouseInput.Y / (720 / 480));
 
 			if (P_EVT.MouseInput.isLeftPressed())
 			{
