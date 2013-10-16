@@ -3,6 +3,7 @@
 
 #include "PathFollower.h"
 #include "PathRoute.h"
+#include "Terrain.h"
 
 namespace Game
 {
@@ -24,8 +25,7 @@ namespace Game
 		Creature(irr::scene::ISceneManager* p_sceneManager,
 			PlaygroundListener*,
 			irr::core::vector3df p_position,
-			PathRoute* p_pathRoute,
-			irr::scene::ITriangleSelector* p_selector);
+			PathRoute* p_pathRoute);
 
 		/**
 		 * @brief	Destroys the Creature
@@ -39,7 +39,7 @@ namespace Game
 		 * @param	p_deltaTime	The delta time used for the movement.
 		 * @author	Michel van Os.
 		 */
-		void FollowPath(float p_deltaTime);
+		void FollowPath(float p_deltaTime, Terrain* p_terrain);
 
 		/**
 		 * @brief	Set the HealthPoints of the creature
@@ -54,7 +54,6 @@ namespace Game
 
 	private:
         int m_healthPoints;
-		irr::scene::ISceneNodeAnimator* m_sceneNodeAnimator;
 	};
 }
 

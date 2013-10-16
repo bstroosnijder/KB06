@@ -38,7 +38,7 @@ namespace Game
 		* @param The creatures are added in the p_creatures pointer
 		* @param the p_path is used to give the creatures a walking path
 		*/
-		void SpawnCreature(std::list<Creature*>& p_creatures,PathRoute* p_path, irr::scene::ITriangleSelector* p_selector);
+		void SpawnCreature(std::list<Creature*>& p_creatures,PathRoute* p_path);
 
 		/**
 		* @brief This method checks the status of the wave.

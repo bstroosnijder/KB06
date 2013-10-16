@@ -77,6 +77,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Game\Marker.cpp" />
     <ClCompile Include="src\Game\Castle.cpp" />
     <ClCompile Include="src\Game\DeltaTimer.cpp" />
     <ClCompile Include="src\Game\GameManager.cpp" />
@@ -132,6 +133,7 @@
     <ClInclude Include="include\Game\Wave.h" />
     <ClInclude Include="include\Utility\Logger.h" />
     <ClInclude Include="include\Game\Terrain.h" />
+    <ClInclude Include="include\Game\Marker.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
