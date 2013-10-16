@@ -11,7 +11,7 @@ namespace Game
 	{
 		irr::scene::ITriangleSelector* selector;
 		irr::video::IVideoDriver* driver = p_sceneManager->getVideoDriver();
-		irr::scene::ITerrainSceneNode* terrain = p_sceneManager->addTerrainSceneNode(
+		m_terrain = p_sceneManager->addTerrainSceneNode(
 			"resources/textures/terrain-heightmap.bmp",
 			0,												// parent node
 			-1,												// node id
@@ -24,20 +24,25 @@ namespace Game
 			4												// smoothFactor
 			);
 
-		terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+		m_terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
 
-		terrain->setMaterialTexture(0, driver->getTexture("resources/textures/terrain-texture.jpg"));
-		terrain->setMaterialTexture(1, driver->getTexture("resources/textures/detailmap3.jpg"));
-		terrain->setMaterialType(irr::video::EMT_DETAIL_MAP);
-		terrain->scaleTexture(1.0f, 20.0f);
+		m_terrain->setMaterialTexture(0, driver->getTexture("resources/textures/terrain-texture.jpg"));
+		m_terrain->setMaterialTexture(1, driver->getTexture("resources/textures/detailmap3.jpg"));
+		m_terrain->setMaterialType(irr::video::EMT_DETAIL_MAP);
+		m_terrain->scaleTexture(1.0f, 20.0f);
 
 
 		// create triangle selector for the terrain	 
-		selector = p_sceneManager->createTerrainTriangleSelector(terrain, 0);
-		terrain->setTriangleSelector(selector);
+		selector = p_sceneManager->createTerrainTriangleSelector(m_terrain, 0);
+		m_terrain->setTriangleSelector(selector);
 
 		
 
 		return selector;
+	}
+
+	irr::f32 Terrain::GetTerrainHeight(irr::core::vector3df p_position)
+	{
+		return m_terrain->getHeight(p_position.X,p_position.Z);
 	}
 }

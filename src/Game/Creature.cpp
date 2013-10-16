@@ -5,8 +5,7 @@ namespace Game
 	Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
 			PlaygroundListener* p_playgroundListener,
 			irr::core::vector3df p_position,
-			PathRoute* p_pathRoute,
-			irr::scene::ITriangleSelector* p_selector)
+			PathRoute* p_pathRoute)
 			:
 			PathFollower(p_sceneManager, p_playgroundListener, p_pathRoute)
 	{
@@ -33,15 +32,6 @@ namespace Game
 		sceneNodeTemp = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, m_meshSceneNode);
 		SetMaterialFlags(sceneNodeTemp);
 
-		m_sceneNodeAnimator = p_sceneManager->createCollisionResponseAnimator(
-			p_selector, m_meshSceneNode, irr::core::vector3df(10,3,10),
-			irr::core::vector3df(0,-10,0),
-			irr::core::vector3df(0,0,0)
-			);
-		m_meshSceneNode->addAnimator(m_sceneNodeAnimator);
-	
-
-		m_sceneNodeAnimator->grab();
 
 		m_healthPoints = 100;
 
@@ -50,22 +40,18 @@ namespace Game
 
 	Creature::~Creature()
 	{
-		m_sceneNodeAnimator->drop();
-		m_sceneNodeAnimator = NULL;
+
 	}
 
-	void Creature::FollowPath(float p_deltaTime)
+	void Creature::FollowPath(float p_deltaTime, Terrain* p_terrain)
 	{
-		//Store old coords
-		irr::core::vector3df position = GetPosition();	
-		float y = position.Y;
-
 		//Move along path
 		PathFollower::FollowPath(p_deltaTime);
 
 		//Determine new position
-		position = GetPosition();
-		position.Y = y;
+		irr::core::vector3df position = GetPosition();
+		
+		position.Y = p_terrain->GetTerrainHeight(position);
 		SetPosition(position);
 
 		if (IsEndOfRouteReached())
