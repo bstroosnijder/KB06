@@ -7,7 +7,7 @@ namespace Game
 		m_gui = p_gui;
 		m_device = p_device;
 		m_playground = p_playground;
-		clickEvent = NULL;
+		m_clickEvent = NULL;
 	}
 
 	EventHandler::~EventHandler()
@@ -39,12 +39,12 @@ namespace Game
 				}
 				if (id == TOWER_BUTTON)
 				{
-					clickEvent = ClickEvent::TOWER_PRESSED;
+					m_clickEvent = ClickEvent::TOWER_PRESSED;
 					return true;
 				}
 				if (id == SELL_BUTTON)
 				{
-					clickEvent = ClickEvent::SELL_PRESSED;
+					m_clickEvent = ClickEvent::SELL_PRESSED;
 					return true;
 				}
 				if (id == CONTROLS_BUTTON)
@@ -60,7 +60,7 @@ namespace Game
 			}
 		}
 
-		if (event.EventType ==irr::EET_KEY_INPUT_EVENT)
+		if (event.EventType == irr::EET_KEY_INPUT_EVENT)
 		{
 			irr::s32 keyInput = event.KeyInput.Key;
 			
@@ -85,24 +85,25 @@ namespace Game
 				return true;
 			}			
 		}
+
 		if (event.EventType == irr::EET_MOUSE_INPUT_EVENT)
 		{
 			if (event.MouseInput.isLeftPressed())
 			{
-				if (clickEvent == ClickEvent::TOWER_PRESSED)
+				if (m_clickEvent == ClickEvent::TOWER_PRESSED)
 				{
 					
 					irr::core::vector2d<irr::s32> mousePosition = m_device->getCursorControl()->getPosition();
 					m_playground->SpawnTower(mousePosition);
-					clickEvent = NULL;
+					m_clickEvent = NULL;
 					return true;
 				}
-				if (clickEvent == ClickEvent::SELL_PRESSED)
+				if (m_clickEvent == ClickEvent::SELL_PRESSED)
 				{
 
 					irr::core::vector2d<irr::s32> mousePosition = m_device->getCursorControl()->getPosition();
 					m_playground->SellTower(mousePosition);
-					clickEvent = NULL;
+					m_clickEvent = NULL;
 					return true;
 				}	
 			}				

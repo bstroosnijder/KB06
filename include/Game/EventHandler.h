@@ -57,7 +57,7 @@ namespace Game
 		Game::Gui* m_gui;
 		Game::Playground* m_playground;
 		irr::IrrlichtDevice* m_device;
-		int clickEvent;
+		int m_clickEvent;
 	};
 
 }

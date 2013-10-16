@@ -1,10 +1,8 @@
 #ifndef __GAME__KERNEL__H__
 #define __GAME__KERNEL__H__
 
-#include "Defines.h"
 #include "../Camera/Capture.h"
 #include "../Camera/Calibration.h"
-#include "InputHandler.h"
 #include "../Game/EventHandler.h"
 #include "../Game/Gui.h"
 #include "GameManager.h"
@@ -44,23 +42,14 @@ namespace Game
 		 */
 		void Start();
 
-		/**
-		 * @brief	Sets multi threaded
-		 * @param	p_multiThreaded Whether to use multithreading or not
-		 */
-		void SetMultiThreaded(bool p_multiThreaded);
-
 	private:
-		irr::core::stringw m_title;
-		bool m_multiThreaded;
 		irr::IrrlichtDevice* m_device;
-		irr::video::IVideoDriver* m_videoDriver;
-		irr::scene::ISceneManager* m_sceneManager;
-		InputHandler* m_inputHandler;
 		Camera::Capture* m_capture;
 
-		Gui* m_gui;
+		Game::Gui* m_gui;
+		irr::scene::ICameraSceneNode* m_camera;
 		Playground* m_playground;
+		GameManager* m_gameManager;
 		DeltaTimer* m_deltaTimer;		
 
 		/**

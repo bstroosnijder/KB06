@@ -54,6 +54,8 @@ namespace Game
 		 */
 		void UpdateControlsMenu();
 
+		///@todo	Needs comments
+		void Draw();
 
 		/**
 		 *	Clears all GUI elements
