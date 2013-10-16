@@ -28,12 +28,12 @@ namespace Camera
 
 		/**
 		 * @brief	Finds start and end points of path markers in a frame and sets the m_startPoints and m_endPoints point arrays
-		 * @param	frame The frame to capture points in
-		 * @param	corners Determines the rotation of the frame
+		 * @param	p_frame The frame to capture points in
+		 * @param	p_corners Determines the rotation of the frame
 		 * @param   p_startPoints A pointer to a vector3df array to store start points.
 		 * @param   p_endPoints A pointer to a vector3df array to store end points.
 		 */
-		void FindPointsInFrame(cv::Mat frame, std::vector<cv::Point2f> corners, irr::core::vector3df* p_startPoints, irr::core::vector3df* p_endPoints);
+		void FindPointsInFrame(cv::Mat p_frame, std::vector<cv::Point2f> p_corners, irr::core::vector3df* p_startPoints, irr::core::vector3df* p_endPoints);
 	};
 
 }
