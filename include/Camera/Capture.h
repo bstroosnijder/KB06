@@ -112,11 +112,11 @@ namespace Camera
 
 		/**
 		 * @brief	Finds start and end points in a frame.
-		 * @param	frame The frame to capture points in
+		 * @param	p_frame The frame to capture points in
 		 * @param   p_startPoints A pointer to a vector3df array to store start points.
 		 * @param   p_endPoints A pointer to a vector3df array to store end points.
 		 */
-		void FindStartAndEndPoints(cv::Mat frame, irr::core::vector3df* p_startPoints, irr::core::vector3df* p_endPoints);
+		void FindStartAndEndPoints(cv::Mat p_frame, irr::core::vector3df* p_startPoints, irr::core::vector3df* p_endPoints);
 
 		/**
 		 * @brief	Gets the current frame of the camera

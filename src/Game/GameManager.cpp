@@ -17,7 +17,7 @@ namespace Game
 			// Create a root scene node
 			m_sceneManager->addEmptySceneNode(NULL, C_EMPTY_ROOT_SCENENODE);
 
-			m_playground = new Playground(m_sceneManager);
+			m_playground = new Playground(this, m_sceneManager);
 			m_gui = new Gui(m_device->getGUIEnvironment());
 			m_eventHandler = new EventHandler(m_device, m_gui, m_playground);
 			m_deltaTimer = new DeltaTimer(p_device->getTimer());
@@ -122,5 +122,40 @@ namespace Game
 	void GameManager::EndScene()
 	{
 		m_videoDriver->endScene();
+	}
+
+	void GameManager::CreatureSpawned()
+	{
+
+	}
+
+	void GameManager::CreatureReachedCastle()
+	{
+
+	}
+
+	void GameManager::CreatureKilled()
+	{
+
+	}
+
+	void GameManager::CreatureHit()
+	{
+
+	}
+
+	void GameManager::ProjectileMissed()
+	{
+
+	}
+
+	void GameManager::ProjectileFired()
+	{
+
+	}
+
+	void GameManager::WaveEnded()
+	{
+
 	}
 }

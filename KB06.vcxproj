@@ -85,6 +85,7 @@
     <ClCompile Include="src\Game\DeltaTimer.cpp" />
     <ClCompile Include="src\Game\GameManager.cpp" />
     <ClCompile Include="src\Game\PathFollower.cpp" />
+    <ClCompile Include="src\Game\ScoreManager.cpp" />
     <ClCompile Include="src\Game\Stargate.cpp" />
     <ClCompile Include="src\Game\Timer.cpp" />
     <ClCompile Include="src\Game\Wave.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="include\Game\Defines.h" />
     <ClInclude Include="include\Game\DeltaTimer.h" />
     <ClInclude Include="include\Game\EventHandler.h" />
+    <ClInclude Include="include\Game\GameListener.h" />
     <ClInclude Include="include\Game\GameManager.h" />
     <ClInclude Include="include\Game\Gui.h" />
     <ClInclude Include="include\Game\InputHandler.h" />
@@ -131,9 +133,11 @@
     <ClInclude Include="include\Game\PathPoint.h" />
     <ClInclude Include="include\Game\PathRoute.h" />
     <ClInclude Include="include\Game\PathSegment.h" />
+    <ClInclude Include="include\Game\PlayerType.h" />
     <ClInclude Include="include\Game\Playground.h" />
     <ClInclude Include="include\Game\PlaygroundListener.h" />
     <ClInclude Include="include\Game\Projectile.h" />
+    <ClInclude Include="include\Game\ScoreManager.h" />
     <ClInclude Include="include\Game\Stargate.h" />
     <ClInclude Include="include\Game\Timer.h" />
     <ClInclude Include="include\Game\Tower.h" />

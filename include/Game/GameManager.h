@@ -2,6 +2,8 @@
 #define __GAME__GAMEMANAGER__H__
 
 #include "Defines.h"
+#include "GameListener.h"
+#include "ScoreManager.h"
 #include "Playground.h"
 #include "DeltaTimer.h"
 #include "EventHandler.h"
@@ -11,7 +13,7 @@
 
 namespace Game
 {
-	class GameManager
+	class GameManager : public GameListener
 	{
 	public:
 		GameManager(irr::IrrlichtDevice* p_device);
@@ -27,6 +29,14 @@ namespace Game
 		irr::core::matrix4 GetCameraProjectionMatrix();
 		void BeginScene();
 		void EndScene();
+		
+		void CreatureSpawned();
+		void CreatureReachedCastle();
+		void CreatureKilled();
+		void CreatureHit();
+		void ProjectileMissed();
+		void ProjectileFired();
+		void WaveEnded();
 
 	private:
 		irr::IrrlichtDevice* m_device;
@@ -34,6 +44,8 @@ namespace Game
 		irr::video::IVideoDriver* m_videoDriver;
 		irr::scene::ICameraSceneNode* m_camera;
 
+		ScoreManager m_scoreManager;
+		int m_player1;
 		Playground* m_playground;
 		Gui* m_gui;
 		EventHandler* m_eventHandler;

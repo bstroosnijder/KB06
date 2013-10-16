@@ -11,7 +11,7 @@ namespace Camera
 	{
 	}
 
-	void PointDetector::FindPointsInFrame(cv::Mat frame, std::vector<cv::Point2f> corners, irr::core::vector3df* p_startPoints, irr::core::vector3df* p_endPoints)
+	void PointDetector::FindPointsInFrame(cv::Mat p_frame, std::vector<cv::Point2f> p_corners, irr::core::vector3df* p_startPoints, irr::core::vector3df* p_endPoints)
 	{
 		cv::Mat quad = cv::Mat::zeros(300, 300, CV_8U);
 
@@ -23,10 +23,10 @@ namespace Camera
 		quad_pts.push_back(cv::Point2f(0, quad.rows));
 
 		// get transformation matrix
-		cv::Mat matrix = cv::getPerspectiveTransform(corners, quad_pts);
+		cv::Mat matrix = cv::getPerspectiveTransform(p_corners, quad_pts);
 
 		// Apply perspective transformation
-		cv::warpPerspective(frame, quad, matrix, quad.size());
+		cv::warpPerspective(p_frame, quad, matrix, quad.size());
 		cv::imshow("quadrilateral", quad);
 		cv::waitKey(1);
 

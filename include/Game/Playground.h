@@ -1,6 +1,7 @@
 #ifndef __GAME__PLAYGROUND__H__
 #define __GAME__PLAYGROUND__H__
 
+#include "GameListener.h"
 #include "PlaygroundListener.h"
 #include "Path.h" 
 #include "PathBuilder.h"
@@ -40,7 +41,7 @@ namespace Game
 			VICTORY = 4
 		};
 	public:
-		Playground(irr::scene::ISceneManager* p_sceneManager);
+		Playground(GameListener* p_gameListener, irr::scene::ISceneManager* p_sceneManager);
 		~Playground();
 
 		void Initialize(irr::scene::ISceneManager* p_sceneManager);
@@ -79,6 +80,7 @@ namespace Game
 		void CreatureRouteEndReached(Creature*);
 
 	private:
+		GameListener* m_gameListener;
 		irr::scene::ISceneManager* m_sceneManager;
 		PathBuilder* m_pathBuilder;
 

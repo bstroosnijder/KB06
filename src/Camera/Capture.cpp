@@ -241,13 +241,13 @@ namespace Camera
 		}
 	}
 
-	void Capture::FindStartAndEndPoints(cv::Mat frame, irr::core::vector3df* p_startPoints, irr::core::vector3df* p_endPoints)
+	void Capture::FindStartAndEndPoints(cv::Mat p_frame, irr::core::vector3df* p_startPoints, irr::core::vector3df* p_endPoints)
 	{
 		if (m_corners.size() == 4 && m_chosen)
 		{
 			PointDetector pd;
 
-			pd.FindPointsInFrame(frame, m_corners, p_startPoints, p_endPoints);
+			pd.FindPointsInFrame(p_frame, m_corners, p_startPoints, p_endPoints);
 		}
 	}
 
