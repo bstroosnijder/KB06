@@ -15,9 +15,9 @@ namespace Game
 	public:
 		GameManager(irr::IrrlichtDevice* p_device);
 		~GameManager();
-		
-		irr::IEventReceiver* GetEventReceiver();
+
 		void GameTick();
+		irr::IEventReceiver* GetEventReceiver();
 
 	private:
 		irr::IrrlichtDevice* m_device;
