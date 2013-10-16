@@ -3,11 +3,8 @@
 
 #include "../Camera/Capture.h"
 #include "../Camera/Calibration.h"
-#include "../Game/EventHandler.h"
-#include "../Game/Gui.h"
+#include "InputHandler.h"
 #include "GameManager.h"
-#include "Playground.h"
-#include "DeltaTimer.h"
 
 #include <irrlicht.h>
 
@@ -42,20 +39,19 @@ namespace Game
 		 */
 		void Start();
 
+		/**
+		 * @brief	Sets multithreaded
+		 * @param	p_multiThreaded Value
+		 */
+		void SetMultiThreaded(bool p_multiThreaded);
+
 	private:
 		irr::IrrlichtDevice* m_device;
 		Camera::Capture* m_capture;
+		bool m_multiThreaded;
 
-		Game::Gui* m_gui;
-		irr::scene::ICameraSceneNode* m_camera;
-		Playground* m_playground;
+		InputHandler* m_inputHandler;
 		GameManager* m_gameManager;
-		DeltaTimer* m_deltaTimer;		
-
-		/**
-		 * @brief	Show a fps counter in the title of the window
-		 */
-		void ShowFPS();
 	};
 }
 

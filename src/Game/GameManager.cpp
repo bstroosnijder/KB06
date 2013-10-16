@@ -14,12 +14,14 @@ namespace Game
 			m_videoDriver = p_device->getVideoDriver();
 			SetupCamera();
 
+			// Create a root scene node
+			m_sceneManager->addEmptySceneNode(NULL, C_EMPTY_ROOT_SCENENODE);
+
 			m_playground = new Playground(m_sceneManager);
 			m_gui = new Gui(m_device->getGUIEnvironment());
 			m_eventHandler = new EventHandler(m_device, m_gui, m_playground);
 			m_deltaTimer = new DeltaTimer(p_device->getTimer());
 
-			m_device->setEventReceiver(m_eventHandler);
 			m_device->setWindowCaption(L"KB06: Game");
 			m_device->getCursorControl()->setVisible(true);		
 
@@ -54,26 +56,68 @@ namespace Game
 	void GameManager::Render()
 	{
 		m_gui->endGame(m_playground->GetGameStatus());
-		m_videoDriver->beginScene(true, true, irr::video::SColor(255, 0, 0, 255));
-		{
-			m_sceneManager->drawAll();
-			m_playground->Render();
-			m_gui->UpdateGui(m_playground->GetWaveNumber(),m_playground->GetAmountOfCreatures(),m_videoDriver->getFPS(), m_playground->GetPlayerHealth(), m_playground->GetPlayerResources());
-			
-		}
-		m_videoDriver->endScene();
+		m_sceneManager->drawAll();
+		m_playground->Render();
+		m_gui->UpdateGui(m_playground->GetWaveNumber(), m_playground->GetAmountOfCreatures(), m_videoDriver->getFPS(), m_playground->GetPlayerHealth(), m_playground->GetPlayerResources());
 	}
 
 	void GameManager::SetupCamera()
 	{
-		m_camera = m_sceneManager->addCameraSceneNodeFPS();
-		m_camera->setPosition(irr::core::vector3df(0.0f, 100.0f, -20.0f));
-		m_camera->setRotation(irr::core::vector3df(0.0f, 0.0f, 70.0f));
-		m_camera->setInputReceiverEnabled(false);
+		// Create a static camera
+		m_camera = m_sceneManager->addCameraSceneNode(NULL,
+			irr::core::vector3df(0.0f, 0.0f, 0.0f),
+			irr::core::vector3df(0.0f, 0.0f, 1.0f));
+
+		// Or a FPS camera
+		//m_camera = m_sceneManager->addCameraSceneNodeFPS();
+		//m_camera->setPosition(irr::core::vector3df(0.0f, 100.0f, -20.0f));
+		//m_camera->setRotation(irr::core::vector3df(0.0f, 0.0f, 70.0f));
+		//m_camera->setInputReceiverEnabled(false);
 	}
 
 	irr::IEventReceiver* GameManager::GetEventReceiver()
 	{
 		return m_eventHandler;
+	}
+
+	irr::video::ITexture* GameManager::GetCameraTexture()
+	{
+		return m_videoDriver->addTexture(irr::core::dimension2d<irr::u32>(640, 480), "capture_background");
+	}
+
+	void GameManager::SetCameraHeight(float p_cameraHeight)
+	{
+		m_camera->setPosition(
+			irr::core::vector3df(0.0f, p_cameraHeight, 0.0f));
+	}
+
+	void GameManager::SetGameLength(float p_gameLength)
+	{
+		// TODO: Implementatie
+	}
+	
+	irr::scene::ISceneNode* GameManager::GetRootSceneNode()
+	{
+		return m_sceneManager->getSceneNodeFromId(C_EMPTY_ROOT_SCENENODE);
+	}
+
+	void GameManager::DrawCameraTexture()
+	{
+		m_videoDriver->draw2DImage(m_videoDriver->getTexture("capture_background"), irr::core::vector2d<irr::s32>(0, 0));
+	}
+
+	irr::core::matrix4 GameManager::GetCameraProjectionMatrix()
+	{
+		return m_camera->getProjectionMatrix();
+	}
+
+	void GameManager::BeginScene()
+	{
+		m_videoDriver->beginScene(true, true, irr::video::SColor(255, 0, 0, 255));
+	}
+
+	void GameManager::EndScene()
+	{
+		m_videoDriver->endScene();
 	}
 }

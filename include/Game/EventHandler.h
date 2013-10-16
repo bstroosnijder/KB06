@@ -36,7 +36,7 @@ namespace Game
 		/**
 		 * @brief Constructor
 		 */
-		EventHandler(irr::IrrlichtDevice* p_device,Game::Gui* p_gui, Game::Playground* p_playground);
+		EventHandler(irr::IrrlichtDevice* p_device, Game::Gui* p_gui, Game::Playground* p_playground);
 		
 		/**
 		 * @brief Deconstructor

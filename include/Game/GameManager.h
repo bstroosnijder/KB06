@@ -1,6 +1,7 @@
 #ifndef __GAME__GAMEMANAGER__H__
 #define __GAME__GAMEMANAGER__H__
 
+#include "Defines.h"
 #include "Playground.h"
 #include "DeltaTimer.h"
 #include "EventHandler.h"
@@ -18,6 +19,14 @@ namespace Game
 
 		void GameTick();
 		irr::IEventReceiver* GetEventReceiver();
+		irr::video::ITexture* GetCameraTexture();
+		void SetCameraHeight(float p_cameraHeight);
+		void SetGameLength(float p_gameLength);
+		irr::scene::ISceneNode* GetRootSceneNode();
+		void DrawCameraTexture();
+		irr::core::matrix4 GetCameraProjectionMatrix();
+		void BeginScene();
+		void EndScene();
 
 	private:
 		irr::IrrlichtDevice* m_device;
