@@ -63,6 +63,8 @@ namespace Game
 	private:
 		int m_playerPoints[2];
 		int m_playerPointsDefault[2];
+		
+		int m_pencilsOwned;
 
 		int m_pointsCastleReached;
 		int m_pointsPencilBought;

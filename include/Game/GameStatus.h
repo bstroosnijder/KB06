@@ -5,6 +5,9 @@ namespace Game
 {
 	enum GameStatus
 	{
+		/// The game started.
+		GAME_STARTED,
+
 		/// Attacker places the pencils on the table
 		ATTACKER_PLACE_PENCILS,
 
@@ -17,6 +20,9 @@ namespace Game
 
 		/// All Game-entities stop.
 		WAVE_PAUZED,
+
+		/// All Creatures are spawned and are dead or reached the Castle.
+		WAVE_FINISHED,
 
 		/// The attack has won the game.
 		ATTACKER_VICTORY,

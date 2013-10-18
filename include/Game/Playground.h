@@ -2,7 +2,6 @@
 #define __GAME__PLAYGROUND__H__
 
 #include "GameListener.h"
-#include "GameStatus.h"
 #include "PlaygroundListener.h"
 #include "Path.h" 
 #include "PathBuilder.h"
@@ -53,16 +52,17 @@ namespace Game
 			);
 
 		void SpawnTower(irr::core::vector2d<irr::s32>);
-
 		void SellTower(irr::core::vector2d<irr::s32>);
+
+		void UpgradeTowerSpeed(irr::core::vector2di p_position);
+		void UpgradeTowerRange(irr::core::vector2di p_position);
+		void UpgradeTowerDamage(irr::core::vector2di p_position);
 
 		void StartNextWave();
 
 		int GetWaveNumber();
 		int GetAmountOfCreatures();
-		int GetGameStatus();
-		int GetPlayerHealth();
-		
+		int GetPlayerHealth();		
 		int GetPlayerResources();
 
 		//PlaygroundListenerEvents
@@ -97,7 +97,6 @@ namespace Game
 		Terrain* m_terrain;
 
 		int m_waveNumber;
-		int m_gameStatus;
 		int m_playerHealth;
 		int m_playerResources;
 
