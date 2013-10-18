@@ -3,6 +3,8 @@
 
 #include "Defines.h"
 #include "GameListener.h"
+#include "GameStatus.h"
+#include "PlayerType.h"
 #include "ScoreManager.h"
 #include "Playground.h"
 #include "DeltaTimer.h"
@@ -13,7 +15,7 @@
 
 namespace Game
 {
-	class GameManager : public GameListener
+	class GameManager : public GameListener, UserInputListener
 	{
 	public:
 		GameManager(irr::IrrlichtDevice* p_device, irr::core::dimension2du p_resolution);
@@ -31,13 +33,26 @@ namespace Game
 		void BeginScene();
 		void EndScene();
 		
-		void CreatureSpawned();
-		void CreatureReachedCastle();
-		void CreatureKilled();
-		void CreatureHit();
-		void ProjectileMissed();
-		void ProjectileFired();
-		void WaveEnded();
+		//GameListenerEvents.
+		void OnCreatureSpawned();
+		void OnCreatureReachedCastle();
+		void OnCreatureKilled();
+		void OnCreatureHit();
+		void OnProjectileMissed();
+		void OnProjectileFired();
+		void OnWaveEnded();
+
+		//UserInputListenerEvents.
+		void OnStopGame();
+		void OnStartWave();
+		void OnPlacePencils();
+		void OnPlaceTowers();
+		void OnTowerCreate();
+		void OnTowerDestroy();
+		void OnTowerUpgradeSpeed();
+		void OnTowerUpgradeRange();
+		void OnTowerUpgradeDamage();
+
 
 	private:
 		irr::IrrlichtDevice* m_device;
@@ -48,7 +63,8 @@ namespace Game
 		irr::scene::ICameraSceneNode* m_camera;
 
 		ScoreManager m_scoreManager;
-		int m_player1;
+		GameStatus m_gameSatus;
+		PlayerType m_player1;
 		Playground* m_playground;
 		Gui* m_gui;
 		EventHandler* m_eventHandler;
