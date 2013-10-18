@@ -55,15 +55,15 @@ namespace Game
 
 		while (m_device->run())
 		{
-			capture->Start();
-			m_gameManager->SetCameraHeight(capture->GetPixelDistance());
+			//capture->Start();
+			//m_gameManager->SetCameraHeight(capture->GetPixelDistance());
 			// TODO GetCalculatedShortestGameLine: rename
 			m_gameManager->SetGameLength(capture->GetCalculatedShortestGameLine().getLength());
 			
 			// Begin the scene
 			m_gameManager->BeginScene();
 			// Always draw the camera background
-			m_gameManager->DrawCameraTexture();
+			//m_gameManager->DrawCameraTexture();
 			if (capture->HasChosen())
 			{
 				if (capture->IsLost() == false)
@@ -79,8 +79,10 @@ namespace Game
 				}
 
 				// Actually draw the scene, but only once the playground surface has been chosen
-				m_gameManager->GameTick();
+				//m_gameManager->GameTick();
 			}
+
+			m_gameManager->GameTick();
 
 			// End the scene
 			m_gameManager->EndScene();

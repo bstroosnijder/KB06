@@ -9,7 +9,7 @@ namespace Game
 			:
 			Entity(p_sceneManager, p_playgroundListener)
 	{
-		m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk2.7H.x");
+		m_animatedMesh = p_sceneManager->getMesh("resources/models/projectile/creature.3ds");
 	
 		m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
 		m_meshSceneNode->setPosition(p_position);
@@ -28,10 +28,12 @@ namespace Game
 			irr::core::vector3df distance = target - position;
 		
 			float unitLength = 10.0f;
-			float speed = 0.04f;
+			float speed = 5.0f;
 			float speedScale = unitLength / position.getDistanceFrom(target);
 
-			position = position + speed * speedScale * p_deltaTime * 60;
+			position = position + (speed * speedScale * p_deltaTime * 60);
+
+			SetPosition(position);
 		}
 
 			/*

@@ -304,7 +304,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 
 	void Playground::StartNextWave()
 	{
-		if (m_gameStatus == GameStatus::BUILD_PHASE)
+		//if (m_gameStatus == GameStatus::BUILD_PHASE)
 		{
 			if (waves.size() != 0)
 			{		
