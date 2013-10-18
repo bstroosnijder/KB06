@@ -46,6 +46,7 @@ namespace Game
 		void SetMultiThreaded(bool p_multiThreaded);
 
 	private:
+		irr::core::dimension2du m_resolution;
 		irr::IrrlichtDevice* m_device;
 		bool m_multiThreaded;
 

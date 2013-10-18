@@ -4,7 +4,8 @@ namespace Game
 {
 	Kernel::Kernel()
 	{
-		m_device = irr::createDevice(irr::video::EDT_DIRECT3D9, irr::core::dimension2d<irr::u32>(1280, 720));
+		m_resolution = irr::core::dimension2du(1280, 960);
+		m_device = irr::createDevice(irr::video::EDT_DIRECT3D9, m_resolution);
 
 		if (!m_device)
 		{
@@ -15,7 +16,7 @@ namespace Game
 
 		m_inputHandler = new InputHandler();
 		m_device->setEventReceiver(m_inputHandler);
-		m_gameManager = new GameManager(m_device);
+		m_gameManager = new GameManager(m_device, m_resolution);
 		m_inputHandler->AddListener(m_gameManager->GetEventReceiver());
 	}
 
@@ -46,12 +47,15 @@ namespace Game
 		// Gets the root scene node
 		irr::scene::ISceneNode* root = m_gameManager->GetRootSceneNode();
 		// Capture class
-		Camera::Capture* capture = new Camera::Capture(m_multiThreaded, m_gameManager->GetCameraTexture());
+		Camera::Capture* capture = new Camera::Capture(m_multiThreaded, m_resolution, m_gameManager->GetCameraTexture());
 		m_inputHandler->AddListener(capture);
 		capture->SetFov(60);
 		capture->SetLongestGameLine(irr::core::line2df(
 			irr::core::vector2df(0.0f, 0.0f),
 			irr::core::vector2df(0.0f, 450.0f)));
+
+		// Sets the resolution of the camera for the scaling of the background
+		m_gameManager->SetCaptureResolution(capture->GetCaptureSize());
 
 		while (m_device->run())
 		{

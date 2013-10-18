@@ -2,11 +2,12 @@
 
 namespace Game
 {
-	GameManager::GameManager(irr::IrrlichtDevice* p_device)
+	GameManager::GameManager(irr::IrrlichtDevice* p_device, irr::core::dimension2du p_resolution)
 	{
 		Utility::Logger* logger = Utility::Logger::GetInstance();
 
 		m_device = p_device;
+		m_resolution = p_resolution;
 
 		if (m_device != NULL)
 		{
@@ -95,6 +96,11 @@ namespace Game
 	{
 		// TODO: Implementatie
 	}
+
+	void GameManager::SetCaptureResolution(irr::core::dimension2du p_captureResolution)
+	{
+		m_captureResolution = p_captureResolution;
+	}
 	
 	irr::scene::ISceneNode* GameManager::GetRootSceneNode()
 	{
@@ -103,10 +109,9 @@ namespace Game
 
 	void GameManager::DrawCameraTexture()
 	{
-		//1024, 768
 		m_videoDriver->draw2DImage(m_videoDriver->getTexture("capture_background"),
-			irr::core::rect<irr::s32>(0.0f, 0.0f, 1280, 720),
-			irr::core::rect<irr::s32>(0.0f, 0.0f, 640, 480));
+			irr::core::rect<irr::s32>(0.0f, 0.0f, m_resolution.Width, m_resolution.Height),
+			irr::core::rect<irr::s32>(0.0f, 0.0f, m_captureResolution.Width, m_captureResolution.Height));
 	}
 
 	irr::core::matrix4 GameManager::GetCameraProjectionMatrix()

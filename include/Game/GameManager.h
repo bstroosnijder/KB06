@@ -16,7 +16,7 @@ namespace Game
 	class GameManager : public GameListener
 	{
 	public:
-		GameManager(irr::IrrlichtDevice* p_device);
+		GameManager(irr::IrrlichtDevice* p_device, irr::core::dimension2du p_resolution);
 		~GameManager();
 
 		void GameTick();
@@ -24,6 +24,7 @@ namespace Game
 		irr::video::ITexture* GetCameraTexture();
 		void SetCameraHeight(float p_cameraHeight);
 		void SetGameLength(float p_gameLength);
+		void SetCaptureResolution(irr::core::dimension2du p_captureResolution);
 		irr::scene::ISceneNode* GetRootSceneNode();
 		void DrawCameraTexture();
 		irr::core::matrix4 GetCameraProjectionMatrix();
@@ -40,6 +41,8 @@ namespace Game
 
 	private:
 		irr::IrrlichtDevice* m_device;
+		irr::core::dimension2du m_resolution;
+		irr::core::dimension2du m_captureResolution;
 		irr::scene::ISceneManager* m_sceneManager;
 		irr::video::IVideoDriver* m_videoDriver;
 		irr::scene::ICameraSceneNode* m_camera;
