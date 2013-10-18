@@ -15,12 +15,12 @@ namespace Game
 		Cleanup();
 	}
 
-	bool EventHandler::OnEvent(const irr::SEvent& event)
+	bool EventHandler::OnEvent(const irr::SEvent& p_event)
 	{
-		if (event.EventType == irr::EET_GUI_EVENT)
+		if (p_event.EventType == irr::EET_GUI_EVENT)
 		{
-			irr::s32 id = event.GUIEvent.Caller->getID();
-			if (event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED)
+			irr::s32 id = p_event.GUIEvent.Caller->getID();
+			if (p_event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED)
 			{			
 				if (id == MENU_BUTTON)
 				{
@@ -60,16 +60,16 @@ namespace Game
 			}
 		}
 
-		if (event.EventType == irr::EET_KEY_INPUT_EVENT)
+		if (p_event.EventType == irr::EET_KEY_INPUT_EVENT)
 		{
-			irr::s32 keyInput = event.KeyInput.Key;
+			irr::s32 keyInput = p_event.KeyInput.Key;
 			
-			if (keyInput == irr::KEY_ESCAPE && !event.KeyInput.PressedDown)
+			if (keyInput == irr::KEY_ESCAPE && !p_event.KeyInput.PressedDown)
 			{
 				m_gui->UpdateMenu();
 				return true;
 			}
-			if (keyInput == irr::KEY_KEY_F && !event.KeyInput.PressedDown)
+			if (keyInput == irr::KEY_KEY_F && !p_event.KeyInput.PressedDown)
 			{
 				//Enables/disables input for the camera scene node
 				if (m_device->getSceneManager()->getActiveCamera()->isInputReceiverEnabled())
@@ -86,9 +86,9 @@ namespace Game
 			}			
 		}
 
-		if (event.EventType == irr::EET_MOUSE_INPUT_EVENT)
+		if (p_event.EventType == irr::EET_MOUSE_INPUT_EVENT)
 		{
-			if (event.MouseInput.isLeftPressed())
+			if (p_event.MouseInput.isLeftPressed())
 			{
 				if (m_clickEvent == ClickEvent::TOWER_PRESSED)
 				{

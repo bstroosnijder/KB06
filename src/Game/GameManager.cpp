@@ -23,6 +23,7 @@ namespace Game
 			m_eventHandler = new EventHandler(m_device, m_gui, m_playground);
 			m_deltaTimer = new DeltaTimer(p_device->getTimer());
 
+			//L is for longstring
 			m_device->setWindowCaption(L"KB06: Game");
 			m_device->getCursorControl()->setVisible(true);		
 
@@ -89,7 +90,7 @@ namespace Game
 	void GameManager::SetCameraHeight(float p_cameraHeight)
 	{
 		m_camera->setPosition(
-			irr::core::vector3df(0.0f, p_cameraHeight, 0.0f));
+				irr::core::vector3df(0.0f, p_cameraHeight, 0.0f));
 	}
 
 	void GameManager::SetGameLength(float p_gameLength)
@@ -110,8 +111,8 @@ namespace Game
 	void GameManager::DrawCameraTexture()
 	{
 		m_videoDriver->draw2DImage(m_videoDriver->getTexture("capture_background"),
-			irr::core::rect<irr::s32>(0.0f, 0.0f, m_resolution.Width, m_resolution.Height),
-			irr::core::rect<irr::s32>(0.0f, 0.0f, m_captureResolution.Width, m_captureResolution.Height));
+				irr::core::rect<irr::s32>(0.0f, 0.0f, m_resolution.Width, m_resolution.Height),
+				irr::core::rect<irr::s32>(0.0f, 0.0f, m_captureResolution.Width, m_captureResolution.Height));
 	}
 
 	irr::core::matrix4 GameManager::GetCameraProjectionMatrix()
@@ -131,36 +132,36 @@ namespace Game
 
 	void GameManager::CreatureSpawned()
 	{
-
+		//why empty?
 	}
 
 	void GameManager::CreatureReachedCastle()
 	{
-
+		//why empty?
 	}
 
 	void GameManager::CreatureKilled()
 	{
-
+		//why empty?
 	}
 
 	void GameManager::CreatureHit()
 	{
-
+		//why empty?
 	}
 
 	void GameManager::ProjectileMissed()
 	{
-
+		//why empty?
 	}
 
 	void GameManager::ProjectileFired()
 	{
-
+		//why empty?
 	}
 
 	void GameManager::WaveEnded()
 	{
-
+		//why empty?
 	}
 }

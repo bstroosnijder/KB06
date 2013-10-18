@@ -17,7 +17,7 @@ namespace Game
 	class PathFollower : public Entity
 	{
 	public:
-		PathFollower(irr::scene::ISceneManager*, PlaygroundListener*, PathRoute* p_pathRoute);
+		PathFollower(irr::scene::ISceneManager* p_sceneManager, PlaygroundListener* p_playgroundListener, PathRoute* p_pathRoute);
 
 		/**
 		 * @brief	Moves the Creature along the Path.

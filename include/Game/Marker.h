@@ -5,6 +5,11 @@
 
 namespace Game
 {
+	/**
+	 * @brief	TODO
+	 *			
+	 * @author	Alex Hodes
+	 */
 	class Marker : public Entity
 	{		
 	public:

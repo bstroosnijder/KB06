@@ -8,7 +8,7 @@ namespace Game
 		m_menuIsActive = false;
 		m_controlsMenuIsActive = false;
 		m_victoryIsActive = false;
-		m_defeatSceenIsActive= false;
+		m_defeatSceenIsActive = false;
 		//getting screen resolution for placing buttons on the right place
 		const irr::core::dimension2d<irr::u32>& screenResolution = m_guienv->getVideoDriver()->getScreenSize();
 		m_screenHeight = screenResolution.Height;
@@ -16,7 +16,9 @@ namespace Game
 
 		m_guienv->setSkin(m_guienv->createSkin(irr::gui::EGST_WINDOWS_CLASSIC));
 		irr::gui::IGUISkin* skin = m_guienv->getSkin();
-		irr::gui::IGUIFont* font = m_guienv->getFont("resources/textures/fontlucida.png");		
+		irr::gui::IGUIFont* font = m_guienv->getFont("resources/textures/fontlucida.png");
+
+		//Alex wat doet dit ifje?
 		if (font)
 		{
 			skin->setFont(font);
@@ -32,32 +34,37 @@ namespace Game
 		}
 
 		//initializing user interface		
-		irr::gui::IGUIImage* sideBar = m_guienv->addImage(m_guienv->getVideoDriver()->getTexture("resources/textures/sidebar.png"),irr::core::position2d<int>(m_screenWidth-200,0));
+		irr::gui::IGUIImage* sideBar = m_guienv->addImage(m_guienv->getVideoDriver()->getTexture("resources/textures/sidebar.png"), 
+				irr::core::position2d<int>(m_screenWidth-200,0));
 		int midPositionSidebar = (sideBar->getAbsolutePosition().getWidth()/2);
 
-		irr::gui::IGUIButton* tower = m_guienv->addButton(irr::core::rect<irr::s32>(midPositionSidebar-40,10,midPositionSidebar+40,40),sideBar,TOWER_BUTTON,L"Tower");
+		irr::gui::IGUIButton* tower = m_guienv->addButton(irr::core::rect<irr::s32>(midPositionSidebar - 40, 10, midPositionSidebar + 40, 40), 
+				sideBar, TOWER_BUTTON, L"Tower");
 		tower->setImage(m_guienv->getVideoDriver()->getTexture("resources/textures/button.png"));
 		tower->setScaleImage(true);
 
-		irr::gui::IGUIButton* sell = m_guienv->addButton(irr::core::rect<irr::s32>(midPositionSidebar-40,50,midPositionSidebar+40,80),sideBar,SELL_BUTTON,L"Sell");
+		irr::gui::IGUIButton* sell = m_guienv->addButton(irr::core::rect<irr::s32>(midPositionSidebar - 40, 50, midPositionSidebar + 40, 80),
+				sideBar, SELL_BUTTON, L"Sell");
 		sell->setImage(m_guienv->getVideoDriver()->getTexture("resources/textures/button.png"));
 		sell->setScaleImage(true);
 
-		irr::gui::IGUIButton* controls = m_guienv->addButton(irr::core::rect<irr::s32>(midPositionSidebar-40,90,midPositionSidebar+40,120),sideBar,CONTROLS_BUTTON,L"Controls");
+		irr::gui::IGUIButton* controls = m_guienv->addButton(irr::core::rect<irr::s32>(midPositionSidebar - 40, 90, midPositionSidebar + 40, 120), 
+				sideBar, CONTROLS_BUTTON, L"Controls");
 		controls->setImage(m_guienv->getVideoDriver()->getTexture("resources/textures/button.png"));
 		controls->setScaleImage(true);
 
-		irr::gui::IGUIButton* startGame = m_guienv->addButton(irr::core::rect<irr::s32>(midPositionSidebar-40,130,midPositionSidebar+40,160),sideBar,STARTGAME_BUTTON,L"Start game");
+		irr::gui::IGUIButton* startGame = m_guienv->addButton(irr::core::rect<irr::s32>(midPositionSidebar - 40, 130, midPositionSidebar + 40, 160), 
+				sideBar, STARTGAME_BUTTON, L"Start game");
 		startGame->setImage(m_guienv->getVideoDriver()->getTexture("resources/textures/button.png"));
 		startGame->setScaleImage(true);
 
-		irr::gui::IGUIImage* image = m_guienv->addImage(irr::core::rect<irr::s32>(0,m_screenHeight-130,250,m_screenHeight-20),sideBar);
+		irr::gui::IGUIImage* image = m_guienv->addImage(irr::core::rect<irr::s32>(0, m_screenHeight - 130, 250, m_screenHeight - 20), sideBar);
 		image->setImage(m_guienv->getVideoDriver()->getTexture("resources/textures/bar.png"));
 		image->setScaleImage(true);
-		m_amountOfCreatures = m_guienv->addStaticText(L" ",irr::core::rect<irr::s32>(10,10,400,40),false,true,image);		
-		m_amountOfCreatures->setOverrideColor(irr::video::SColor(255,0,0,0));
-		m_waveNumber = m_guienv->addStaticText(L" ",irr::core::rect<irr::s32>(10,30,400,60),false,true,image);
-		m_waveNumber->setOverrideColor(irr::video::SColor(255,0,0,0));
+		m_amountOfCreatures = m_guienv->addStaticText(L" ", irr::core::rect<irr::s32>(10, 10, 400, 40), false, true, image);		
+		m_amountOfCreatures->setOverrideColor(irr::video::SColor(255, 0, 0, 0));
+		m_waveNumber = m_guienv->addStaticText(L" ", irr::core::rect<irr::s32>(10, 30, 400, 60), false, true, image);
+		m_waveNumber->setOverrideColor(irr::video::SColor(255, 0, 0, 0));
 		m_fps = m_guienv->addStaticText(L"FPS : ",irr::core::rect<irr::s32>(10,50,400,80),false,true,image);
 		m_fps->setOverrideColor(irr::video::SColor(255,0,0,0));
 		m_playerHealth = m_guienv->addStaticText(L"PlayerHealth : ",irr::core::rect<irr::s32>(10,70,400,100),false,true,image);

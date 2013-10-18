@@ -34,17 +34,17 @@ namespace Game
 	public:
 		
 		/**
-		 * @brief Constructor
+		 * @brief Constructor TODO
 		 */
 		EventHandler(irr::IrrlichtDevice* p_device, Game::Gui* p_gui, Game::Playground* p_playground);
 		
 		/**
-		 * @brief Deconstructor
+		 * @brief Deconstructor TODO
 		 */
 		~EventHandler();
 
 		/**
-		 * @brief handles events
+		 * @brief handles events TODO
 		 */
 		virtual bool OnEvent(const irr::SEvent& event);
 

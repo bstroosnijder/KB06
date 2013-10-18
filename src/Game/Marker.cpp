@@ -6,6 +6,7 @@ namespace Game
 		:
 		Entity(p_sceneManager, p_listener)
 	{
+		//alex why commented
 		/*irr::scene::IAnimatedMesh * animMesh = p_sceneManager->getMesh("resources/models/Trafficsign.3ds");
 		m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(animMesh,m_meshSceneNode);
 		SetMaterialFlags(m_meshSceneNode);*/
@@ -31,7 +32,7 @@ namespace Game
 		irr::core::vector3df position = this->GetPosition();
 		if (m_up)
 		{
-			position.Y +=0.20 * p_deltaTime* 60;				
+			position.Y += 0.20 * p_deltaTime * 60;				
 			if (position.Y >= m_max)
 			{
 				m_up = false;

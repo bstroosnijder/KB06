@@ -18,7 +18,7 @@ namespace Game
 		SetMaterialFlags(sceneNodeTemp);
 	
 		//Body
-		m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk2.7L.x");///testanim1.1.x");
+		m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk2.7L.x");///testanim1.1.x"); AlexH waarom staat dit hier?
 		sceneNodeTemp = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, m_meshSceneNode);
 		SetMaterialFlags(sceneNodeTemp);
 

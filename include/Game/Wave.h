@@ -26,6 +26,10 @@ namespace Game
 		* @param p_scenemanager is used to create creatures in the class
 		*/
 		Wave(irr::scene::ISceneManager* p_sceneManager, PlaygroundListener*);
+
+		/**
+		* @brief	TODO
+		*/
 		~Wave();
 
 		/** 

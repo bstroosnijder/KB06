@@ -33,7 +33,7 @@ namespace Game
 
 			position = position + speed * speedScale * p_deltaTime * 60;
 		}
-
+		//Alex why commented
 			/*
 		if (m_from != NULL && m_to != NULL)
 		{

@@ -20,12 +20,12 @@ namespace Game
 		 * @param Playground listener is used to send events from creature to playground
 		 * @param The creature will be positioned on p_position
 		 * @param The creature needs p_pathRoute to know which path to follow
-		 * @param p_selector is to add collisiondetection with the Terrain
+		 * @param p_selector is to add collisiondetection with the Terrain Alex!!!!!!!!!!!!!!!!!!!!!!! this param is not defined below!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		 */
 		Creature(irr::scene::ISceneManager* p_sceneManager,
-			PlaygroundListener*,
-			irr::core::vector3df p_position,
-			PathRoute* p_pathRoute);
+				PlaygroundListener*,
+				irr::core::vector3df p_position,
+				PathRoute* p_pathRoute);
 
 		/**
 		 * @brief	Destroys the Creature

@@ -151,17 +151,64 @@ namespace Utility
 		bool m_logToConsole;
 		bool m_logToFile;
 	
+		/**
+		* @brief	TODO
+		*/
 		void Initialize();
+
+		/**
+		* @brief	TODO
+		*/
 		void OpenLogFile();
+
+		/**
+		* @brief	TODO
+		*/
 		void CloseLogFile();
-		void LogToFile(const char* p_header, const char* p_message);
-		void LogToFile(const char* p_header, const char* p_message, const int p_lineNumber, const char* p_file);
-		void LogToConsole(const char* p_header, const char* p_message);
-		void LogToConsole(const char* p_header, const char* p_message, const int p_lineNumber, const char* p_file);
+
+		/**
+		* @brief	TODO
+		*/
+		void LogToFile(const char* P_HEADER, const char* P_MASSAGE);
+
+		/**
+		* @brief	TODO
+		*/
+		void LogToFile(const char* P_HEADER, const char* P_MASSAGE, const int P_LINENUMBER, const char* P_FILE);
+
+		/**
+		* @brief	TODO
+		*/
+		void LogToConsole(const char* P_HEADER, const char* P_MASSAGE);
+
+		/**
+		* @brief	TODO
+		*/
+		void LogToConsole(const char* P_HEADER, const char* P_MASSAGE, const int P_LINENUMBER, const char* P_FILE);
+
+		/**
+		* @brief	TODO
+		*/
 		tm* GetProgramStarted();
+
+		/**
+		* @brief	TODO
+		*/
 		std::string GetProgramStartedFormatted();
+
+		/**
+		* @brief	TODO
+		*/
 		std::string GetTimeDurationFormatted();
+
+		/**
+		* @brief	TODO
+		*/
 		void SetProgramStarted();
+
+		/**
+		* @brief	TODO
+		*/
 		void SetLogFilename();
 	
 	};

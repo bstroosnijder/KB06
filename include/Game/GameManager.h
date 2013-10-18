@@ -13,6 +13,11 @@
 
 namespace Game
 {
+	/**
+	 * @brief	TODO
+	 *			
+	 * @author	Alex Hodes
+	 */
 	class GameManager : public GameListener
 	{
 	public:
@@ -53,9 +58,21 @@ namespace Game
 		Gui* m_gui;
 		EventHandler* m_eventHandler;
 		DeltaTimer* m_deltaTimer;
-		
+
+		//TODO comments
+		/**
+		 * @brief TODO
+		 */
 		void Update();
+
+		/**
+		 * @brief TODO
+		 */
 		void Render();
+
+		/**
+		 * @brief TODO
+		 */
 		void SetupCamera();
 	};
 }
