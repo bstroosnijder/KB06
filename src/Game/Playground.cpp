@@ -25,8 +25,8 @@ namespace Game
 
 void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 {
-	m_castle = new Castle(p_sceneManager, this, irr::core::vector3df(0, 0, -1200));
-	m_stargate = new Stargate(p_sceneManager, this, irr::core::vector3df(0, 0, 1200));
+	m_castle = new Castle(p_sceneManager, this, irr::core::vector3df(0, 0, 0));
+	m_stargate = new Stargate(p_sceneManager, this, irr::core::vector3df(0, 0, 0));
 
 		float range = 10.0f;
 		int amount = 8;
@@ -65,6 +65,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	
 		m_terrain = new Terrain();
 		m_selector = m_terrain->GenerateTerrain(p_sceneManager, 10.0);
+		m_gameDimensions.Height = m_terrain->GetTerrainDimensions().Height*10;
 
 		//Setup signs above the path		
 		std::list<PathSegment*>::iterator itSegments = m_path->m_pathSegments.begin();
@@ -398,5 +399,27 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 
 			m_playerHealth -= 1;
 		}
+	}
+
+	float Playground::GetPlaygroundHeight()
+	{		
+		return m_gameDimensions.Height;
+	}
+
+	void Playground::UpdateGameScale(float p_gameLength)
+	{
+		m_gameDimensions.Width = p_gameLength;
+		float oldLenght = m_terrain->GetTerrainDimensions().Width * 10;
+		float newLength = p_gameLength - 200;
+
+
+		irr::core::vector3df terrainScaling = irr::core::vector3df((newLength / oldLenght),1.0f,1.0f);
+		
+		m_terrain->ScaleTerrain(terrainScaling);
+		m_terrain->SetPosition(100);
+
+
+		m_castle->SetPosition(irr::core::vector3df((m_gameDimensions.Width - 50),0.0f,(m_gameDimensions.Height / 2)));
+		m_stargate->SetPosition(irr::core::vector3df(50.0f,0.0f,(m_gameDimensions.Height / 2)));
 	}
 }

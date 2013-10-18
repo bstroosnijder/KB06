@@ -39,6 +39,8 @@ namespace Game
 		void ProjectileFired();
 		void WaveEnded();
 
+		float GetGameHeight();
+
 	private:
 		irr::IrrlichtDevice* m_device;
 		irr::core::dimension2du m_resolution;

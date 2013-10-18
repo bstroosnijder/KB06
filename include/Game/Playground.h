@@ -46,6 +46,7 @@ namespace Game
 
 		void Initialize(irr::scene::ISceneManager* p_sceneManager);
 		void Update(float p_deltaTime);
+		void UpdateGameScale(float p_gameLength);
 
 		void Render();
 
@@ -70,6 +71,8 @@ namespace Game
 		int GetPlayerHealth();
 		
 		int GetPlayerResources();
+		float GetPlaygroundHeight();
+
 
 		void ProjectileCreated(Projectile*);
 		void ProjectileDestroyed(Projectile*);
@@ -78,6 +81,7 @@ namespace Game
 		void CreatureDestroyed(Creature*);
 		void CreatureHit(Creature*, Projectile*);
 		void CreatureRouteEndReached(Creature*);
+		
 
 	private:
 		GameListener* m_gameListener;
@@ -101,6 +105,7 @@ namespace Game
 		Creature* creature1;
 
 		Terrain* m_terrain;
+		irr::core::dimension2d<float> m_gameDimensions;
 
 		int m_waveNumber;
 		int m_gameStatus;

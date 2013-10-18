@@ -32,8 +32,17 @@ namespace Game
 			irr::scene::ITriangleSelector* GenerateTerrain(irr::scene::ISceneManager* p_sceneManager, float p_scale);
 
 			irr::f32 GetTerrainHeight(irr::core::vector3df p_position);
+
+			irr::core::dimension2d<irr::f32> GetTerrainDimensions();
+
+			void ScaleTerrain(irr::core::vector3df p_Scaling);
+			void SetPosition(float p_adjustment);
+
 	private:
 		irr::scene::ITerrainSceneNode* m_terrain;
+		irr::core::dimension2d<irr::f32> m_terrainDimensions;
+		irr::core::vector3df m_startScaling;
+		irr::core::vector3df m_startPosition;
 
 	};
 }

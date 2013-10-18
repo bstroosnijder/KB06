@@ -65,15 +65,15 @@ namespace Game
 	void GameManager::SetupCamera()
 	{
 		// Create a static camera
-		m_camera = m_sceneManager->addCameraSceneNode(NULL,
-			irr::core::vector3df(0.0f, 0.0f, 0.0f),
-			irr::core::vector3df(0.0f, 0.0f, 1.0f));
+		//m_camera = m_sceneManager->addCameraSceneNode(NULL,
+		//	irr::core::vector3df(0.0f, 0.0f, 0.0f),
+		//	irr::core::vector3df(0.0f, 0.0f, 1.0f));
 
 		// Or a FPS camera
-		//m_camera = m_sceneManager->addCameraSceneNodeFPS();
-		//m_camera->setPosition(irr::core::vector3df(0.0f, 100.0f, -20.0f));
-		//m_camera->setRotation(irr::core::vector3df(0.0f, 0.0f, 70.0f));
-		//m_camera->setInputReceiverEnabled(false);
+		m_camera = m_sceneManager->addCameraSceneNodeFPS();
+		m_camera->setPosition(irr::core::vector3df(0.0f, 100.0f, -20.0f));
+		m_camera->setRotation(irr::core::vector3df(0.0f, 0.0f, 70.0f));
+		m_camera->setInputReceiverEnabled(false);
 	}
 
 	irr::IEventReceiver* GameManager::GetEventReceiver()
@@ -95,6 +95,8 @@ namespace Game
 	void GameManager::SetGameLength(float p_gameLength)
 	{
 		// TODO: Implementatie
+		m_playground->UpdateGameScale(p_gameLength);
+
 	}
 
 	void GameManager::SetCaptureResolution(irr::core::dimension2du p_captureResolution)
@@ -117,6 +119,11 @@ namespace Game
 	irr::core::matrix4 GameManager::GetCameraProjectionMatrix()
 	{
 		return m_camera->getProjectionMatrix();
+	}
+
+	float GameManager::GetGameHeight()
+	{
+		return m_playground->GetPlaygroundHeight();
 	}
 
 	void GameManager::BeginScene()
