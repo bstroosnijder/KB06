@@ -10,13 +10,14 @@ namespace Game
 	 */
 	class GameListener
 	{
-		virtual void CreatureSpawned() = 0;
-		virtual void CreatureReachedCastle() = 0;
-		virtual void CreatureKilled() = 0;
-		virtual void CreatureHit() = 0;
-		virtual void ProjectileMissed() = 0;
-		virtual void ProjectileFired() = 0;
-		virtual void WaveEnded() = 0;
+	public:
+		virtual void OnCreatureSpawned() = 0;
+		virtual void OnCreatureReachedCastle() = 0;
+		virtual void OnCreatureKilled() = 0;
+		virtual void OnCreatureHit() = 0;
+		virtual void OnProjectileMissed() = 0;
+		virtual void OnProjectileFired() = 0;
+		virtual void OnWaveEnded() = 0;
 	};
 }
 

@@ -56,7 +56,7 @@ namespace Game
 
 		if (IsEndOfRouteReached())
 		{
-			m_playgroundListener->CreatureRouteEndReached(this);
+			m_playgroundListener->OnCreatureRouteEndReached(this);
 		}
 	}
 

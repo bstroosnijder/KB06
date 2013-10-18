@@ -1,9 +1,11 @@
 #ifndef __EventHandler__H__
 #define __EventHandler__H__
 
-#include <irrlicht.h>
+#include "UserInputListener.h"
 #include "Game/Gui.h"
 #include "Game/Playground.h"
+
+#include <irrlicht.h>
 
 namespace Game
 {
@@ -36,7 +38,10 @@ namespace Game
 		/**
 		 * @brief Constructor TODO
 		 */
-		EventHandler(irr::IrrlichtDevice* p_device, Game::Gui* p_gui, Game::Playground* p_playground);
+		EventHandler(UserInputListener* p_userInputListener,
+				irr::IrrlichtDevice* p_device,
+				Game::Gui* p_gui,
+				Game::Playground* p_playground);
 		
 		/**
 		 * @brief Deconstructor TODO
@@ -54,6 +59,7 @@ namespace Game
 		void Cleanup();
 
 	private:
+		UserInputListener* m_userInputListener;
 		Game::Gui* m_gui;
 		Game::Playground* m_playground;
 		irr::IrrlichtDevice* m_device;

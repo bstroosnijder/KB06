@@ -9,10 +9,13 @@ namespace Game
 			:
 			Entity(p_sceneManager, p_playgroundListener)
 	{
-		m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk2.7H.x");
+		m_animatedMesh = p_sceneManager->getMesh("resources/models/projectile/companion_cubev02.X");
 	
 		m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
 		m_meshSceneNode->setPosition(p_position);
+
+		m_movementSpeed = 0.2f;
+		m_damage = 100;
 	
 		SetMaterialFlags();
 	}
@@ -28,36 +31,12 @@ namespace Game
 			irr::core::vector3df distance = target - position;
 		
 			float unitLength = 10.0f;
-			float speed = 0.04f;
 			float speedScale = unitLength / position.getDistanceFrom(target);
 
-			position = position + speed * speedScale * p_deltaTime * 60;
-		}
+			position = position + distance * m_movementSpeed * speedScale * p_deltaTime * 60;
 		//Alex why commented
-			/*
-		if (m_from != NULL && m_to != NULL)
-		{
-			irr::core::vector3df v = GetPosition();
-
-			if (m_to->GetPosition().X > this->GetPosition().X)
-				v += irr::core::vector3df(0.05f, 0.0f, 0.0f);
-			else if (m_to->GetPosition().X < this->GetPosition().X)
-				v -= irr::core::vector3df(0.05f, 0.0f, 0.0f);
-
-			if (m_to->GetPosition().Y > this->GetPosition().Y)
-				v += irr::core::vector3df(0.0f, 0.05f, 0.0f);
-			else if (m_to->GetPosition().Y < this->GetPosition().Y)
-				v -= irr::core::vector3df(0.0f, 0.05f, 0.0f);
-
-			if (m_to->GetPosition().Z > this->GetPosition().Z)
-				v += irr::core::vector3df(0.0f, 0.0f, 0.05f);
-			else if (m_to->GetPosition().Z < this->GetPosition().Z)
-				v -= irr::core::vector3df(0.0f, 0.0f, 0.05f);
-
-			SetPosition(v);
+			SetPosition(position);
 		}
-			*/
-
 	}
 
 	double Projectile::GetMovementSpeed()

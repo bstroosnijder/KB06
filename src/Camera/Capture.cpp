@@ -340,15 +340,15 @@ namespace Camera
 
 			// Create a 3D vector to contain the new angles
 			irr::core::vector3df angles = irr::core::vector3df(
-				static_cast<float>((top.getLength() / bottom.getLength()) - 1.0f),
-				static_cast<float>(top.getAngleWith(upVec)),
-				static_cast<float>((right.getLength() / left.getLength()) - 1.0f));
+				 static_cast<float>((top.getLength() / bottom.getLength()) - 1.0f),
+				-static_cast<float>(std::atan2(top.end.Y - top.start.Y, top.end.X - top.start.X) * (180.0f / irr::core::PI)),
+				 static_cast<float>((right.getLength() / left.getLength()) - 1.0f));
 
 			float range = 0.2f;
 			rotation.setRotationRadians(irr::core::vector3df(
 				-static_cast<float>(angles.X * (irr::core::HALF_PI / range)),
-				static_cast<float>(angles.Y * (irr::core::PI / 180.0F)),
-				static_cast<float>(angles.Z * (irr::core::HALF_PI / range))));
+				 static_cast<float>(angles.Y * (irr::core::PI / 180.0f)),
+				 static_cast<float>(angles.Z * (irr::core::HALF_PI / range))));
 
 			// -----
 			// Set the translation

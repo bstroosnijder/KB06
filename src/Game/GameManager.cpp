@@ -17,10 +17,12 @@ namespace Game
 
 			// Create a root scene node
 			m_sceneManager->addEmptySceneNode(NULL, C_EMPTY_ROOT_SCENENODE);
-
+			
+			m_gameSatus = GameStatus::ATTACKER_PLACE_PENCILS;
+			m_player1 = PlayerType::TYPE_DEFENDER;
 			m_playground = new Playground(this, m_sceneManager);
 			m_gui = new Gui(m_device->getGUIEnvironment());
-			m_eventHandler = new EventHandler(m_device, m_gui, m_playground);
+			m_eventHandler = new EventHandler(this, m_device, m_gui, m_playground);
 			m_deltaTimer = new DeltaTimer(p_device->getTimer());
 
 			//L is for longstring
@@ -66,15 +68,15 @@ namespace Game
 	void GameManager::SetupCamera()
 	{
 		// Create a static camera
-		m_camera = m_sceneManager->addCameraSceneNode(NULL,
+		/*m_camera = m_sceneManager->addCameraSceneNode(NULL,
 			irr::core::vector3df(0.0f, 0.0f, 0.0f),
-			irr::core::vector3df(0.0f, 0.0f, 1.0f));
+			irr::core::vector3df(0.0f, 0.0f, 1.0f));*/
 
 		// Or a FPS camera
-		//m_camera = m_sceneManager->addCameraSceneNodeFPS();
-		//m_camera->setPosition(irr::core::vector3df(0.0f, 100.0f, -20.0f));
-		//m_camera->setRotation(irr::core::vector3df(0.0f, 0.0f, 70.0f));
-		//m_camera->setInputReceiverEnabled(false);
+		m_camera = m_sceneManager->addCameraSceneNodeFPS();
+		m_camera->setPosition(irr::core::vector3df(0.0f, 100.0f, -20.0f));
+		m_camera->setRotation(irr::core::vector3df(0.0f, 0.0f, 70.0f));
+		m_camera->setInputReceiverEnabled(false);
 	}
 
 	irr::IEventReceiver* GameManager::GetEventReceiver()
@@ -130,37 +132,105 @@ namespace Game
 		m_videoDriver->endScene();
 	}
 
-	void GameManager::CreatureSpawned()
+	void GameManager::OnCreatureSpawned()
+	{
+
+	}
+
+	void GameManager::OnCreatureReachedCastle()
+	{
+		if (m_gameSatus == GameStatus::WAVE_RUNNING)
+		{
+			if (m_player1 == PlayerType::TYPE_ATTACKER)
+			{
+				m_scoreManager.CastleReached(0);
+			}
+			else
+			{
+				m_scoreManager.CastleReached(0);
+			}
+		}
+	}
+
+	void GameManager::OnCreatureKilled()
+	{
+		if (m_gameSatus == GameStatus::WAVE_RUNNING)
+		{
+			if (m_player1 == PlayerType::TYPE_ATTACKER)
+			{
+				m_scoreManager.CreatureKilled(0);
+			}
+			else
+			{
+				m_scoreManager.CastleReached(0);
+			}
+		}
+	}
+
+	void GameManager::OnCreatureHit()
+	{
+
+	}
+
+	void GameManager::OnProjectileMissed()
+	{
+
+	}
+
+	void GameManager::OnProjectileFired()
+	{
+
+	}
+
+	void GameManager::OnWaveEnded()
+	{
+		if (m_gameSatus == GameStatus::WAVE_RUNNING)
+		{
+			m_gameSatus = GameStatus::ATTACKER_PLACE_PENCILS;
+		}
+	}
+
+	void GameManager::OnStopGame()
+	{
+
+	}
+
+	void GameManager::OnStartWave()
+	{
+
+	}
+
+	void GameManager::OnPlacePencils()
 	{
 		//why empty?
 	}
 
-	void GameManager::CreatureReachedCastle()
+	void GameManager::OnPlaceTowers()
 	{
 		//why empty?
 	}
 
-	void GameManager::CreatureKilled()
+	void GameManager::OnTowerCreate()
 	{
 		//why empty?
 	}
 
-	void GameManager::CreatureHit()
+	void GameManager::OnTowerDestroy()
 	{
 		//why empty?
 	}
 
-	void GameManager::ProjectileMissed()
+	void GameManager::OnTowerUpgradeSpeed()
 	{
 		//why empty?
 	}
 
-	void GameManager::ProjectileFired()
+	void GameManager::OnTowerUpgradeRange()
 	{
 		//why empty?
 	}
 
-	void GameManager::WaveEnded()
+	void GameManager::OnTowerUpgradeDamage()
 	{
 		//why empty?
 	}
