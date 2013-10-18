@@ -2,9 +2,10 @@
 
 namespace Camera
 {
-	Capture::Capture(bool p_runInOwnThread, irr::video::ITexture* p_texture)
+	Capture::Capture(bool p_runInOwnThread, irr::core::dimension2du p_resolution, irr::video::ITexture* p_texture)
 	{
 		m_texture = p_texture;
+		m_resolution = p_resolution;
 		m_runInOwnThread = p_runInOwnThread;
 		m_params = new CalibrationParams("resources/camera_calibration_out.xml");
 		m_capture = cv::VideoCapture(CV_CAP_ANY);
@@ -120,7 +121,11 @@ namespace Camera
 				if (!m_chosen)
 				{
 					int index = static_cast<int>(((m_center.y * surface.channels()) * m_size.width) + (m_center.x * surface.channels()));
-					m_color = cv::Scalar(surface.data[(index + 0)], surface.data[(index + 1)], surface.data[(index + 2)]);
+					// Make sure we can't go out of bounds of the pixel data
+					if ((index + 2) <= (sizeof(unsigned char) * (surface.cols * surface.rows * surface.channels())))
+					{
+						m_color = cv::Scalar(surface.data[(index + 0)], surface.data[(index + 1)], surface.data[(index + 2)]);
+					}
 
 					// DEBUG CIRCLE
 					cv::circle(m_image, m_center, 5, cv::Scalar(255, 255, 255));
@@ -255,8 +260,8 @@ namespace Camera
 	{
 		if (P_EVT.EventType == irr::EEVENT_TYPE::EET_MOUSE_INPUT_EVENT)
 		{
-			m_center.x = static_cast<float>(P_EVT.MouseInput.X);
-			m_center.y = static_cast<float>(P_EVT.MouseInput.Y);
+			m_center.x = static_cast<float>((P_EVT.MouseInput.X - 1) / (m_resolution.Width / m_size.width));
+			m_center.y = static_cast<float>((P_EVT.MouseInput.Y - 1) / (m_resolution.Height / m_size.height));
 
 			if (P_EVT.MouseInput.isLeftPressed())
 			{
@@ -579,5 +584,10 @@ namespace Camera
 	cv::Mat Capture::GetImage()
 	{
 		return m_image;
+	}
+
+	irr::core::dimension2du Capture::GetCaptureSize()
+	{
+		return irr::core::dimension2du(m_size.width, m_size.height);
 	}
 }
