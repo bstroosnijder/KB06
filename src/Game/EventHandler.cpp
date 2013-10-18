@@ -2,8 +2,12 @@
 
 namespace Game
 {
-	EventHandler::EventHandler(irr::IrrlichtDevice* p_device, Game::Gui* p_gui, Game::Playground* p_playground)
+	EventHandler::EventHandler(UserInputListener* p_userInputListener,
+			irr::IrrlichtDevice* p_device,
+			Game::Gui* p_gui,
+			Game::Playground* p_playground)
 	{
+		m_userInputListener = p_userInputListener;
 		m_gui = p_gui;
 		m_device = p_device;
 		m_playground = p_playground;
@@ -21,7 +25,7 @@ namespace Game
 		{
 			irr::s32 id = event.GUIEvent.Caller->getID();
 			if (event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED)
-			{			
+			{
 				if (id == MENU_BUTTON)
 				{
 					m_gui->UpdateMenu();
@@ -29,6 +33,7 @@ namespace Game
 				}					
 				if (id == QUIT_BUTTON)
 				{
+					m_userInputListener->OnStopGame();
 					m_device->closeDevice();
 					return true;
 				}
@@ -54,6 +59,7 @@ namespace Game
 				}
 				if (id == STARTGAME_BUTTON)
 				{
+					m_userInputListener->OnStartWave();
 					m_playground->StartNextWave();
 					return true;
 				}
