@@ -14,23 +14,15 @@ namespace Game
 	 *			
 	 * @author	Bram van Elderen
 	 */
-	class EventHandler	:	public irr::IEventReceiver
+	class EventHandler : public irr::IEventReceiver
 	{
-		enum
-		{
-			QUIT_BUTTON = 101,
-			MENU_BUTTON = 102,
-			ClEAR_BUTTON = 103,
-			TOWER_BUTTON = 104,
-			SELL_BUTTON = 105,
-			CONTROLS_BUTTON = 107,
-			STARTGAME_BUTTON = 108
-		};
-
 		enum ClickEvent
 		{
-			TOWER_PRESSED = 1,
-			SELL_PRESSED = 2
+			CREATE_TOWER,
+			DELETE_TOWER,
+			UPGRADE_TOWER_SPEED,
+			UPGRADE_TOWER_RANGE,
+			UPGRADE_TOWER_DAMAGE
 		};
 
 	public:

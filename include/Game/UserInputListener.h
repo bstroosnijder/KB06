@@ -5,6 +5,9 @@
 
 namespace Game
 {
+	/**
+	 * @author	Michel van Os.
+	 */
 	class UserInputListener
 	{
 	public:
@@ -12,13 +15,14 @@ namespace Game
 
 		virtual	void OnStartWave() = 0;
 		virtual void OnPlacePencils() = 0;
+		virtual void OnBuyPencil() = 0;
 		virtual void OnPlaceTowers() = 0;
 
-		virtual void OnTowerCreate() = 0;
-		virtual void OnTowerDestroy() = 0;
-		virtual void OnTowerUpgradeSpeed() = 0;
-		virtual void OnTowerUpgradeRange() = 0;
-		virtual void OnTowerUpgradeDamage() = 0;
+		virtual void OnTowerCreate(irr::core::vector2di p_position) = 0;
+		virtual void OnTowerDestroy(irr::core::vector2di p_position) = 0;
+		virtual void OnTowerUpgradeSpeed(irr::core::vector2di p_position) = 0;
+		virtual void OnTowerUpgradeRange(irr::core::vector2di p_position) = 0;
+		virtual void OnTowerUpgradeDamage(irr::core::vector2di p_position) = 0;
 	};
 }
 

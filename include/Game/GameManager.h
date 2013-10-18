@@ -21,7 +21,9 @@ namespace Game
 		GameManager(irr::IrrlichtDevice* p_device, irr::core::dimension2du p_resolution);
 		~GameManager();
 
+		void StopGame();
 		void GameTick();
+
 		irr::IEventReceiver* GetEventReceiver();
 		irr::video::ITexture* GetCameraTexture();
 		void SetCameraHeight(float p_cameraHeight);
@@ -30,6 +32,11 @@ namespace Game
 		irr::scene::ISceneNode* GetRootSceneNode();
 		void DrawCameraTexture();
 		irr::core::matrix4 GetCameraProjectionMatrix();
+		bool IsLookingForPencilCoords();
+		void SetPencilCoords(
+				irr::core::vector3df* p_points1,
+				irr::core::vector3df* p_points2,
+				int p_amount);
 		void BeginScene();
 		void EndScene();
 		
@@ -46,12 +53,13 @@ namespace Game
 		void OnStopGame();
 		void OnStartWave();
 		void OnPlacePencils();
+		void OnBuyPencil();
 		void OnPlaceTowers();
-		void OnTowerCreate();
-		void OnTowerDestroy();
-		void OnTowerUpgradeSpeed();
-		void OnTowerUpgradeRange();
-		void OnTowerUpgradeDamage();
+		void OnTowerCreate(irr::core::vector2di p_position);
+		void OnTowerDestroy(irr::core::vector2di p_position);
+		void OnTowerUpgradeSpeed(irr::core::vector2di p_position);
+		void OnTowerUpgradeRange(irr::core::vector2di p_position);
+		void OnTowerUpgradeDamage(irr::core::vector2di p_position);
 
 
 	private:
@@ -63,7 +71,7 @@ namespace Game
 		irr::scene::ICameraSceneNode* m_camera;
 
 		ScoreManager m_scoreManager;
-		GameStatus m_gameSatus;
+		GameStatus m_gameStatus;
 		PlayerType m_player1;
 		Playground* m_playground;
 		Gui* m_gui;

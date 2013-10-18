@@ -10,7 +10,6 @@ namespace Game
 		m_path = NULL;
 		m_selector = NULL;
 	
-		m_gameStatus = GameStatus::ATTACKER_PLACE_PENCILS;
 		m_playerHealth = 100;
 		m_playerResources = 1000;
 		Initialize(p_sceneManager);
@@ -124,18 +123,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	}
 
 	void Playground::Update(float p_deltaTime)
-	{
-		//p_deltaTime *= 4;
-
-		if (m_playerHealth <= 0)
-		{
-			m_gameStatus = GameStatus::ATTACKER_VICTORY;
-		}
-		if (waves.size() == 0)
-		{
-			m_gameStatus = GameStatus::DEFENDER_VICTORY;
-		}
-	
+	{	
 		std::list<Creature*>::iterator itCreature = m_creatures.begin();
 		std::list<Creature*>::iterator itCreatureEnd = m_creatures.end();
 		Creature* creature;
@@ -192,7 +180,6 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 			else
 			{
 				std::cout << m_waveNumber;
-				m_gameStatus = GameStatus::ATTACKER_PLACE_PENCILS;
 				waves.erase(waves.begin());
 				m_playerResources += 1000;
 			}
@@ -303,19 +290,30 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 		}
 	}
 
+	void Playground::UpgradeTowerSpeed(irr::core::vector2di p_position)
+	{
+		
+	}
+
+	void Playground::UpgradeTowerRange(irr::core::vector2di p_position)
+	{
+		
+	}
+
+	void Playground::UpgradeTowerDamage(irr::core::vector2di p_position)
+	{
+		
+	}
+
 	void Playground::StartNextWave()
 	{
-		//if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
-		{
-			if (waves.size() != 0)
-			{		
-				Game::Wave* wave = waves[0];
-				if (wave)
-				{
-					wave->SpawnWave(m_path->m_pointBegin->m_point);
-					m_gameStatus = GameStatus::WAVE_RUNNING;				
-					++m_waveNumber;
-				}
+		if (waves.size() != 0)
+		{		
+			Game::Wave* wave = waves[0];
+			if (wave)
+			{
+				wave->SpawnWave(m_path->m_pointBegin->m_point);
+				++m_waveNumber;
 			}
 		}
 	}
@@ -330,11 +328,6 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	{
 		return m_creatures.size();
 
-	}
-
-	int Playground::GetGameStatus()
-	{
-		return m_gameStatus;
 	}
 
 	int Playground::GetPlayerHealth()
