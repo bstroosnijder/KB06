@@ -17,13 +17,5 @@ namespace Game
 
 		float distance = m_point1->m_point.getDistanceFrom(m_point2->m_point);
 		return p_unitLength / distance;
-
-		float xDif = m_point1->m_point.X - m_point2->m_point.X;
-		float yDif = m_point1->m_point.Y - m_point2->m_point.Y;
-		float zDif = m_point1->m_point.Z - m_point2->m_point.Z;
-		
-		float distanceBetweenPoints = sqrt(xDif*xDif + yDif*yDif + zDif*zDif);
-	
-		return p_unitLength / distanceBetweenPoints;
 	}
 }

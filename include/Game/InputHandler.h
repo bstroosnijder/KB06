@@ -6,6 +6,11 @@
 
 namespace Game
 {
+	/**
+	 * @brief	TODO
+	 *			
+	 * @author	Alex Hodes
+	 */
 	class InputHandler : public irr::IEventReceiver
 	{
 	public:

@@ -58,6 +58,7 @@ namespace Game
 		 */
 		irr::scene::ISceneNode* GetSceneNode();
 
+		//Alex; wordt wss een asssessssment vraagt waarom dit protected??
 	protected:
 		irr::scene::ISceneManager* m_sceneManager;
 		PlaygroundListener* m_playgroundListener;

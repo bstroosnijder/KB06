@@ -3,6 +3,8 @@
 
 #include "Defines.h"
 #include "GameListener.h"
+#include "GameStatus.h"
+#include "PlayerType.h"
 #include "ScoreManager.h"
 #include "Playground.h"
 #include "DeltaTimer.h"
@@ -13,13 +15,20 @@
 
 namespace Game
 {
-	class GameManager : public GameListener
+	/**
+	 * @brief	TODO
+	 *			
+	 * @author	Alex Hodes
+	 */
+	class GameManager : public GameListener, UserInputListener
 	{
 	public:
 		GameManager(irr::IrrlichtDevice* p_device, irr::core::dimension2du p_resolution);
 		~GameManager();
 
+		void StopGame();
 		void GameTick();
+
 		irr::IEventReceiver* GetEventReceiver();
 		irr::video::ITexture* GetCameraTexture();
 		void SetCameraHeight(float p_cameraHeight);
@@ -28,16 +37,35 @@ namespace Game
 		irr::scene::ISceneNode* GetRootSceneNode();
 		void DrawCameraTexture();
 		irr::core::matrix4 GetCameraProjectionMatrix();
+		bool IsLookingForPencilCoords();
+		void SetPencilCoords(
+				irr::core::vector3df* p_points1,
+				irr::core::vector3df* p_points2,
+				int p_amount);
 		void BeginScene();
 		void EndScene();
 		
-		void CreatureSpawned();
-		void CreatureReachedCastle();
-		void CreatureKilled();
-		void CreatureHit();
-		void ProjectileMissed();
-		void ProjectileFired();
-		void WaveEnded();
+		//GameListenerEvents.
+		void OnCreatureSpawned();
+		void OnCreatureReachedCastle();
+		void OnCreatureKilled();
+		void OnCreatureHit();
+		void OnProjectileMissed();
+		void OnProjectileFired();
+		void OnWaveEnded();
+
+		//UserInputListenerEvents.
+		void OnStopGame();
+		void OnStartWave();
+		void OnPlacePencils();
+		void OnBuyPencil();
+		void OnPlaceTowers();
+		void OnTowerCreate(irr::core::vector2di p_position);
+		void OnTowerDestroy(irr::core::vector2di p_position);
+		void OnTowerUpgradeSpeed(irr::core::vector2di p_position);
+		void OnTowerUpgradeRange(irr::core::vector2di p_position);
+		void OnTowerUpgradeDamage(irr::core::vector2di p_position);
+
 
 		float GetGameHeight();
 
@@ -50,14 +78,27 @@ namespace Game
 		irr::scene::ICameraSceneNode* m_camera;
 
 		ScoreManager m_scoreManager;
-		int m_player1;
+		GameStatus m_gameStatus;
+		PlayerType m_player1;
 		Playground* m_playground;
 		Gui* m_gui;
 		EventHandler* m_eventHandler;
 		DeltaTimer* m_deltaTimer;
-		
+
+		//TODO comments
+		/**
+		 * @brief TODO
+		 */
 		void Update();
+
+		/**
+		 * @brief TODO
+		 */
 		void Render();
+
+		/**
+		 * @brief TODO
+		 */
 		void SetupCamera();
 	};
 }

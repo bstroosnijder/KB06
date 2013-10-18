@@ -123,6 +123,7 @@
     <ClInclude Include="include\Game\EventHandler.h" />
     <ClInclude Include="include\Game\GameListener.h" />
     <ClInclude Include="include\Game\GameManager.h" />
+    <ClInclude Include="include\Game\GameStatus.h" />
     <ClInclude Include="include\Game\Gui.h" />
     <ClInclude Include="include\Game\InputHandler.h" />
     <ClInclude Include="include\Game\Kernel.h" />
@@ -141,6 +142,7 @@
     <ClInclude Include="include\Game\Stargate.h" />
     <ClInclude Include="include\Game\Timer.h" />
     <ClInclude Include="include\Game\Tower.h" />
+    <ClInclude Include="include\Game\UserInputListener.h" />
     <ClInclude Include="include\Game\Wave.h" />
     <ClInclude Include="include\Utility\Logger.h" />
     <ClInclude Include="include\Game\Terrain.h" />

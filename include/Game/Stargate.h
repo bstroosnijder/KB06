@@ -16,7 +16,7 @@ namespace Game
 	{
 	public:
 		/**
-		 * @brief	Creates a Stargate.
+		 * @brief	Creates a Stargate. TODO!!!!!!!!!!!!!!!!!!!!!!!!!!
 		 *
 		 * @author	Michel van Os.
 		 * @param	

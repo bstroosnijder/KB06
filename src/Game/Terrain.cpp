@@ -28,6 +28,7 @@ namespace Game
 			);
 
 		m_terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+		//m_terrain->setVisible(false);
 
 		m_terrain->setMaterialTexture(0, driver->getTexture("resources/textures/terrain-texture.jpg"));
 		m_terrain->setMaterialTexture(1, driver->getTexture("resources/textures/detailmap3.jpg"));
@@ -39,14 +40,12 @@ namespace Game
 		selector = p_sceneManager->createTerrainTriangleSelector(m_terrain, 0);
 		m_terrain->setTriangleSelector(selector);
 
-		
-
 		return selector;
 	}
 
 	irr::f32 Terrain::GetTerrainHeight(irr::core::vector3df p_position)
 	{
-		return m_terrain->getHeight(p_position.X,p_position.Z);
+		return m_terrain->getHeight(p_position.X, p_position.Z);
 	}
 
 	irr::core::dimension2d<irr::f32> Terrain::GetTerrainDimensions()

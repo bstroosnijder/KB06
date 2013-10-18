@@ -9,12 +9,12 @@
 #include "Creature.h"
 #include "Projectile.h"
 #include "PathFollower.h"
-#include "Game/Creature.h"
-#include "Game/Wave.h"
-#include "Game/Castle.h"
-#include "Game/Stargate.h"
-#include "Game/Terrain.h"
-#include "Game/Marker.h"
+#include "Creature.h"
+#include "Wave.h"
+#include "Castle.h"
+#include "Stargate.h"
+#include "Terrain.h"
+#include "Marker.h"
 #include "Utility/Logger.h"
 
 #include <vector>
@@ -33,13 +33,6 @@ namespace Game
 	*/
 	class Playground : public PlaygroundListener
 	{
-		enum GameStatus
-		{
-			GAME_OVER = 1,
-			WAVE_SPAWNED = 2,
-			BUILD_PHASE = 3,
-			VICTORY = 4
-		};
 	public:
 		Playground(GameListener* p_gameListener, irr::scene::ISceneManager* p_sceneManager);
 		~Playground();
@@ -60,28 +53,27 @@ namespace Game
 			);
 
 		void SpawnTower(irr::core::vector2d<irr::s32>);
-
 		void SellTower(irr::core::vector2d<irr::s32>);
+
+		void UpgradeTowerSpeed(irr::core::vector2di p_position);
+		void UpgradeTowerRange(irr::core::vector2di p_position);
+		void UpgradeTowerDamage(irr::core::vector2di p_position);
 
 		void StartNextWave();
 
 		int GetWaveNumber();
 		int GetAmountOfCreatures();
-		int GetGameStatus();
-		int GetPlayerHealth();
-		
+		int GetPlayerHealth();		
 		int GetPlayerResources();
 		float GetPlaygroundHeight();
 
-
-		void ProjectileCreated(Projectile*);
-		void ProjectileDestroyed(Projectile*);
-
-		void CreatureCreated(Creature*);
-		void CreatureDestroyed(Creature*);
-		void CreatureHit(Creature*, Projectile*);
-		void CreatureRouteEndReached(Creature*);
-		
+		//PlaygroundListenerEvents
+		void OnProjectileCreated(Projectile* p_projectile);
+		void OnProjectileDestroyed(Projectile* p_projectile);
+		void OnCreatureCreated(Creature* p_creature);
+		void OnCreatureDestroyed(Creature* p_creature);
+		void OnCreatureHit(Creature* p_creature, Projectile* p_projectile);
+		void OnCreatureRouteEndReached(Creature* p_creature);
 
 	private:
 		GameListener* m_gameListener;
@@ -108,7 +100,6 @@ namespace Game
 		irr::core::dimension2d<float> m_gameDimensions;
 
 		int m_waveNumber;
-		int m_gameStatus;
 		int m_playerHealth;
 		int m_playerResources;
 

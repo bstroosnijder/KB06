@@ -257,5 +257,11 @@
     <ClInclude Include="include\Game\PlayerType.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="include\Game\GameStatus.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\UserInputListener.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

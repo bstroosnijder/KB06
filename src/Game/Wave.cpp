@@ -38,8 +38,8 @@ namespace Game
 			{
 				if (m_timer->GetTime() == 1)
 				{
-					Creature* creature = new Creature(m_sceneManager, m_playgroundListener, m_startPosition,p_path);
-					m_playgroundListener->CreatureCreated(creature);
+					Creature* creature = new Creature(m_sceneManager, m_playgroundListener, m_startPosition, p_path);
+					m_playgroundListener->OnCreatureCreated(creature);
 
 					m_timer->Reset();
 					m_creaturesSpawned = true;
