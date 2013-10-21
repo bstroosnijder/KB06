@@ -100,6 +100,8 @@ namespace Game
 		 * @brief TODO
 		 */
 		void SetupCamera();
+
+		int GetPlayerNumber(PlayerType p_playerType);
 	};
 }
 

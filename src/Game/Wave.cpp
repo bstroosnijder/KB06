@@ -2,15 +2,15 @@
 
 namespace Game
 {
-	Wave::Wave(irr::scene::ISceneManager* p_sceneManager, PlaygroundListener* p_playgroundListener)
+	Wave::Wave(irr::scene::ISceneManager* p_sceneManager, PlaygroundListener* p_playgroundListener, int p_waveSize)
 	{
 		m_playgroundListener = p_playgroundListener;
 		m_sceneManager = p_sceneManager;
+		m_waveSize = p_waveSize;
 
 		m_creaturesSpawned = false;
 		m_isActive = true;
 		m_timer = new Timer();
-		m_waveSize = 20;
 	}
 
 	Wave::~Wave()
@@ -20,9 +20,10 @@ namespace Game
 		m_timer = NULL;
 	}
 
-	void Wave::SpawnWave(irr::core::vector3df p_startPosition)
+	void Wave::StartSpawning(irr::core::vector3df p_startPosition)
 	{
 		m_isActive = true;
+		m_creaturesSpawned = 0;
 
 		m_startPosition = p_startPosition;
 		m_timer->Start();
@@ -65,5 +66,20 @@ namespace Game
 		}
 
 		return m_isActive;
+	}
+
+	int Wave::GetCreaturesSpawned()
+	{
+		return m_creaturesSpawned;
+	}
+
+	void Wave::SetWaveSize(int p_waveSize)
+	{
+		m_waveSize = p_waveSize;
+	}
+
+	int Wave::GetWaveSize()
+	{
+		return m_waveSize;
 	}
 }

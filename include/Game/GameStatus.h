@@ -3,31 +3,38 @@
 
 namespace Game
 {
+	/**
+	 * @brief	Used by the GameManager to store the current status of the Game.
+	 *
+	 * @author	Michel van Os.
+	 */
 	enum GameStatus
 	{
-		/// The game started.
+		/// The game is started.
 		GAME_STARTED,
 
-		/// Attacker places the pencils on the table
+		/// Attacker is placing pencils on the table
 		ATTACKER_PLACE_PENCILS,
 
-		/// Defender places, updates, deletes towers in the playground
+		/// Defender is placing, updating and deleting towers in the playground
 		DEFENDER_PLACE_TOWERS,
 
-		/// The wave in spawning creatures at the Stargate.
-		/// Creatures are allowed to walk towards the Castle.
+		/// The current Wave of the Playground is spawning creatures at the Stargate.
+		/// Creatures are walking towards the Castle.
+		/// Towers are shooting Projectiles towards the Creatures.
 		WAVE_RUNNING,
 
 		/// All Game-entities stop.
 		WAVE_PAUZED,
 
-		/// All Creatures are spawned and are dead or reached the Castle.
+		/// All Creatures that should be spawned by the current Wave
+		/// are killed or reached the Castle.
 		WAVE_FINISHED,
 
-		/// The attack has won the game.
+		/// The attacker (PlayerType::TYPE_ATTACKER) has won the game.
 		ATTACKER_VICTORY,
 
-		/// The defender has won the game.
+		/// The defender (PlayerType::TYPE_DEFENDER) has won the game.
 		DEFENDER_VICTORY
 	};
 }

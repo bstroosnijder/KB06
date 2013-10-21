@@ -13,6 +13,7 @@ namespace Game
 		m_pointsCastleReached = 10;
 		m_pointsPencilBought = -50;
 		m_pointsCreatureKilled = 10;
+		m_pointsTowerCreated = -100;
 		m_pointsTowerIncreasedSpeed = -200;
 		m_pointsTowerIncreasedRange = -100;
 		m_pointsTowerIncreasedDamage = -200;
@@ -46,6 +47,11 @@ namespace Game
 	void ScoreManager::CreatureKilled(int p_playerNumber)
 	{
 		m_playerPoints[p_playerNumber] += m_pointsCreatureKilled;
+	}
+
+	void ScoreManager::TowerCreated(int p_playerNumber)
+	{
+		m_playerPoints[p_playerNumber] += m_pointsTowerCreated;
 	}
 
 	void ScoreManager::TowerIncreasedSpeed(int p_playerNumber)

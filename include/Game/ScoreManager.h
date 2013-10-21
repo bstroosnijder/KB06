@@ -45,6 +45,8 @@ namespace Game
 		*/
 		void CreatureKilled(int p_playerNumber);
 
+		void TowerCreated(int p_playerNumber);
+
 		/**
 		* @brief	TODO
 		*/
@@ -69,6 +71,7 @@ namespace Game
 		int m_pointsCastleReached;
 		int m_pointsPencilBought;
 		int m_pointsCreatureKilled;
+		int m_pointsTowerCreated;
 		int m_pointsTowerIncreasedSpeed;
 		int m_pointsTowerIncreasedRange;
 		int m_pointsTowerIncreasedDamage;

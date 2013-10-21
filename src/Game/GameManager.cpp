@@ -41,6 +41,7 @@ namespace Game
 		StopGame();
 	}
 
+	/// @todo Check closing sequence?
 	void GameManager::StopGame()
 	{
 		/*
@@ -65,10 +66,14 @@ namespace Game
 
 	void GameManager::Render()
 	{
-		//m_gui->endGame(m_gameStatus);
 		m_sceneManager->drawAll();
 		m_playground->Render();
-		m_gui->UpdateGui(m_playground->GetWaveNumber(), m_playground->GetAmountOfCreatures(), m_videoDriver->getFPS(), m_playground->GetPlayerHealth(), m_playground->GetPlayerResources());
+		m_gui->UpdateGui(m_playground->GetWaveNumber(),
+			m_playground->GetWaveSize(),
+			m_playground->GetCreaturesSpawned(),
+				m_videoDriver->getFPS(),
+				m_scoreManager.GetPlayerScore(0),
+				m_scoreManager.GetPlayerScore(1));
 	}
 
 	void GameManager::SetupCamera()
@@ -121,8 +126,8 @@ namespace Game
 	void GameManager::DrawCameraTexture()
 	{
 		m_videoDriver->draw2DImage(m_videoDriver->getTexture("capture_background"),
-			irr::core::rect<irr::s32>(0.0f, 0.0f, m_resolution.Width, m_resolution.Height),
-			irr::core::rect<irr::s32>(0.0f, 0.0f, m_captureResolution.Width, m_captureResolution.Height));
+			irr::core::recti(0, 0, m_resolution.Width, m_resolution.Height),
+			irr::core::recti(0, 0, m_captureResolution.Width, m_captureResolution.Height));
 	}
 
 	irr::core::matrix4 GameManager::GetCameraProjectionMatrix()
@@ -195,28 +200,53 @@ namespace Game
 		}
 	}
 
-	void GameManager::OnCreatureHit()
-	{
-
-	}
-
-	void GameManager::OnProjectileMissed()
-	{
-
-	}
-
-	void GameManager::OnProjectileFired()
-	{
-
-	}
-
 	void GameManager::OnWaveEnded()
 	{
 		if (m_gameStatus == GameStatus::WAVE_RUNNING)
 		{
-			m_gui->SetButtonAttackersTurnEnabled(true);
+			if (m_playground->AreAllWavesFinished())
+			{
+				//The game has ended
 
-			m_gameStatus = GameStatus::WAVE_FINISHED;
+				/// @todo	Determine the winner Player of the current game round.
+				PlayerType gameRoundWinner = PlayerType::TYPE_ATTACKER;
+
+				if (m_player1 == PlayerType::TYPE_ATTACKER)
+				{
+					//If the first Round ended
+
+					//Show the winner of the current game round.
+					m_gui->ShowVictory(gameRoundWinner);
+
+					//Switch player sides
+					m_player1 = PlayerType::TYPE_DEFENDER;
+				}
+				else
+				{
+					//If the second round ended
+					
+					//Show the winner of the current game round.
+					m_gui->ShowVictory(gameRoundWinner);
+
+					//Determine the winning Player of the game.
+					bool player1IsWinner = m_scoreManager.GetPlayerScore(0) > m_scoreManager.GetPlayerScore(1);
+
+					if (player1IsWinner)
+					{
+						//m_gui->ShowWinningPlayer(0);
+					}
+					else
+					{
+						//m_gui->ShowWinningPlayer(1);
+					}
+				}
+			}
+			else
+			{
+				//A new wave should start
+				m_gui->SetButtonAttackersTurnEnabled(true);
+				m_gameStatus = GameStatus::WAVE_FINISHED;
+			}
 		}
 	}
 
@@ -252,7 +282,10 @@ namespace Game
 
 	void GameManager::OnBuyPencil()
 	{
+		if (m_gameStatus == GameStatus::ATTACKER_PLACE_PENCILS)
+		{
 
+		}
 	}
 
 	void GameManager::OnPlaceTowers()
@@ -272,7 +305,10 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
 		{
-			m_playground->SpawnTower(p_position);
+			if (m_playground->CreateTower(p_position))
+			{
+				m_scoreManager.TowerCreated(GetPlayerNumber(PlayerType::TYPE_DEFENDER));
+			}
 		}
 	}
 
@@ -280,7 +316,10 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
 		{
-			m_playground->SellTower(p_position);
+			if (m_playground->DestroyTower(p_position))
+			{
+				//m_scoreManager.TowerSold();
+			}
 		}
 	}
 
@@ -288,7 +327,10 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
 		{
-			m_playground->UpgradeTowerSpeed(p_position);
+			if (m_playground->UpgradeTowerSpeed(p_position))
+			{
+				//m_scoreManager.TowerUpgradedSpeed();
+			}
 		}
 	}
 
@@ -296,7 +338,10 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
 		{
-			m_playground->UpgradeTowerRange(p_position);
+			if (m_playground->UpgradeTowerRange(p_position))
+			{
+				//m_scoreManager.TowerUpgradedRange();
+			}
 		}
 	}
 
@@ -304,7 +349,36 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
 		{
-			m_playground->UpgradeTowerDamage(p_position);
+			if (m_playground->UpgradeTowerDamage(p_position))
+			{
+				m_scoreManager.TowerIncreasedDamage(GetPlayerNumber(PlayerType::TYPE_DEFENDER));
+			}
 		}
+	}
+
+	int GameManager::GetPlayerNumber(PlayerType p_playerType)
+	{
+		/*
+		m_player1		Defender
+		p_playerType	Defender
+		- - - - - - - - - - - -
+		Result			0
+
+		m_player1		Defender
+		p_playerType	Attacker
+		- - - - - - - - - - - -
+		Result			1
+
+		m_player1		Attacker
+		p_playerType	Defender
+		- - - - - - - - - - - -
+		Result			1
+
+		m_player1		Attacker
+		p_playerType	Attacker
+		- - - - - - - - - - - -
+		Result			0
+		*/
+		return m_player1 == PlayerType::TYPE_DEFENDER ^ p_playerType;
 	}
 }

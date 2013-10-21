@@ -33,24 +33,34 @@ namespace Game
 		}
 	}
 
-	void Tower::SetShootingSpeed(double p_shootingSpeed)
+	void Tower::SetShootingSpeed(float p_shootingSpeed)
 	{
 		m_shootingSpeed = p_shootingSpeed;
 	}
 
-	void Tower::SetRange(double p_range)
+	void Tower::SetShootingRange(float p_range)
 	{
 		m_shootingRange = p_range;
 	}
 
-	double Tower::GetShootingSpeed()
+	void Tower::SetShootingDamage(float p_shootingDamage)
+	{
+		m_shootingDamage = p_shootingDamage;
+	}
+
+	float Tower::GetShootingSpeed()
 	{
 		return m_shootingSpeed;
 	}
 
-	double Tower::GetRange()
+	float Tower::GetShootingRange()
 	{
 		return m_shootingRange;
+	}
+
+	float Tower::GetShootingDamage()
+	{
+		return m_shootingDamage;
 	}
 
 	void Tower::ShootAtNearestCreature(std::list<Creature*>& p_creatureList)
