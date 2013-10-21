@@ -39,6 +39,7 @@ namespace Game
 
 		void Initialize(irr::scene::ISceneManager* p_sceneManager);
 		void Update(float p_deltaTime);
+		void UpdateGameScale(float p_gameLength);
 
 		void Render();
 
@@ -64,6 +65,7 @@ namespace Game
 		int GetAmountOfCreatures();
 		int GetPlayerHealth();		
 		int GetPlayerResources();
+		float GetPlaygroundHeight();
 
 		//PlaygroundListenerEvents
 		void OnProjectileCreated(Projectile* p_projectile);
@@ -95,6 +97,7 @@ namespace Game
 		Creature* creature1;
 
 		Terrain* m_terrain;
+		irr::core::dimension2d<float> m_gameDimensions;
 
 		int m_waveNumber;
 		int m_playerHealth;

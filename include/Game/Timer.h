@@ -27,7 +27,7 @@ namespace Game
 		void Start();
 
 		/**
-		 * @brie	Stop the timer.
+		 * @brief	Stop the timer.
 		 */
 		void Stop();
 

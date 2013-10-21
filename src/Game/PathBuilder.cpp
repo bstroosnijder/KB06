@@ -219,7 +219,7 @@ namespace Game
 			point = (*itPoint);
 			pointsNear.clear();
 
-			for (itPointNear = points->begin(); itPointNear != itEnd;	++itPointNear)
+			for (itPointNear = points->begin(); itPointNear != itEnd; ++itPointNear)
 			{
 				pointNear = (*itPointNear);
 			
@@ -252,7 +252,7 @@ namespace Game
 					delete pointNear;
 				}
 			
-				point->m_point /= pointsNear.size()+1;
+				point->m_point /= pointsNear.size() + 1;
 			}
 		}
 	}

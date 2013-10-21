@@ -28,7 +28,7 @@ namespace Game
 	public:
 		
 		/**
-		 * @brief Constructor
+		 * @brief Constructor TODO
 		 */
 		EventHandler(UserInputListener* p_userInputListener,
 				irr::IrrlichtDevice* p_device,
@@ -36,12 +36,12 @@ namespace Game
 				Game::Playground* p_playground);
 		
 		/**
-		 * @brief Deconstructor
+		 * @brief Deconstructor TODO
 		 */
 		~EventHandler();
 
 		/**
-		 * @brief handles events
+		 * @brief handles events TODO
 		 */
 		virtual bool OnEvent(const irr::SEvent& event);
 

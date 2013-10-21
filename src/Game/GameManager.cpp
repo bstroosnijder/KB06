@@ -104,6 +104,8 @@ namespace Game
 	void GameManager::SetGameLength(float p_gameLength)
 	{
 		// TODO: Implementatie
+		m_playground->UpdateGameScale(p_gameLength);
+
 	}
 
 	void GameManager::SetCaptureResolution(irr::core::dimension2du p_captureResolution)
@@ -138,6 +140,11 @@ namespace Game
 			int p_amount)
 	{
 		
+	}
+
+	float GameManager::GetGameHeight()
+	{
+		return m_playground->GetPlaygroundHeight();
 	}
 
 	void GameManager::BeginScene()

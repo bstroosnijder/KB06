@@ -3,6 +3,11 @@
 
 namespace Game
 {
+	/**
+	 * @brief	TODO
+	 *			
+	 * @author	Alex Hodes
+	 */
 	class GameListener
 	{
 	public:

@@ -3,6 +3,11 @@
 
 namespace Game
 {
+	/**
+	 * @brief	TODO
+	 *			
+	 * @author	Alex Hodes
+	 */
 	enum PlayerType
 	{
 		TYPE_ATTACKER,

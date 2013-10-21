@@ -34,7 +34,7 @@ namespace Game
 			float speedScale = unitLength / position.getDistanceFrom(target);
 
 			position = position + distance * m_movementSpeed * speedScale * p_deltaTime * 60;
-
+		//Alex why commented
 			SetPosition(position);
 		}
 	}

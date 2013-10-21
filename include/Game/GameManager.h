@@ -15,6 +15,11 @@
 
 namespace Game
 {
+	/**
+	 * @brief	TODO
+	 *			
+	 * @author	Alex Hodes
+	 */
 	class GameManager : public GameListener, UserInputListener
 	{
 	public:
@@ -62,6 +67,8 @@ namespace Game
 		void OnTowerUpgradeDamage(irr::core::vector2di p_position);
 
 
+		float GetGameHeight();
+
 	private:
 		irr::IrrlichtDevice* m_device;
 		irr::core::dimension2du m_resolution;
@@ -77,9 +84,21 @@ namespace Game
 		Gui* m_gui;
 		EventHandler* m_eventHandler;
 		DeltaTimer* m_deltaTimer;
-		
+
+		//TODO comments
+		/**
+		 * @brief TODO
+		 */
 		void Update();
+
+		/**
+		 * @brief TODO
+		 */
 		void Render();
+
+		/**
+		 * @brief TODO
+		 */
 		void SetupCamera();
 	};
 }

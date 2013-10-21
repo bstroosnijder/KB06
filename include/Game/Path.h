@@ -25,7 +25,14 @@ namespace Game
 		std::list<PathRoute*> m_routes;
 		std::list<PathSegment*> m_pathSegments;
 
+		/**
+		* @brief	TODO
+		*/
 		Path();
+
+		/**
+		* @brief	TODO
+		*/
 		~Path();
 	};
 }
