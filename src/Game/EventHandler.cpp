@@ -83,8 +83,7 @@ namespace Game
 				}
 			}
 		}
-
-		if (event.EventType == irr::EET_KEY_INPUT_EVENT)
+		else if (event.EventType == irr::EET_KEY_INPUT_EVENT)
 		{
 			irr::s32 keyInput = event.KeyInput.Key;
 			
@@ -109,8 +108,7 @@ namespace Game
 				return true;
 			}			
 		}
-
-		if (event.EventType == irr::EET_MOUSE_INPUT_EVENT)
+		else if (event.EventType == irr::EET_MOUSE_INPUT_EVENT)
 		{
 			if (event.MouseInput.isLeftPressed())
 			{

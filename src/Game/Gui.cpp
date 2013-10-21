@@ -7,6 +7,7 @@ namespace Game
 		m_guienv = p_guienv;
 		m_menu = NULL;
 		m_controls = NULL;
+		m_imageVictory = NULL;
 		m_amountOfCreatures = NULL;
 		m_waveNumber = NULL;
 		m_fps = NULL;
@@ -136,6 +137,35 @@ namespace Game
 				m_defeatSceenIsActive = true;
 			}
 		}
+	}
+
+	void Gui::ShowVictory(PlayerType p_playerType)
+	{
+		HideVictory();
+		
+		irr::video::ITexture* image;
+		
+		if (p_playerType == PlayerType::TYPE_ATTACKER)
+		{
+			image = m_guienv->getVideoDriver()->getTexture("resources/textures/victory.png");
+		}
+		else
+		{
+			image = m_guienv->getVideoDriver()->getTexture("resources/textures/defeat.png");
+		}
+		
+		m_imageVictory = m_guienv->addImage(irr::core::rect<irr::s32>((m_screenWidth/2)-300,(m_screenHeight/2)-169,(m_screenWidth/2)+300,(m_screenHeight/2)+169),0,5);
+		m_imageVictory->setImage(image);
+		m_imageVictory->setScaleImage(true);
+	}
+
+	void Gui::HideVictory()
+	{
+		if (m_imageVictory != NULL)
+		{
+			m_imageVictory->remove();
+			m_imageVictory = NULL;
+		}			
 	}
 
 	void Gui::SetButtonAttackersTurnEnabled(bool p_state)

@@ -345,6 +345,8 @@ namespace Game
 		if (p_projectile != NULL)
 		{
 			m_projectiles.push_back(p_projectile);
+
+			m_gameListener->OnProjectileFired();
 		}
 	}
 
@@ -361,7 +363,7 @@ namespace Game
 	{
 		if (p_creature != NULL && p_projectile != NULL)
 		{
-
+			m_gameListener->OnCreatureHit();
 		}
 	}
 
@@ -370,6 +372,8 @@ namespace Game
 		if (p_creature != NULL)
 		{
 			m_creatures.push_back(p_creature);
+
+			m_gameListener->OnCreatureSpawned();
 		}
 	}
 
@@ -379,6 +383,8 @@ namespace Game
 		{
 			m_creatures.remove(p_creature);
 			delete p_creature;
+
+			m_gameListener->OnCreatureKilled();
 		}
 	}
 

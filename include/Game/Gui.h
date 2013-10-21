@@ -1,6 +1,8 @@
 #ifndef __GUI__H__
 #define __GUI__H__
 
+#include "PlayerType.h"
+
 #include <irrlicht.h>
 #include <iostream>
 #include <sstream>
@@ -75,6 +77,9 @@ namespace Game
 
 		void endGame(int);
 
+		void ShowVictory(PlayerType p_playerType);
+		void HideVictory();
+
 		void SetButtonAttackersTurnEnabled(bool p_state);
 		void SetButtonAttackersActionsEnabled(bool p_state);
 		void SetButtonDefendersTurnEnabled(bool p_state);
@@ -85,6 +90,7 @@ namespace Game
 		irr::gui::IGUIEnvironment* m_guienv;
 		irr::gui::IGUIImage* m_menu;
 		irr::gui::IGUIImage* m_controls;
+		irr::gui::IGUIImage* m_imageVictory;
 		irr::gui::IGUIStaticText* m_amountOfCreatures;
 		irr::gui::IGUIStaticText* m_waveNumber;
 		irr::gui::IGUIStaticText* m_fps;

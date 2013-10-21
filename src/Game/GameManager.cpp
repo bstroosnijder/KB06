@@ -65,7 +65,7 @@ namespace Game
 
 	void GameManager::Render()
 	{
-		m_gui->endGame(m_gameStatus);
+		//m_gui->endGame(m_gameStatus);
 		m_sceneManager->drawAll();
 		m_playground->Render();
 		m_gui->UpdateGui(m_playground->GetWaveNumber(), m_playground->GetAmountOfCreatures(), m_videoDriver->getFPS(), m_playground->GetPlayerHealth(), m_playground->GetPlayerResources());
@@ -137,7 +137,7 @@ namespace Game
 			irr::core::vector3df* p_points2,
 			int p_amount)
 	{
-
+		
 	}
 
 	void GameManager::BeginScene()
@@ -207,8 +207,9 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::WAVE_RUNNING)
 		{
-			m_gameStatus = GameStatus::WAVE_FINISHED;
 			m_gui->SetButtonAttackersTurnEnabled(true);
+
+			m_gameStatus = GameStatus::WAVE_FINISHED;
 		}
 	}
 
