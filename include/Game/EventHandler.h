@@ -14,29 +14,21 @@ namespace Game
 	 *			
 	 * @author	Bram van Elderen
 	 */
-	class EventHandler	:	public irr::IEventReceiver
+	class EventHandler : public irr::IEventReceiver
 	{
-		enum
-		{
-			QUIT_BUTTON = 101,
-			MENU_BUTTON = 102,
-			ClEAR_BUTTON = 103,
-			TOWER_BUTTON = 104,
-			SELL_BUTTON = 105,
-			CONTROLS_BUTTON = 107,
-			STARTGAME_BUTTON = 108
-		};
-
 		enum ClickEvent
 		{
-			TOWER_PRESSED = 1,
-			SELL_PRESSED = 2
+			CREATE_TOWER = 1,
+			DELETE_TOWER,
+			UPGRADE_TOWER_SPEED,
+			UPGRADE_TOWER_RANGE,
+			UPGRADE_TOWER_DAMAGE
 		};
 
 	public:
 		
 		/**
-		 * @brief Constructor
+		 * @brief Constructor TODO
 		 */
 		EventHandler(UserInputListener* p_userInputListener,
 				irr::IrrlichtDevice* p_device,
@@ -44,12 +36,12 @@ namespace Game
 				Game::Playground* p_playground);
 		
 		/**
-		 * @brief Deconstructor
+		 * @brief Deconstructor TODO
 		 */
 		~EventHandler();
 
 		/**
-		 * @brief handles events
+		 * @brief handles events TODO
 		 */
 		virtual bool OnEvent(const irr::SEvent& event);
 

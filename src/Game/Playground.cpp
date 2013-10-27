@@ -2,6 +2,7 @@
 
 namespace Game
 {
+	//ALEX; graag betere variable namen verzinnen en maken. Height 1 en height 2 roepen meer vragen op dat ze beantwoorden
 	Playground::Playground(GameListener* p_gameListener, irr::scene::ISceneManager* p_sceneManager)
 	{
 		m_gameListener = p_gameListener;
@@ -10,9 +11,6 @@ namespace Game
 		m_path = NULL;
 		m_selector = NULL;
 	
-		m_gameStatus = GameStatus::ATTACKER_PLACE_PENCILS;
-		m_playerHealth = 100;
-		m_playerResources = 1000;
 		Initialize(p_sceneManager);
 	}
 
@@ -25,13 +23,16 @@ namespace Game
 
 	void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	{
-		m_castle = new Castle(p_sceneManager, this, irr::core::vector3df(0, 0, -1200));
-		m_stargate = new Stargate(p_sceneManager, this, irr::core::vector3df(0, 0, 1200));
+		m_castle = new Castle(p_sceneManager, this, irr::core::vector3df(0, 0, 0));
+		m_stargate = new Stargate(p_sceneManager, this, irr::core::vector3df(0, 0, 0));
+
+		GenerateWaves();
 
 		float range = 10.0f;
 		int amount = 8;
 		irr::core::vector3df* points1 = new irr::core::vector3df[amount];
 		irr::core::vector3df* points2 = new irr::core::vector3df[amount];
+		//Alex waarom commentaar
 		/*
 		points1[0].set(50, 0, 0	);	points2[0].set(50, 0, 50);	//1
 		points1[1].set(48, 0, 52);	points2[1].set(25, 0, 75);	//2
@@ -41,7 +42,7 @@ namespace Game
 		points1[5].set(50, 0, 102);	points2[5].set(50, 0, 150);	//6
 		points1[6].set(27, 0, 76);	points2[6].set(71, 0, 74);	//7
 		*/
-
+		//# waar staan ze voor
 		points1[0].set(500, 0, 0);		points2[0].set(250, 0, 500);	//2
 		points1[1].set(500, 0, 0);		points2[1].set(750, 0, 500);	//3
 		points1[2].set(250, 0, 500);	points2[2].set(750, 0, 500);	//4
@@ -56,37 +57,30 @@ namespace Game
 
 		SetupPath(points1, points2, amount, range, startPoint, endPoint);
 		m_pathNumber = m_path->m_routes.begin();
-		//Setup Waves
-		m_waveNumber = 0;
-		for(int i = 0; i<3; ++i)
-		{
-			waves.push_back(new Game::Wave(p_sceneManager, this));
-		}
 	
 		m_terrain = new Terrain();
 		m_selector = m_terrain->GenerateTerrain(p_sceneManager, 10.0);
+		m_gameDimensions.Height = m_terrain->GetTerrainDimensions().Height*10;
 
 		//Setup signs above the path		
 		std::list<PathSegment*>::iterator itSegments = m_path->m_pathSegments.begin();
 		std::list<PathSegment*>::iterator itSegmentsEnd = m_path->m_pathSegments.end();
 		while (itSegments != itSegmentsEnd)
-		{			
-			
-			
+		{	
+			//Alex waarom exist1??
 			bool exist1 = false;
+			//Alex is m_point publiek?
 			irr::core::vector3df position1 = (*itSegments)->m_point1->m_point;
 			irr::f32 height1 = m_terrain->GetTerrainHeight(position1);
-			position1.Y = (height1+100);
+			position1.Y = (height1 + 100);
 
 			bool exist2 = false;
 			irr::core::vector3df position2 = (*itSegments)->m_point2->m_point;
 			irr::f32 height2 = m_terrain->GetTerrainHeight(position2);
-			position2.Y = (height2+100);
+			position2.Y = (height2 + 100);
 
-
-
-			std::list<Marker*>::iterator itSigns = m_Marker.begin();
-			std::list<Marker*>::iterator itSignsEnd = m_Marker.end();
+			std::list<Marker*>::iterator itSigns = m_marker.begin();
+			std::list<Marker*>::iterator itSignsEnd = m_marker.end();
 			while (itSigns != itSignsEnd)
 			{
 				if (position1 == (*itSigns)->GetPosition())
@@ -101,11 +95,12 @@ namespace Game
 			}
 			if (!exist1)
 			{
-				m_Marker.push_back(new Game::Marker(m_sceneManager,this,position1));
+				//m_marker waarom 2e M caps?
+				m_marker.push_back(new Marker(m_sceneManager, this, position1));
 			}
 			if (!exist2)
 			{
-				m_Marker.push_back(new Game::Marker(m_sceneManager,this,position2));
+				m_marker.push_back(new Marker(m_sceneManager, this, position2));
 			}			
 			++itSegments;			
 		}
@@ -124,36 +119,25 @@ namespace Game
 	}
 
 	void Playground::Update(float p_deltaTime)
-	{
-		//p_deltaTime *= 4;
+	{	
+		p_deltaTime *= 5;
 
-		if (m_playerHealth <= 0)
-		{
-			m_gameStatus = GameStatus::ATTACKER_VICTORY;
-		}
-		if (waves.size() == 0)
-		{
-			m_gameStatus = GameStatus::DEFENDER_VICTORY;
-		}
-	
+		//Update Creatures
 		std::list<Creature*>::iterator itCreature = m_creatures.begin();
 		std::list<Creature*>::iterator itCreatureEnd = m_creatures.end();
 		Creature* creature;
-	
-		//Update Creatures
 		while (itCreature != itCreatureEnd)
 		{
 			creature = (*itCreature);
 			++itCreature;
 
-			creature->FollowPath(p_deltaTime,m_terrain);
+			creature->FollowPath(p_deltaTime, m_terrain);
 		}
 	
 		//Update Towers
 		std::list<Tower*>::iterator itTower = m_towers.begin();
 		std::list<Tower*>::iterator itTowerEnd = m_towers.end();
 		Tower* tower;
-
 		while (itTower != itTowerEnd)
 		{
 			tower = (*itTower);
@@ -166,7 +150,6 @@ namespace Game
 		std::list<Projectile*>::iterator itProjectile = m_projectiles.begin();
 		std::list<Projectile*>::iterator itProjectileEnd = m_projectiles.end();
 		Projectile* projectile;
-
 		while (itProjectile != itProjectileEnd)
 		{
 			projectile = (*itProjectile);
@@ -175,36 +158,34 @@ namespace Game
 			projectile->MoveTowardsTarget(p_deltaTime);
 		}
 
-		if (waves.size() != 0)
+		//Update Markers
+		std::list<Marker*>::iterator itMarkers = m_marker.begin();
+		std::list<Marker*>::iterator itMarkersEnd = m_marker.end();
+		while (itMarkers != itMarkersEnd)
 		{
-			if (waves[0]->CheckWaveStatus(m_creatures))
+			(*itMarkers)->UpdatePosition(p_deltaTime);
+			++itMarkers;
+		}
+
+		if (m_waves.size() != 0)
+		{
+			if (m_waves[0]->CheckWaveStatus(m_creatures))
 			{
-				waves[0]->SpawnCreature(m_creatures, *m_pathNumber);
+				m_waves[0]->SpawnCreature(m_creatures, *m_pathNumber);
 				if (*m_pathNumber == m_path->m_routes.back())
 				{
 					m_pathNumber = m_path->m_routes.begin();
 				}
 				else
 				{
-					std::advance(m_pathNumber,1);
+					std::advance(m_pathNumber, 1);
 				}
 			}
 			else
 			{
 				std::cout << m_waveNumber;
-				m_gameStatus = GameStatus::ATTACKER_PLACE_PENCILS;
-				waves.erase(waves.begin());
-				m_playerResources += 1000;
+				m_waves.erase(m_waves.begin());
 			}
-		}
-
-		//Update signs (go up and down)
-		std::list<Marker*>::iterator itMarkers = m_Marker.begin();
-		std::list<Marker*>::iterator itMarkersEnd = m_Marker.end();
-		while (itMarkers != itMarkersEnd)
-		{
-			(*itMarkers)->UpdatePosition(p_deltaTime);
-			++itMarkers;
 		}
 	}
 
@@ -239,87 +220,98 @@ namespace Game
 		}		
 	}
 
-	void Playground::SpawnTower(irr::core::vector2d<irr::s32> p_position)
+	bool Playground::CreateTower(irr::core::vector2di p_position)
 	{	
-		if ((m_playerResources - 500 ) >= 0)
+		Tower* towerAtPosition = GetTowerAtPosition(p_position);
+
+		if (towerAtPosition != NULL)
 		{
-			irr::scene::ISceneNode* sceneNodeOut;
-			sceneNodeOut = m_sceneManager->getSceneCollisionManager()->getSceneNodeFromScreenCoordinatesBB(p_position);
-		
-			std::list<Tower*>::iterator itTower;
-			std::list<Tower*>::iterator itTowerEnd = m_towers.end();
-			bool towerB = false;
-			itTower = m_towers.begin();
-			while (itTower != itTowerEnd)
-			{		
-				if (sceneNodeOut  == (*itTower)->GetSceneNode())
-				{
-					towerB = true;				
-				} 
-				++itTower;
-			}
-		
-			if (!towerB)
-			{
-				m_playerResources -= 500;
-				irr::core::line3d<irr::f32> line = m_sceneManager->getSceneCollisionManager()->getRayFromScreenCoordinates(p_position,m_sceneManager->getActiveCamera());
-				irr::core::vector3df towerPosition;
-				irr::core::triangle3df triangle;
-				irr::scene::ISceneNode* sceneNodeOut;
-				m_sceneManager->getSceneCollisionManager()->getCollisionPoint(line,m_selector, towerPosition,triangle, sceneNodeOut);
-				m_towers.push_back(new Tower(m_sceneManager, this, towerPosition));
-			}
-		}	
+			return false;
+		}
+
+		irr::scene::ISceneCollisionManager* collisionManager = m_sceneManager->getSceneCollisionManager();
+		irr::core::line3d<irr::f32> line = collisionManager->getRayFromScreenCoordinates(p_position, m_sceneManager->getActiveCamera());
+		irr::core::vector3df towerPosition;
+		irr::core::triangle3df triangle;
+		irr::scene::ISceneNode* sceneNodeOut;
+
+		collisionManager->getCollisionPoint(line, m_selector, towerPosition, triangle, sceneNodeOut);
+		m_towers.push_back(new Tower(m_sceneManager, this, towerPosition));
+
+		return true;
 	}
 
-	void Playground::SellTower(irr::core::vector2d<irr::s32> p_position)
+	bool Playground::DestroyTower(irr::core::vector2di p_position)
 	{
-		irr::scene::ISceneNode* sceneNodeOut;
-		sceneNodeOut = m_sceneManager->getSceneCollisionManager()->getSceneNodeFromScreenCoordinatesBB(p_position);
+		Tower* tower = GetTowerAtPosition(p_position);
 
-		std::list<Tower*>::iterator itTower;
-		std::list<Tower*>::iterator itTowerEnd = m_towers.end();
-		Tower* tower;
-
-		itTower = m_towers.begin();
-
-		while (itTower != itTowerEnd)
-		{		
-			if (sceneNodeOut  == (*itTower)->GetSceneNode())
-			{
-				tower = (*itTower);
-			
-				++itTower;
-				delete tower;
-				m_towers.remove(tower);
-				m_playerResources += 250;
-
-				return;
-			}
-			else
-			{
-				++itTower;
-			}
+		if (tower != NULL)
+		{
+			m_towers.remove(tower);
+			return true;
 		}
+
+		return false;
+	}
+
+	bool Playground::UpgradeTowerSpeed(irr::core::vector2di p_position)
+	{
+		Tower* tower = GetTowerAtPosition(p_position);
+
+		if (tower != NULL)
+		{
+			tower->SetShootingSpeed(tower->GetShootingSpeed()+1);
+			return true;
+		}
+
+		return false;
+	}
+
+	bool Playground::UpgradeTowerRange(irr::core::vector2di p_position)
+	{
+		Tower* tower = GetTowerAtPosition(p_position);
+
+		if (tower != NULL)
+		{
+			tower->SetShootingRange(tower->GetShootingRange()+1);
+			return true;
+		}
+
+		return false;
+	}
+
+	bool Playground::UpgradeTowerDamage(irr::core::vector2di p_position)
+	{
+		Tower* tower = GetTowerAtPosition(p_position);
+
+		if (tower != NULL)
+		{
+			tower->SetShootingDamage(tower->GetShootingDamage()+1);
+			return true;
+		}
+
+		return false;
 	}
 
 	void Playground::StartNextWave()
 	{
-		//if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
-		{
-			if (waves.size() != 0)
-			{		
-				Game::Wave* wave = waves[0];
-				if (wave)
-				{
-					wave->SpawnWave(m_path->m_pointBegin->m_point);
-					m_gameStatus = GameStatus::WAVE_RUNNING;				
-					++m_waveNumber;
-				}
+		if (m_waves.size() != 0 && m_waveNumber < m_waves.size())
+		{		
+			Game::Wave* wave = m_waves[m_waveNumber];
+
+			if (wave)
+			{
+				wave->StartSpawning(m_path->m_pointBegin->m_point);
+				++m_waveNumber;
 			}
 		}
 	}
 
+	bool Playground::AreAllWavesFinished()
+	{
+		return (m_waveNumber >= m_waves.size()-1 ||
+				m_waves[m_waveNumber]->CheckWaveStatus(m_creatures) == false);
+	}
 
 	int Playground::GetWaveNumber()
 	{
@@ -329,22 +321,26 @@ namespace Game
 	int Playground::GetAmountOfCreatures()
 	{
 		return m_creatures.size();
-
 	}
 
-	int Playground::GetGameStatus()
+	int Playground::GetCreaturesSpawned()
 	{
-		return m_gameStatus;
+		if (m_waveNumber != 0 && m_waveNumber < m_waves.size())
+		{
+			return m_waves[m_waveNumber]->GetCreaturesSpawned();
+		}
+
+		return -1;
 	}
 
-	int Playground::GetPlayerHealth()
+	int Playground::GetWaveSize()
 	{
-		return m_playerHealth;
-	}
+		if (m_waveNumber != 0 && m_waveNumber < m_waves.size())
+		{
+			return m_waves[m_waveNumber]->GetWaveSize();
+		}
 
-	int Playground::GetPlayerResources()
-	{
-		return m_playerResources;
+		return -1;
 	}
 
 	void Playground::OnProjectileCreated(Projectile* p_projectile)
@@ -377,6 +373,8 @@ namespace Game
 		if (p_creature != NULL)
 		{
 			m_creatures.push_back(p_creature);
+
+			m_gameListener->OnCreatureSpawned();
 		}
 	}
 
@@ -386,6 +384,8 @@ namespace Game
 		{
 			m_creatures.remove(p_creature);
 			delete p_creature;
+
+			m_gameListener->OnCreatureKilled();
 		}
 	}
 
@@ -403,5 +403,55 @@ namespace Game
 				m_gameListener->OnWaveEnded();
 			}
 		}
+	}
+
+	float Playground::GetPlaygroundHeight()
+	{		
+		return m_gameDimensions.Height;
+	}
+
+	void Playground::UpdateGameScale(float p_gameLength)
+	{
+		m_gameDimensions.Width = p_gameLength;
+		float oldLength = m_terrain->GetTerrainDimensions().Width * 10;
+		float newLength = p_gameLength - 200;
+
+		irr::core::vector3df terrainScaling = irr::core::vector3df(newLength / oldLength, 1.0f, 1.0f);
+		
+		m_terrain->ScaleTerrain(terrainScaling);
+		m_terrain->SetPosition(100);
+
+		m_castle->SetPosition(irr::core::vector3df(m_gameDimensions.Width - 50, 0.0f, m_gameDimensions.Height / 2));
+		m_stargate->SetPosition(irr::core::vector3df(50.0f, 0.0f, m_gameDimensions.Height / 2));
+	}
+
+	void Playground::GenerateWaves()
+	{
+		m_waves.clear();
+		m_waveNumber = 0;
+
+		m_waves.push_back(new Wave(m_sceneManager, this, 10));
+		m_waves.push_back(new Wave(m_sceneManager, this, 15));
+		m_waves.push_back(new Wave(m_sceneManager, this, 20));
+		m_waves.push_back(new Wave(m_sceneManager, this, 25));
+		m_waves.push_back(new Wave(m_sceneManager, this, 40));
+	}
+
+	Tower* Playground::GetTowerAtPosition(irr::core::vector2di p_position)
+	{
+		irr::scene::ISceneNode* sceneNode = m_sceneManager->getSceneCollisionManager()->getSceneNodeFromScreenCoordinatesBB(p_position);
+
+		std::list<Tower*>::iterator itTower;
+		std::list<Tower*>::iterator itTowerEnd = m_towers.end();
+
+		for (itTower = m_towers.begin(); itTower != itTowerEnd; ++itTower)
+		{
+			if (sceneNode == (*itTower)->GetSceneNode())
+			{
+				return (*itTower);
+			}
+		}
+
+		return NULL;
 	}
 }
