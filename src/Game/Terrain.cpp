@@ -24,7 +24,7 @@ namespace Game
 			);
 
 		m_terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-		//m_terrain->setVisible(false);
+		m_terrain->setVisible(false);
 
 		m_terrain->setMaterialTexture(0, driver->getTexture("resources/textures/terrain-texture.jpg"));
 		m_terrain->setMaterialTexture(1, driver->getTexture("resources/textures/detailmap3.jpg"));

@@ -21,7 +21,6 @@ namespace Camera
 	class Capture : public irr::IEventReceiver
 	{
 	public:
-		irr::core::dimension2du m_resolution;
 		/**
 		 * @brief	Constructor
 		 * @param	p_runInOwnThread If the capturer should run in it's own thread
@@ -133,9 +132,9 @@ namespace Camera
 		irr::core::dimension2du GetCaptureSize();
 
 	private:
-		typedef std::vector<cv::Point3f> Points3D;
 		typedef std::vector<cv::Point2f> Corners;
 		irr::video::ITexture* m_texture;
+		irr::core::dimension2du m_resolution;
 		bool m_runInOwnThread;
 		CalibrationParams* m_params;
 		cv::VideoCapture m_capture;
@@ -155,18 +154,14 @@ namespace Camera
 		cv::Rect m_boundingBox;
 		cv::Scalar m_color;
 		float m_fov;
+		float m_defaultRotation;
 
-		Points3D m_points3D;
-		int m_times90;
 		cv::Point2f m_topLeft;
 		Corners m_corners;
 		irr::core::line2df m_shortestLine;
 		irr::core::line2df m_longestLine;
 		float m_lineRatio;
 		irr::core::line2df m_longestGameLine;
-		cv::Mat m_poseRotation;
-		cv::Mat m_poseTranslation;
-
 
 		/**
 		 * @brief	Locks the mutex with this thread
