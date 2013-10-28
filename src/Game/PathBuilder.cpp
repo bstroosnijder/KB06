@@ -19,7 +19,7 @@ namespace Game
 		PathJoinPathPoints(path, p_range);
 		PathDetermineBeginAndEndPathPoints(path, p_pointBegin, p_pointEnd, p_range);
 	
-		std::list<PathPoint*>* pathRoute = new std::list<PathPoint*>();
+		PathRoute* pathRoute = new PathRoute();
 		BuildRoute(path, pathRoute, path->m_pointBegin);
 
 		return path;
@@ -110,14 +110,16 @@ namespace Game
 			pathPointIt = (*it);
 
 			if (IsPathDirectionAllowed(p_path, p_pathPointCurrent, pathPointIt) == false)
+			{
 				continue;
+			}
 
 			if (pathPointIt == p_path->m_pointEnd)
 			{
 				//End PathPoint found
 			
 				//Make a new list (pathListNew). And copy all elements in p_listCurrent in the new list
-				std::list<PathPoint*>* pathRouteNew = new std::list<PathPoint*>(*p_pathRoute);
+				PathRoute* pathRouteNew = new PathRoute(*p_pathRoute);
 
 				p_pathRoute->push_back(pathPointIt);
 				p_path->m_routes.push_back(p_pathRoute);
@@ -252,7 +254,7 @@ namespace Game
 					delete pointNear;
 				}
 			
-				point->m_point /= pointsNear.size() + 1;
+				point->m_point /= static_cast<float>(pointsNear.size()) + 1;
 			}
 		}
 	}

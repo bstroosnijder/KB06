@@ -28,7 +28,7 @@ namespace Game
 			m_device->setWindowCaption(L"KB06: Game");
 			m_device->getCursorControl()->setVisible(true);		
 
-			logger->Log(Utility::Logger::LOG_MESSAGE, "Startin game: Successful Started", __LINE__, __FILE__);
+			logger->Log(Utility::Logger::LOG_MESSAGE, "Starting game: Successful Started", __LINE__, __FILE__);
 		}
 		else
 		{
@@ -61,7 +61,10 @@ namespace Game
 
 	void GameManager::Update()
 	{
-		m_playground->Update(m_deltaTimer->GetDelta());
+		if (m_gameStatus == GameStatus::WAVE_RUNNING)
+		{
+			m_playground->Update(m_deltaTimer->GetDelta());
+		}
 	}
 
 	void GameManager::Render()
@@ -69,8 +72,8 @@ namespace Game
 		m_sceneManager->drawAll();
 		m_playground->Render();
 		m_gui->UpdateGui(m_playground->GetWaveNumber(),
-			m_playground->GetWaveSize(),
-			m_playground->GetCreaturesSpawned(),
+				m_playground->GetWaveSize(),
+				m_playground->GetCreaturesSpawned(),
 				m_videoDriver->getFPS(),
 				m_scoreManager.GetPlayerScore(0),
 				m_scoreManager.GetPlayerScore(1));
@@ -137,7 +140,16 @@ namespace Game
 
 	bool GameManager::IsLookingForPencilCoords()
 	{
-		return (m_gameStatus == GameStatus::ATTACKER_PLACE_PENCILS);
+		return (m_gameStatus == GameStatus::ATTACKER_PLACE_PENCILS && m_isLookingForPencilCoords);
+	}
+
+	void GameManager::SetPencilCoords(irr::core::vector3df* p_points1, irr::core::vector3df* p_points2)
+	{
+		if (m_gameStatus == GameStatus::ATTACKER_PLACE_PENCILS && m_isLookingForPencilCoords)
+		{
+			m_playground->SetupPath(p_points1, p_points2);
+			m_isLookingForPencilCoords = false;
+		}
 	}
 
 	void SetPencilCoords(irr::core::vector3df* p_points1,

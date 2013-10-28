@@ -189,7 +189,6 @@ namespace Game
 		}
 	}
 
-
 	void Playground::Render()
 	{
 		irr::video::IVideoDriver* videoDriver = m_sceneManager->getVideoDriver();

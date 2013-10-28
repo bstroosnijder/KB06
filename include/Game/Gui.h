@@ -24,6 +24,7 @@ namespace Game
 			BUTTON_CLEAR,
 			BUTTON_ATTACKERS_TURN,
 			BUTTON_BUY_PENCIL,
+			BUTTON_CAPTURE_PENCILS,
 			BUTTON_DEFENDERS_TURN,
 			BUTTON_CREATE_TOWER,
 			BUTTON_DELETE_TOWER,
@@ -103,6 +104,7 @@ namespace Game
 
 		irr::gui::IGUIButton* m_buttonAttackersTurn;
 		irr::gui::IGUIButton* m_buttonBuyPencil;
+		irr::gui::IGUIButton* m_buttonCapturePencils;
 		irr::gui::IGUIButton* m_buttonDefendersTurn;
 		irr::gui::IGUIButton* m_buttonCreateTower;
 		irr::gui::IGUIButton* m_buttonDeleteTower;

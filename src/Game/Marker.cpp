@@ -2,9 +2,9 @@
 
 namespace Game
 {
-	Marker::Marker(irr::scene::ISceneManager* p_sceneManager, PlaygroundListener* p_listener,irr::core::vector3df p_position)
+	Marker::Marker(irr::scene::ISceneManager* p_sceneManager, PlaygroundListener* p_playgroundListener,irr::core::vector3df p_position)
 		:
-		Entity(p_sceneManager, p_listener)
+		Entity(p_sceneManager, p_playgroundListener)
 	{
 		m_animatedMesh = p_sceneManager->getMesh("resources/models/marker/Sims_CrystalV01.X");
 		

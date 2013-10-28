@@ -8,14 +8,16 @@
 namespace Game
 {
 	/**
-	* @brief	Creature class.
-	* @author	Thomas Gravekamp
-	*/
+	 * @brief	Creature class.
+	 *
+	 * @author	Thomas Gravekamp
+	 */
 	class Creature : public PathFollower
 	{
 	public:
 		/**
 		 * @brief Initialize Creature with the overloaded constructor
+		 *
 		 * @param p_sceneManager is used to attach the Creature scenenode to the manager
 		 * @param Playground listener is used to send events from creature to playground
 		 * @param The creature will be positioned on p_position

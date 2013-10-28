@@ -17,6 +17,7 @@ namespace Game
 {
 	/**
 	 * @brief	TODO
+	 * @todo	Write comments
 	 *			
 	 * @author	Alex Hodes
 	 */
@@ -38,10 +39,14 @@ namespace Game
 		void DrawCameraTexture();
 		irr::core::matrix4 GetCameraProjectionMatrix();
 		bool IsLookingForPencilCoords();
+		void SetPencilCoords(irr::core::vector3df* m_points1,
+				irr::core::vector3df* m_points2);
+
 		void SetPencilCoords(
 				irr::core::vector3df* p_points1,
 				irr::core::vector3df* p_points2,
 				int p_amount);
+
 		void BeginScene();
 		void EndScene();
 		
@@ -84,6 +89,8 @@ namespace Game
 		Gui* m_gui;
 		EventHandler* m_eventHandler;
 		DeltaTimer* m_deltaTimer;
+
+		bool m_isLookingForPencilCoords;
 
 		//TODO comments
 		/**

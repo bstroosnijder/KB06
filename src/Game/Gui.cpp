@@ -244,6 +244,11 @@ namespace Game
 		m_buttonBuyPencil->setImage(m_textureButton);
 		m_buttonBuyPencil->setScaleImage(true);
 
+		//Button Capture Pencils
+		m_buttonCapturePencils = m_guiEnvironment->addButton(irr::core::rect<irr::s32>(midPositionSidebar-buttonWidth/2, 50, midPositionSidebar+buttonWidth/2, 80), m_imageSidebar, BUTTON_BUY_PENCIL, L"Buy Pencil");
+		m_buttonCapturePencils->setImage(m_textureButton);
+		m_buttonCapturePencils->setScaleImage(true);
+
 		//Button Defenders Turn
 		m_buttonDefendersTurn = m_guiEnvironment->addButton(irr::core::rect<irr::s32>(midPositionSidebar-buttonWidth/2, 130, midPositionSidebar+buttonWidth/2, 160), m_imageSidebar, BUTTON_DEFENDERS_TURN, L"Defenders Turn");
 		m_buttonDefendersTurn->setImage(m_textureButton);
