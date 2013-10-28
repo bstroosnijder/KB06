@@ -43,6 +43,15 @@ namespace Game
 
 		void Render();
 
+		/**
+		 * @todo	SetupPath(,,,,,) moet vervangen worden door deze.
+		 * @author	Michel van Os
+		 */
+		bool SetupPath(
+				irr::core::vector3df* p_points1,
+				irr::core::vector3df* p_points2,
+				int p_amount);
+
 		bool SetupPath(
 				irr::core::vector3df* p_points1,
 				irr::core::vector3df* p_points2,

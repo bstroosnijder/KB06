@@ -241,6 +241,7 @@ namespace Game
 		int midPositionSidebar = (m_imageSidebar->getAbsolutePosition().getWidth() / 2);
 		
 		int buttonHeight = 30;
+		int buttonYOffset = 20;
 		int buttonWidth = m_imageSidebar->getAbsolutePosition().getWidth() - 40;
 
 		//Button Attackers Turn
@@ -251,12 +252,12 @@ namespace Game
 
 		//Button Buy Pencil
 		m_buttonBuyPencil = m_guiEnvironment->addButton(irr::core::rect<irr::s32>(midPositionSidebar - buttonWidth / 2, 50, 
-				midPositionSidebar + buttonWidth / 2, 80), m_imageSidebar, BUTTON_BUY_PENCIL, L"Buy Pencil");
+			midPositionSidebar + buttonWidth / 2, 50-buttonHeight), m_imageSidebar, BUTTON_BUY_PENCIL, L"Buy Pencil");
 		m_buttonBuyPencil->setImage(m_textureButton);
 		m_buttonBuyPencil->setScaleImage(true);
 
 		//Button Capture Pencils
-		m_buttonCapturePencils = m_guiEnvironment->addButton(irr::core::rect<irr::s32>(midPositionSidebar-buttonWidth/2, 50, midPositionSidebar+buttonWidth/2, 80), m_imageSidebar, BUTTON_BUY_PENCIL, L"Buy Pencil");
+		m_buttonCapturePencils = m_guiEnvironment->addButton(irr::core::rect<irr::s32>(midPositionSidebar-buttonWidth/2, 90, midPositionSidebar+buttonWidth/2, 120), m_imageSidebar, BUTTON_BUY_PENCIL, L"Capture Pencils");
 		m_buttonCapturePencils->setImage(m_textureButton);
 		m_buttonCapturePencils->setScaleImage(true);
 

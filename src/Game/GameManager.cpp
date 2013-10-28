@@ -146,7 +146,7 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::ATTACKER_PLACE_PENCILS && m_isLookingForPencilCoords)
 		{
-			m_playground->SetupPath(p_points1, p_points2);
+			//m_playground->SetupPath(p_points1, p_points2, 0));
 			m_isLookingForPencilCoords = false;
 		}
 	}
