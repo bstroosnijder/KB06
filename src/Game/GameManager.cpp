@@ -8,6 +8,7 @@ namespace Game
 
 		m_device = p_device;
 		m_resolution = p_resolution;
+		m_isLookingForPencilCoords = false;
 
 		if (m_device != NULL)
 		{
@@ -82,15 +83,15 @@ namespace Game
 	void GameManager::SetupCamera()
 	{
 		// Create a static camera
-		m_camera = m_sceneManager->addCameraSceneNode(NULL,
+		/*m_camera = m_sceneManager->addCameraSceneNode(NULL,
 				irr::core::vector3df(0.0f, 0.0f, 0.0f),
-				irr::core::vector3df(0.0f, 0.0f, 1.0f));
+				irr::core::vector3df(0.0f, 0.0f, 1.0f));*/
 
 		//// Or a FPS camera
-		//m_camera = m_sceneManager->addCameraSceneNodeFPS();
-		//m_camera->setPosition(irr::core::vector3df(0.0f, 100.0f, -20.0f));
-		//m_camera->setRotation(irr::core::vector3df(0.0f, 0.0f, 70.0f));
-		//m_camera->setInputReceiverEnabled(false);
+		m_camera = m_sceneManager->addCameraSceneNodeFPS();
+		m_camera->setPosition(irr::core::vector3df(0.0f, 100.0f, -20.0f));
+		m_camera->setRotation(irr::core::vector3df(0.0f, 0.0f, 70.0f));
+		m_camera->setInputReceiverEnabled(false);
 	}
 
 	irr::IEventReceiver* GameManager::GetEventReceiver()
@@ -142,20 +143,15 @@ namespace Game
 		return (m_gameStatus == GameStatus::ATTACKER_PLACE_PENCILS && m_isLookingForPencilCoords);
 	}
 
-	void GameManager::SetPencilCoords(irr::core::vector3df* p_points1, irr::core::vector3df* p_points2)
-	{
-		if (m_gameStatus == GameStatus::ATTACKER_PLACE_PENCILS && m_isLookingForPencilCoords)
-		{
-			//m_playground->SetupPath(p_points1, p_points2, 0));
-			m_isLookingForPencilCoords = false;
-		}
-	}
-
-	void SetPencilCoords(irr::core::vector3df* p_points1,
+	void GameManager::SetPencilCoords(irr::core::vector3df* p_points1,
 			irr::core::vector3df* p_points2,
 			int p_amount)
 	{
-		
+		if (m_gameStatus == GameStatus::ATTACKER_PLACE_PENCILS && m_isLookingForPencilCoords)
+		{
+			m_playground->SetupPath(p_points1, p_points2, p_amount);
+			m_isLookingForPencilCoords = false;
+		}
 	}
 
 	float GameManager::GetGameHeight()
@@ -295,7 +291,18 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::ATTACKER_PLACE_PENCILS)
 		{
+			if (m_scoreManager.CanBuyPencil(GetPlayerNumber(PlayerType::TYPE_ATTACKER)))
+			{
+				m_scoreManager.PencilBought(GetPlayerNumber(PlayerType::TYPE_ATTACKER));
+			}
+		}
+	}
 
+	void GameManager::OnCapturePencils()
+	{
+		if (m_gameStatus == GameStatus::ATTACKER_PLACE_PENCILS)
+		{
+			m_isLookingForPencilCoords = true;
 		}
 	}
 
@@ -316,7 +323,8 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
 		{
-			if (m_playground->CreateTower(p_position))
+			if (m_scoreManager.CanCreateTower(GetPlayerNumber(PlayerType::TYPE_DEFENDER)) &&
+					m_playground->CreateTower(p_position))
 			{
 				m_scoreManager.TowerCreated(GetPlayerNumber(PlayerType::TYPE_DEFENDER));
 			}
@@ -329,7 +337,7 @@ namespace Game
 		{
 			if (m_playground->DestroyTower(p_position))
 			{
-				//m_scoreManager.TowerSold();
+				m_scoreManager.TowerDestroyed(GetPlayerNumber(PlayerType::TYPE_DEFENDER));
 			}
 		}
 	}
@@ -338,9 +346,10 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
 		{
-			if (m_playground->UpgradeTowerSpeed(p_position))
+			if (m_scoreManager.CanUpgradeTowerSpeed(GetPlayerNumber(PlayerType::TYPE_DEFENDER)) &&
+					m_playground->UpgradeTowerSpeed(p_position))
 			{
-				//m_scoreManager.TowerUpgradedSpeed();
+				m_scoreManager.TowerIncreasedSpeed(GetPlayerNumber(PlayerType::TYPE_DEFENDER));
 			}
 		}
 	}
@@ -349,9 +358,10 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
 		{
-			if (m_playground->UpgradeTowerRange(p_position))
+			if (m_scoreManager.CanUpgradeTowerRange(GetPlayerNumber(PlayerType::TYPE_DEFENDER)) &&
+					m_playground->UpgradeTowerRange(p_position))
 			{
-				//m_scoreManager.TowerUpgradedRange();
+				m_scoreManager.CanUpgradeTowerRange(GetPlayerNumber(PlayerType::TYPE_DEFENDER));
 			}
 		}
 	}
@@ -360,7 +370,8 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
 		{
-			if (m_playground->UpgradeTowerDamage(p_position))
+			if (m_scoreManager.CanUpgradeTowerDamage(GetPlayerNumber(PlayerType::TYPE_DEFENDER)) &&
+					m_playground->UpgradeTowerDamage(p_position))
 			{
 				m_scoreManager.TowerIncreasedDamage(GetPlayerNumber(PlayerType::TYPE_DEFENDER));
 			}

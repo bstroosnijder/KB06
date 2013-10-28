@@ -63,6 +63,7 @@ namespace Game
 		void OnStopGame();
 		void OnStartWave();
 		void OnPlacePencils();
+		void OnCapturePencils();
 		void OnBuyPencil();
 		void OnPlaceTowers();
 		void OnTowerCreate(irr::core::vector2di p_position);
@@ -81,6 +82,7 @@ namespace Game
 		irr::scene::ISceneManager* m_sceneManager;
 		irr::video::IVideoDriver* m_videoDriver;
 		irr::scene::ICameraSceneNode* m_camera;
+		irr::scene::ICameraSceneNode* m_cameraFPS;
 
 		ScoreManager m_scoreManager;
 		GameStatus m_gameStatus;

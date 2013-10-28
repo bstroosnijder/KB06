@@ -164,6 +164,7 @@ namespace Game
 		PathBuilder* m_pathBuilder;
 
 		Path* m_path;
+		float m_pointRange;
 		irr::core::vector3df m_pointBegin;
 		irr::core::vector3df m_pointEnd;
 

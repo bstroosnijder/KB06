@@ -15,6 +15,7 @@ namespace Game
 		m_textPlayer2Points = NULL;
 	 	m_buttonAttackersTurn = NULL;
 		m_buttonBuyPencil = NULL;
+		m_buttonCapturePencils = NULL;
 		m_buttonDefendersTurn = NULL;
 		m_buttonCreateTower = NULL;
 		m_buttonDeleteTower = NULL;
@@ -194,6 +195,7 @@ namespace Game
 	void Gui::SetButtonAttackersActionsEnabled(bool p_state)
 	{
 		m_buttonBuyPencil->setEnabled(p_state);
+		m_buttonCapturePencils->setEnabled(p_state);
 	}
 
 	void Gui::SetButtonDefendersTurnEnabled(bool p_state)
@@ -252,12 +254,13 @@ namespace Game
 
 		//Button Buy Pencil
 		m_buttonBuyPencil = m_guiEnvironment->addButton(irr::core::rect<irr::s32>(midPositionSidebar - buttonWidth / 2, 50, 
-			midPositionSidebar + buttonWidth / 2, 50-buttonHeight), m_imageSidebar, BUTTON_BUY_PENCIL, L"Buy Pencil");
+			midPositionSidebar + buttonWidth / 2, 80), m_imageSidebar, BUTTON_BUY_PENCIL, L"Buy Pencil");
 		m_buttonBuyPencil->setImage(m_textureButton);
 		m_buttonBuyPencil->setScaleImage(true);
 
 		//Button Capture Pencils
-		m_buttonCapturePencils = m_guiEnvironment->addButton(irr::core::rect<irr::s32>(midPositionSidebar-buttonWidth/2, 90, midPositionSidebar+buttonWidth/2, 120), m_imageSidebar, BUTTON_BUY_PENCIL, L"Capture Pencils");
+		m_buttonCapturePencils = m_guiEnvironment->addButton(irr::core::rect<irr::s32>(midPositionSidebar-buttonWidth/2, 90,
+			midPositionSidebar+buttonWidth/2, 120), m_imageSidebar, BUTTON_CAPTURE_PENCILS, L"Capture Pencils");
 		m_buttonCapturePencils->setImage(m_textureButton);
 		m_buttonCapturePencils->setScaleImage(true);
 
