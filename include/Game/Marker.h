@@ -16,21 +16,10 @@ namespace Game
 		 */
 		Marker(irr::scene::ISceneManager* p_sceneManager, PlaygroundListener* p_listener,irr::core::vector3df p_position);
 		
-		
-		/**
-		* @brief Returns the max y position that the marker may go
-		*/
-		int GetMax();
-		/**
-		* @brief returns the min y position that the marker may go
-		*/
-		int GetMin();
-
 		void UpdatePosition(float p_deltaTimer);
-	private:	
-		int m_max;
-		int m_min;
-		bool m_up;
+	private:
+		float m_jump;
+		irr::core::vector3df m_positionStart;
 	};
 }
 #endif

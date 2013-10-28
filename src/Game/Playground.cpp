@@ -2,14 +2,15 @@
 
 namespace Game
 {
-	Playground::Playground(irr::scene::ISceneManager* p_sceneManager)
+	Playground::Playground(GameListener* p_gameListener, irr::scene::ISceneManager* p_sceneManager)
 	{
+		m_gameListener = p_gameListener;
 		m_sceneManager = p_sceneManager;
 		m_pathBuilder = new PathBuilder();
 		m_path = NULL;
 		m_selector = NULL;
 	
-		m_gameStatus = GameStatus::BUILD_PHASE;
+		m_gameStatus = GameStatus::ATTACKER_PLACE_PENCILS;
 		m_playerHealth = 100;
 		m_playerResources = 1000;
 		Initialize(p_sceneManager);
@@ -128,11 +129,11 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 
 		if (m_playerHealth <= 0)
 		{
-			m_gameStatus = GameStatus::GAME_OVER;
+			m_gameStatus = GameStatus::ATTACKER_VICTORY;
 		}
 		if (waves.size() == 0)
 		{
-			m_gameStatus = GameStatus::VICTORY;
+			m_gameStatus = GameStatus::DEFENDER_VICTORY;
 		}
 	
 		std::list<Creature*>::iterator itCreature = m_creatures.begin();
@@ -191,7 +192,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 			else
 			{
 				std::cout << m_waveNumber;
-				m_gameStatus = GameStatus::BUILD_PHASE;
+				m_gameStatus = GameStatus::ATTACKER_PLACE_PENCILS;
 				waves.erase(waves.begin());
 				m_playerResources += 1000;
 			}
@@ -304,7 +305,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 
 	void Playground::StartNextWave()
 	{
-		//if (m_gameStatus == GameStatus::BUILD_PHASE)
+		//if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
 		{
 			if (waves.size() != 0)
 			{		
@@ -312,7 +313,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 				if (wave)
 				{
 					wave->SpawnWave(m_path->m_pointBegin->m_point);
-					m_gameStatus = GameStatus::WAVE_SPAWNED;				
+					m_gameStatus = GameStatus::WAVE_RUNNING;				
 					++m_waveNumber;
 				}
 			}
@@ -346,7 +347,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 		return m_playerResources;
 	}
 
-	void Playground::ProjectileCreated(Projectile* p_projectile)
+	void Playground::OnProjectileCreated(Projectile* p_projectile)
 	{
 		if (p_projectile != NULL)
 		{
@@ -354,7 +355,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 		}
 	}
 
-	void Playground::ProjectileDestroyed(Projectile* p_projectile)
+	void Playground::OnProjectileDestroyed(Projectile* p_projectile)
 	{
 		if (p_projectile != NULL)
 		{
@@ -363,7 +364,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 		}
 	}
 
-	void Playground::CreatureHit(Creature* p_creature, Projectile* p_projectile)
+	void Playground::OnCreatureHit(Creature* p_creature, Projectile* p_projectile)
 	{
 		if (p_creature != NULL && p_projectile != NULL)
 		{
@@ -371,7 +372,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 		}
 	}
 
-	void Playground::CreatureCreated(Creature* p_creature)
+	void Playground::OnCreatureCreated(Creature* p_creature)
 	{
 		if (p_creature != NULL)
 		{
@@ -379,7 +380,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 		}
 	}
 
-	void Playground::CreatureDestroyed(Creature* p_creature)
+	void Playground::OnCreatureDestroyed(Creature* p_creature)
 	{
 		if (p_creature != NULL)
 		{
@@ -388,14 +389,19 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 		}
 	}
 
-	void Playground::CreatureRouteEndReached(Creature* p_creature)
+	void Playground::OnCreatureRouteEndReached(Creature* p_creature)
 	{
 		if (p_creature != NULL)
 		{
 			m_creatures.remove(p_creature);
 			delete p_creature;
 
-			m_playerHealth -= 1;
+			m_gameListener->OnCreatureReachedCastle();
+
+			if (m_creatures.size() == 0)
+			{
+				m_gameListener->OnWaveEnded();
+			}
 		}
 	}
 }

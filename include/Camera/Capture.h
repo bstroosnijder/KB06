@@ -21,12 +21,14 @@ namespace Camera
 	class Capture : public irr::IEventReceiver
 	{
 	public:
+		irr::core::dimension2du m_resolution;
 		/**
 		 * @brief	Constructor
 		 * @param	p_runInOwnThread If the capturer should run in it's own thread
+		 * @param	p_resolution The resolution of the game screen
 		 * @param	p_texture A reference to the texture to update with the camera
 		 */
-		Capture(bool p_runInOwnThread, irr::video::ITexture* p_texture);
+		Capture(bool p_runInOwnThread, irr::core::dimension2du p_resolution, irr::video::ITexture* p_texture);
 
 		/**
 		 * @brief	Destructor
@@ -112,17 +114,23 @@ namespace Camera
 
 		/**
 		 * @brief	Finds start and end points in a frame.
-		 * @param	frame The frame to capture points in
+		 * @param	p_frame The frame to capture points in
 		 * @param   p_startPoints A pointer to a vector3df array to store start points.
 		 * @param   p_endPoints A pointer to a vector3df array to store end points.
 		 */
-		void FindStartAndEndPoints(cv::Mat frame, irr::core::vector3df* p_startPoints, irr::core::vector3df* p_endPoints);
+		void FindStartAndEndPoints(cv::Mat p_frame, irr::core::vector3df* p_startPoints, irr::core::vector3df* p_endPoints);
 
 		/**
 		 * @brief	Gets the current frame of the camera
 		 * @return	Returns the current image captured by the camera.
 		 */
 		cv::Mat GetImage();
+
+		/**
+		 * @brief	Gets the size of the image
+		 * @return	The size of the image
+		 */
+		irr::core::dimension2du GetCaptureSize();
 
 	private:
 		typedef std::vector<cv::Point3f> Points3D;

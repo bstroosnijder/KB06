@@ -2,11 +2,12 @@
 
 namespace Game
 {
-	GameManager::GameManager(irr::IrrlichtDevice* p_device)
+	GameManager::GameManager(irr::IrrlichtDevice* p_device, irr::core::dimension2du p_resolution)
 	{
 		Utility::Logger* logger = Utility::Logger::GetInstance();
 
 		m_device = p_device;
+		m_resolution = p_resolution;
 
 		if (m_device != NULL)
 		{
@@ -16,10 +17,12 @@ namespace Game
 
 			// Create a root scene node
 			m_sceneManager->addEmptySceneNode(NULL, C_EMPTY_ROOT_SCENENODE);
-
-			m_playground = new Playground(m_sceneManager);
+			
+			m_gameSatus = GameStatus::ATTACKER_PLACE_PENCILS;
+			m_player1 = PlayerType::TYPE_DEFENDER;
+			m_playground = new Playground(this, m_sceneManager);
 			m_gui = new Gui(m_device->getGUIEnvironment());
-			m_eventHandler = new EventHandler(m_device, m_gui, m_playground);
+			m_eventHandler = new EventHandler(this, m_device, m_gui, m_playground);
 			m_deltaTimer = new DeltaTimer(p_device->getTimer());
 
 			m_device->setWindowCaption(L"KB06: Game");
@@ -95,6 +98,11 @@ namespace Game
 	{
 		// TODO: Implementatie
 	}
+
+	void GameManager::SetCaptureResolution(irr::core::dimension2du p_captureResolution)
+	{
+		m_captureResolution = p_captureResolution;
+	}
 	
 	irr::scene::ISceneNode* GameManager::GetRootSceneNode()
 	{
@@ -103,7 +111,9 @@ namespace Game
 
 	void GameManager::DrawCameraTexture()
 	{
-		m_videoDriver->draw2DImage(m_videoDriver->getTexture("capture_background"), irr::core::vector2d<irr::s32>(0, 0));
+		m_videoDriver->draw2DImage(m_videoDriver->getTexture("capture_background"),
+			irr::core::rect<irr::s32>(0.0f, 0.0f, m_resolution.Width, m_resolution.Height),
+			irr::core::rect<irr::s32>(0.0f, 0.0f, m_captureResolution.Width, m_captureResolution.Height));
 	}
 
 	irr::core::matrix4 GameManager::GetCameraProjectionMatrix()
@@ -119,5 +129,108 @@ namespace Game
 	void GameManager::EndScene()
 	{
 		m_videoDriver->endScene();
+	}
+
+	void GameManager::OnCreatureSpawned()
+	{
+
+	}
+
+	void GameManager::OnCreatureReachedCastle()
+	{
+		if (m_gameSatus == GameStatus::WAVE_RUNNING)
+		{
+			if (m_player1 == PlayerType::TYPE_ATTACKER)
+			{
+				m_scoreManager.CastleReached(0);
+			}
+			else
+			{
+				m_scoreManager.CastleReached(0);
+			}
+		}
+	}
+
+	void GameManager::OnCreatureKilled()
+	{
+		if (m_gameSatus == GameStatus::WAVE_RUNNING)
+		{
+			if (m_player1 == PlayerType::TYPE_ATTACKER)
+			{
+				m_scoreManager.CreatureKilled(0);
+			}
+			else
+			{
+				m_scoreManager.CastleReached(0);
+			}
+		}
+	}
+
+	void GameManager::OnCreatureHit()
+	{
+
+	}
+
+	void GameManager::OnProjectileMissed()
+	{
+
+	}
+
+	void GameManager::OnProjectileFired()
+	{
+
+	}
+
+	void GameManager::OnWaveEnded()
+	{
+		if (m_gameSatus == GameStatus::WAVE_RUNNING)
+		{
+			m_gameSatus = GameStatus::ATTACKER_PLACE_PENCILS;
+		}
+	}
+
+	void GameManager::OnStopGame()
+	{
+
+	}
+
+	void GameManager::OnStartWave()
+	{
+
+	}
+
+	void GameManager::OnPlacePencils()
+	{
+
+	}
+
+	void GameManager::OnPlaceTowers()
+	{
+
+	}
+
+	void GameManager::OnTowerCreate()
+	{
+
+	}
+
+	void GameManager::OnTowerDestroy()
+	{
+
+	}
+
+	void GameManager::OnTowerUpgradeSpeed()
+	{
+
+	}
+
+	void GameManager::OnTowerUpgradeRange()
+	{
+
+	}
+
+	void GameManager::OnTowerUpgradeDamage()
+	{
+
 	}
 }

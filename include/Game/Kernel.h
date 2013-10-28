@@ -46,8 +46,8 @@ namespace Game
 		void SetMultiThreaded(bool p_multiThreaded);
 
 	private:
+		irr::core::dimension2du m_resolution;
 		irr::IrrlichtDevice* m_device;
-		Camera::Capture* m_capture;
 		bool m_multiThreaded;
 
 		InputHandler* m_inputHandler;

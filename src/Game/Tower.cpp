@@ -100,8 +100,9 @@ namespace Game
 		{
 			Projectile* projectile = new Projectile(m_sceneManager, m_playgroundListener, GetPosition());
 			projectile->SetTarget(p_creature);
+			projectile->SetPosition(m_jointCrystal->getPosition() + GetPosition());
 
-			m_playgroundListener->ProjectileCreated(projectile);
+			m_playgroundListener->OnProjectileCreated(projectile);
 		}
 	}
 }

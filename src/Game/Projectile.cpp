@@ -9,12 +9,27 @@ namespace Game
 			:
 			Entity(p_sceneManager, p_playgroundListener)
 	{
-		m_animatedMesh = p_sceneManager->getMesh("resources/models/projectile/creature.3ds");
+		m_animatedMesh = p_sceneManager->getMesh("resources/models/projectile/companion_cubev02.X");
 	
 		m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
 		m_meshSceneNode->setPosition(p_position);
+
+		m_movementSpeed = 0.2f;
+		m_damage = 100;
 	
 		SetMaterialFlags();
+
+
+		irr::scene::ITriangleSelector* selector = m_sceneManager->getRootSceneNode()->getTriangleSelector();
+
+		irr::scene::ISceneNodeAnimator* animator = m_sceneManager->createCollisionResponseAnimator(
+			selector,
+			this->GetSceneNode(),
+			irr::core::vector3df(30,  30, 30),
+			irr::core::vector3df( 0,  -3,  0),
+			irr::core::vector3df( 0,  50,  0));
+			
+
 	}
 
 	///@todo	Check if the movement is correct
@@ -28,38 +43,12 @@ namespace Game
 			irr::core::vector3df distance = target - position;
 		
 			float unitLength = 10.0f;
-			float speed = 5.0f;
 			float speedScale = unitLength / position.getDistanceFrom(target);
 
-			position = position + (speed * speedScale * p_deltaTime * 60);
+			position = position + distance * m_movementSpeed * speedScale * p_deltaTime * 60;
 
 			SetPosition(position);
 		}
-
-			/*
-		if (m_from != NULL && m_to != NULL)
-		{
-			irr::core::vector3df v = GetPosition();
-
-			if (m_to->GetPosition().X > this->GetPosition().X)
-				v += irr::core::vector3df(0.05f, 0.0f, 0.0f);
-			else if (m_to->GetPosition().X < this->GetPosition().X)
-				v -= irr::core::vector3df(0.05f, 0.0f, 0.0f);
-
-			if (m_to->GetPosition().Y > this->GetPosition().Y)
-				v += irr::core::vector3df(0.0f, 0.05f, 0.0f);
-			else if (m_to->GetPosition().Y < this->GetPosition().Y)
-				v -= irr::core::vector3df(0.0f, 0.05f, 0.0f);
-
-			if (m_to->GetPosition().Z > this->GetPosition().Z)
-				v += irr::core::vector3df(0.0f, 0.0f, 0.05f);
-			else if (m_to->GetPosition().Z < this->GetPosition().Z)
-				v -= irr::core::vector3df(0.0f, 0.0f, 0.05f);
-
-			SetPosition(v);
-		}
-			*/
-
 	}
 
 	double Projectile::GetMovementSpeed()
