@@ -40,26 +40,42 @@ namespace Game
 		 * @param	p_shootingSpeed	The new shooting speed.
 		 * @author	Michel van Os.
 		 */
-		void SetShootingSpeed(double p_shootingSpeed);
+		void SetShootingSpeed(float p_shootingSpeed);
 
 		/**
 		 * @brief	Sets the shooting range.
 		 * @param	p_shootingRange	The new shooting range.
 		 * @author	Michel van Os.
 		 */
-		void SetRange(double p_shootingRange);
+		void SetShootingRange(float p_shootingRange);
+
+		/**
+		 * @brief	Sets the shooting damage.
+		 * 
+		 * @author	Michel van Os.
+		 * @param	p_shootingDamage The new shooting damage.
+		 */
+		void SetShootingDamage(float p_shootingDamage);
 		
 		/**
 		 * @brief	Returns the shooting speed.
-		 * @author	Michel van os
+		 * @author	Michel van Os.
 		 */
-		double GetShootingSpeed();
+		float GetShootingSpeed();
 		
 		/**
 		 * @brief	Returns the shooting range.
-		 * @author	Michel van Os
+		 * @author	Michel van Os.
 		 */
-		double GetRange();
+		float GetShootingRange();
+
+		/**
+		 * @brief	Returns the shooting damage.
+		 *
+		 * @author	Michel van Os.
+		 * @return	The shooting damage.
+		 */
+		float GetShootingDamage();
 		
 		/**
 		 * @brief	Fires a Projetile towards a Creature
@@ -73,8 +89,9 @@ namespace Game
 		void ShootAtNearestCreature(std::list<Creature*>&);
 		
 	private:
-		unsigned long m_shootingSpeed;
-		double m_shootingRange;
+		float m_shootingSpeed;
+		float m_shootingRange;
+		float m_shootingDamage;
 
 		irr::scene::ISceneNode* m_jointCrystal;
 

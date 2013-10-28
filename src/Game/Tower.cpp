@@ -16,7 +16,7 @@ namespace Game
 
 		irr::scene::IAnimatedMeshSceneNode* animatedMeshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, p_sceneManager->getSceneNodeFromId(C_EMPTY_ROOT_SCENENODE));
 		m_meshSceneNode = animatedMeshSceneNode;
-
+		m_meshSceneNode->setScale(irr::core::vector3df(0.40f,0.40f,0.40f));
 		if (m_meshSceneNode != NULL)
 		{
 			m_meshSceneNode->setPosition(p_position);
@@ -33,24 +33,34 @@ namespace Game
 		}
 	}
 
-	void Tower::SetShootingSpeed(double p_shootingSpeed)
+	void Tower::SetShootingSpeed(float p_shootingSpeed)
 	{
 		m_shootingSpeed = p_shootingSpeed;
 	}
 
-	void Tower::SetRange(double p_range)
+	void Tower::SetShootingRange(float p_range)
 	{
 		m_shootingRange = p_range;
 	}
 
-	double Tower::GetShootingSpeed()
+	void Tower::SetShootingDamage(float p_shootingDamage)
+	{
+		m_shootingDamage = p_shootingDamage;
+	}
+
+	float Tower::GetShootingSpeed()
 	{
 		return m_shootingSpeed;
 	}
 
-	double Tower::GetRange()
+	float Tower::GetShootingRange()
 	{
 		return m_shootingRange;
+	}
+
+	float Tower::GetShootingDamage()
+	{
+		return m_shootingDamage;
 	}
 
 	void Tower::ShootAtNearestCreature(std::list<Creature*>& p_creatureList)

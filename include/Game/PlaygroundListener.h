@@ -46,6 +46,7 @@ namespace Game
 		 * @author	Michel van Os.
 		 * @param	p_creature The Create that is hit by the Projectile.
 		 * @param	p_projectile The Projectile that hit the Creature.
+		 * @todo	Projectiles don't disappear when they hit a Creature.
 		 */
 		virtual void OnCreatureHit(Creature* p_creature, Projectile* p_projectile) = 0;
 

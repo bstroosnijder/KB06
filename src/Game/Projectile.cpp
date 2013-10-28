@@ -32,7 +32,6 @@ namespace Game
 
 	}
 
-	///@todo	Check if the movement is correct
 	void Projectile::MoveTowardsTarget(float p_deltaTime)
 	{
 		if (m_target != NULL)
@@ -51,12 +50,12 @@ namespace Game
 		}
 	}
 
-	double Projectile::GetMovementSpeed()
+	float Projectile::GetMovementSpeed()
 	{
 		return m_movementSpeed;
 	}
 
-	double Projectile::GetDamage()
+	float Projectile::GetDamage()
 	{
 		return m_damage;
 	}
@@ -66,12 +65,12 @@ namespace Game
 		return m_target;
 	}
 
-	void Projectile::SetMovementSpeed(double p_movementSpeed)
+	void Projectile::SetMovementSpeed(float p_movementSpeed)
 	{
 		m_movementSpeed = p_movementSpeed;
 	}
 
-	void Projectile::SetDamage(double p_damage)
+	void Projectile::SetDamage(float p_damage)
 	{
 		m_damage = p_damage;
 	}

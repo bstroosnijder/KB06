@@ -46,24 +46,24 @@ namespace Game
 	{
 		// Gets the root scene node
 		irr::scene::ISceneNode* root = m_gameManager->GetRootSceneNode();
-		// Capture class
+		//// Capture class
 		Camera::Capture* capture = new Camera::Capture(m_multiThreaded, m_resolution, m_gameManager->GetCameraTexture());
 		m_inputHandler->AddListener(capture);
 		capture->SetFov(60);
 		capture->SetLongestGameLine(irr::core::line2df(
-			irr::core::vector2df(0.0f, 0.0f),
-			irr::core::vector2df(0.0f, 450.0f)));
-
+		irr::core::vector2df(0.0f, 0.0f),
+		irr::core::vector2df(0.0f, m_gameManager->GetGameHeight())));
+		
 		// Sets the resolution of the camera for the scaling of the background
 		m_gameManager->SetCaptureResolution(capture->GetCaptureSize());
-
+		m_gameManager->SetGameLength(capture->GetCalculatedShortestGameLine().getLength());
+		
 		while (m_device->run())
 		{
 			//capture->Start();
 			//m_gameManager->SetCameraHeight(capture->GetPixelDistance());
 			// TODO GetCalculatedShortestGameLine: rename
-			m_gameManager->SetGameLength(capture->GetCalculatedShortestGameLine().getLength());
-			
+
 			// Begin the scene
 			m_gameManager->BeginScene();
 			// Always draw the camera background
@@ -78,18 +78,16 @@ namespace Game
 						m_inputHandler->RemoveListener(capture);
 					}
 
-					irr::core::matrix4 transformation = capture->GetTransformMatrix(m_gameManager->GetCameraProjectionMatrix());
-					root->setPosition(transformation.getTranslation());
-					root->setRotation(transformation.getRotationDegrees());
-				}
+				irr::core::matrix4 transformation = capture->GetTransformMatrix(m_gameManager->GetCameraProjectionMatrix());
+				root->setPosition(transformation.getTranslation());
+				root->setRotation(transformation.getRotationDegrees());
+			}
 
 				// Actually draw the scene, but only once the playground surface has been chosen
 				//m_gameManager->GameTick();
+			
 			}
-
-			m_gameManager->GameTick();
-
-			// End the scene
+			// End the scene			
 			m_gameManager->EndScene();
 		}
 

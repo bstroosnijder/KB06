@@ -28,13 +28,13 @@ namespace Game
 		 * @brief	Returns the movement speed.
 		 * @author	Michel van Os.
 		 */
-		double GetMovementSpeed();
+		float GetMovementSpeed();
 
 		/**
 		 * @brief	Returns the damage.
 		 * @author	Michel van Os.
 		 */
-		double GetDamage();
+		float GetDamage();
 
 		/**
 		 * @brief	Returns the target Creature.
@@ -47,14 +47,14 @@ namespace Game
 		 * @param	p_movementSpeed The new movement speed.
 		 * @author	Michel van Os.
 		 */
-		void SetMovementSpeed(double p_movementSpeed);
+		void SetMovementSpeed(float p_movementSpeed);
 		
 		/**
 		 * @brief	Sets the damage.
 		 * @param	p_damage The new damage.
 		 * @author	Michel van Os.
 		 */
-		void SetDamage(double p_damage);
+		void SetDamage(float p_damage);
 		
 		/**
 		 * @brief	Sets the Creature target.
@@ -75,13 +75,13 @@ namespace Game
 		 * @brief	The movement speed.
 		 * @author	Michel van Os.
 		 */
-		double m_movementSpeed;
+		float m_movementSpeed;
 		
 		/**
 		 * @brief	The damage.
 		 * @author	Michel van Os.
 		 */
-		double m_damage;
+		float m_damage;
 	};
 }
 

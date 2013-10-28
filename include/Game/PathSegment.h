@@ -21,6 +21,11 @@ namespace Game
 		Game::PathPoint* m_point1;
 		Game::PathPoint* m_point2;
 
+		/**
+		 * @brief	TODO
+		 *			
+		 * @author	Alex Hodes
+		 */
 		PathSegment(PathPoint* p_point1, PathPoint* p_point2);
 		
 		/**
@@ -30,7 +35,7 @@ namespace Game
 		 * Imagine a Unit-Sized-PathSegment with a length of 1 and a PathSegment with 
 		 * a length of 2. Then the speed needs to be scaled down by half. So the value: 0.5f
 		 * will be returned.
-		 * @parm	UnitLength Length of a Unit-Sized-PathSegment
+		 * @param	UnitLength Length of a Unit-Sized-PathSegment
 		*/
 		float GetSpeedScale(float p_unitLength);		
 	};

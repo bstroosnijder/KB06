@@ -19,63 +19,79 @@ namespace Game
 		Cleanup();
 	}
 
-	bool EventHandler::OnEvent(const irr::SEvent& event)
+	bool EventHandler::OnEvent(const irr::SEvent& p_event)
 	{
-		if (event.EventType == irr::EET_GUI_EVENT)
+		if (p_event.EventType == irr::EET_GUI_EVENT)
 		{
-			irr::s32 id = event.GUIEvent.Caller->getID();
-			if (event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED)
+			irr::s32 id = p_event.GUIEvent.Caller->getID();
+			if (p_event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED)
 			{
-				if (id == MENU_BUTTON)
+				switch (id)
 				{
+				case Gui::BUTTON_MENU:
 					m_gui->UpdateMenu();
 					return true;
-				}					
-				if (id == QUIT_BUTTON)
-				{
+
+				case Gui::BUTTON_STOP_GAME:
 					m_userInputListener->OnStopGame();
-					m_device->closeDevice();
 					return true;
-				}
-				if (id == ClEAR_BUTTON)
-				{
+				
+				case Gui::BUTTON_CLEAR:
 					m_gui->Clear();
 					return true;
-				}
-				if (id == TOWER_BUTTON)
-				{
-					m_clickEvent = ClickEvent::TOWER_PRESSED;
+
+				case Gui::BUTTON_ATTACKERS_TURN:
+					m_userInputListener->OnPlacePencils();
 					return true;
-				}
-				if (id == SELL_BUTTON)
-				{
-					m_clickEvent = ClickEvent::SELL_PRESSED;
+
+				case Gui::BUTTON_BUY_PENCIL:
+					m_userInputListener->OnBuyPencil();
 					return true;
-				}
-				if (id == CONTROLS_BUTTON)
-				{
+
+				case Gui::BUTTON_DEFENDERS_TURN:
+					m_userInputListener->OnPlaceTowers();
+					return true;
+				
+				case Gui::BUTTON_CREATE_TOWER:
+					m_clickEvent = ClickEvent::CREATE_TOWER;
+					return true;
+
+				case Gui::BUTTON_DELETE_TOWER:
+					m_clickEvent = ClickEvent::DELETE_TOWER;
+					return true;
+
+				case Gui::BUTTON_UPGRADE_TOWER_SPEED:
+					m_clickEvent = ClickEvent::UPGRADE_TOWER_SPEED;
+					return true;
+
+				case Gui::BUTTON_UPGRADE_TOWER_RANGE:
+					m_clickEvent = ClickEvent::UPGRADE_TOWER_DAMAGE;
+					return true;
+
+				case Gui::BUTTON_UPGRADE_TOWER_DAMAGE:
+					m_clickEvent = ClickEvent::UPGRADE_TOWER_DAMAGE;
+					return true;
+
+				case Gui::BUTTON_CONTROLS_MENU:
 					m_gui->UpdateControlsMenu();
 					return true;
-				}
-				if (id == STARTGAME_BUTTON)
-				{
+
+				case Gui::BUTTON_START_WAVE:
 					m_userInputListener->OnStartWave();
-					m_playground->StartNextWave();
 					return true;
 				}
 			}
 		}
-
-		if (event.EventType == irr::EET_KEY_INPUT_EVENT)
+		else if (p_event.EventType == irr::EET_KEY_INPUT_EVENT)
 		{
-			irr::s32 keyInput = event.KeyInput.Key;
+			irr::s32 keyInput = p_event.KeyInput.Key;
 			
-			if (keyInput == irr::KEY_ESCAPE && !event.KeyInput.PressedDown)
+			if (keyInput == irr::KEY_ESCAPE && !p_event.KeyInput.PressedDown)
 			{
 				m_gui->UpdateMenu();
 				return true;
 			}
-			if (keyInput == irr::KEY_KEY_F && !event.KeyInput.PressedDown)
+			if (keyInput == irr::KEY_KEY_F && !p_event.KeyInput.PressedDown)
 			{
 				//Enables/disables input for the camera scene node
 				if (m_device->getSceneManager()->getActiveCamera()->isInputReceiverEnabled())
@@ -91,27 +107,37 @@ namespace Game
 				return true;
 			}			
 		}
-
-		if (event.EventType == irr::EET_MOUSE_INPUT_EVENT)
+		else if (p_event.EventType == irr::EET_MOUSE_INPUT_EVENT)
 		{
-			if (event.MouseInput.isLeftPressed())
+			if (p_event.MouseInput.isLeftPressed())
 			{
-				if (m_clickEvent == ClickEvent::TOWER_PRESSED)
+				switch (m_clickEvent)
 				{
-					
-					irr::core::vector2d<irr::s32> mousePosition = m_device->getCursorControl()->getPosition();
-					m_playground->SpawnTower(mousePosition);
+				case ClickEvent::CREATE_TOWER:
+					m_userInputListener->OnTowerCreate(m_device->getCursorControl()->getPosition());
+					m_clickEvent = NULL;
+					return true;
+
+				case ClickEvent::DELETE_TOWER:
+					m_userInputListener->OnTowerDestroy(m_device->getCursorControl()->getPosition());
+					//m_clickEvent = NULL;
+					return true;
+
+				case ClickEvent::UPGRADE_TOWER_SPEED:
+					m_userInputListener->OnTowerUpgradeSpeed(m_device->getCursorControl()->getPosition());
+					m_clickEvent = NULL;
+					return true;
+
+				case ClickEvent::UPGRADE_TOWER_RANGE:
+					m_userInputListener->OnTowerUpgradeRange(m_device->getCursorControl()->getPosition());
+					m_clickEvent = NULL;
+					return true;
+
+				case ClickEvent::UPGRADE_TOWER_DAMAGE:
+					m_userInputListener->OnTowerUpgradeDamage(m_device->getCursorControl()->getPosition());
 					m_clickEvent = NULL;
 					return true;
 				}
-				if (m_clickEvent == ClickEvent::SELL_PRESSED)
-				{
-
-					irr::core::vector2d<irr::s32> mousePosition = m_device->getCursorControl()->getPosition();
-					m_playground->SellTower(mousePosition);
-					m_clickEvent = NULL;
-					return true;
-				}	
 			}				
 		}
 
