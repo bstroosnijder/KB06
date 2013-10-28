@@ -8,7 +8,7 @@ namespace Game
 			:
 			Entity(p_sceneManager, p_playgroundListener)
 	{
-		m_shootingSpeed = 1000;
+		m_shootingSpeed = 5;
 		m_shootingRange = 0.0f;
 		m_jointCrystal = NULL;
 
@@ -65,9 +65,8 @@ namespace Game
 
 	void Tower::ShootAtNearestCreature(std::list<Creature*>& p_creatureList)
 	{
-		bool isRunning = m_timer->IsRunning();
-		unsigned long time = m_timer->GetTime();
-		if (m_timer->IsRunning() && (m_timer->GetTime() > 5))
+
+		if (m_timer->IsRunning() && (m_timer->GetTime() > m_shootingSpeed))
 		{
 			Creature* creature = SearchNearestCreature(p_creatureList);
 

@@ -5,6 +5,7 @@
 #include "Creature.h"
 #include "Projectile.h"
 #include "Timer.h"
+#include "Utility/Logger.h"
 
 #include <list>
 #include <cmath>

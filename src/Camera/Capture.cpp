@@ -27,17 +27,8 @@ namespace Camera
 		m_pixelDistance = 100.0f;
 		m_boundingBox = cv::Rect(0, 0, m_size.width, m_size.height);
 
-		// Create a quadriliant in 3D space as comparment for the 2D quadrilian detected by opencv
-		float offset = 1.0f;
-		m_points3D.push_back(cv::Point3f(-offset, 0.0f, -offset));
-		m_points3D.push_back(cv::Point3f(offset, 0.0f, -offset));
-		m_points3D.push_back(cv::Point3f(-offset, 0.0f, offset));
-		m_points3D.push_back(cv::Point3f(offset, 0.0f, offset));
-
-		m_times90 = 0;
 		m_corners = Corners();
-		m_poseTranslation = (cv::Mat_<double>(3, 1) << 0.0, 0.0, 0.0);
-		m_poseRotation = (cv::Mat_<double>(3, 1) << 0.0, 0.0, 0.0);
+		m_defaultRotation = 0.0f;
 
 		m_image = cv::Mat(m_size.width, m_size.height, CV_8U);
 		// Setup default setings if the calibration info cannot be loaded
@@ -47,9 +38,9 @@ namespace Camera
 			double fy;
 			fx = fy = (m_sizeHalfed.width / std::tan((m_fov / 2) * (irr::core::PI / 180)));
 			m_params->SetCameraMatrix((cv::Mat_<double>(3, 3) <<
-				fx, 0.0, m_sizeHalfed.width,
-				0.0, fy, m_sizeHalfed.height,
-				0.0, 0.0, 1.0));
+					fx, 0.0, m_sizeHalfed.width,
+					0.0, fy, m_sizeHalfed.height,
+					0.0, 0.0, 1.0));
 		}
 	}
 
@@ -203,13 +194,13 @@ namespace Camera
 							m_corners.clear();
 							m_corners = approx;
 							CalculateShortestAndLongestLine(m_corners);
-
+	
 							irr::core::line2df top = irr::core::line2df(
-								irr::core::vector2df(m_corners.at(0).x, m_corners.at(0).y),
-								irr::core::vector2df(m_corners.at(1).x, m_corners.at(1).y));
+									irr::core::vector2df(m_corners.at(0).x, m_corners.at(0).y),
+									irr::core::vector2df(m_corners.at(1).x, m_corners.at(1).y));
 							irr::core::line2df left = irr::core::line2df(
-								irr::core::vector2df(m_corners.at(1).x, m_corners.at(1).y),
-								irr::core::vector2df(m_corners.at(2).x, m_corners.at(2).y));
+									irr::core::vector2df(m_corners.at(1).x, m_corners.at(1).y),
+									irr::core::vector2df(m_corners.at(2).x, m_corners.at(2).y));
 
 							m_lineRatio = left.getLength() / top.getLength();
 
@@ -260,6 +251,7 @@ namespace Camera
 	{
 		if (P_EVT.EventType == irr::EEVENT_TYPE::EET_MOUSE_INPUT_EVENT)
 		{
+			//devide by zero?
 			m_center.x = static_cast<float>((P_EVT.MouseInput.X - 1) / (m_resolution.Width / m_size.width));
 			m_center.y = static_cast<float>((P_EVT.MouseInput.Y - 1) / (m_resolution.Height / m_size.height));
 
@@ -292,15 +284,6 @@ namespace Camera
 			float ltCenterX = (m_center.x - m_sizeHalfed.width);
 			float ltCenterY = (m_center.y - m_sizeHalfed.height);
 
-			cv::solvePnP(
-				m_points3D,
-				m_corners,
-				m_params->GetCameraMatrix(),
-				m_params->GetDistortionCoefficients(),
-				m_poseRotation,
-				m_poseTranslation,
-				true);
-
 			// Calculates the ratio betwee the longest game line and longest capture line
 			m_ratio = m_longestGameLine.getLength() / m_longestLine.getLength();
 			// Multiplies the game line length with the ratio to get the pixel distance
@@ -311,44 +294,39 @@ namespace Camera
 			// -----
 
 			// Apply the scaling (no scaling; default to 1.0f)
-			scaling.setScale(irr::core::vector3df(
-				1.0f, 1.0f, 1.0f));
+			scaling.setScale(irr::core::vector3df(1.0f, 1.0f, 1.0f));
 
 			// -----
 			// Set the rotation
 			// -----
 
-			irr::core::line2df upVec = irr::core::line2df(
-				irr::core::vector2df(m_corners.at(0).x, m_corners.at(0).y),
-				irr::core::vector2df(m_corners.at(0).x, (m_corners.at(0).y + 1.0f)));
-
 			irr::core::line2df top = irr::core::line2df(
-				irr::core::vector2df(m_corners.at(0).x, m_corners.at(0).y),
-				irr::core::vector2df(m_corners.at(1).x, m_corners.at(1).y));
+					irr::core::vector2df(m_corners.at(0).x, m_corners.at(0).y),
+					irr::core::vector2df(m_corners.at(1).x, m_corners.at(1).y));
 
 			irr::core::line2df bottom = irr::core::line2df(
-				irr::core::vector2df(m_corners.at(2).x, m_corners.at(2).y),
-				irr::core::vector2df(m_corners.at(3).x, m_corners.at(3).y));
+					irr::core::vector2df(m_corners.at(2).x, m_corners.at(2).y),
+					irr::core::vector2df(m_corners.at(3).x, m_corners.at(3).y));
 
 			irr::core::line2df right = irr::core::line2df(
-				irr::core::vector2df(m_corners.at(1).x, m_corners.at(1).y),
-				irr::core::vector2df(m_corners.at(2).x, m_corners.at(2).y));
+					irr::core::vector2df(m_corners.at(1).x, m_corners.at(1).y),
+					irr::core::vector2df(m_corners.at(2).x, m_corners.at(2).y));
 
 			irr::core::line2df left = irr::core::line2df(
-				irr::core::vector2df(m_corners.at(3).x, m_corners.at(3).y),
-				irr::core::vector2df(m_corners.at(0).x, m_corners.at(0).y));
-
-			// Create a 3D vector to contain the new angles
-			irr::core::vector3df angles = irr::core::vector3df(
-				 static_cast<float>((top.getLength() / bottom.getLength()) - 1.0f),
-				-static_cast<float>(std::atan2(top.end.Y - top.start.Y, top.end.X - top.start.X) * (180.0f / irr::core::PI)),
-				 static_cast<float>((right.getLength() / left.getLength()) - 1.0f));
+					irr::core::vector2df(m_corners.at(3).x, m_corners.at(3).y),
+					irr::core::vector2df(m_corners.at(0).x, m_corners.at(0).y));
 
 			float range = 0.2f;
+			// Create a 3D vector to contain the new angles
+			irr::core::vector3df angles = irr::core::vector3df(
+					 static_cast<float>(((top.getLength() / bottom.getLength()) - 1.0f) * (irr::core::HALF_PI / range)),
+					-static_cast<float>(std::atan2(top.end.Y - top.start.Y, top.end.X - top.start.X) * (180.0f / irr::core::PI)),
+					 static_cast<float>(((right.getLength() / left.getLength()) - 1.0f) * (irr::core::HALF_PI / range)));
+
 			rotation.setRotationRadians(irr::core::vector3df(
-				-static_cast<float>(angles.X * (irr::core::HALF_PI / range)),
-				 static_cast<float>(angles.Y * (irr::core::PI / 180.0f)),
-				 static_cast<float>(angles.Z * (irr::core::HALF_PI / range))));
+					-static_cast<float>(angles.Z > irr::core::HALF_PI ? irr::core::HALF_PI : (angles.Z < -irr::core::HALF_PI ? -irr::core::HALF_PI : angles.Z)),
+					 static_cast<float>(m_defaultRotation + (angles.Y * (irr::core::PI / 180.0f))),
+					-static_cast<float>(angles.X > irr::core::HALF_PI ? irr::core::HALF_PI : (angles.X < -irr::core::HALF_PI ? -irr::core::HALF_PI : angles.X))));
 
 			// -----
 			// Set the translation
@@ -356,17 +334,17 @@ namespace Camera
 
 			// Create a 3D vector to contain the new position
 			irr::core::vector3df position = irr::core::vector3df(
-				static_cast<float>(m_poseTranslation.at<double>(0, 0) + ltCenterX),
-				static_cast<float>(m_poseTranslation.at<double>(1, 0) + ltCenterY),
-				static_cast<float>(m_poseTranslation.at<double>(2, 0) + 0.0f));
+					static_cast<float>(ltCenterX),
+					static_cast<float>(ltCenterY),
+					static_cast<float>(0.0f));
 			// Transform using the inverted camera matrix
 			p_cameraProjection.transformVect(position);
 
 			// Apply transformation (y transformation is done in the camera)
 			translation.setTranslation(irr::core::vector3df(
-				static_cast<float>(position.X * (m_pixelDistance / m_sizeHalfed.width)),
-				static_cast<float>(position.Z),
-				-static_cast<float>(position.Y * (m_pixelDistance / m_sizeHalfed.height))));	
+					 static_cast<float>(position.Y * (m_pixelDistance / m_sizeHalfed.height)),
+					-static_cast<float>(position.Z),
+					 static_cast<float>(position.X * (m_pixelDistance / m_sizeHalfed.width))));	
 
 			// Merge scaling, rotation and translation into the transformation
 			transformation = scaling * rotation * translation;
@@ -417,8 +395,8 @@ namespace Camera
 	irr::core::line2df Capture::GetCalculatedShortestGameLine()
 	{
 		irr::core::line2df line = irr::core::line2df(
-			irr::core::vector2df(0.0f, 0.0f),
-			irr::core::vector2df(0.0f, (m_longestGameLine.getLength() * m_lineRatio)));
+				irr::core::vector2df(0.0f, 0.0f),
+				irr::core::vector2df(0.0f, (m_longestGameLine.getLength() * m_lineRatio)));
 
 		return line;
 	}
@@ -429,8 +407,8 @@ namespace Camera
 		if (m_params->GetIsOpenedAndGood() && !m_image.empty())
 		{
 			cv::undistort(m_image.clone(), m_image,
-				m_params->GetCameraMatrix(),
-				m_params->GetDistortionCoefficients());
+					m_params->GetCameraMatrix(),
+					m_params->GetDistortionCoefficients());
 		}
 	}
 
@@ -493,7 +471,6 @@ namespace Camera
 		Corners corners;
 		corners.push_back(top[0].x > top[1].x ? top[1] : top[0]);
 		corners.push_back(top[0].x > top[1].x ? top[0] : top[1]);
-		// I have rotated these from > to < .. this might cause issues but we will see.
 		corners.push_back(bot[0].x < bot[1].x ? bot[1] : bot[0]);
 		corners.push_back(bot[0].x < bot[1].x ? bot[0] : bot[1]);
 
@@ -501,36 +478,15 @@ namespace Camera
 		{
 			int offset = 30;
 			cv::Rect tlbb = cv::Rect(
-				static_cast<int>(m_topLeft.x - offset),
-				static_cast<int>(m_topLeft.y - offset),
-				offset * 2,
-				offset * 2);
+					static_cast<int>(m_topLeft.x - offset),
+					static_cast<int>(m_topLeft.y - offset),
+					offset * 2,
+					offset * 2);
 
 			for (unsigned int i = 0; i < corners.size(); ++i)
 			{
 				corners.push_back(corners.front());
 				corners.erase(corners.begin());
-
-				switch (i)
-				{
-				default:
-				case 3:
-					m_times90 = 0;
-					break;
-
-				case 0:
-					m_times90 = 1;
-					break;
-
-				case 2:
-					m_times90 = 2;
-					break;
-
-				case 1:
-					m_times90 = 3;
-					break;
-
-				}
 
 				if (tlbb.contains(corners.at(0)))
 				{
@@ -557,22 +513,30 @@ namespace Camera
 
 		for (unsigned int i = 0; i < p_corners.size(); ++i)
 		{
+			//Alex wat doet het vraagteken en enzo. ziet er apart uit.
 			unsigned int j = (i >= (p_corners.size() - 1))
-				? 0
-				: (i + 1);
+					? 0
+					: (i + 1);
+
+			unsigned int k = (j >= (p_corners.size() - 1))
+					? 0
+					: (j + 1);
 
 			irr::core::line2df tmpLine = irr::core::line2df(
-				irr::core::vector2df(p_corners[i].x, p_corners[i].y),
-				irr::core::vector2df(p_corners[j].x, p_corners[j].y));
+					irr::core::vector2df(p_corners[i].x, p_corners[i].y),
+					irr::core::vector2df(p_corners[j].x, p_corners[j].y));
 
-			if (tmpLine.getLength() > longestLine.getLength())
-			{
-				longestLine = tmpLine;
-			}
+			//if (tmpLine.getLength() > longestLine.getLength())
+			//{
+			//	longestLine = tmpLine;
+			//}
 
 			if (tmpLine.getLength() < shortestLine.getLength() || shortestLine.getLength() <= 2.0f)
 			{
 				shortestLine = tmpLine;
+				longestLine = irr::core::line2df(
+						irr::core::vector2df(p_corners[j].x, p_corners[j].y),
+						irr::core::vector2df(p_corners[k].x, p_corners[k].y));
 			}
 		}
 

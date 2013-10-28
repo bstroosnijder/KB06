@@ -82,15 +82,15 @@ namespace Game
 	void GameManager::SetupCamera()
 	{
 		// Create a static camera
-		/*m_camera = m_sceneManager->addCameraSceneNode(NULL,
-			irr::core::vector3df(0.0f, 0.0f, 0.0f),
-			irr::core::vector3df(0.0f, 0.0f, 1.0f));*/
+		m_camera = m_sceneManager->addCameraSceneNode(NULL,
+				irr::core::vector3df(0.0f, 0.0f, 0.0f),
+				irr::core::vector3df(0.0f, 0.0f, 1.0f));
 
-		// Or a FPS camera
-		m_camera = m_sceneManager->addCameraSceneNodeFPS();
-		m_camera->setPosition(irr::core::vector3df(0.0f, 100.0f, -20.0f));
-		m_camera->setRotation(irr::core::vector3df(0.0f, 0.0f, 70.0f));
-		m_camera->setInputReceiverEnabled(false);
+		//// Or a FPS camera
+		//m_camera = m_sceneManager->addCameraSceneNodeFPS();
+		//m_camera->setPosition(irr::core::vector3df(0.0f, 100.0f, -20.0f));
+		//m_camera->setRotation(irr::core::vector3df(0.0f, 0.0f, 70.0f));
+		//m_camera->setInputReceiverEnabled(false);
 	}
 
 	irr::IEventReceiver* GameManager::GetEventReceiver()
@@ -105,8 +105,7 @@ namespace Game
 
 	void GameManager::SetCameraHeight(float p_cameraHeight)
 	{
-		m_camera->setPosition(
-			irr::core::vector3df(0.0f, p_cameraHeight, 0.0f));
+		m_camera->setPosition(irr::core::vector3df(0.0f, p_cameraHeight, 0.0f));
 	}
 
 	void GameManager::SetGameLength(float p_gameLength)
