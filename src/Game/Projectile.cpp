@@ -18,6 +18,18 @@ namespace Game
 		m_damage = 100;
 	
 		SetMaterialFlags();
+
+
+		irr::scene::ITriangleSelector* selector = m_sceneManager->getRootSceneNode()->getTriangleSelector();
+
+		irr::scene::ISceneNodeAnimator* animator = m_sceneManager->createCollisionResponseAnimator(
+			selector,
+			this->GetSceneNode(),
+			irr::core::vector3df(30,  30, 30),
+			irr::core::vector3df( 0,  -3,  0),
+			irr::core::vector3df( 0,  50,  0));
+			
+
 	}
 
 	void Projectile::MoveTowardsTarget(float p_deltaTime)
