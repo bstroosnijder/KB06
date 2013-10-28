@@ -173,8 +173,8 @@ namespace Game
 		std::list<Tower*> m_towers;
 		std::list<Projectile*> m_projectiles;
 		std::list<PathFollower*> m_pathFollowers;
-		std::list<PathRoute*>::iterator m_pathNumber;
-		std::list<Marker*> m_marker;
+		std::list<PathRoute*>::iterator m_pathRouteSelected;
+		std::list<Marker*> m_markers;
 
 		std::vector<Wave*> m_waves;
 		int m_waveNumber;
@@ -204,6 +204,27 @@ namespace Game
 		 * @todo	Doesn't work properly? It only finds the Tower when you click at it's center?
 		 */
 		Tower* GetTowerAtPosition(irr::core::vector2di p_position);
+
+		/**
+		 * @brief	Creates Markers at all PathPoints in the Path.
+		 *
+		 *			For every PathPoint in m_path a Marker will be created.
+		 *			The position of the Marker will be the position of the
+		 *			PathPoint. But the Y-coordinate will be 100 units above
+		 *			the Terrain m_terrain Y-coordinate.
+		 * @author	Michel van Os.
+		 */
+		void CreatePathPointMarkers();
+
+		/**
+		 * @brief	Connects the Path with the Startgate and the Castle.
+		 *
+		 *			Updates the Path with a new begin PathPoint and
+		 *			a new end PathPoint. It also creates the new
+		 *			PathSegments and updates all PathRoutes.
+		 * @author	Michel van Os.
+		 */
+		void ConnectPathToStargateAndCastle();
 	};
 }
 

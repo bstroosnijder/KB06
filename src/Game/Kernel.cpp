@@ -88,7 +88,7 @@ namespace Game
 					irr::core::vector3df* startPoints = NULL;
 					irr::core::vector3df* endPoints = NULL;
 					capture->FindStartAndEndPoints(capture->GetImage(), startPoints, endPoints);
-					m_gameManager->SetPencilCoords(startPoints, endPoints, 0);
+					m_gameManager->SetPencilCoords(startPoints, endPoints, 8);
 				}
 
 				// Actually draw the scene, but only once the playground surface has been chosen

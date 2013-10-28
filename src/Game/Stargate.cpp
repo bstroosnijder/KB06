@@ -10,9 +10,30 @@ namespace Game
 	{
 		m_animatedMesh = p_sceneManager->getMesh("resources/models/stargate/Stargatev01.x");
 		
-		m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, p_sceneManager->getSceneNodeFromId(C_EMPTY_ROOT_SCENENODE));
+		irr::scene::IAnimatedMeshSceneNode* animatedMeshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, p_sceneManager->getSceneNodeFromId(C_EMPTY_ROOT_SCENENODE));
+		m_meshSceneNode = animatedMeshSceneNode;
 		m_meshSceneNode->setPosition(p_position);
 
+		m_jointBase = NULL;
+		
+		int jointCount = animatedMeshSceneNode->getJointCount();
+
+		for (int i = 0; i < jointCount; i++)
+		{
+			irr::scene::IBoneSceneNode* bone = animatedMeshSceneNode->getJointNode(i);
+			irr::core::stringw name = bone->getName();
+
+			if (name == "polySurface18")
+			{
+				m_jointBase = bone;
+			}
+		}
+
 		SetMaterialFlags();
+	}
+
+	irr::scene::ISceneNode* Stargate::GetJointBase()
+	{
+		return m_jointBase;
 	}
 }

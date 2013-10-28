@@ -22,6 +22,14 @@ namespace Game
 		Castle(irr::scene::ISceneManager* p_sceneManager,
 				PlaygroundListener* p_playgroundListener,
 				irr::core::vector3df& p_position);
+
+		irr::scene::ISceneNode* GetJointPath();
+
+		irr::scene::ISceneNode* GetJointCenter();
+
+	private:
+		irr::scene::IBoneSceneNode* m_jointPath;
+		irr::scene::IBoneSceneNode* m_jointCenter;
 	};
 }
 
