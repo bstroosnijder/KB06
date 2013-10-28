@@ -69,8 +69,8 @@ namespace Game
 		m_sceneManager->drawAll();
 		m_playground->Render();
 		m_gui->UpdateGui(m_playground->GetWaveNumber(),
-			m_playground->GetWaveSize(),
-			m_playground->GetCreaturesSpawned(),
+				m_playground->GetWaveSize(),
+				m_playground->GetCreaturesSpawned(),
 				m_videoDriver->getFPS(),
 				m_scoreManager.GetPlayerScore(0),
 				m_scoreManager.GetPlayerScore(1));
@@ -80,8 +80,8 @@ namespace Game
 	{
 		// Create a static camera
 		m_camera = m_sceneManager->addCameraSceneNode(NULL,
-			irr::core::vector3df(0.0f, 0.0f, 0.0f),
-			irr::core::vector3df(0.0f, 0.0f, 1.0f));
+				irr::core::vector3df(0.0f, 0.0f, 0.0f),
+				irr::core::vector3df(0.0f, 0.0f, 1.0f));
 
 		//// Or a FPS camera
 		//m_camera = m_sceneManager->addCameraSceneNodeFPS();
@@ -102,8 +102,7 @@ namespace Game
 
 	void GameManager::SetCameraHeight(float p_cameraHeight)
 	{
-		m_camera->setPosition(
-			irr::core::vector3df(0.0f, p_cameraHeight, 0.0f));
+		m_camera->setPosition(irr::core::vector3df(0.0f, p_cameraHeight, 0.0f));
 	}
 
 	void GameManager::SetGameLength(float p_gameLength)
