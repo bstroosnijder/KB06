@@ -24,6 +24,7 @@ namespace Camera
 			((m_size.height - 1) / 2));
 		m_center = cv::Point(((m_size.width - 1) / 2), ((m_size.height - 1) / 2));
 		m_ratio = 0.0f;
+		m_lineRatio = 0.0f;
 		m_pixelDistance = 100.0f;
 		m_boundingBox = cv::Rect(0, 0, m_size.width, m_size.height);
 
