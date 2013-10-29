@@ -146,30 +146,36 @@ namespace Camera
 						}
 					}
 
+					irr::core::vector3df pointTop;
+					irr::core::vector3df pointBottom;
+
 					// Determine which point is top or bottom.
 					if (pointA.y > pointB.y)
 					{
-						p_startPoints[i].X = pointA.x * startX;
-						p_startPoints[i].Y = 0;
-						p_startPoints[i].Z = pointA.y * startZ;
+						pointTop.X = pointA.x * startX;
+						pointTop.Y = pointA.y * startZ;
+						pointTop.Z = 0.0f;
 
-						p_endPoints[i].X = pointB.x * startX;
-						p_endPoints[i].Y = 0;
-						p_endPoints[i].Z = pointB.y * startZ;
+						pointBottom.X = pointB.x * startX;
+						pointBottom.Y = pointB.y * startZ;
+						pointBottom.Z = 0.0f;
 					}
 					else
 					{
-						p_startPoints[i].X = pointB.x * startX;
-						p_startPoints[i].Y = 0;
-						p_startPoints[i].Z = pointB.y * startZ;
+						pointTop.X = pointB.x * startX;
+						pointTop.Y = pointB.y * startZ;
+						pointTop.Z = 0.0f;
 
-						p_endPoints[i].X = pointA.x * startX;
-						p_endPoints[i].Y = 0;
-						p_endPoints[i].Z = pointA.y * startZ;
+						pointBottom.X = pointA.x * startX;
+						pointBottom.Y = pointA.y * startZ;
+						pointBottom.Z = 0.0f;
 					}
 
-					p_cameraMatrix.transformVect(p_startPoints[i]);
-					p_cameraMatrix.transformVect(p_endPoints[i]);
+					p_cameraMatrix.transformVect(pointTop);
+					p_cameraMatrix.transformVect(pointBottom);
+
+					p_startPoints[i] = irr::core::vector3df(pointTop.X, pointTop.Z, pointTop.Y);
+					p_endPoints[i] = irr::core::vector3df(pointBottom.X, pointBottom.Z, pointBottom.Y);
 
 					// Draw a bounding box around the contour.
 					cv::Rect boundingBox = cv::boundingRect(approx);
