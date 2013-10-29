@@ -9,6 +9,7 @@ namespace Camera
 		m_runInOwnThread = p_runInOwnThread;
 		m_params = new CalibrationParams("resources/camera_calibration_out.xml");
 		m_capture = cv::VideoCapture(CV_CAP_ANY);
+		m_pointDetector = new PointDetector();
 		m_fov = 60.0f;
 		m_running = false;
 
@@ -52,6 +53,11 @@ namespace Camera
 
 	void Capture::Cleanup()
 	{
+		if (m_pointDetector)
+		{
+			delete m_pointDetector;
+		}
+
 		m_running = false;
 		if (m_runInOwnThread)
 		{
@@ -238,16 +244,12 @@ namespace Camera
 		}
 	}
 
-	int Capture::FindStartAndEndPoints(cv::Mat p_frame, irr::core::vector3df*& p_startPoints, irr::core::vector3df*& p_endPoints)
+	int Capture::FindStartAndEndPoints(cv::Mat p_frame, irr::core::matrix4 p_cameraMatrix, irr::core::vector3df*& p_startPoints, irr::core::vector3df*& p_endPoints)
 	{
 		int contourSize = 0;
-		if (m_corners.size() == 4 && m_chosen)
+		if (m_chosen && m_corners.size() == 4)
 		{
-			PointDetector* pd = new PointDetector();
-
-			contourSize = pd->FindPointsInFrame(p_frame, m_corners, p_startPoints, p_endPoints);
-
-			delete pd;
+			contourSize = m_pointDetector->FindPointsInFrame(p_frame, m_corners, p_cameraMatrix, m_pixelDistance, m_sizeHalfed, p_startPoints, p_endPoints);
 		}
 		return contourSize;
 	}
@@ -340,15 +342,15 @@ namespace Camera
 			// Create a 3D vector to contain the new position
 			irr::core::vector3df position = irr::core::vector3df(
 					static_cast<float>(ltCenterX),
-					static_cast<float>(ltCenterY),
-					static_cast<float>(0.0f));
+					static_cast<float>(0.0f),
+					static_cast<float>(ltCenterY));
 			// Transform using the inverted camera matrix
 			p_cameraProjection.transformVect(position);
 
 			// Apply transformation (y transformation is done in the camera)
 			translation.setTranslation(irr::core::vector3df(
-					 static_cast<float>(position.Y * (m_pixelDistance / m_sizeHalfed.height)),
-					-static_cast<float>(position.Z),
+					 static_cast<float>(position.Z * (m_pixelDistance / m_sizeHalfed.height)),
+					-static_cast<float>(position.Y),
 					 static_cast<float>(position.X * (m_pixelDistance / m_sizeHalfed.width))));	
 
 			// Merge scaling, rotation and translation into the transformation

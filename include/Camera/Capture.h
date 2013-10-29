@@ -118,7 +118,7 @@ namespace Camera
 		* @param   p_endPoints A pointer to a vector3df array to store end points.
 		* @return  Returns the amount of detected points.
 		*/
-		int FindStartAndEndPoints(cv::Mat p_frame, irr::core::vector3df*& p_startPoints, irr::core::vector3df*& p_endPoints);
+		int FindStartAndEndPoints(cv::Mat p_frame, irr::core::matrix4 p_cameraMatrix, irr::core::vector3df*& p_startPoints, irr::core::vector3df*& p_endPoints);
 
 		/**
 		 * @brief	Gets the current frame of the camera
@@ -139,6 +139,7 @@ namespace Camera
 		bool m_runInOwnThread;
 		CalibrationParams* m_params;
 		cv::VideoCapture m_capture;
+		PointDetector* m_pointDetector;
 		cv::Mat m_image;
 
 		bool m_running;

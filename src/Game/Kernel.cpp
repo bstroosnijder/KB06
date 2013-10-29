@@ -89,7 +89,7 @@ namespace Game
 				{
 					irr::core::vector3df* startPoints = NULL;
 					irr::core::vector3df* endPoints = NULL;
-					capture->FindStartAndEndPoints(capture->GetImage(), startPoints, endPoints);
+					capture->FindStartAndEndPoints(capture->GetImage(), m_gameManager->GetCameraProjectionMatrix(), startPoints, endPoints);
 					m_gameManager->SetPencilCoords(startPoints, endPoints, 8);
 				}
 
