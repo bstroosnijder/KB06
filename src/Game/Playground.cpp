@@ -130,15 +130,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 		std::list<Creature*>::iterator itCreatureEnd = m_creatures.end();
 		Creature* creature;
 	
-		//Update Creatures
-		while (itCreature != itCreatureEnd)
-		{
-			creature = (*itCreature);
-			++itCreature;
-
-			creature->FollowPath(p_deltaTime, m_terrain);
-		}
-	
+		
 		//Update Towers
 		std::list<Tower*>::iterator itTower = m_towers.begin();
 		std::list<Tower*>::iterator itTowerEnd = m_towers.end();
@@ -151,6 +143,20 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 
 			tower->ShootAtNearestCreature(m_creatures);
 		}
+
+		//Update Creatures
+		while (itCreature != itCreatureEnd)
+		{
+			creature = (*itCreature);
+			++itCreature;
+
+			creature->FollowPath(p_deltaTime, m_terrain);
+			if (creature->GetHealthPoints() <= 0.0)
+			{
+				OnCreatureDestroyed(creature);
+			}
+		}
+	
 	
 		//Update Projectiles
 		std::list<Projectile*>::iterator itProjectile = m_projectiles.begin();
@@ -364,6 +370,7 @@ void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	{
 		if (p_creature != NULL && p_projectile != NULL)
 		{
+			p_creature->DecreaseHealthPoints(p_projectile->GetDamage());
 			m_gameListener->OnCreatureHit();
 		}
 	}

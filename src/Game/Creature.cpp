@@ -11,6 +11,8 @@ namespace Game
 	{
 		m_meshSceneNode = p_sceneManager->addEmptySceneNode(p_sceneManager->getSceneNodeFromId(C_EMPTY_ROOT_SCENENODE));
 		irr::scene::ISceneNode* sceneNodeTemp = NULL;
+		irr::core::aabbox3d<irr::f32>* boundingbox = new irr::core::aabbox3d<irr::f32>(irr::core::vector3df(-2.0f, -2.0f, -2.0f), irr::core::vector3df(2.0f, 2.0f, 2.0f));
+		
 
 		//Head
 		m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk2.7H.x");
@@ -32,9 +34,14 @@ namespace Game
 		sceneNodeTemp = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, m_meshSceneNode);
 		SetMaterialFlags(sceneNodeTemp);
 		m_meshSceneNode->setScale(irr::core::vector3df(0.50f,0.50f,0.50f));
-		m_healthPoints = 100;
+		m_animatedMesh->setBoundingBox(*boundingbox);
+		irr::core::aabbox3d<irr::f32> boundingbox1 = m_animatedMesh->getBoundingBox();
+		irr::core::aabbox3d<irr::f32> boundingbox2 = m_meshSceneNode->getBoundingBox();
+
+		m_healthPoints = 20;
 
 		StartFollowing();
+		m_meshSceneNode->setDebugDataVisible(irr::scene::EDS_BBOX);
 	}
 
 	Creature::~Creature()
@@ -59,13 +66,18 @@ namespace Game
 		}
 	}
 
-	void Creature::SetHealthPoints(int p_healthPoints)
+	void Creature::DecreaseHealthPoints(double p_healthPoints)
 	{
-		m_healthPoints = p_healthPoints;
+		m_healthPoints -= p_healthPoints;
 	}
 
-	int Creature::GetHealthPoints()
+	double Creature::GetHealthPoints()
 	{
 		return m_healthPoints;
+	}
+
+	irr::core::aabbox3d<irr::f32> Creature::GetBoundingbox()
+	{
+		return m_animatedMesh->getBoundingBox();
 	}
 }

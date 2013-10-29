@@ -57,7 +57,7 @@ namespace Game
 	{
 		bool isRunning = m_timer->IsRunning();
 		unsigned long time = m_timer->GetTime();
-		if (m_timer->IsRunning() && (m_timer->GetTime() > 5))
+		if (m_timer->IsRunning() && (m_timer->GetTime() > 2))
 		{
 			Creature* creature = SearchNearestCreature(p_creatureList);
 
@@ -101,7 +101,7 @@ namespace Game
 		{
 			Projectile* projectile = new Projectile(m_sceneManager, m_playgroundListener, GetPosition());
 			projectile->SetTarget(p_creature);
-			projectile->SetPosition(m_jointCrystal->getPosition() + GetPosition());
+			projectile->SetPosition(m_jointCrystal->getAbsolutePosition());
 
 			m_playgroundListener->OnProjectileCreated(projectile);
 		}
