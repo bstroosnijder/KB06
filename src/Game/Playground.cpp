@@ -91,6 +91,11 @@ namespace Game
 		return true;
 	}
 
+	bool Playground::IsPathReady()
+	{
+		return (m_path != NULL);
+	}
+
 	void Playground::Update(float p_deltaTime)
 	{	
 		p_deltaTime *= 5;

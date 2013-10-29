@@ -81,14 +81,14 @@ namespace Game
 					irr::core::matrix4 transformation = capture->GetTransformMatrix(m_gameManager->GetCameraProjectionMatrix());
 					root->setPosition(transformation.getTranslation());
 					root->setRotation(transformation.getRotationDegrees());
-				}
 
-				if (m_gameManager->IsLookingForPencilCoords())
-				{
-					irr::core::vector3df* startPoints = NULL;
-					irr::core::vector3df* endPoints = NULL;
-					capture->FindStartAndEndPoints(capture->GetImage(), startPoints, endPoints);
-					m_gameManager->SetPencilCoords(startPoints, endPoints, 8);
+					if (m_gameManager->IsLookingForPencilCoords())
+					{
+						irr::core::vector3df* startPoints = NULL;
+						irr::core::vector3df* endPoints = NULL;
+						capture->FindStartAndEndPoints(capture->GetImage(), startPoints, endPoints);
+						m_gameManager->SetPencilCoords(startPoints, endPoints, 8);
+					}
 				}
 
 				// Actually draw the scene, but only once the playground surface has been chosen

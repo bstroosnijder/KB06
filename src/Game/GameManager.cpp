@@ -64,7 +64,7 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::WAVE_RUNNING)
 		{
-			//m_playground->Update(m_deltaTimer->GetDelta());
+			m_playground->Update(m_deltaTimer->GetDelta());
 		}
 	}
 
@@ -111,7 +111,7 @@ namespace Game
 
 	void GameManager::SetGameLength(float p_gameLength)
 	{
-		// TODO: Implementatie
+		/// @todo Implementatie
 		m_playground->UpdateGameScale(p_gameLength);
 	}
 
@@ -265,12 +265,15 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
 		{
-			m_playground->StartNextWave();
+			if (m_playground->IsPathReady())
+			{
+				m_playground->StartNextWave();
 
-			m_gui->SetButtonDefendersActionsEnabled(false);
-			m_gui->SetButtonStartWaveEnabled(false);
+				m_gui->SetButtonDefendersActionsEnabled(false);
+				m_gui->SetButtonStartWaveEnabled(false);
 
-			m_gameStatus = GameStatus::WAVE_RUNNING;
+				m_gameStatus = GameStatus::WAVE_RUNNING;
+			}
 		}
 	}
 
