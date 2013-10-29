@@ -132,18 +132,6 @@ namespace Game
 	{	
 		p_deltaTime *= 5;
 
-		//Update Creatures
-		std::list<Creature*>::iterator itCreature = m_creatures.begin();
-		std::list<Creature*>::iterator itCreatureEnd = m_creatures.end();
-		Creature* creature;
-		while (itCreature != itCreatureEnd)
-		{
-			creature = (*itCreature);
-			++itCreature;
-
-			creature->FollowPath(p_deltaTime, m_terrain);
-		}
-	
 		//Update Towers
 		std::list<Tower*>::iterator itTower = m_towers.begin();
 		std::list<Tower*>::iterator itTowerEnd = m_towers.end();
@@ -155,6 +143,23 @@ namespace Game
 
 			tower->ShootAtNearestCreature(m_creatures);
 		}
+
+		//Update Creatures
+		std::list<Creature*>::iterator itCreature = m_creatures.begin();
+		std::list<Creature*>::iterator itCreatureEnd = m_creatures.end();
+		Creature* creature;
+		while (itCreature != itCreatureEnd)
+		{
+			creature = (*itCreature);
+			++itCreature;
+
+			creature->FollowPath(p_deltaTime, m_terrain);
+			if (creature->GetHealthPoints() <= 0.0)
+			{
+				OnCreatureDestroyed(creature);
+			}
+		}
+	
 	
 		//Update Projectiles
 		std::list<Projectile*>::iterator itProjectile = m_projectiles.begin();
@@ -376,7 +381,7 @@ namespace Game
 	{
 		if (p_creature != NULL && p_projectile != NULL)
 		{
-
+			p_creature->DecreaseHealthPoints(p_projectile->GetDamage());
 		}
 	}
 

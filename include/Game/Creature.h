@@ -47,15 +47,17 @@ namespace Game
 		 * @brief	Set the HealthPoints of the creature
 		 * @param	The HP value is p_healthPoints
 		 */
-		void SetHealthPoints(int p_healthPoints);
+		void DecreaseHealthPoints(double p_healthPoints);
 
 		/**
 		 * @brief	Return the HealthPoints of the creature
 		 */
-		int GetHealthPoints();
+		double GetHealthPoints();
+
+		irr::core::aabbox3d<irr::f32> GetBoundingbox();
 
 	private:
-        int m_healthPoints;
+        double m_healthPoints;
 	};
 }
 

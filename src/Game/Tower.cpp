@@ -65,7 +65,6 @@ namespace Game
 
 	void Tower::ShootAtNearestCreature(std::list<Creature*>& p_creatureList)
 	{
-
 		if (m_timer->IsRunning() && (m_timer->GetTime() > m_shootingSpeed))
 		{
 			Creature* creature = SearchNearestCreature(p_creatureList);
@@ -110,7 +109,7 @@ namespace Game
 		{
 			Projectile* projectile = new Projectile(m_sceneManager, m_playgroundListener, GetPosition());
 			projectile->SetTarget(p_creature);
-			projectile->SetPosition(m_jointCrystal->getPosition() + GetPosition());
+			projectile->SetPosition(m_jointCrystal->getAbsolutePosition());
 
 			m_playgroundListener->OnProjectileCreated(projectile);
 		}
