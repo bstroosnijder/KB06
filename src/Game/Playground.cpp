@@ -10,7 +10,7 @@ namespace Game
 
 		m_pathBuilder = new PathBuilder();
 		m_path = NULL;
-		m_pointRange = 10.0f;
+		m_pointRange = 50.0f;
 		m_pointBegin = irr::core::vector3df(50.0f, 0.0f, 20.0f);
 		m_pointEnd = irr::core::vector3df(50.0f, 0.0f, 80.0f);
 
@@ -58,15 +58,16 @@ namespace Game
 		points1[6].set(250, 0, 1000);	points2[6].set(500, 0, 1500); //8
 		points1[7].set(750, 0, 1000);	points2[7].set(500, 0, 1500); //9
 
+		/*
 		SetupPath(points1, points2, amount, m_pointRange, m_pointBegin, m_pointEnd);
 		m_pathRouteSelected = m_path->m_routes.begin();
-	
+		CreatePathPointMarkers();
+		ConnectPathToStargateAndCastle();
+		*/
+
 		m_terrain = new Terrain();
 		m_selector = m_terrain->GenerateTerrain(p_sceneManager, 10.0);
 		m_gameDimensions.Height = m_terrain->GetTerrainDimensions().Height*10;
-
-		CreatePathPointMarkers();
-		ConnectPathToStargateAndCastle();
 	}
 
 	bool Playground::SetupPath(
@@ -74,9 +75,40 @@ namespace Game
 			irr::core::vector3df* p_points2,
 			int p_amount)
 	{
-		m_path = m_pathBuilder->BuildPath(p_points1, p_points2, p_amount, m_pointRange, m_pointBegin, m_pointEnd);
+		if (p_points1 == NULL || p_points2 == NULL || p_amount <= 0)
+		{
+			m_isPathValid = false;
+			return false;
+		}
 
-		return true;
+		Path* pathNew;
+		pathNew = m_pathBuilder->BuildPath(p_points1, p_points2, p_amount, m_pointRange, m_pointBegin, m_pointEnd);
+
+		if (pathNew != NULL)
+		{
+			//Check if the Path is valid.
+			if (pathNew->m_routes.size() != 0 &&
+					pathNew->m_pathSegments.size() != 0 &&
+					pathNew->m_pointBegin != NULL &&
+					pathNew->m_pointEnd != NULL &&
+					pathNew->m_pathPoints->size() >= 2)
+			{
+				ConnectPathToStargateAndCastle();
+				m_isPathValid = true;
+				m_path = pathNew;
+
+				CreatePathPointMarkers();
+				return true;
+			}
+			else
+			{
+				delete pathNew;
+			}
+		}
+
+		m_isPathValid = false;
+		m_path = NULL;
+		return false;
 	}
 
 	bool Playground::SetupPath(
@@ -93,7 +125,7 @@ namespace Game
 
 	bool Playground::IsPathReady()
 	{
-		return (m_path != NULL);
+		return (m_isPathValid && m_path != NULL);
 	}
 
 	void Playground::Update(float p_deltaTime)

@@ -84,12 +84,16 @@ namespace Game
 					root->setPosition(transformation.getTranslation());
 					root->setRotation(transformation.getRotationDegrees());
 
-					if (m_gameManager->IsLookingForPencilCoords())
+				}
+				if (m_gameManager->IsLookingForPencilCoords())
+				{
+					irr::core::vector3df* startPoints = NULL;
+					irr::core::vector3df* endPoints = NULL;
+					int pencilCount = capture->FindStartAndEndPoints(capture->GetImage(), startPoints, endPoints);
+
+					if (pencilCount > 0)
 					{
-						irr::core::vector3df* startPoints = NULL;
-						irr::core::vector3df* endPoints = NULL;
-						capture->FindStartAndEndPoints(capture->GetImage(), startPoints, endPoints);
-						m_gameManager->SetPencilCoords(startPoints, endPoints, 8);
+						m_gameManager->SetPencilCoords(startPoints, endPoints, pencilCount);
 					}
 				}
 

@@ -293,5 +293,36 @@ namespace Game
 				pathPointIt->m_point = p_pointEnd;
 			}
 		}
+
+		//If the begin PathPoint is not connected to the begin.
+		//Connect the PathPoint closest to the begin with the begin.
+		//Connect the PathPoint closest to the end with the end.
+		if (p_path->m_pointBegin == NULL || p_path->m_pointEnd == NULL)
+		{
+			PathPoint* targetBegin = NULL;
+			PathPoint* targetEnd = NULL;
+			float targetBeginDistance = -1.0f;
+			float targetEndDistance = -1.0f;
+			float itBeginDistance = -1.0f;
+			float itEndDistance = -1.0f;
+
+			for (it = p_path->m_pathPoints->begin(); it != itEnd; ++it)
+			{
+				pathPointIt =(*it);
+				itBeginDistance = abs(pathPointIt->m_point.Z - p_pointBegin.Z);
+				itEndDistance = abs(pathPointIt->m_point.Z - p_pointBegin.Z);
+
+				if (itBeginDistance < targetBeginDistance == -1 )
+				{
+					targetBeginDistance = itBeginDistance;
+					targetBegin = pathPointIt;
+				}
+				if (itEndDistance < targetEndDistance)
+				{
+					targetEndDistance = itEndDistance;
+					targetEnd = pathPointIt;
+				}
+			}
+		}
 	}
 }

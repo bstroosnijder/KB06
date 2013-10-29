@@ -148,8 +148,13 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::ATTACKER_PLACE_PENCILS && m_isLookingForPencilCoords)
 		{
-			m_playground->SetupPath(p_points1, p_points2, p_amount);
-			m_isLookingForPencilCoords = false;
+			if (p_amount == m_scoreManager.GetPencilsOwned())
+			{
+				if (m_playground->SetupPath(p_points1, p_points2, p_amount))
+				{
+					m_isLookingForPencilCoords = false;
+				}
+			}
 		}
 	}
 
@@ -212,7 +217,7 @@ namespace Game
 		{
 			if (m_playground->AreAllWavesFinished())
 			{
-				//The game has ended
+				//The Round is ended.
 
 				/// @todo	Determine the winner Player of the current game round.
 				PlayerType gameRoundWinner = PlayerType::TYPE_ATTACKER;
@@ -226,6 +231,7 @@ namespace Game
 
 					//Switch player sides
 					m_player1 = PlayerType::TYPE_DEFENDER;
+					m_scoreManager.ResetPencilsOwned();
 				}
 				else
 				{
@@ -249,7 +255,8 @@ namespace Game
 			}
 			else
 			{
-				//A new wave should start
+				//The Wave is ended. There are more Waves left to start.
+
 				m_gui->SetButtonAttackersTurnEnabled(true);
 				m_gameStatus = GameStatus::WAVE_FINISHED;
 			}
@@ -285,6 +292,8 @@ namespace Game
 			m_gui->SetButtonAttackersActionsEnabled(true);
 			m_gui->SetButtonDefendersTurnEnabled(true);
 
+			m_scoreManager.SetPencilsOwned(3);
+
 			m_gameStatus = GameStatus::ATTACKER_PLACE_PENCILS;
 		}
 	}
@@ -312,12 +321,15 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::ATTACKER_PLACE_PENCILS)
 		{
-			m_gui->SetButtonAttackersActionsEnabled(false);
-			m_gui->SetButtonDefendersTurnEnabled(false);
-			m_gui->SetButtonDefendersActionsEnabled(true);
-			m_gui->SetButtonStartWaveEnabled(true);
+			if (m_playground->IsPathReady())
+			{
+				m_gui->SetButtonAttackersActionsEnabled(false);
+				m_gui->SetButtonDefendersTurnEnabled(false);
+				m_gui->SetButtonDefendersActionsEnabled(true);
+				m_gui->SetButtonStartWaveEnabled(true);
 			
-			m_gameStatus = GameStatus::DEFENDER_PLACE_TOWERS;
+				m_gameStatus = GameStatus::DEFENDER_PLACE_TOWERS;
+			}
 		}
 	}
 

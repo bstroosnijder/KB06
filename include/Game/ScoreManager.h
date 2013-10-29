@@ -21,6 +21,14 @@ namespace Game
 		*/	
 		int GetPlayerScore(int p_playerNumber);
 
+		int GetPencilsOwned();
+
+		int GetPencilsDefault();
+
+		void ResetPencilsOwned();
+
+		void SetPencilsOwned(int p_pensilsOwned);
+
 		bool CanBuyPencil(int p_playerNumber);
 		bool CanCreateTower(int p_playerNumber);
 		bool CanUpgradeTowerSpeed(int p_playerNumber);
@@ -74,6 +82,7 @@ namespace Game
 		int m_playerPoints[2];
 		int m_playerPointsDefault[2];
 		
+		int m_pencilsDefault;
 		int m_pencilsOwned;
 
 		int m_pointsCastleReached;

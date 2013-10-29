@@ -103,6 +103,8 @@ namespace Game
 				irr::core::vector3df p_pointBegin,
 				irr::core::vector3df p_pointEnd,
 				float p_range);
+
+		//void PathJoinWithBeginAndEnd(Path* p_path, 
 	};
 }
 

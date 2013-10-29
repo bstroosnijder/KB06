@@ -165,6 +165,7 @@ namespace Game
 		irr::scene::ISceneManager* m_sceneManager;
 		
 		PathBuilder* m_pathBuilder;
+		bool m_isPathValid;
 		Path* m_path;
 		float m_pointRange;
 		irr::core::vector3df m_pointBegin;
