@@ -10,7 +10,7 @@ namespace Game
 		m_playerPoints[0] = m_playerPointsDefault[0];
 		m_playerPoints[1] = m_playerPointsDefault[1];
 
-		m_pencilsDefault = 1;
+		m_pencilsDefault = 8;
 		m_pencilsOwned = m_pencilsDefault;
 
 		m_pointsCastleReached = 10;

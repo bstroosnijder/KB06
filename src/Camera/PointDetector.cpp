@@ -6,13 +6,16 @@ namespace Camera
 	{
 	}
 
-
 	PointDetector::~PointDetector(void)
 	{
 	}
 
-	int PointDetector::FindPointsInFrame(cv::Mat p_frame, std::vector<cv::Point2f> p_corners, irr::core::vector3df*& p_startPoints, irr::core::vector3df*& p_endPoints)
+	int PointDetector::FindPointsInFrame(cv::Mat p_frame, std::vector<cv::Point2f> p_corners, irr::core::matrix4 p_cameraMatrix, float p_pixelDistance, cv::Size p_sizeHalfed, irr::core::vector3df*& p_startPoints, irr::core::vector3df*& p_endPoints)
 	{
+		p_cameraMatrix.makeInverse();
+		float startX = (p_pixelDistance / p_sizeHalfed.width);
+		float startZ = (p_pixelDistance / p_sizeHalfed.height);
+
 		cv::Mat quad = cv::Mat::zeros(300, 300, CV_8U);
 
 		// corners of the destination image
@@ -146,24 +149,27 @@ namespace Camera
 					// Determine which point is top or bottom.
 					if (pointA.y > pointB.y)
 					{
-						p_startPoints[i].X = pointA.x;
+						p_startPoints[i].X = pointA.x * startX;
 						p_startPoints[i].Y = 0;
-						p_startPoints[i].Z = pointA.y;
+						p_startPoints[i].Z = pointA.y * startZ;
 
-						p_endPoints[i].X = pointB.x;
+						p_endPoints[i].X = pointB.x * startX;
 						p_endPoints[i].Y = 0;
-						p_endPoints[i].Z = pointB.y;
+						p_endPoints[i].Z = pointB.y * startZ;
 					}
 					else
 					{
-						p_startPoints[i].X = pointB.x;
+						p_startPoints[i].X = pointB.x * startX;
 						p_startPoints[i].Y = 0;
-						p_startPoints[i].Z = pointB.y;
+						p_startPoints[i].Z = pointB.y * startZ;
 
-						p_endPoints[i].X = pointA.x;
+						p_endPoints[i].X = pointA.x * startX;
 						p_endPoints[i].Y = 0;
-						p_endPoints[i].Z = pointA.y;
+						p_endPoints[i].Z = pointA.y * startZ;
 					}
+
+					p_cameraMatrix.transformVect(p_startPoints[i]);
+					p_cameraMatrix.transformVect(p_endPoints[i]);
 
 					// Draw a bounding box around the contour.
 					cv::Rect boundingBox = cv::boundingRect(approx);

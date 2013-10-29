@@ -293,36 +293,44 @@ namespace Game
 				pathPointIt->m_point = p_pointEnd;
 			}
 		}
+	}
 
-		//If the begin PathPoint is not connected to the begin.
-		//Connect the PathPoint closest to the begin with the begin.
-		//Connect the PathPoint closest to the end with the end.
-		if (p_path->m_pointBegin == NULL || p_path->m_pointEnd == NULL)
+	void PathBuilder::PathJoinWithBeginAndEnd(Path* p_path, 
+				irr::core::vector3df p_pointBegin,
+				irr::core::vector3df p_pointEnd)
+	{
+		std::list<PathPoint*>::iterator it;
+		std::list<PathPoint*>::iterator itEnd = p_path->m_pathPoints->end();
+		PathPoint* pathPointIt;
+
+		PathPoint* targetBegin = NULL;
+		PathPoint* targetEnd = NULL;
+		float targetBeginDistance = -1.0f;
+		float targetEndDistance = -1.0f;
+		float itBeginDistance = -1.0f;
+		float itEndDistance = -1.0f;
+
+		for (it = p_path->m_pathPoints->begin(); it != itEnd; ++it)
 		{
-			PathPoint* targetBegin = NULL;
-			PathPoint* targetEnd = NULL;
-			float targetBeginDistance = -1.0f;
-			float targetEndDistance = -1.0f;
-			float itBeginDistance = -1.0f;
-			float itEndDistance = -1.0f;
+			pathPointIt =(*it);
+			itBeginDistance = abs(pathPointIt->m_point.Z - p_pointBegin.Z);
+			itEndDistance = abs(pathPointIt->m_point.Z - p_pointBegin.Z);
 
-			for (it = p_path->m_pathPoints->begin(); it != itEnd; ++it)
+			if (itBeginDistance < targetBeginDistance == -1 )
 			{
-				pathPointIt =(*it);
-				itBeginDistance = abs(pathPointIt->m_point.Z - p_pointBegin.Z);
-				itEndDistance = abs(pathPointIt->m_point.Z - p_pointBegin.Z);
-
-				if (itBeginDistance < targetBeginDistance == -1 )
-				{
-					targetBeginDistance = itBeginDistance;
-					targetBegin = pathPointIt;
-				}
-				if (itEndDistance < targetEndDistance)
-				{
-					targetEndDistance = itEndDistance;
-					targetEnd = pathPointIt;
-				}
+				targetBeginDistance = itBeginDistance;
+				targetBegin = pathPointIt;
+			}
+			if (itEndDistance < targetEndDistance)
+			{
+				targetEndDistance = itEndDistance;
+				targetEnd = pathPointIt;
 			}
 		}
+
+		PathPoint* pointBegin = new PathPoint(p_pointBegin);
+		PathPoint* pointEnd = new PathPoint(p_pointEnd);
+
+		p_path->m_pathPoints->push_back(pointBegin);
 	}
 }

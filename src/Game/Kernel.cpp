@@ -89,7 +89,7 @@ namespace Game
 				{
 					irr::core::vector3df* startPoints = NULL;
 					irr::core::vector3df* endPoints = NULL;
-					int pencilCount = capture->FindStartAndEndPoints(capture->GetImage(), startPoints, endPoints);
+					int pencilCount = capture->FindStartAndEndPoints(capture->GetImage(), m_gameManager->GetCameraProjectionMatrix(), startPoints, endPoints);
 
 					if (pencilCount > 0)
 					{

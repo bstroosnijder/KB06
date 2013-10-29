@@ -292,8 +292,6 @@ namespace Game
 			m_gui->SetButtonAttackersActionsEnabled(true);
 			m_gui->SetButtonDefendersTurnEnabled(true);
 
-			m_scoreManager.SetPencilsOwned(3);
-
 			m_gameStatus = GameStatus::ATTACKER_PLACE_PENCILS;
 		}
 	}
