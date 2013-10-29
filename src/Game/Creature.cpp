@@ -31,7 +31,7 @@ namespace Game
 		m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk2.7RF.x");
 		sceneNodeTemp = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, m_meshSceneNode);
 		SetMaterialFlags(sceneNodeTemp);
-		m_meshSceneNode->setScale(irr::core::vector3df(0.50f,0.50f,0.50f));
+		m_meshSceneNode->setScale(irr::core::vector3df(0.50f, 0.50f, 0.50f));
 		m_healthPoints = 100;
 
 		StartFollowing();
