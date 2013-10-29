@@ -50,19 +50,21 @@ namespace Game
 		Camera::Capture* capture = new Camera::Capture(m_multiThreaded, m_resolution, m_gameManager->GetCameraTexture());
 		m_inputHandler->AddListener(capture);
 		capture->SetFov(60);
+		/// @todo rename to shorterst
 		capture->SetLongestGameLine(irr::core::line2df(
-		irr::core::vector2df(0.0f, 0.0f),
-		irr::core::vector2df(0.0f, m_gameManager->GetGameHeight())));
+			irr::core::vector2df(0.0f, 0.0f),
+			irr::core::vector2df(0.0f, m_gameManager->GetGameHeight())));
 		
 		// Sets the resolution of the camera for the scaling of the background
 		m_gameManager->SetCaptureResolution(capture->GetCaptureSize());
+		/// @todo rename to longest
 		m_gameManager->SetGameLength(capture->GetCalculatedShortestGameLine().getLength());
 		
 		while (m_device->run())
 		{
 			capture->Start();
 			m_gameManager->SetCameraHeight(capture->GetPixelDistance());
-			// TODO GetCalculatedShortestGameLine: rename
+			/// TODO: GetCalculatedShortestGameLine: rename
 
 			// Begin the scene
 			m_gameManager->BeginScene();

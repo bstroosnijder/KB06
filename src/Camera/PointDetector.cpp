@@ -11,7 +11,7 @@ namespace Camera
 	{
 	}
 
-	void PointDetector::FindPointsInFrame(cv::Mat p_frame, std::vector<cv::Point2f> p_corners, irr::core::vector3df* p_startPoints, irr::core::vector3df* p_endPoints)
+	int PointDetector::FindPointsInFrame(cv::Mat p_frame, std::vector<cv::Point2f> p_corners, irr::core::vector3df*& p_startPoints, irr::core::vector3df*& p_endPoints)
 	{
 		cv::Mat quad = cv::Mat::zeros(300, 300, CV_8U);
 
@@ -27,21 +27,21 @@ namespace Camera
 
 		// Apply perspective transformation
 		cv::warpPerspective(p_frame, quad, matrix, quad.size());
-		cv::imshow("quadrilateral", quad);
-		cv::waitKey(1);
+		/*cv::imshow("quadrilateral", quad);
+		cv::waitKey(1);*/
 
 		cv::Mat bw;
 		cv::cvtColor(quad, bw, CV_BGR2GRAY);
-		cv::imshow("bw", bw);
-		cv::waitKey(1);
+		/*cv::imshow("bw", bw);
+		cv::waitKey(1);*/
 
 		cv::blur(bw, bw, cv::Size(3, 3));
-		cv::imshow("bw+blur", bw);
-		cv::waitKey(1);
+		/*cv::imshow("bw+blur", bw);
+		cv::waitKey(1);*/
 
 		cv::threshold(bw, bw, 190, 255, cv::THRESH_BINARY);
-		cv::imshow("bw+blur+treshold", bw);
-		cv::waitKey(1);
+		/*cv::imshow("bw+blur+treshold", bw);
+		cv::waitKey(1);*/
 
 		/*cv::Canny( bw, bw, 100, 200, 3 );
 		cv::imshow("bw+blur+treshold+canny", bw);
@@ -142,7 +142,7 @@ namespace Camera
 							}
 						}
 					}
-					
+
 					// Determine which point is top or bottom.
 					if (pointA.y > pointB.y)
 					{
@@ -173,5 +173,7 @@ namespace Camera
 				cv::imshow("bw boundingbox", quad);
 			}
 		}
+
+		return contoursSize;
 	}
 }

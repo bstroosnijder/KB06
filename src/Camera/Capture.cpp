@@ -24,6 +24,7 @@ namespace Camera
 			((m_size.height - 1) / 2));
 		m_center = cv::Point(((m_size.width - 1) / 2), ((m_size.height - 1) / 2));
 		m_ratio = 0.0f;
+		m_lineRatio = 0.0f;
 		m_pixelDistance = 100.0f;
 		m_boundingBox = cv::Rect(0, 0, m_size.width, m_size.height);
 
@@ -237,14 +238,18 @@ namespace Camera
 		}
 	}
 
-	void Capture::FindStartAndEndPoints(cv::Mat p_frame, irr::core::vector3df* p_startPoints, irr::core::vector3df* p_endPoints)
+	int Capture::FindStartAndEndPoints(cv::Mat p_frame, irr::core::vector3df*& p_startPoints, irr::core::vector3df*& p_endPoints)
 	{
+		int contourSize = 0;
 		if (m_corners.size() == 4 && m_chosen)
 		{
-			PointDetector pd;
+			PointDetector* pd = new PointDetector();
 
-			pd.FindPointsInFrame(p_frame, m_corners, p_startPoints, p_endPoints);
+			contourSize = pd->FindPointsInFrame(p_frame, m_corners, p_startPoints, p_endPoints);
+
+			delete pd;
 		}
+		return contourSize;
 	}
 
 	bool Capture::OnEvent(const irr::SEvent& P_EVT)
