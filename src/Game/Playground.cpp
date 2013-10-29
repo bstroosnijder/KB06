@@ -7,16 +7,19 @@ namespace Game
 	{
 		m_gameListener = p_gameListener;
 		m_sceneManager = p_sceneManager;
+
 		m_pathBuilder = new PathBuilder();
 		m_path = NULL;
+		m_pointRange = 10.0f;
+		m_pointBegin = irr::core::vector3df(50.0f, 0.0f, 20.0f);
+		m_pointEnd = irr::core::vector3df(50.0f, 0.0f, 80.0f);
+
+		m_waveNumber = 0;
+		m_terrain = NULL;
 		m_selector = NULL;
 		
 		m_castle = new Castle(p_sceneManager, this, irr::core::vector3df(0, 0, 0));
 		m_stargate = new Stargate(p_sceneManager, this, irr::core::vector3df(10000, 0, 0));
-	
-		m_pointRange = 10.0f;
-		m_pointBegin = irr::core::vector3df(50.0f, 0.0f, 20.0f);
-		m_pointEnd = irr::core::vector3df(50.0f, 0.0f, 80.0f);
 	
 		Initialize(p_sceneManager);
 	}

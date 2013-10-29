@@ -121,6 +121,9 @@ namespace Game
 		bool m_victoryIsActive;
 		bool m_defeatSceenIsActive;
 
+		/**
+		 * @todo
+		 */
 		void CreateGUIControls();
 
 		/** 

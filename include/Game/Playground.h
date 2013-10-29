@@ -161,14 +161,13 @@ namespace Game
 	private:
 		GameListener* m_gameListener;
 		irr::scene::ISceneManager* m_sceneManager;
+		
 		PathBuilder* m_pathBuilder;
-
 		Path* m_path;
 		float m_pointRange;
 		irr::core::vector3df m_pointBegin;
 		irr::core::vector3df m_pointEnd;
 
-		irr::scene::ITriangleSelector* m_selector;
 		std::list<Creature*> m_creatures;
 		std::list<Tower*> m_towers;
 		std::list<Projectile*> m_projectiles;
@@ -180,6 +179,7 @@ namespace Game
 		int m_waveNumber;
 
 		Terrain* m_terrain;
+		irr::scene::ITriangleSelector* m_selector;
 		irr::core::dimension2d<float> m_gameDimensions;
 
 		Castle* m_castle;

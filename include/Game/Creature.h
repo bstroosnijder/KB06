@@ -25,7 +25,7 @@ namespace Game
 		 * @param p_selector is to add collisiondetection with the Terrain Alex!!!!!!!!!!!!!!!!!!!!!!! this param is not defined below!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		 */
 		Creature(irr::scene::ISceneManager* p_sceneManager,
-				PlaygroundListener*,
+				PlaygroundListener* p_playgroundListener,
 				irr::core::vector3df p_position,
 				PathRoute* p_pathRoute);
 

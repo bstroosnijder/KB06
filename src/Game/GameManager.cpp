@@ -64,7 +64,7 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::WAVE_RUNNING)
 		{
-			m_playground->Update(m_deltaTimer->GetDelta());
+			//m_playground->Update(m_deltaTimer->GetDelta());
 		}
 	}
 
@@ -83,15 +83,15 @@ namespace Game
 	void GameManager::SetupCamera()
 	{
 		// Create a static camera
-		/*m_camera = m_sceneManager->addCameraSceneNode(NULL,
+		m_camera = m_sceneManager->addCameraSceneNode(NULL,
 				irr::core::vector3df(0.0f, 0.0f, 0.0f),
-				irr::core::vector3df(0.0f, 0.0f, 1.0f));*/
+				irr::core::vector3df(0.0f, 0.0f, 1.0f));
 
 		//// Or a FPS camera
-		m_camera = m_sceneManager->addCameraSceneNodeFPS();
-		m_camera->setPosition(irr::core::vector3df(0.0f, 100.0f, -20.0f));
-		m_camera->setRotation(irr::core::vector3df(0.0f, 0.0f, 30.0f));
-		m_camera->setInputReceiverEnabled(false);
+		//m_camera = m_sceneManager->addCameraSceneNodeFPS();
+		//m_camera->setPosition(irr::core::vector3df(0.0f, 100.0f, -20.0f));
+		//m_camera->setRotation(irr::core::vector3df(0.0f, 0.0f, 70.0f));
+		//m_camera->setInputReceiverEnabled(false);
 	}
 
 	irr::IEventReceiver* GameManager::GetEventReceiver()
@@ -113,7 +113,6 @@ namespace Game
 	{
 		// TODO: Implementatie
 		m_playground->UpdateGameScale(p_gameLength);
-
 	}
 
 	void GameManager::SetCaptureResolution(irr::core::dimension2du p_captureResolution)
