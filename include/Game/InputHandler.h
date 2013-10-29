@@ -31,10 +31,10 @@ namespace Game
 
 		/**
 		 * @brief	Handles events from irrlicht and distributes them amoun it's listeners
-		 * @param	p_evt The event received
+		 * @param	p_event The event received
 		 * @return	Has the event been completely handled
 		 */
-		bool OnEvent(const irr::SEvent& P_EVT);
+		bool OnEvent(const irr::SEvent& p_event);
 
 		/**
 		 * @brief	Checks if p_listener is contained in our listeners list

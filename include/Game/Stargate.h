@@ -24,6 +24,11 @@ namespace Game
 		Stargate(irr::scene::ISceneManager* p_sceneManager,
 				PlaygroundListener* p_playgroundListener,
 				irr::core::vector3df& p_position);
+
+		irr::scene::ISceneNode* GetJointBase();
+
+	private:
+		irr::scene::ISceneNode* m_jointBase;
 	};
 }
 

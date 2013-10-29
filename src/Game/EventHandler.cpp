@@ -48,6 +48,10 @@ namespace Game
 					m_userInputListener->OnBuyPencil();
 					return true;
 
+				case Gui::BUTTON_CAPTURE_PENCILS:
+					m_userInputListener->OnCapturePencils();
+					break;
+
 				case Gui::BUTTON_DEFENDERS_TURN:
 					m_userInputListener->OnPlaceTowers();
 					return true;
@@ -107,7 +111,6 @@ namespace Game
 				return true;
 			}			
 		}
-
 		else if (p_event.EventType == irr::EET_MOUSE_INPUT_EVENT)
 		{
 			if (p_event.MouseInput.isLeftPressed())
@@ -121,7 +124,7 @@ namespace Game
 
 				case ClickEvent::DELETE_TOWER:
 					m_userInputListener->OnTowerDestroy(m_device->getCursorControl()->getPosition());
-					m_clickEvent = NULL;
+					//m_clickEvent = NULL;
 					return true;
 
 				case ClickEvent::UPGRADE_TOWER_SPEED:
@@ -132,7 +135,6 @@ namespace Game
 				case ClickEvent::UPGRADE_TOWER_RANGE:
 					m_userInputListener->OnTowerUpgradeRange(m_device->getCursorControl()->getPosition());
 					m_clickEvent = NULL;
-
 					return true;
 
 				case ClickEvent::UPGRADE_TOWER_DAMAGE:

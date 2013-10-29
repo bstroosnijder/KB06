@@ -21,7 +21,6 @@ namespace Camera
 	class Capture : public irr::IEventReceiver
 	{
 	public:
-		irr::core::dimension2du m_resolution;
 		/**
 		 * @brief	Constructor
 		 * @param	p_runInOwnThread If the capturer should run in it's own thread
@@ -113,12 +112,13 @@ namespace Camera
 		irr::core::line2df GetCalculatedShortestGameLine();
 
 		/**
-		 * @brief	Finds start and end points in a frame.
-		 * @param	p_frame The frame to capture points in
-		 * @param   p_startPoints A pointer to a vector3df array to store start points.
-		 * @param   p_endPoints A pointer to a vector3df array to store end points.
-		 */
-		void FindStartAndEndPoints(cv::Mat p_frame, irr::core::vector3df* p_startPoints, irr::core::vector3df* p_endPoints);
+		* @brief	Finds start and end points in a frame.
+		* @param	p_frame The frame to capture points in
+		* @param   p_startPoints A pointer to a vector3df array to store start points.
+		* @param   p_endPoints A pointer to a vector3df array to store end points.
+		* @return  Returns the amount of detected points.
+		*/
+		int FindStartAndEndPoints(cv::Mat p_frame, irr::core::matrix4 p_cameraMatrix, irr::core::vector3df*& p_startPoints, irr::core::vector3df*& p_endPoints);
 
 		/**
 		 * @brief	Gets the current frame of the camera
@@ -133,12 +133,13 @@ namespace Camera
 		irr::core::dimension2du GetCaptureSize();
 
 	private:
-		typedef std::vector<cv::Point3f> Points3D;
 		typedef std::vector<cv::Point2f> Corners;
 		irr::video::ITexture* m_texture;
+		irr::core::dimension2du m_resolution;
 		bool m_runInOwnThread;
 		CalibrationParams* m_params;
 		cv::VideoCapture m_capture;
+		PointDetector* m_pointDetector;
 		cv::Mat m_image;
 
 		bool m_running;
@@ -155,18 +156,14 @@ namespace Camera
 		cv::Rect m_boundingBox;
 		cv::Scalar m_color;
 		float m_fov;
+		float m_defaultRotation;
 
-		Points3D m_points3D;
-		int m_times90;
 		cv::Point2f m_topLeft;
 		Corners m_corners;
 		irr::core::line2df m_shortestLine;
 		irr::core::line2df m_longestLine;
 		float m_lineRatio;
 		irr::core::line2df m_longestGameLine;
-		cv::Mat m_poseRotation;
-		cv::Mat m_poseTranslation;
-
 
 		/**
 		 * @brief	Locks the mutex with this thread

@@ -19,9 +19,20 @@ namespace Game
 		irr::core::aabbox3d<irr::f32>* boundingbox = new irr::core::aabbox3d<irr::f32>(irr::core::vector3df(-2.0f, -2.0f, -2.0f), irr::core::vector3df(2.0f, 2.0f, 2.0f));
 		m_animatedMesh->setBoundingBox(*boundingbox);
 		SetMaterialFlags();
+
+
+		irr::scene::ITriangleSelector* selector = m_sceneManager->getRootSceneNode()->getTriangleSelector();
+
+		irr::scene::ISceneNodeAnimator* animator = m_sceneManager->createCollisionResponseAnimator(
+				selector,
+				this->GetSceneNode(),
+				irr::core::vector3df(30,  30, 30),
+				irr::core::vector3df( 0,  -3,  0),
+				irr::core::vector3df( 0,  50,  0));
+			
+
 	}
 
-	///@todo	Check if the movement is correct
 	void Projectile::MoveTowardsTarget(float p_deltaTime)
 	{
 		if (m_target->GetHealthPoints() > 0.0)
@@ -35,7 +46,7 @@ namespace Game
 			float speedScale = unitLength / position.getDistanceFrom(target);
 
 			position = position + distance * m_movementSpeed * speedScale * p_deltaTime * 60;
-			//Alex why commented
+
 			SetPosition(position);
 
 			irr::core::aabbox3d<irr::f32> boundingboxProjectileMesh = m_animatedMesh->getBoundingBox();
@@ -51,12 +62,12 @@ namespace Game
 		}
 	}
 
-	double Projectile::GetMovementSpeed()
+	float Projectile::GetMovementSpeed()
 	{
 		return m_movementSpeed;
 	}
 
-	double Projectile::GetDamage()
+	float Projectile::GetDamage()
 	{
 		return m_damage;
 	}
@@ -66,12 +77,12 @@ namespace Game
 		return m_target;
 	}
 
-	void Projectile::SetMovementSpeed(double p_movementSpeed)
+	void Projectile::SetMovementSpeed(float p_movementSpeed)
 	{
 		m_movementSpeed = p_movementSpeed;
 	}
 
-	void Projectile::SetDamage(double p_damage)
+	void Projectile::SetDamage(float p_damage)
 	{
 		m_damage = p_damage;
 	}

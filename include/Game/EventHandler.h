@@ -18,7 +18,7 @@ namespace Game
 	{
 		enum ClickEvent
 		{
-			CREATE_TOWER,
+			CREATE_TOWER = 1,
 			DELETE_TOWER,
 			UPGRADE_TOWER_SPEED,
 			UPGRADE_TOWER_RANGE,

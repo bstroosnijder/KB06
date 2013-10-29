@@ -33,11 +33,9 @@ namespace Game
 		m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk2.7RF.x");
 		sceneNodeTemp = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, m_meshSceneNode);
 		SetMaterialFlags(sceneNodeTemp);
+
 		m_meshSceneNode->setScale(irr::core::vector3df(0.50f,0.50f,0.50f));
 		m_animatedMesh->setBoundingBox(*boundingbox);
-		irr::core::aabbox3d<irr::f32> boundingbox1 = m_animatedMesh->getBoundingBox();
-		irr::core::aabbox3d<irr::f32> boundingbox2 = m_meshSceneNode->getBoundingBox();
-
 		m_healthPoints = 20;
 
 		StartFollowing();

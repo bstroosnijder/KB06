@@ -50,19 +50,21 @@ namespace Game
 		Camera::Capture* capture = new Camera::Capture(m_multiThreaded, m_resolution, m_gameManager->GetCameraTexture());
 		m_inputHandler->AddListener(capture);
 		capture->SetFov(60);
+		/// @todo rename to shorterst
 		capture->SetLongestGameLine(irr::core::line2df(
-		irr::core::vector2df(0.0f, 0.0f),
-		irr::core::vector2df(0.0f, m_gameManager->GetGameHeight())));
+			irr::core::vector2df(0.0f, 0.0f),
+			irr::core::vector2df(0.0f, m_gameManager->GetGameHeight())));
 		
 		// Sets the resolution of the camera for the scaling of the background
 		m_gameManager->SetCaptureResolution(capture->GetCaptureSize());
+		/// @todo rename to longest
 		m_gameManager->SetGameLength(capture->GetCalculatedShortestGameLine().getLength());
 		
 		while (m_device->run())
 		{
 			capture->Start();
 			m_gameManager->SetCameraHeight(capture->GetPixelDistance());
-			// TODO GetCalculatedShortestGameLine: rename
+			/// TODO: GetCalculatedShortestGameLine: rename
 
 			// Begin the scene
 			m_gameManager->BeginScene();
@@ -78,16 +80,24 @@ namespace Game
 						m_inputHandler->RemoveListener(capture);
 					}
 
-				irr::core::matrix4 transformation = capture->GetTransformMatrix(m_gameManager->GetCameraProjectionMatrix());
-				root->setPosition(transformation.getTranslation());
-				root->setRotation(transformation.getRotationDegrees());
-			}
+					irr::core::matrix4 transformation = capture->GetTransformMatrix(m_gameManager->GetCameraProjectionMatrix());
+					root->setPosition(transformation.getTranslation());
+					root->setRotation(transformation.getRotationDegrees());
+				}
+
+				if (m_gameManager->IsLookingForPencilCoords())
+				{
+					irr::core::vector3df* startPoints = NULL;
+					irr::core::vector3df* endPoints = NULL;
+					capture->FindStartAndEndPoints(capture->GetImage(), m_gameManager->GetCameraProjectionMatrix(), startPoints, endPoints);
+					m_gameManager->SetPencilCoords(startPoints, endPoints, 8);
+				}
 
 				// Actually draw the scene, but only once the playground surface has been chosen
 				m_gameManager->GameTick();
 			
 			}
-			// End the scene			
+			// End the scene
 			m_gameManager->EndScene();
 		}
 

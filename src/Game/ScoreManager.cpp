@@ -13,6 +13,8 @@ namespace Game
 		m_pointsCastleReached = 10;
 		m_pointsPencilBought = -50;
 		m_pointsCreatureKilled = 10;
+		m_pointsTowerCreated = -100;
+		m_pointsTowerDestroyed = 50;
 		m_pointsTowerIncreasedSpeed = -200;
 		m_pointsTowerIncreasedRange = -100;
 		m_pointsTowerIncreasedDamage = -200;
@@ -21,6 +23,31 @@ namespace Game
 	int ScoreManager::GetPlayerScore(int p_playerNumber)
 	{
 		return m_playerPoints[p_playerNumber];
+	}
+
+	bool ScoreManager::CanBuyPencil(int p_playerNumber)
+	{
+		return (m_playerPoints[p_playerNumber] + m_pointsPencilBought >= 0);
+	}
+
+	bool ScoreManager::CanCreateTower(int p_playerNumber)
+	{
+		return (m_playerPoints[p_playerNumber] + m_pointsTowerCreated >= 0);
+	}
+
+	bool ScoreManager::CanUpgradeTowerSpeed(int p_playerNumber)
+	{
+		return (m_playerPoints[p_playerNumber] + m_pointsTowerIncreasedSpeed >= 0);
+	}
+
+	bool ScoreManager::CanUpgradeTowerRange(int p_playerNumber)
+	{
+		return (m_playerPoints[p_playerNumber] + m_pointsTowerIncreasedRange >= 0);
+	}
+
+	bool ScoreManager::CanUpgradeTowerDamage(int p_playerNumber)
+	{
+		return (m_playerPoints[p_playerNumber] + m_pointsTowerIncreasedDamage >= 0);
 	}
 
 	void ScoreManager::SetPlayerScore(int p_playerNumber, int p_score)
@@ -46,6 +73,16 @@ namespace Game
 	void ScoreManager::CreatureKilled(int p_playerNumber)
 	{
 		m_playerPoints[p_playerNumber] += m_pointsCreatureKilled;
+	}
+
+	void ScoreManager::TowerCreated(int p_playerNumber)
+	{
+		m_playerPoints[p_playerNumber] += m_pointsTowerCreated;
+	}
+
+	void ScoreManager::TowerDestroyed(int p_playerNumber)
+	{
+		m_playerPoints[p_playerNumber] += m_pointsTowerDestroyed;
 	}
 
 	void ScoreManager::TowerIncreasedSpeed(int p_playerNumber)

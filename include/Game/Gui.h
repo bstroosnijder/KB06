@@ -24,6 +24,7 @@ namespace Game
 			BUTTON_CLEAR,
 			BUTTON_ATTACKERS_TURN,
 			BUTTON_BUY_PENCIL,
+			BUTTON_CAPTURE_PENCILS,
 			BUTTON_DEFENDERS_TURN,
 			BUTTON_CREATE_TOWER,
 			BUTTON_DELETE_TOWER,
@@ -50,7 +51,9 @@ namespace Game
 		 * @param	UpdateGui uses p_wavetimer to display the time untill the next wave in the GUI
 		 * @param	p_resources is used to display the resources available in the GUI
 		 */
-		void UpdateGui(int p_waveNumber,int p_amountOfCreatures,int p_fps, int p_playerHealth, int p_resources);
+		void UpdateGui(int p_waveNumber, int p_waveSize, int p_creaturesSpawned,
+				int p_fps,
+				int p_player1Points, int p_player2Points);
 
 		/**
 		 *	@brief Creates the menu or destroys the menu
@@ -87,18 +90,21 @@ namespace Game
 		void SetButtonStartWaveEnabled(bool p_state);
 
 	private:
-		irr::gui::IGUIEnvironment* m_guienv;
+		irr::gui::IGUIEnvironment* m_guiEnvironment;
 		irr::gui::IGUIImage* m_menu;
 		irr::gui::IGUIImage* m_controls;
+		irr::gui::IGUIImage* m_imageSidebar;
+		irr::gui::IGUIImage* m_imageSidebarInfo;
 		irr::gui::IGUIImage* m_imageVictory;
-		irr::gui::IGUIStaticText* m_amountOfCreatures;
-		irr::gui::IGUIStaticText* m_waveNumber;
-		irr::gui::IGUIStaticText* m_fps;
-		irr::gui::IGUIStaticText* m_playerHealth;
-		irr::gui::IGUIStaticText* m_playerResources;
+		irr::gui::IGUIStaticText* m_textAmountOfCreatures;
+		irr::gui::IGUIStaticText* m_textWaveNumber;
+		irr::gui::IGUIStaticText* m_textFps;
+		irr::gui::IGUIStaticText* m_textPlayer1Points;
+		irr::gui::IGUIStaticText* m_textPlayer2Points;
 
 		irr::gui::IGUIButton* m_buttonAttackersTurn;
 		irr::gui::IGUIButton* m_buttonBuyPencil;
+		irr::gui::IGUIButton* m_buttonCapturePencils;
 		irr::gui::IGUIButton* m_buttonDefendersTurn;
 		irr::gui::IGUIButton* m_buttonCreateTower;
 		irr::gui::IGUIButton* m_buttonDeleteTower;
@@ -115,6 +121,9 @@ namespace Game
 		bool m_victoryIsActive;
 		bool m_defeatSceenIsActive;
 
+		/**
+		 * @todo
+		 */
 		void CreateGUIControls();
 
 		/** 
