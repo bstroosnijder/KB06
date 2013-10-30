@@ -42,6 +42,13 @@ namespace Game
 		virtual void OnBuyPencil() = 0;
 
 		/**
+		 * @brief	Triggered when the Capture Pencils button in clicked.
+		 *
+		 * @author	Michel van Os.
+		 */
+		virtual void OnCapturePencils() = 0;
+
+		/**
 		 * @brief	Triggered when the Defenders Turn button is clicked.
 		 *
 		 * @author	Michel van Os.

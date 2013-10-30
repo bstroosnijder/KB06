@@ -48,6 +48,10 @@ namespace Game
 					m_userInputListener->OnBuyPencil();
 					return true;
 
+				case Gui::BUTTON_CAPTURE_PENCILS:
+					m_userInputListener->OnCapturePencils();
+					break;
+
 				case Gui::BUTTON_DEFENDERS_TURN:
 					m_userInputListener->OnPlaceTowers();
 					return true;

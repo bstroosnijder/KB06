@@ -6,13 +6,16 @@ namespace Camera
 	{
 	}
 
-
 	PointDetector::~PointDetector(void)
 	{
 	}
 
-	void PointDetector::FindPointsInFrame(cv::Mat p_frame, std::vector<cv::Point2f> p_corners, irr::core::vector3df* p_startPoints, irr::core::vector3df* p_endPoints)
+	int PointDetector::FindPointsInFrame(cv::Mat p_frame, std::vector<cv::Point2f> p_corners, irr::core::matrix4 p_cameraMatrix, float p_pixelDistance, cv::Size p_sizeHalfed, irr::core::vector3df*& p_startPoints, irr::core::vector3df*& p_endPoints)
 	{
+		p_cameraMatrix.makeInverse();
+		float startX = (p_pixelDistance / p_sizeHalfed.width);
+		float startZ = (p_pixelDistance / p_sizeHalfed.height);
+
 		cv::Mat quad = cv::Mat::zeros(300, 300, CV_8U);
 
 		// corners of the destination image
@@ -27,21 +30,21 @@ namespace Camera
 
 		// Apply perspective transformation
 		cv::warpPerspective(p_frame, quad, matrix, quad.size());
-		cv::imshow("quadrilateral", quad);
-		cv::waitKey(1);
+		/*cv::imshow("quadrilateral", quad);
+		cv::waitKey(1);*/
 
 		cv::Mat bw;
 		cv::cvtColor(quad, bw, CV_BGR2GRAY);
-		cv::imshow("bw", bw);
-		cv::waitKey(1);
+		/*cv::imshow("bw", bw);
+		cv::waitKey(1);*/
 
 		cv::blur(bw, bw, cv::Size(3, 3));
-		cv::imshow("bw+blur", bw);
-		cv::waitKey(1);
+		/*cv::imshow("bw+blur", bw);
+		cv::waitKey(1);*/
 
 		cv::threshold(bw, bw, 190, 255, cv::THRESH_BINARY);
-		cv::imshow("bw+blur+treshold", bw);
-		cv::waitKey(1);
+		/*cv::imshow("bw+blur+treshold", bw);
+		cv::waitKey(1);*/
 
 		/*cv::Canny( bw, bw, 100, 200, 3 );
 		cv::imshow("bw+blur+treshold+canny", bw);
@@ -142,28 +145,37 @@ namespace Camera
 							}
 						}
 					}
-					
+
+					irr::core::vector3df pointTop;
+					irr::core::vector3df pointBottom;
+
 					// Determine which point is top or bottom.
 					if (pointA.y > pointB.y)
 					{
-						p_startPoints[i].X = pointA.x;
-						p_startPoints[i].Y = 0;
-						p_startPoints[i].Z = pointA.y;
+						pointTop.X = pointA.x * startX;
+						pointTop.Y = pointA.y * startZ;
+						pointTop.Z = 0.0f;
 
-						p_endPoints[i].X = pointB.x;
-						p_endPoints[i].Y = 0;
-						p_endPoints[i].Z = pointB.y;
+						pointBottom.X = pointB.x * startX;
+						pointBottom.Y = pointB.y * startZ;
+						pointBottom.Z = 0.0f;
 					}
 					else
 					{
-						p_startPoints[i].X = pointB.x;
-						p_startPoints[i].Y = 0;
-						p_startPoints[i].Z = pointB.y;
+						pointTop.X = pointB.x * startX;
+						pointTop.Y = pointB.y * startZ;
+						pointTop.Z = 0.0f;
 
-						p_endPoints[i].X = pointA.x;
-						p_endPoints[i].Y = 0;
-						p_endPoints[i].Z = pointA.y;
+						pointBottom.X = pointA.x * startX;
+						pointBottom.Y = pointA.y * startZ;
+						pointBottom.Z = 0.0f;
 					}
+
+					p_cameraMatrix.transformVect(pointTop);
+					p_cameraMatrix.transformVect(pointBottom);
+
+					p_startPoints[i] = irr::core::vector3df(pointTop.X, pointTop.Z, pointTop.Y);
+					p_endPoints[i] = irr::core::vector3df(pointBottom.X, pointBottom.Z, pointBottom.Y);
 
 					// Draw a bounding box around the contour.
 					cv::Rect boundingBox = cv::boundingRect(approx);
@@ -173,5 +185,7 @@ namespace Camera
 				cv::imshow("bw boundingbox", quad);
 			}
 		}
+
+		return contoursSize;
 	}
 }

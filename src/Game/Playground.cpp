@@ -7,9 +7,19 @@ namespace Game
 	{
 		m_gameListener = p_gameListener;
 		m_sceneManager = p_sceneManager;
+
 		m_pathBuilder = new PathBuilder();
 		m_path = NULL;
+		m_pointRange = 10.0f;
+		m_pointBegin = irr::core::vector3df(50.0f, 0.0f, 20.0f);
+		m_pointEnd = irr::core::vector3df(50.0f, 0.0f, 80.0f);
+
+		m_waveNumber = 0;
+		m_terrain = NULL;
 		m_selector = NULL;
+		
+		m_castle = new Castle(p_sceneManager, this, irr::core::vector3df(0, 0, 0));
+		m_stargate = new Stargate(p_sceneManager, this, irr::core::vector3df(10000, 0, 0));
 	
 		Initialize(p_sceneManager);
 	}
@@ -23,12 +33,8 @@ namespace Game
 
 	void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
 	{
-		m_castle = new Castle(p_sceneManager, this, irr::core::vector3df(0, 0, 0));
-		m_stargate = new Stargate(p_sceneManager, this, irr::core::vector3df(0, 0, 0));
-
 		GenerateWaves();
 
-		float range = 10.0f;
 		int amount = 8;
 		irr::core::vector3df* points1 = new irr::core::vector3df[amount];
 		irr::core::vector3df* points2 = new irr::core::vector3df[amount];
@@ -49,61 +55,28 @@ namespace Game
 		points1[3].set(250, 0, 500);	points2[3].set(250, 0, 1000);	//5
 		points1[4].set(750, 0, 500);	points2[4].set(750, 0, 1000);	//6
 		points1[5].set(250, 0, 1000);	points2[5].set(750, 0, 1000);	//7
-		points1[6].set(250, 0, 1000);	 points2[6].set(500, 0, 1500); //8
+		points1[6].set(250, 0, 1000);	points2[6].set(500, 0, 1500); //8
 		points1[7].set(750, 0, 1000);	points2[7].set(500, 0, 1500); //9
-	
-		irr::core::vector3df startPoint(500.0f, 0.0f, 0.0f);
-		irr::core::vector3df endPoint(500.0f, 0.0f, 1500.0f);
 
-		SetupPath(points1, points2, amount, range, startPoint, endPoint);
-		m_pathNumber = m_path->m_routes.begin();
+		SetupPath(points1, points2, amount, m_pointRange, m_pointBegin, m_pointEnd);
+		m_pathRouteSelected = m_path->m_routes.begin();
 	
 		m_terrain = new Terrain();
 		m_selector = m_terrain->GenerateTerrain(p_sceneManager, 10.0);
 		m_gameDimensions.Height = m_terrain->GetTerrainDimensions().Height*10;
 
-		//Setup signs above the path		
-		std::list<PathSegment*>::iterator itSegments = m_path->m_pathSegments.begin();
-		std::list<PathSegment*>::iterator itSegmentsEnd = m_path->m_pathSegments.end();
-		while (itSegments != itSegmentsEnd)
-		{	
-			//Alex waarom exist1??
-			bool exist1 = false;
-			//Alex is m_point publiek?
-			irr::core::vector3df position1 = (*itSegments)->m_point1->m_point;
-			irr::f32 height1 = m_terrain->GetTerrainHeight(position1);
-			position1.Y = (height1 + 100);
+		CreatePathPointMarkers();
+		ConnectPathToStargateAndCastle();
+	}
 
-			bool exist2 = false;
-			irr::core::vector3df position2 = (*itSegments)->m_point2->m_point;
-			irr::f32 height2 = m_terrain->GetTerrainHeight(position2);
-			position2.Y = (height2 + 100);
+	bool Playground::SetupPath(
+			irr::core::vector3df* p_points1,
+			irr::core::vector3df* p_points2,
+			int p_amount)
+	{
+		m_path = m_pathBuilder->BuildPath(p_points1, p_points2, p_amount, m_pointRange, m_pointBegin, m_pointEnd);
 
-			std::list<Marker*>::iterator itSigns = m_marker.begin();
-			std::list<Marker*>::iterator itSignsEnd = m_marker.end();
-			while (itSigns != itSignsEnd)
-			{
-				if (position1 == (*itSigns)->GetPosition())
-				{
-					exist1 = true;
-				}
-				if (position2 == (*itSigns)->GetPosition())
-				{
-					exist2 = true;
-				}
-				++itSigns;
-			}
-			if (!exist1)
-			{
-				//m_marker waarom 2e M caps?
-				m_marker.push_back(new Marker(m_sceneManager, this, position1));
-			}
-			if (!exist2)
-			{
-				m_marker.push_back(new Marker(m_sceneManager, this, position2));
-			}			
-			++itSegments;			
-		}
+		return true;
 	}
 
 	bool Playground::SetupPath(
@@ -122,18 +95,6 @@ namespace Game
 	{	
 		p_deltaTime *= 5;
 
-		//Update Creatures
-		std::list<Creature*>::iterator itCreature = m_creatures.begin();
-		std::list<Creature*>::iterator itCreatureEnd = m_creatures.end();
-		Creature* creature;
-		while (itCreature != itCreatureEnd)
-		{
-			creature = (*itCreature);
-			++itCreature;
-
-			creature->FollowPath(p_deltaTime, m_terrain);
-		}
-	
 		//Update Towers
 		std::list<Tower*>::iterator itTower = m_towers.begin();
 		std::list<Tower*>::iterator itTowerEnd = m_towers.end();
@@ -145,6 +106,23 @@ namespace Game
 
 			tower->ShootAtNearestCreature(m_creatures);
 		}
+
+		//Update Creatures
+		std::list<Creature*>::iterator itCreature = m_creatures.begin();
+		std::list<Creature*>::iterator itCreatureEnd = m_creatures.end();
+		Creature* creature;
+		while (itCreature != itCreatureEnd)
+		{
+			creature = (*itCreature);
+			++itCreature;
+
+			creature->FollowPath(p_deltaTime, m_terrain);
+			if (creature->GetHealthPoints() <= 0.0)
+			{
+				OnCreatureDestroyed(creature);
+			}
+		}
+	
 	
 		//Update Projectiles
 		std::list<Projectile*>::iterator itProjectile = m_projectiles.begin();
@@ -159,8 +137,8 @@ namespace Game
 		}
 
 		//Update Markers
-		std::list<Marker*>::iterator itMarkers = m_marker.begin();
-		std::list<Marker*>::iterator itMarkersEnd = m_marker.end();
+		std::list<Marker*>::iterator itMarkers = m_markers.begin();
+		std::list<Marker*>::iterator itMarkersEnd = m_markers.end();
 		while (itMarkers != itMarkersEnd)
 		{
 			(*itMarkers)->UpdatePosition(p_deltaTime);
@@ -171,14 +149,14 @@ namespace Game
 		{
 			if (m_waves[0]->CheckWaveStatus(m_creatures))
 			{
-				m_waves[0]->SpawnCreature(m_creatures, *m_pathNumber);
-				if (*m_pathNumber == m_path->m_routes.back())
+				m_waves[0]->SpawnCreature(m_creatures, *m_pathRouteSelected);
+				if (*m_pathRouteSelected == m_path->m_routes.back())
 				{
-					m_pathNumber = m_path->m_routes.begin();
+					m_pathRouteSelected = m_path->m_routes.begin();
 				}
 				else
 				{
-					std::advance(m_pathNumber, 1);
+					std::advance(m_pathRouteSelected, 1);
 				}
 			}
 			else
@@ -189,35 +167,37 @@ namespace Game
 		}
 	}
 
-
 	void Playground::Render()
 	{
 		irr::video::IVideoDriver* videoDriver = m_sceneManager->getVideoDriver();
 
-		std::list<PathPoint*>::iterator front = m_path->m_pathPoints->begin();
-		std::list<PathPoint*>::iterator last = m_path->m_pathPoints->end();
-		std::list<PathPoint*>::iterator it;
-		PathPoint* pathPoint;
-
-		for (it = front; it != last; ++it)
+		if (m_path != NULL)
 		{
-			pathPoint = (*it);
+			std::list<PathPoint*>::iterator front = m_path->m_pathPoints->begin();
+			std::list<PathPoint*>::iterator last = m_path->m_pathPoints->end();
+			std::list<PathPoint*>::iterator it;
+			PathPoint* pathPoint;
 
-			std::list<PathPoint*>::iterator front2 = pathPoint->m_pointsConnected.begin();
-			std::list<PathPoint*>::iterator last2 = pathPoint->m_pointsConnected.end();
-			std::list<PathPoint*>::iterator it2;
-
-			for (it2 = front2; it2 != last2; ++it2)
+			for (it = front; it != last; ++it)
 			{
-				PathPoint* pathPoint2 = (*it2);
+				pathPoint = (*it);
 
-				irr::core::vector3df start = pathPoint->m_point;
-				irr::core::vector3df end = pathPoint2->m_point;
-				irr::video::SColor color(255, 255, 0, 0);
+				std::list<PathPoint*>::iterator front2 = pathPoint->m_pointsConnected.begin();
+				std::list<PathPoint*>::iterator last2 = pathPoint->m_pointsConnected.end();
+				std::list<PathPoint*>::iterator it2;
 
-				videoDriver->draw3DLine(start, end, color);
+				for (it2 = front2; it2 != last2; ++it2)
+				{
+					PathPoint* pathPoint2 = (*it2);
+
+					irr::core::vector3df start = pathPoint->m_point;
+					irr::core::vector3df end = pathPoint2->m_point;
+					irr::video::SColor color(255, 255, 0, 0);
+
+					videoDriver->draw3DLine(start, end, color);
+				}
 			}
-		}		
+		}
 	}
 
 	bool Playground::CreateTower(irr::core::vector2di p_position)
@@ -364,7 +344,7 @@ namespace Game
 	{
 		if (p_creature != NULL && p_projectile != NULL)
 		{
-
+			p_creature->DecreaseHealthPoints(p_projectile->GetDamage());
 		}
 	}
 
@@ -453,5 +433,69 @@ namespace Game
 		}
 
 		return NULL;
+	}
+
+	void Playground::CreatePathPointMarkers()
+	{
+		if (m_path != NULL)
+		{	
+			std::list<PathPoint*>::iterator itPathPoint = m_path->m_pathPoints->begin();
+			std::list<PathPoint*>::iterator itPathPointEnd = m_path->m_pathPoints->end();
+			PathPoint* pathPoint = NULL;
+			irr::f32 height;
+			Marker* marker = NULL;
+			irr::core::vector3df markerPosition;
+
+			while (itPathPoint != itPathPointEnd)
+			{
+				pathPoint = (*itPathPoint);
+				
+				markerPosition = pathPoint->m_point;
+				markerPosition.Y = m_terrain->GetTerrainHeight(markerPosition) + 100;
+
+				m_markers.push_back(new Marker(m_sceneManager, this, markerPosition));
+
+				++itPathPoint;
+			}
+		}
+	}
+
+	void Playground::ConnectPathToStargateAndCastle()
+	{
+		if (m_path != NULL)
+		{
+			PathPoint* pathPointStargate = new PathPoint(m_stargate->GetJointBase()->getPosition());
+			PathPoint* pathPointCastle = new PathPoint(m_castle->GetJointCenter()->getPosition());
+
+			PathPoint* pathPointBeginOld = m_path->m_pointBegin;
+			PathPoint* pathPointEndOld = m_path->m_pointEnd;
+
+			//Create new PathSegments
+			m_path->m_pathSegments.push_back(new PathSegment(pathPointStargate, m_path->m_pointBegin));
+			m_path->m_pathSegments.push_back(new PathSegment(pathPointCastle, m_path->m_pointEnd));
+
+			//Set the new Begin and End PathPoints
+			m_path->m_pointBegin = pathPointStargate;
+			m_path->m_pointEnd = pathPointCastle;
+
+			//Add the new PathPoints to the list of the Path.
+			m_path->m_pathPoints->push_front(pathPointStargate);
+			m_path->m_pathPoints->push_back(pathPointCastle);
+			
+			//Update all PathRoutes with the new PathPoints
+			std::list<PathRoute*>::iterator itPathRoute = m_path->m_routes.begin();
+			std::list<PathRoute*>::iterator itPathRouteEnd = m_path->m_routes.end();
+			PathRoute* pathRoute = NULL;
+
+			while (itPathRoute != itPathRouteEnd)
+			{
+				pathRoute = (*itPathRoute);
+
+				pathRoute->push_front(pathPointStargate);
+				pathRoute->push_back(pathPointCastle);
+
+				itPathRoute ++;
+			}
+		}
 	}
 }

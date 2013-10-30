@@ -43,6 +43,15 @@ namespace Game
 
 		void Render();
 
+		/**
+		 * @todo	SetupPath(,,,,,) moet vervangen worden door deze.
+		 * @author	Michel van Os
+		 */
+		bool SetupPath(
+				irr::core::vector3df* p_points1,
+				irr::core::vector3df* p_points2,
+				int p_amount);
+
 		bool SetupPath(
 				irr::core::vector3df* p_points1,
 				irr::core::vector3df* p_points2,
@@ -152,24 +161,25 @@ namespace Game
 	private:
 		GameListener* m_gameListener;
 		irr::scene::ISceneManager* m_sceneManager;
+		
 		PathBuilder* m_pathBuilder;
-
 		Path* m_path;
+		float m_pointRange;
 		irr::core::vector3df m_pointBegin;
 		irr::core::vector3df m_pointEnd;
 
-		irr::scene::ITriangleSelector* m_selector;
 		std::list<Creature*> m_creatures;
 		std::list<Tower*> m_towers;
 		std::list<Projectile*> m_projectiles;
 		std::list<PathFollower*> m_pathFollowers;
-		std::list<PathRoute*>::iterator m_pathNumber;
-		std::list<Marker*> m_marker;
+		std::list<PathRoute*>::iterator m_pathRouteSelected;
+		std::list<Marker*> m_markers;
 
 		std::vector<Wave*> m_waves;
 		int m_waveNumber;
 
 		Terrain* m_terrain;
+		irr::scene::ITriangleSelector* m_selector;
 		irr::core::dimension2d<float> m_gameDimensions;
 
 		Castle* m_castle;
@@ -194,6 +204,27 @@ namespace Game
 		 * @todo	Doesn't work properly? It only finds the Tower when you click at it's center?
 		 */
 		Tower* GetTowerAtPosition(irr::core::vector2di p_position);
+
+		/**
+		 * @brief	Creates Markers at all PathPoints in the Path.
+		 *
+		 *			For every PathPoint in m_path a Marker will be created.
+		 *			The position of the Marker will be the position of the
+		 *			PathPoint. But the Y-coordinate will be 100 units above
+		 *			the Terrain m_terrain Y-coordinate.
+		 * @author	Michel van Os.
+		 */
+		void CreatePathPointMarkers();
+
+		/**
+		 * @brief	Connects the Path with the Startgate and the Castle.
+		 *
+		 *			Updates the Path with a new begin PathPoint and
+		 *			a new end PathPoint. It also creates the new
+		 *			PathSegments and updates all PathRoutes.
+		 * @author	Michel van Os.
+		 */
+		void ConnectPathToStargateAndCastle();
 	};
 }
 

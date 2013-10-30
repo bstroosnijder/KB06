@@ -8,6 +8,7 @@ namespace Game
 
 		m_device = p_device;
 		m_resolution = p_resolution;
+		m_isLookingForPencilCoords = false;
 
 		if (m_device != NULL)
 		{
@@ -28,7 +29,7 @@ namespace Game
 			m_device->setWindowCaption(L"KB06: Game");
 			m_device->getCursorControl()->setVisible(true);		
 
-			logger->Log(Utility::Logger::LOG_MESSAGE, "Startin game: Successful Started", __LINE__, __FILE__);
+			logger->Log(Utility::Logger::LOG_MESSAGE, "Starting game: Successful Started", __LINE__, __FILE__);
 		}
 		else
 		{
@@ -61,7 +62,10 @@ namespace Game
 
 	void GameManager::Update()
 	{
-		m_playground->Update(m_deltaTimer->GetDelta());
+		if (m_gameStatus == GameStatus::WAVE_RUNNING)
+		{
+			//m_playground->Update(m_deltaTimer->GetDelta());
+		}
 	}
 
 	void GameManager::Render()
@@ -69,8 +73,8 @@ namespace Game
 		m_sceneManager->drawAll();
 		m_playground->Render();
 		m_gui->UpdateGui(m_playground->GetWaveNumber(),
-			m_playground->GetWaveSize(),
-			m_playground->GetCreaturesSpawned(),
+				m_playground->GetWaveSize(),
+				m_playground->GetCreaturesSpawned(),
 				m_videoDriver->getFPS(),
 				m_scoreManager.GetPlayerScore(0),
 				m_scoreManager.GetPlayerScore(1));
@@ -79,9 +83,9 @@ namespace Game
 	void GameManager::SetupCamera()
 	{
 		// Create a static camera
-		//m_camera = m_sceneManager->addCameraSceneNode(NULL,
-		//	irr::core::vector3df(0.0f, 0.0f, 0.0f),
-		//	irr::core::vector3df(0.0f, 0.0f, 1.0f));
+		m_camera = m_sceneManager->addCameraSceneNode(NULL,
+				irr::core::vector3df(0.0f, 0.0f, 0.0f),
+				irr::core::vector3df(0.0f, 0.0f, 1.0f));
 
 		//// Or a FPS camera
 		m_camera = m_sceneManager->addCameraSceneNodeFPS();
@@ -102,15 +106,13 @@ namespace Game
 
 	void GameManager::SetCameraHeight(float p_cameraHeight)
 	{
-		m_camera->setPosition(
-			irr::core::vector3df(0.0f, p_cameraHeight, 0.0f));
+		m_camera->setPosition(irr::core::vector3df(0.0f, p_cameraHeight, 0.0f));
 	}
 
 	void GameManager::SetGameLength(float p_gameLength)
 	{
 		// TODO: Implementatie
 		m_playground->UpdateGameScale(p_gameLength);
-
 	}
 
 	void GameManager::SetCaptureResolution(irr::core::dimension2du p_captureResolution)
@@ -137,14 +139,18 @@ namespace Game
 
 	bool GameManager::IsLookingForPencilCoords()
 	{
-		return (m_gameStatus == GameStatus::ATTACKER_PLACE_PENCILS);
+		return (m_gameStatus == GameStatus::ATTACKER_PLACE_PENCILS && m_isLookingForPencilCoords);
 	}
 
-	void SetPencilCoords(irr::core::vector3df* p_points1,
+	void GameManager::SetPencilCoords(irr::core::vector3df* p_points1,
 			irr::core::vector3df* p_points2,
 			int p_amount)
 	{
-		
+		if (m_gameStatus == GameStatus::ATTACKER_PLACE_PENCILS && m_isLookingForPencilCoords)
+		{
+			m_playground->SetupPath(p_points1, p_points2, p_amount);
+			m_isLookingForPencilCoords = false;
+		}
 	}
 
 	float GameManager::GetGameHeight()
@@ -284,7 +290,18 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::ATTACKER_PLACE_PENCILS)
 		{
+			if (m_scoreManager.CanBuyPencil(GetPlayerNumber(PlayerType::TYPE_ATTACKER)))
+			{
+				m_scoreManager.PencilBought(GetPlayerNumber(PlayerType::TYPE_ATTACKER));
+			}
+		}
+	}
 
+	void GameManager::OnCapturePencils()
+	{
+		if (m_gameStatus == GameStatus::ATTACKER_PLACE_PENCILS)
+		{
+			m_isLookingForPencilCoords = true;
 		}
 	}
 
@@ -305,7 +322,8 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
 		{
-			if (m_playground->CreateTower(p_position))
+			if (m_scoreManager.CanCreateTower(GetPlayerNumber(PlayerType::TYPE_DEFENDER)) &&
+					m_playground->CreateTower(p_position))
 			{
 				m_scoreManager.TowerCreated(GetPlayerNumber(PlayerType::TYPE_DEFENDER));
 			}
@@ -318,7 +336,7 @@ namespace Game
 		{
 			if (m_playground->DestroyTower(p_position))
 			{
-				//m_scoreManager.TowerSold();
+				m_scoreManager.TowerDestroyed(GetPlayerNumber(PlayerType::TYPE_DEFENDER));
 			}
 		}
 	}
@@ -327,9 +345,10 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
 		{
-			if (m_playground->UpgradeTowerSpeed(p_position))
+			if (m_scoreManager.CanUpgradeTowerSpeed(GetPlayerNumber(PlayerType::TYPE_DEFENDER)) &&
+					m_playground->UpgradeTowerSpeed(p_position))
 			{
-				//m_scoreManager.TowerUpgradedSpeed();
+				m_scoreManager.TowerIncreasedSpeed(GetPlayerNumber(PlayerType::TYPE_DEFENDER));
 			}
 		}
 	}
@@ -338,9 +357,10 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
 		{
-			if (m_playground->UpgradeTowerRange(p_position))
+			if (m_scoreManager.CanUpgradeTowerRange(GetPlayerNumber(PlayerType::TYPE_DEFENDER)) &&
+					m_playground->UpgradeTowerRange(p_position))
 			{
-				//m_scoreManager.TowerUpgradedRange();
+				m_scoreManager.CanUpgradeTowerRange(GetPlayerNumber(PlayerType::TYPE_DEFENDER));
 			}
 		}
 	}
@@ -349,7 +369,8 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
 		{
-			if (m_playground->UpgradeTowerDamage(p_position))
+			if (m_scoreManager.CanUpgradeTowerDamage(GetPlayerNumber(PlayerType::TYPE_DEFENDER)) &&
+					m_playground->UpgradeTowerDamage(p_position))
 			{
 				m_scoreManager.TowerIncreasedDamage(GetPlayerNumber(PlayerType::TYPE_DEFENDER));
 			}
