@@ -73,9 +73,4 @@ namespace Game
 	{
 		return m_healthPoints;
 	}
-
-	irr::core::aabbox3d<irr::f32> Creature::GetBoundingbox()
-	{
-		return m_animatedMesh->getBoundingBox();
-	}
 }
