@@ -6,9 +6,10 @@
 namespace Game
 {
 	/**
-	* @brief	Projectile.
-	* @author	Thomas Gravekamp
-	*/
+	 * @brief	Projectile.
+	 *
+	 * @author	Thomas Gravekamp
+	 */
 	class Projectile : public Entity
 	{
 	public:

@@ -8,15 +8,19 @@
 namespace Game
 {
 	/**
-	 * @brief Contains a Castle.
+	 * @brief	The Castle is the exit for the Creatures.
+	 *			
+	 *			Eacht time a Creature reaches the Castle the
+	 *			attacker gets points added to his score.
+	 *
 	 * @author Michel van Os
-	 * @todo comments
 	 */
 	class Castle : public Entity
 	{
 	public:
 		/**
 		 * @brief Constructor to initialize a castle
+		 *
 		 * @param p_sceneManager is used to add the castle scene to the scenemanager.
 		 * @param p_position sets the position of the castle
 		 */
@@ -33,12 +37,26 @@ namespace Game
 		irr::scene::ISceneNode* GetJointPath();
 
 		/**
+		 * @brief	Returns the position of the path joint.
+		 *
+		 * @author	Michel van Os.
+		 */
+		irr::core::vector3df GetJointPathPosition();
+
+		/**
 		 * @biref	Returns the SceneNode for the joint
 		 *			at the end of the castle path.
 		 *
 		 * @author	Michel van Os.
 		 */
 		irr::scene::ISceneNode* GetJointCenter();
+
+		/**
+		 * @brief	Returns the position of the center join.
+		 *
+		 * @author	Michel van Os.
+		 */
+		irr::core::vector3df GetJointCenterPosition();
 
 		/**
 		 * @brief	Moves the Castle so that the center joint 
