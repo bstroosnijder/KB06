@@ -22,9 +22,7 @@ namespace Game
 		Game::PathPoint* m_point2;
 
 		/**
-		 * @brief	TODO
-		 *			
-		 * @author	Alex Hodes
+		 * @brief	Constructs the pathsegment
 		 */
 		PathSegment(PathPoint* p_point1, PathPoint* p_point2);
 		

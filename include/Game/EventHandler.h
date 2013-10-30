@@ -13,6 +13,7 @@ namespace Game
 	 * @brief	This Class creates handles incoming events from different inputs.
 	 *			
 	 * @author	Bram van Elderen
+	 * @todo	comments need to be updated
 	 */
 	class EventHandler : public irr::IEventReceiver
 	{

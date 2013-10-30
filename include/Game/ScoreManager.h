@@ -5,9 +5,10 @@ namespace Game
 {
 	class ScoreManager
 	/**
-	 * @brief	TODO
+	 * @todo
 	 *			
 	 * @author	Alex Hodes
+	 * @todo comments
 	 */
 	{
 	public:
@@ -21,10 +22,29 @@ namespace Game
 		*/	
 		int GetPlayerScore(int p_playerNumber);
 
+	   /**
+		* @todo
+		*/
 		bool CanBuyPencil(int p_playerNumber);
+
+	   /**
+		* @todo
+		*/
 		bool CanCreateTower(int p_playerNumber);
+
+	   /**
+		* @todo
+		*/
 		bool CanUpgradeTowerSpeed(int p_playerNumber);
+
+	   /**
+		* @todo
+		*/
 		bool CanUpgradeTowerRange(int p_playerNumber);
+
+	   /**
+		* @todo
+		*/
 		bool CanUpgradeTowerDamage(int p_playerNumber);
 
 		/**
@@ -51,8 +71,14 @@ namespace Game
 		 */
 		void CreatureKilled(int p_playerNumber);
 
+	   /**
+		* @todo
+		*/
 		void TowerCreated(int p_playerNumber);
 
+	   /**
+		* @todo
+		*/
 		void TowerDestroyed(int p_playerNumber);
 
 		/**

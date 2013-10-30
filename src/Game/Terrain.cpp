@@ -53,10 +53,10 @@ namespace Game
 		return m_terrainDimensions;
 	}
 
-	void Terrain::ScaleTerrain(irr::core::vector3df p_Scaling)
+	void Terrain::ScaleTerrain(irr::core::vector3df p_scaling)
 	{
 		irr::core::vector3df scaling = m_startScaling;
-		scaling *= p_Scaling;
+		scaling *= p_scaling;
 		m_terrain->setScale(scaling);
 	}
 

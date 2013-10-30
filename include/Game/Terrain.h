@@ -10,6 +10,7 @@ namespace Game
 	 * @brief This class generates the terrain
 	 *
 	 * @author Albert Haaksema
+	 * @todo comments
 	 */
 	class Terrain
 	{
@@ -32,13 +33,26 @@ namespace Game
 			irr::scene::ITriangleSelector* GenerateTerrain(irr::scene::ISceneManager* p_sceneManager, float p_scale);
 
 			/**
-			* @brief	TODO
+			* @brief Returns the height of the terrain at the given location.
+			* @param p_position is required to find the height of the terrain at the X and Z values of p_position.
 			*/
 			irr::f32 GetTerrainHeight(irr::core::vector3df p_position);
 
+		   /**
+			* @brief Returns the terrain dimensions.
+			*/
 			irr::core::dimension2d<irr::f32> GetTerrainDimensions();
 
-			void ScaleTerrain(irr::core::vector3df p_Scaling);
+		   /**
+			* @brief ScaleTerrain scales the terrain with the given parameter.
+			* @param p_Scaling is the scaling factor to scale the terrain with.
+			*/
+			void ScaleTerrain(irr::core::vector3df p_scaling);
+
+		   /**
+			* @brief SetPosition adds to the X-position of the terrain.
+			* @param p_adjustment is a float to add to the starting x position of the terrain.
+			*/
 			void SetPosition(float p_adjustment);
 
 	private:

@@ -16,7 +16,6 @@ namespace Camera
 	class CalibrationSettings
 	{
 	public:
-		// TODO
 		bool m_goodInput;
 
 		/*
