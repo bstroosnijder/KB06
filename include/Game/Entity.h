@@ -12,7 +12,7 @@ namespace Game
 	 * @brief	General entity class.
 	 *
 	 * @author	Thomas Gravekamp
-	 * @todo		Comment private parts.
+	 * @todo	Comment private parts.
 	 */
 	class Entity
 	{
@@ -29,32 +29,34 @@ namespace Game
 		 * @brief	Destructor
 		 */
 		~Entity();
-
-		/**
-		 * @brief	Render the entity
-		 * @param	p_sceneManager
-		 */
-		void Render(irr::scene::ISceneManager* p_sceneManager);
 		
 		/**
-		 * @brief	Set the MaterialFlags of the entity
-		 * @param	The MaterialFlags of the p_sceneNode will be changed
+		 * @brief	Set the MaterialFlags for the SceneNode.
+		 *
+		 *			If p_sceneNode is NULL then the materials of 
+		 *			m_meshSceneNode will be changed.
+		 * @param	p_sceneNode The ISceneNode the materials should be changed for.
 		 */
 		void SetMaterialFlags(irr::scene::ISceneNode* p_sceneNode = NULL);
 
 		/**
-		 * @brief	Return the position of the entity in a vector3df
+		 * @brief	Returns the position of the Entity in a vector3df.
+		 *
+		 * @return	The position of the Entity.
 		 */
 		irr::core::vector3df GetPosition();
 
 		/**
-		 * @brief	Set the position of the entity
-		 * @param	p_position is the new position of the entity
+		 * @brief	Set the position of the Entity.
+		 *
+		 * @param	p_position The new position of the Entity.
 		 */
 		void SetPosition(irr::core::vector3df& p_position);
 
 		/**
-		 * @brief	Return the SceneNode of the entity
+		 * @brief	Return the SceneNode of the Entity.
+		 *
+		 * @return	The SceneNode of the Entity.
 		 */
 		irr::scene::ISceneNode* GetSceneNode();
 

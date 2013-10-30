@@ -37,6 +37,7 @@ namespace Game
 
 		/**
 		 * @brief	Sets the shooting speed.
+		 *
 		 * @param	p_shootingSpeed	The new shooting speed.
 		 * @author	Michel van Os.
 		 */
@@ -44,6 +45,7 @@ namespace Game
 
 		/**
 		 * @brief	Sets the shooting range.
+		 *
 		 * @param	p_shootingRange	The new shooting range.
 		 * @author	Michel van Os.
 		 */
@@ -59,12 +61,14 @@ namespace Game
 		
 		/**
 		 * @brief	Returns the shooting speed.
+		 *
 		 * @author	Michel van Os.
 		 */
 		float GetShootingSpeed();
 		
 		/**
 		 * @brief	Returns the shooting range.
+		 *
 		 * @author	Michel van Os.
 		 */
 		float GetShootingRange();

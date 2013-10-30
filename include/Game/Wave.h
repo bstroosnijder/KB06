@@ -36,27 +36,29 @@ namespace Game
 		Wave(irr::scene::ISceneManager* p_sceneManager, PlaygroundListener* p_playgroundListener, int p_waveSize);
 
 		/**
-		* @brief	TODO
-		* @todo		Todo? Todo stond al in brief.
-		*/
+		 * @brief	TODO
+		 * @todo		Todo? Todo stond al in brief.
+		 */
 		~Wave();
 
 		/** 
-		* @brief this method initializes the startposition of the creatures and starts the timer of the wave.
-		*/
+		 * @brief this method initializes the startposition of the creatures and starts the timer of the wave.
+		 */
 		void StartSpawning(irr::core::vector3df p_startPosition);
 
 		/**
-		* @brief This method spawns the creatures onto the map.
-		* @param The creatures are added in the p_creatures pointer
-		* @param the p_path is used to give the creatures a walking path
-		*/
+		 * @brief This method spawns the creatures onto the map.
+		 *
+		 * @param The creatures are added in the p_creatures pointer
+		 * @param the p_path is used to give the creatures a walking path
+		 */
 		void SpawnCreature(std::list<Creature*>& p_creatures,PathRoute* p_path);
 
 		/**
-		* @brief This method checks the status of the wave.
-		* @param p_creatures is a vector that is used to check if there are still creatures alive
-		*/
+		 * @brief This method checks the status of the wave.
+		 *
+		 * @param p_creatures is a vector that is used to check if there are still creatures alive
+		 */
 		bool CheckWaveStatus(std::list<Creature*>& p_creatures);
 
 		/**
@@ -92,6 +94,7 @@ namespace Game
 		/**
 		 * @brief	The amount of Creatures that should be spawn
 		 *			by the Wave.
+		 *
 		 * @author	Michel van Os.
 		 */
 		int m_waveSize;

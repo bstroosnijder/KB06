@@ -97,6 +97,8 @@ namespace Game
 				irr::core::vector3df p_pointEnd
 			);
 
+		bool IsPathReady();
+
 		/**
 		 * @brief	Create a Tower at the given 2d screen coordinates.
 		 *
@@ -233,6 +235,7 @@ namespace Game
 		irr::scene::ISceneManager* m_sceneManager;
 		
 		PathBuilder* m_pathBuilder;
+		bool m_isPathValid;
 		Path* m_path;
 		float m_pointRange;
 		irr::core::vector3df m_pointBegin;

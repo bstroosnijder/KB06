@@ -61,6 +61,8 @@ namespace Game
 		while (m_device->run())
 		{
 			capture->Start();
+			/// @todo rename to longest
+			m_gameManager->SetGameLength(capture->GetCalculatedShortestGameLine().getLength());
 			m_gameManager->SetCameraHeight(capture->GetPixelDistance());
 			/// TODO: GetCalculatedShortestGameLine: rename
 			/// @todo rename to longest
@@ -83,14 +85,18 @@ namespace Game
 					irr::core::matrix4 transformation = capture->GetTransformMatrix(m_gameManager->GetCameraProjectionMatrix());
 					root->setPosition(transformation.getTranslation());
 					root->setRotation(transformation.getRotationDegrees());
-				}
 
+				}
 				if (m_gameManager->IsLookingForPencilCoords())
 				{
 					irr::core::vector3df* startPoints = NULL;
 					irr::core::vector3df* endPoints = NULL;
-					capture->FindStartAndEndPoints(capture->GetImage(), m_gameManager->GetCameraProjectionMatrix(), startPoints, endPoints);
-					m_gameManager->SetPencilCoords(startPoints, endPoints, 8);
+					int pencilCount = capture->FindStartAndEndPoints(capture->GetImage(), m_gameManager->GetCameraProjectionMatrix(), startPoints, endPoints);
+
+					if (pencilCount > 0)
+					{
+						m_gameManager->SetPencilCoords(startPoints, endPoints, pencilCount);
+					}
 				}
 
 				// Actually draw the scene, but only once the playground surface has been chosen

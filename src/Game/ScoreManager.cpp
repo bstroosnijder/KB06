@@ -10,6 +10,9 @@ namespace Game
 		m_playerPoints[0] = m_playerPointsDefault[0];
 		m_playerPoints[1] = m_playerPointsDefault[1];
 
+		m_pencilsDefault = 8;
+		m_pencilsOwned = m_pencilsDefault;
+
 		m_pointsCastleReached = 10;
 		m_pointsPencilBought = -50;
 		m_pointsCreatureKilled = 10;
@@ -23,6 +26,26 @@ namespace Game
 	int ScoreManager::GetPlayerScore(int p_playerNumber)
 	{
 		return m_playerPoints[p_playerNumber];
+	}
+
+	int ScoreManager::GetPencilsOwned()
+	{
+		return m_pencilsOwned;
+	}
+
+	int ScoreManager::GetPencilsDefault()
+	{
+		return m_pencilsDefault;
+	}
+
+	void ScoreManager::ResetPencilsOwned()
+	{
+		m_pencilsOwned = m_pencilsDefault;
+	}
+
+	void ScoreManager::SetPencilsOwned(int p_pencilsOwned)
+	{
+		m_pencilsOwned = p_pencilsOwned;
 	}
 
 	bool ScoreManager::CanBuyPencil(int p_playerNumber)
@@ -68,6 +91,7 @@ namespace Game
 	void ScoreManager::PencilBought(int p_playerNumber)
 	{
 		m_playerPoints[p_playerNumber] += m_pointsPencilBought;
+		m_pencilsOwned += 1;
 	}
 
 	void ScoreManager::CreatureKilled(int p_playerNumber)
