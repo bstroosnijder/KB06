@@ -30,21 +30,57 @@ namespace Game
 	* @author	Michel van Os
 	* @author	Menno Postma
 	* @author	Thomas Gravekamp
+	* @todo		comments
 	*/
 	class Playground : public PlaygroundListener
 	{
 	public:
+	   /**
+		* @todo
+		*/
 		Playground(GameListener* p_gameListener, irr::scene::ISceneManager* p_sceneManager);
+
+	   /**
+		* @brief destructs the playground
+		*/
 		~Playground();
 
+	   /**
+		* @brief	Initializes the playground
+		*
+		*			1. Generate the creature waves. 
+		*			2. Generate Path
+		*			3. Creates terrain
+		*			4. Creates PathMarker
+		* @param	p_sceneManager is the sceneManager
+		*/
 		void Initialize(irr::scene::ISceneManager* p_sceneManager);
+
+	   /**
+		* @brief	Updates all game objects on the playground
+		*
+		*			This is called every game-loop. This will update the state, position and rotation of various objects on the playground
+		* @param	p_deltaTime is the deltaTimer
+		*/
 		void Update(float p_deltaTime);
+
+	   /**
+		* @brief	Scales the te terrain, stargate and castle to match the gamelength
+		* @param	p_gameLength is the length of the longest edge of the table
+		*/
 		void UpdateGameScale(float p_gameLength);
 
+	   /**
+		* @todo		Probable won't be used in the near future
+		*/
 		void Render();
 
 		/**
-		 * @todo	SetupPath(,,,,,) moet vervangen worden door deze.
+		 * @todo	SetupPath(,,,,,) moet vervangen worden door deze
+		 * @brief	Used to build the path
+		 * @param	p_points1 is the first point of a line
+		 * @param	P_points2 is the second point of a line
+		 * @param	p_amount is the amount of lines
 		 * @author	Michel van Os
 		 */
 		bool SetupPath(
@@ -147,17 +183,51 @@ namespace Game
 		 */
 		int GetAmountOfCreatures();
 
+	   /**
+		* @brief	returns the amount of creatures spawned by the current wave
+		*/
 		int GetCreaturesSpawned();
+
+	   /**
+		* @brief	returns the size of the wave
+		*/
 		int GetWaveSize();
 
+	   /**
+		* @brief	returns the heigth of the playground
+		*/
 		float GetPlaygroundHeight();
 
-		//PlaygroundListenerEvents
+		//------PlaygroundListenerEvents------
+
+	   /**
+		* @brief	adds the new projectile to the list
+		*/
 		void OnProjectileCreated(Projectile* p_projectile);
+
+	   /**
+		* @brief	removes the projectile
+		*/
 		void OnProjectileDestroyed(Projectile* p_projectile);
+
+	   /**
+		* @brief	adds the creature to the list
+		*/
 		void OnCreatureCreated(Creature* p_creature);
+
+	   /**
+		* @brief	removes the creature
+		*/
 		void OnCreatureDestroyed(Creature* p_creature);
+
+	   /**
+		* @brief	decreases creatures health based on the projectile
+		*/
 		void OnCreatureHit(Creature* p_creature, Projectile* p_projectile);
+
+	   /**
+		* @brief	removes the creature and change score
+		*/
 		void OnCreatureRouteEndReached(Creature* p_creature);
 
 	private:
@@ -188,6 +258,9 @@ namespace Game
 		Castle* m_castle;
 		Stargate* m_stargate;
 
+	   /**
+		* @brief calculates the speedscale
+		*/
 		float CalculateSpeedScale();
 
 		/**

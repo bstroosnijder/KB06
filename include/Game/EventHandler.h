@@ -13,7 +13,7 @@ namespace Game
 	 * @brief	This Class creates handles incoming events from different inputs.
 	 *			
 	 * @author	Bram van Elderen
-	 * @todo	Check TODO's in Header.
+	 * @todo	comments need to be updated
 	 */
 	class EventHandler : public irr::IEventReceiver
 	{
@@ -37,7 +37,7 @@ namespace Game
 				Game::Playground* p_playground);
 		
 		/**
-		 * @brief Deconstructor TODO
+		 * @brief Destructor
 		 */
 		~EventHandler();
 

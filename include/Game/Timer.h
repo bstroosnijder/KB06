@@ -8,10 +8,10 @@
 namespace Game
 {
 	/**
-	 * @brief	This class acts as a timer to control events in our game
+	 * @brief	This class acts as a timer to control events in the game.
 	 * 
-	 * @author	Bram van Elderen
-	 * @author	Michel van Os
+	 * @author	Bram van Elderen.
+	 * @author	Michel van Os.
 	 */
 	class Timer
 	{
@@ -22,17 +22,17 @@ namespace Game
 		Timer();
 
 		/**
-		 * @brief	Start the timer.
+		 * @brief	Starts the timer.
 		 */
 		void Start();
 
 		/**
-		 * @brief	Stop the timer.
+		 * @brief	Stops the timer.
 		 */
 		void Stop();
 
 		/**
-		 * @brief	Reset the timer.
+		 * @brief	Resets the timer.
 		 */
 		void Reset();
 
@@ -47,7 +47,7 @@ namespace Game
 		unsigned long GetTime();
 
 		/**
-		 * @brief	Returns if the timer is passed the given parameter
+		 * @brief	Returns if the timer is passed the given parameter.
 		 * @param	p_seconds The timer uses p_seconds to check if the counter passed
 		 * that point or not
 		 */

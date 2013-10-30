@@ -11,6 +11,7 @@ namespace Game
 	 * @brief	Creature class.
 	 *
 	 * @author	Thomas Gravekamp
+	 * @todo    comment GetBOundingBox
 	 */
 	class Creature : public PathFollower
 	{
@@ -53,8 +54,6 @@ namespace Game
 		 * @brief	Return the HealthPoints of the creature
 		 */
 		double GetHealthPoints();
-
-		irr::core::aabbox3d<irr::f32> GetBoundingbox();
 
 	private:
         double m_healthPoints;

@@ -10,6 +10,7 @@ namespace Game
 	/**
 	 * @brief Contains a Castle.
 	 * @author Michel van Os
+	 * @todo comments
 	 */
 	class Castle : public Entity
 	{

@@ -17,7 +17,7 @@ namespace Game
 	public:
 		/**
 		 * @brief	Creates a Stargate. TODO!!!!!!!!!!!!!!!!!!!!!!!!!!
-		 *
+		 * @todo inc
 		 * @author	Michel van Os.
 		 * @param	
 		 */
@@ -25,8 +25,18 @@ namespace Game
 				PlaygroundListener* p_playgroundListener,
 				irr::core::vector3df& p_position);
 
+	   /**
+		* @todo
+		*/
 		irr::scene::ISceneNode* GetJointBase();
 
+		/**
+		 * @brief	Moves the Stargate so that the base joint 
+		 *			is placed at p_position.
+		 *
+		 * @author	Michel van Os.
+		 * @param	p_position The position for the base joint.
+		 */
 		void SetPositionToJointBase(irr::core::vector3df p_position);
 
 	private:

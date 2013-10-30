@@ -127,8 +127,8 @@ namespace Game
 	void GameManager::DrawCameraTexture()
 	{
 		m_videoDriver->draw2DImage(m_videoDriver->getTexture("capture_background"),
-			irr::core::recti(0, 0, m_resolution.Width, m_resolution.Height),
-			irr::core::recti(0, 0, m_captureResolution.Width, m_captureResolution.Height));
+				irr::core::recti(0, 0, m_resolution.Width, m_resolution.Height),
+				irr::core::recti(0, 0, m_captureResolution.Width, m_captureResolution.Height));
 	}
 
 	irr::core::matrix4 GameManager::GetCameraProjectionMatrix()
@@ -355,6 +355,7 @@ namespace Game
 
 	void GameManager::OnTowerUpgradeSpeed(irr::core::vector2di p_position)
 	{
+		// TODO: not in use
 		if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
 		{
 			if (m_scoreManager.CanUpgradeTowerSpeed(GetPlayerNumber(PlayerType::TYPE_DEFENDER)) &&
@@ -367,6 +368,7 @@ namespace Game
 
 	void GameManager::OnTowerUpgradeRange(irr::core::vector2di p_position)
 	{
+		// TODO: not in use
 		if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
 		{
 			if (m_scoreManager.CanUpgradeTowerRange(GetPlayerNumber(PlayerType::TYPE_DEFENDER)) &&
@@ -379,6 +381,7 @@ namespace Game
 
 	void GameManager::OnTowerUpgradeDamage(irr::core::vector2di p_position)
 	{
+		// TODO: not in use
 		if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
 		{
 			if (m_scoreManager.CanUpgradeTowerDamage(GetPlayerNumber(PlayerType::TYPE_DEFENDER)) &&

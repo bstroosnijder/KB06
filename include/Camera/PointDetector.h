@@ -35,7 +35,11 @@ namespace Camera
 		* @param	p_endPoints A pointer to a vector3df array to store end points.
 		* @return	Returns the amount of detected points.
 		*/
-		int FindPointsInFrame(cv::Mat p_frame, std::vector<cv::Point2f> p_corners, irr::core::matrix4 p_cameraMatrix, float p_pixelDistance, cv::Size p_sizeHalfed, irr::core::vector3df*& p_startPoints, irr::core::vector3df*& p_endPoints);
+		int FindPointsInFrame(cv::Mat p_frame, std::vector<cv::Point2f> p_corners,
+				irr::core::matrix4 p_cameraMatrix, 
+				float p_pixelDistance, cv::Size p_sizeHalfed, 
+				irr::core::vector3df*& p_startPoints, 
+				irr::core::vector3df*& p_endPoints);
 	};
 
 }

@@ -132,31 +132,6 @@ namespace Game
 		}
 	}
 
-	void Gui::endGame(int p_endGame)
-	{		
-		if (p_endGame == 4)
-		{
-			if (m_victoryIsActive == false)
-			{
-				irr::gui::IGUIImage* victory = m_guiEnvironment->addImage(irr::core::rect<irr::s32>((m_screenWidth / 2) - 300,
-						(m_screenHeight / 2) - 169, (m_screenWidth / 2) + 300 , (m_screenHeight / 2) + 169), 0, 5);
-				victory->setImage(m_guiEnvironment->getVideoDriver()->getTexture("resources/textures/victory.png"));
-				victory->setScaleImage(true);
-				m_victoryIsActive = true;
-			}
-		}
-		else if (p_endGame == 1)
-		{
-			if (m_defeatSceenIsActive == false)
-			{
-				irr::gui::IGUIImage* defeat = m_guiEnvironment->addImage(irr::core::rect<irr::s32>((m_screenWidth / 2) - 300, (m_screenHeight / 2) - 169,
-						(m_screenWidth / 2) + 300, (m_screenHeight / 2) + 169), 0, 5);
-				defeat->setImage(m_guiEnvironment->getVideoDriver()->getTexture("resources/textures/defeat.png"));
-				defeat->setScaleImage(true);
-				m_defeatSceenIsActive = true;
-			}
-		}
-	}
 
 	void Gui::ShowVictory(PlayerType p_playerType)
 	{

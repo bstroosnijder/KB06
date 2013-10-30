@@ -12,6 +12,7 @@ namespace Game
 	 * @brief	This Class creates the graphical user interface element of the game	
 	 *			
 	 * @author	Bram van Elderen
+	 * @author	Michel van Os.
 	 */
 	class Gui
 	{
@@ -20,6 +21,8 @@ namespace Game
 		/**
 		 * @brief	GuiButton is used by the EventHandler to determine
 		 *			which IGUIButton is pressed.
+		 *
+		 * @author	Michel van Os.
 		 */
 		enum GuiButton
 		{
@@ -204,7 +207,7 @@ namespace Game
 		bool m_defeatSceenIsActive;
 
 		/**
-		 * @todo
+		 * @Creates all the control objects for the GUI
 		 */
 		void CreateGUIControls();
 
