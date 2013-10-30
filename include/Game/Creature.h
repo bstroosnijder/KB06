@@ -55,11 +55,6 @@ namespace Game
 		 */
 		double GetHealthPoints();
 
-		/**
-		 * @todo
-		 */
-		irr::core::aabbox3d<irr::f32> GetBoundingbox();
-
 	private:
         double m_healthPoints;
 	};
