@@ -9,7 +9,7 @@ namespace Game
 	* @brief	The Stargate is used as the spawn point for Creatures.
 	*
 	*			The Creatures will be spawned at the Stargate. From that
-	*			the creatures will following the path towards the Castle.
+	*			the creatures will be following the path towards the Castle.
 	* @author	Michel van Os.
 	*/
 	class Stargate : public Entity
@@ -30,6 +30,13 @@ namespace Game
 		* @return	Returns a ISceneNode from where the creatures start walking towards the end.
 		*/
 		irr::scene::ISceneNode* GetJointBase();
+
+		/**
+		 * @brief	Returns the position of the base join.
+		 *
+		 * @author	Michel van Os.
+		 */
+		irr::core::vector3df GetJointBasePosition();
 
 		/**
 		 * @brief	Moves the Stargate so that the base joint 

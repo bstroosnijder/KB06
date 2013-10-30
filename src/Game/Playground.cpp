@@ -84,9 +84,9 @@ namespace Game
 		Path* pathNew;
 
 		PathPoint* pointBegin1 = new PathPoint(m_stargate->GetPosition());
-		PathPoint* pointBegin2 = new PathPoint(m_stargate->GetJointBase()->getAbsolutePosition());
-		PathPoint* pointEnd1 = new PathPoint(m_castle->GetJointPath()->getAbsolutePosition());
-		PathPoint* pointEnd2 = new PathPoint(m_castle->GetJointCenter()->getAbsolutePosition());
+		PathPoint* pointBegin2 = new PathPoint(m_stargate->GetJointBasePosition());
+		PathPoint* pointEnd1 = new PathPoint(m_castle->GetJointPathPosition());
+		PathPoint* pointEnd2 = new PathPoint(m_castle->GetJointCenterPosition());
 
 		pointBegin1->m_pointsConnected.push_back(pointBegin2);
 		pointBegin2->m_pointsConnected.push_back(pointBegin1);

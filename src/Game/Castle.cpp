@@ -39,6 +39,7 @@ namespace Game
 			}
 		}
 		
+		SetPositionToJointCenter(p_position);
 		SetMaterialFlags();
 	}
 
@@ -50,6 +51,16 @@ namespace Game
 	irr::scene::ISceneNode* Castle::GetJointCenter()
 	{
 		return m_jointCenter;
+	}
+
+	irr::core::vector3df Castle::GetJointPathPosition()
+	{
+		return GetPosition() + m_jointPath->getPosition();
+	}
+
+	irr::core::vector3df Castle::GetJointCenterPosition()
+	{
+		return GetPosition() + m_jointCenter->getPosition();
 	}
 
 	void Castle::SetPositionToJointCenter(irr::core::vector3df p_position)

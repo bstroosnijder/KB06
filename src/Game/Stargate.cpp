@@ -29,12 +29,18 @@ namespace Game
 			}
 		}
 
+		SetPositionToJointBase(p_position);
 		SetMaterialFlags();
 	}
 
 	irr::scene::ISceneNode* Stargate::GetJointBase()
 	{
 		return m_jointBase;
+	}
+
+	irr::core::vector3df Stargate::GetJointBasePosition()
+	{
+		return GetPosition() + m_jointBase->getPosition();
 	}
 
 	void Stargate::SetPositionToJointBase(irr::core::vector3df p_position)
