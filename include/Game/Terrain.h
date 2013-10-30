@@ -8,6 +8,7 @@ namespace Game
 {
 	/**
 	 * @brief This class generates the terrain
+	 * @todo leon; kan uitgebreider, deze class doet veel meer dan alleen generaten van terrain o.a. scaling.
 	 *
 	 * @author Albert Haaksema
 	 * 
