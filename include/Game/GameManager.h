@@ -16,63 +16,200 @@
 namespace Game
 {
 	/**
-	 * @brief	TODO
-	 * @todo	Write comments
+	 * @brief	
+	 * @todo	Write ALL comments (which is ALOT!!!!)
 	 *			
-	 * @author	Alex Hodes
+	 * @author	Alex Hodes, Leon van Egmond
 	 */
 	class GameManager : public GameListener, UserInputListener
 	{
 	public:
+	   /**
+		* @brief constructs the gamemanager
+		* @param p_device		the rendering videodevice
+		* @param p_resolution	the window resolutu=ion	
+		*/
 		GameManager(irr::IrrlichtDevice* p_device, irr::core::dimension2du p_resolution);
+
+	   /**
+		* @brief destructs the gamemanager
+		*/
 		~GameManager();
 
+	   /**
+	    * @todo
+		*/
 		void StopGame();
+
+	   /**
+	    * @todo
+		*/
 		void GameTick();
 
+	   /**
+	    * @todo
+		*/
 		irr::IEventReceiver* GetEventReceiver();
+
+	   /**
+	    * @todo
+		*/
 		irr::video::ITexture* GetCameraTexture();
+
+	   /**
+	    * @todo
+		*/
 		void SetCameraHeight(float p_cameraHeight);
+
+	   /**
+	    * @todo
+		*/
 		void SetGameLength(float p_gameLength);
+
+	   /**
+	    * @todo
+		*/
 		void SetCaptureResolution(irr::core::dimension2du p_captureResolution);
+
+	   /**
+	    * @todo
+		*/
 		irr::scene::ISceneNode* GetRootSceneNode();
+
+	   /**
+	    * @todo
+		*/
 		void DrawCameraTexture();
+
+	   /**
+	    * @todo
+		*/
 		irr::core::matrix4 GetCameraProjectionMatrix();
+
+	   /**
+	    * @todo
+		*/
 		bool IsLookingForPencilCoords();
+
+	   /**
+	    * @todo
+		*/
 		void SetPencilCoords(irr::core::vector3df* m_points1,
 				irr::core::vector3df* m_points2);
 
+	   /**
+	    * @todo
+		*/
 		void SetPencilCoords(
 				irr::core::vector3df* p_points1,
 				irr::core::vector3df* p_points2,
 				int p_amount);
 
+	   /**
+	    * @todo
+		*/
 		void BeginScene();
+
+	   /**
+	    * @todo
+		*/
 		void EndScene();
 		
 		//GameListenerEvents.
+	   /**
+	    * @todo
+		*/
 		void OnCreatureSpawned();
+
+	   /**
+	    * @todo
+		*/
 		void OnCreatureReachedCastle();
+
+	   /**
+	    * @todo
+		*/
 		void OnCreatureKilled();
+
+	   /**
+	    * @todo
+		*/
 		void OnCreatureHit();
+
+	   /**
+	    * @todo
+		*/
 		void OnProjectileMissed();
+
+	   /**
+	    * @todo
+		*/
 		void OnProjectileFired();
+
+	   /**
+	    * @todo
+		*/
 		void OnWaveEnded();
 
 		//UserInputListenerEvents.
+	   /**
+	    * @todo
+		*/
 		void OnStopGame();
+
+	   /**
+	    * @todo
+		*/
 		void OnStartWave();
+
+	   /**
+	    * @todo
+		*/
 		void OnPlacePencils();
+
+	   /**
+	    * @todo
+		*/
 		void OnCapturePencils();
+
+	   /**
+	    * @todo
+		*/
 		void OnBuyPencil();
+
+	   /**
+	    * @todo
+		*/
 		void OnPlaceTowers();
+
+	   /**
+	    * @todo
+		*/
 		void OnTowerCreate(irr::core::vector2di p_position);
+
+	   /**
+	    * @todo
+		*/
 		void OnTowerDestroy(irr::core::vector2di p_position);
+
+	   /**
+	    * @todo
+		*/
 		void OnTowerUpgradeSpeed(irr::core::vector2di p_position);
+
+	   /**
+	    * @todo
+		*/
 		void OnTowerUpgradeRange(irr::core::vector2di p_position);
+
+	   /**
+	    * @todo
+		*/
 		void OnTowerUpgradeDamage(irr::core::vector2di p_position);
 
-
+	   /**
+	    * @todo
+		*/
 		float GetGameHeight();
 
 	private:
@@ -92,24 +229,28 @@ namespace Game
 		EventHandler* m_eventHandler;
 		DeltaTimer* m_deltaTimer;
 
+
 		bool m_isLookingForPencilCoords;
 
-		//TODO comments
+		
 		/**
-		 * @brief TODO
+		 * @todo
 		 */
 		void Update();
 
 		/**
-		 * @brief TODO
+		 * @todo
 		 */
 		void Render();
 
 		/**
-		 * @brief TODO
+		 * @todo
 		 */
 		void SetupCamera();
 
+	   /**
+	    * @todo
+		*/
 		int GetPlayerNumber(PlayerType p_playerType);
 	};
 }

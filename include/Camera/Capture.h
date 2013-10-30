@@ -61,19 +61,19 @@ namespace Camera
 			irr::core::matrix4 p_cameraProjection);
 
 		/**
-		 * @brief	test
+		 * @brief	If the surface has been chosen
 		 * @return	If the surface has been chosen
 		 */
 		bool HasChosen();
 
 		/**
-		 * @brief	test
+		 * @brief	If the surface has been lost
 		 * @return	If the surface has been lost
 		 */
 		bool IsLost();
 
 		/**
-		 * @brief	Gets the fov
+		 * @brief	Gets the fov 
 		 * @return	The fov
 		 */
 		float GetFov();
@@ -86,7 +86,7 @@ namespace Camera
 
 
 		/**
-		 * @brief	test
+		 * @brief	The distance of the camera in pixels
 		 * @return	The distance of the camera in pixels
 		 */
 		float GetPixelDistance();

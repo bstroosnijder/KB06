@@ -10,6 +10,7 @@ namespace Game
 	/**
 	 * @brief Contains a Castle.
 	 * @author Michel van Os
+	 * @todo comments
 	 */
 	class Castle : public Entity
 	{
@@ -23,8 +24,14 @@ namespace Game
 				PlaygroundListener* p_playgroundListener,
 				irr::core::vector3df& p_position);
 
+		/**
+		 * @todo
+		 */
 		irr::scene::ISceneNode* GetJointPath();
 
+		/**
+		 * @todo
+		 */
 		irr::scene::ISceneNode* GetJointCenter();
 
 	private:

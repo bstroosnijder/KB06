@@ -77,7 +77,7 @@ namespace Camera
 		void Cleanup();
 		
 	   /**
-		* @brief	Comment TODO, Function complete
+		* @brief	Starts the calibration
 		*/
 		void Start();
 		

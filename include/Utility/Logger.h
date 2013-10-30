@@ -16,6 +16,7 @@ namespace Utility
 	 * @brief	Utility Logger to write messages to a file or to a console.
 	 *			
 	 * @author	Michel van Os.
+	 * @todo	comments for private methods
 	 */
 	class Logger
 	{
@@ -152,62 +153,62 @@ namespace Utility
 		bool m_logToFile;
 	
 		/**
-		* @brief	TODO
+		* @todo
 		*/
 		void Initialize();
 
 		/**
-		* @brief	TODO
+		* @todo
 		*/
 		void OpenLogFile();
 
 		/**
-		* @brief	TODO
+		* @todo
 		*/
 		void CloseLogFile();
 
 		/**
-		* @brief	TODO
+		* @todo
 		*/
 		void LogToFile(const char* P_HEADER, const char* P_MASSAGE);
 
 		/**
-		* @brief	TODO
+		* @todo
 		*/
 		void LogToFile(const char* P_HEADER, const char* P_MASSAGE, const int P_LINENUMBER, const char* P_FILE);
 
 		/**
-		* @brief	TODO
+		* @todo
 		*/
 		void LogToConsole(const char* P_HEADER, const char* P_MASSAGE);
 
 		/**
-		* @brief	TODO
+		* @todo
 		*/
 		void LogToConsole(const char* P_HEADER, const char* P_MASSAGE, const int P_LINENUMBER, const char* P_FILE);
 
 		/**
-		* @brief	TODO
+		* @todo
 		*/
 		tm* GetProgramStarted();
 
 		/**
-		* @brief	TODO
+		* @todo
 		*/
 		std::string GetProgramStartedFormatted();
 
 		/**
-		* @brief	TODO
+		* @todo
 		*/
 		std::string GetTimeDurationFormatted();
 
 		/**
-		* @brief	TODO
+		* @todo
 		*/
 		void SetProgramStarted();
 
 		/**
-		* @brief	TODO
+		* @todo
 		*/
 		void SetLogFilename();
 	
