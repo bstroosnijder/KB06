@@ -49,10 +49,10 @@ namespace Game
 
 			SetPosition(position);
 
-			irr::core::aabbox3d<irr::f32> boundingboxProjectileMesh = m_animatedMesh->getBoundingBox();
-			irr::core::aabbox3d<irr::f32> boundingboxProjectileNode = m_meshSceneNode->getTransformedBoundingBox();
-			irr::core::aabbox3d<irr::f32> boundingboxCreatureMesh = m_target->GetBoundingbox();
-			irr::core::aabbox3d<irr::f32> boundingboxCreatureNode = m_target->GetSceneNode()->getTransformedBoundingBox();
+			irr::core::aabbox3df boundingboxProjectileMesh = m_animatedMesh->getBoundingBox();
+			irr::core::aabbox3df boundingboxProjectileNode = m_meshSceneNode->getTransformedBoundingBox();
+			irr::core::aabbox3df boundingboxCreatureMesh = m_target->GetBoundingbox();
+			irr::core::aabbox3df boundingboxCreatureNode = m_target->GetSceneNode()->getTransformedBoundingBox();
 
 			if (boundingboxProjectileNode.intersectsWithBox(boundingboxCreatureNode))
 			{
