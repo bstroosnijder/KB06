@@ -69,30 +69,30 @@ namespace Game
 			// Always draw the camera background
 			//m_gameManager->DrawCameraTexture();
 			
-			if (capture->HasChosen())
-			{
-				if (capture->IsLost() == false)
-				{
-					if (m_inputHandler->Contains(capture))
-					{
-						m_inputHandler->RemoveListener(capture);
-					}
+			//if (capture->HasChosen())
+			//{
+				//if (capture->IsLost() == false)
+				//{
+					//if (m_inputHandler->Contains(capture))
+					//{
+						//m_inputHandler->RemoveListener(capture);
+					//}
 
-				irr::core::matrix4 transformation = capture->GetTransformMatrix(m_gameManager->GetCameraProjectionMatrix());
-				root->setPosition(transformation.getTranslation());
-				root->setRotation(transformation.getRotationDegrees());
-			}
+					//irr::core::matrix4 transformation = capture->GetTransformMatrix(m_gameManager->GetCameraProjectionMatrix());
+					//root->setPosition(transformation.getTranslation());
+					//root->setRotation(transformation.getRotationDegrees());
+				//}
 
 				// Actually draw the scene, but only once the playground surface has been chosen
-				//m_gameManager->GameTick();
+				m_gameManager->GameTick();
 			
-			}
+			//}
 			// End the scene			
 			m_gameManager->EndScene();
 		}
 
 		// Cleanup the capture
-		delete capture;
+		//delete capture;
 	}
 
 	void Kernel::SetMultiThreaded(bool p_multiThreaded)
