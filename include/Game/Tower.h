@@ -35,12 +35,14 @@ namespace Game
 
 		/**
 		 * @brief	Sets the shooting speed.
+		 *
 		 * @param	p_shootingSpeed	The new shooting speed.
 		 */
 		void SetShootingSpeed(float p_shootingSpeed);
 
 		/**
 		 * @brief	Sets the shooting range.
+		 *
 		 * @param	p_shootingRange	The new shooting range.
 		 */
 		void SetShootingRange(float p_shootingRange);

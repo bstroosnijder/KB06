@@ -32,6 +32,8 @@ namespace Game
 		 * @param	p_pointsCount is the amount of points
 		 * @param   P_pointBegin is a vector3df of the point where the path should begin
 		 * @param   P_pointBegin is a vector3df of the point where the path should end
+		 *
+		 * @deprecated	Use BuildPath with the two PatSegments
 		 */
 		Path* BuildPath(
 				irr::core::vector3df* p_points1,
@@ -40,6 +42,29 @@ namespace Game
 				float p_range,
 				irr::core::vector3df p_pointBegin,
 				irr::core::vector3df p_pointEnd);
+		
+		/*
+		 * @brief	Build a path out of given pairs of 3D Vectors.
+		 *
+		 *			By giving the PathBuilder a collection of 3D Vectors a Path will becreated with PathPoints.
+		 *			The PathPoints closest to the begin and end PathSegments will be connected
+		 *			with those PathSegments.
+		 *			1-directional PathSegments will be created and stored inside Path.
+		 *			Multiple PathRoutes may be calculated for the Path.
+		 * @param	p_points1 is a list with the first points of a pair
+		 * @param	p_points2 is a list with the second points of a pair
+		 * @param	p_pointsCount is the amount of points
+		 * @param   P_pointBegin is a vector3df of the point where the path should begin
+		 * @param   P_pointBegin is a vector3df of the point where the path should end
+		 */
+		Path* BuildPath(
+				irr::core::vector3df* p_points1,
+				irr::core::vector3df* p_points2,
+				int p_pointsCount,
+				float p_range,
+				PathSegment* p_segmentBegin,
+				PathSegment* p_segmentEnd
+				);
 
 	private:
 		/**
@@ -103,6 +128,27 @@ namespace Game
 				irr::core::vector3df p_pointBegin,
 				irr::core::vector3df p_pointEnd,
 				float p_range);
+
+		/**
+		 * @brief	Joins the Pencils with the Stargate and Castle PathSegments.
+		 *
+		 *			The second PathPoint of the Stargate PathSegment will be
+		 *			connected with the closest PathPoint of the pencils.
+		 *			The fist PathPoint of the Castle PathSegment will be
+		 *			connected with the closest PathPoint of the pencils.
+		 *
+		 *			This method should be called before the BuildRoute function
+		 *			to ensure that the new PathPoints are included to the
+		 *			PathRoutes of the Path p_path.
+		 * @author	Michel van Os.
+		 * @param	p_path The Path of which the Pathsegments p_segmentBegin
+		 *			p_segmentEnd will be connected with the PathPoints.
+		 * @param	p_segmentBegin The PathSegment of the Stargate.
+		 * @param	p_segmentEnd The PathSegment of the Castle.
+		 */
+		void PathJoinWithBeginAndEnd(Path* p_path, 
+				PathSegment* p_segmentBegin,
+				PathSegment* p_segmentEnd);
 	};
 }
 

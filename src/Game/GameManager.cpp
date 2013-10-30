@@ -9,7 +9,6 @@ namespace Game
 		m_device = p_device;
 		m_resolution = p_resolution;
 		m_isLookingForPencilCoords = false;
-
 		if (m_device != NULL)
 		{
 			m_sceneManager = p_device->getSceneManager();
@@ -64,7 +63,7 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::WAVE_RUNNING)
 		{
-			//m_playground->Update(m_deltaTimer->GetDelta());
+			m_playground->Update(m_deltaTimer->GetDelta());
 		}
 	}
 
@@ -111,7 +110,7 @@ namespace Game
 
 	void GameManager::SetGameLength(float p_gameLength)
 	{
-		// TODO: Implementatie
+		/// @todo Implementatie
 		m_playground->UpdateGameScale(p_gameLength);
 	}
 
@@ -148,8 +147,13 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::ATTACKER_PLACE_PENCILS && m_isLookingForPencilCoords)
 		{
-			m_playground->SetupPath(p_points1, p_points2, p_amount);
-			m_isLookingForPencilCoords = false;
+			if (p_amount == m_scoreManager.GetPencilsOwned())
+			{
+				if (m_playground->SetupPath(p_points1, p_points2, p_amount))
+				{
+					m_isLookingForPencilCoords = false;
+				}
+			}
 		}
 	}
 
@@ -212,7 +216,7 @@ namespace Game
 		{
 			if (m_playground->AreAllWavesFinished())
 			{
-				//The game has ended
+				//The Round is ended.
 
 				/// @todo	Determine the winner Player of the current game round.
 				PlayerType gameRoundWinner = PlayerType::TYPE_ATTACKER;
@@ -226,6 +230,7 @@ namespace Game
 
 					//Switch player sides
 					m_player1 = PlayerType::TYPE_DEFENDER;
+					m_scoreManager.ResetPencilsOwned();
 				}
 				else
 				{
@@ -249,7 +254,8 @@ namespace Game
 			}
 			else
 			{
-				//A new wave should start
+				//The Wave is ended. There are more Waves left to start.
+
 				m_gui->SetButtonAttackersTurnEnabled(true);
 				m_gameStatus = GameStatus::WAVE_FINISHED;
 			}
@@ -265,12 +271,15 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::DEFENDER_PLACE_TOWERS)
 		{
-			m_playground->StartNextWave();
+			if (m_playground->IsPathReady())
+			{
+				m_playground->StartNextWave();
 
-			m_gui->SetButtonDefendersActionsEnabled(false);
-			m_gui->SetButtonStartWaveEnabled(false);
+				m_gui->SetButtonDefendersActionsEnabled(false);
+				m_gui->SetButtonStartWaveEnabled(false);
 
-			m_gameStatus = GameStatus::WAVE_RUNNING;
+				m_gameStatus = GameStatus::WAVE_RUNNING;
+			}
 		}
 	}
 
@@ -309,12 +318,15 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::ATTACKER_PLACE_PENCILS)
 		{
-			m_gui->SetButtonAttackersActionsEnabled(false);
-			m_gui->SetButtonDefendersTurnEnabled(false);
-			m_gui->SetButtonDefendersActionsEnabled(true);
-			m_gui->SetButtonStartWaveEnabled(true);
+			if (m_playground->IsPathReady())
+			{
+				m_gui->SetButtonAttackersActionsEnabled(false);
+				m_gui->SetButtonDefendersTurnEnabled(false);
+				m_gui->SetButtonDefendersActionsEnabled(true);
+				m_gui->SetButtonStartWaveEnabled(true);
 			
-			m_gameStatus = GameStatus::DEFENDER_PLACE_TOWERS;
+				m_gameStatus = GameStatus::DEFENDER_PLACE_TOWERS;
+			}
 		}
 	}
 

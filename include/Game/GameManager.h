@@ -18,7 +18,9 @@ namespace Game
 	/**
 	 * @brief	Manages the game.
 	 *			
-	 * @author	Alex Hodes
+	 * @author	Alex Hodes.
+	 * @author	Michel van Os.
+	 * @author	Bas Stroosnijder.
 	 * @author	Leon van Egmond
 	 */
 	class GameManager : public GameListener, UserInputListener

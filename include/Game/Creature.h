@@ -44,8 +44,8 @@ namespace Game
 		void FollowPath(float p_deltaTime, Terrain* p_terrain);
 
 		/**
-		 * @brief	Set the HealthPoints of the creature
-		 * @param	p_healthPoints The healthpower
+		 * @brief	Set the HealthPoints of the Creature.
+		 * @param	p_healthPoints The new HealthPoint for the Creature.
 		 */
 		void DecreaseHealthPoints(double p_healthPoints);
 

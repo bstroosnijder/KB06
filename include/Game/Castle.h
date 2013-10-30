@@ -25,14 +25,29 @@ namespace Game
 				irr::core::vector3df& p_position);
 
 		/**
-		 * @todo
+		 * @brief	Returns the SceneNode for the joint
+		 *			at the begin of the castle path.
+		 *
+		 * @author	Michel van Os.
 		 */
 		irr::scene::ISceneNode* GetJointPath();
 
 		/**
-		 * @todo
+		 * @biref	Returns the SceneNode for the joint
+		 *			at the end of the castle path.
+		 *
+		 * @author	Michel van Os.
 		 */
 		irr::scene::ISceneNode* GetJointCenter();
+
+		/**
+		 * @brief	Moves the Castle so that the center joint 
+		 *			is placed at p_position.
+		 *
+		 * @author	Michel van Os.
+		 * @param	p_position The position for the center joint.
+		 */
+		void SetPositionToJointCenter(irr::core::vector3df p_position);
 
 	private:
 		irr::scene::IBoneSceneNode* m_jointPath;
