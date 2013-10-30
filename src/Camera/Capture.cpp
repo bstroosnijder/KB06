@@ -301,7 +301,7 @@ namespace Camera
 			// -----
 
 			// Apply the scaling (no scaling; default to 1.0f)
-			scaling.setScale(irr::core::vector3df(1.0f, 1.0f, 1.0f));
+			scaling.setScale(irr::core::vector3df(1.0f));
 
 			// -----
 			// Set the rotation
@@ -323,14 +323,14 @@ namespace Camera
 					irr::core::vector2df(m_corners.at(3).x, m_corners.at(3).y),
 					irr::core::vector2df(m_corners.at(0).x, m_corners.at(0).y));
 
-			float range = 0.2f;
+			float range = 0.8f;
 			// Create a 3D vector to contain the new angles
 			irr::core::vector3df angles = irr::core::vector3df(
 					 static_cast<float>(((top.getLength() / bottom.getLength()) - 1.0f) * (irr::core::HALF_PI / range)),
 					-static_cast<float>(std::atan2(top.end.Y - top.start.Y, top.end.X - top.start.X) * (180.0f / irr::core::PI)),
 					 static_cast<float>(((right.getLength() / left.getLength()) - 1.0f) * (irr::core::HALF_PI / range)));
 
-			rotation.setRotationRadians(irr::core::vector3df(
+			rotation.setInverseRotationRadians(irr::core::vector3df(
 					-static_cast<float>(angles.Z > irr::core::HALF_PI ? irr::core::HALF_PI : (angles.Z < -irr::core::HALF_PI ? -irr::core::HALF_PI : angles.Z)),
 					 static_cast<float>(m_defaultRotation + (angles.Y * (irr::core::PI / 180.0f))),
 					-static_cast<float>(angles.X > irr::core::HALF_PI ? irr::core::HALF_PI : (angles.X < -irr::core::HALF_PI ? -irr::core::HALF_PI : angles.X))));
@@ -342,21 +342,19 @@ namespace Camera
 			// Create a 3D vector to contain the new position
 			irr::core::vector3df position = irr::core::vector3df(
 					static_cast<float>(ltCenterX),
-					static_cast<float>(0.0f),
-					static_cast<float>(ltCenterY));
+					static_cast<float>(ltCenterY),
+					static_cast<float>(0.0f));
 			// Transform using the inverted camera matrix
 			p_cameraProjection.transformVect(position);
 
-			// Apply transformation (y transformation is done in the camera)
-			translation.setTranslation(irr::core::vector3df(
-					 static_cast<float>(position.Z * (m_pixelDistance / m_sizeHalfed.height)),
-					-static_cast<float>(position.Y),
-					 static_cast<float>(position.X * (m_pixelDistance / m_sizeHalfed.width))));	
+			// Apply translation (y translation is done in the camera)
+			translation.setInverseTranslation(irr::core::vector3df(
+					 static_cast<float>(position.Y * (m_pixelDistance / (m_sizeHalfed.height / 2))),
+					-static_cast<float>(position.Z),
+					 static_cast<float>(position.X * (m_pixelDistance / (m_sizeHalfed.width / 2)))));
 
 			// Merge scaling, rotation and translation into the transformation
 			transformation = scaling * rotation * translation;
-			// Make it inverted
-			transformation.makeInverse();
 
 			Unlock();
 		}

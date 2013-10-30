@@ -85,6 +85,8 @@ namespace Game
 		m_camera = m_sceneManager->addCameraSceneNode(NULL,
 				irr::core::vector3df(0.0f, 0.0f, 0.0f),
 				irr::core::vector3df(0.0f, 0.0f, 1.0f));
+		m_camera->setNearValue(1.0f);
+		m_camera->setFarValue(50000.0f);
 
 		//// Or a FPS camera
 		//m_camera = m_sceneManager->addCameraSceneNodeFPS();

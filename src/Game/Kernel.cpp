@@ -61,8 +61,6 @@ namespace Game
 		while (m_device->run())
 		{
 			capture->Start();
-			/// @todo rename to longest
-			m_gameManager->SetGameLength(capture->GetCalculatedShortestGameLine().getLength());
 			m_gameManager->SetCameraHeight(capture->GetPixelDistance());
 			/// TODO: GetCalculatedShortestGameLine: rename
 			/// @todo rename to longest
@@ -85,6 +83,7 @@ namespace Game
 					irr::core::matrix4 transformation = capture->GetTransformMatrix(m_gameManager->GetCameraProjectionMatrix());
 					root->setPosition(transformation.getTranslation());
 					root->setRotation(transformation.getRotationDegrees());
+					root->setScale(transformation.getScale());
 
 				}
 				if (m_gameManager->IsLookingForPencilCoords())
