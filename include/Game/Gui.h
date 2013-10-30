@@ -17,10 +17,14 @@ namespace Game
 	{
 	
 	public:
+		/**
+		 * @brief	GuiButton is used by the EventHandler to determine
+		 *			which IGUIButton is pressed.
+		 */
 		enum GuiButton
 		{
 			BUTTON_STOP_GAME,
-			BUTTON_MENU,
+			BUTTON_HIDE_MENU,
 			BUTTON_CLEAR,
 			BUTTON_ATTACKERS_TURN,
 			BUTTON_BUY_PENCIL,
@@ -31,13 +35,15 @@ namespace Game
 			BUTTON_UPGRADE_TOWER_SPEED,
 			BUTTON_UPGRADE_TOWER_RANGE,
 			BUTTON_UPGRADE_TOWER_DAMAGE,
-			BUTTON_CONTROLS_MENU,
+			BUTTON_SHOW_CONTROLS_MENU,
+			BUTTON_HIDE_CONTROLS_MENU,
 			BUTTON_START_WAVE
 		};
 		
 		/**
 		 * @brief	Constructor
-		 * @param	p_guienv A reference to the guienviroment given from the kernel.
+		 *
+		 * @param	p_guienv A reference to the IGUIEnvironment given from the kernel.
 		 */
 		Gui(irr::gui::IGUIEnvironment* p_guienv);
 
@@ -47,26 +53,18 @@ namespace Game
 		~Gui();
 
 		/**
-		 * @brief	This function is used to draw the gui elements that were added in the m_guienv.
-		 * @param	UpdateGui uses p_wavetimer to display the time untill the next wave in the GUI
-		 * @param	p_resources is used to display the resources available in the GUI
+		 * @brief	This function is used to draw the gui elements that were added to the m_guiEnvironment.
+		 *
+		 * @param	p_waveNumber The number of the current Wave.
+		 * @param	p_waveSize The amount of Creatures to spawn by the current Wave.
+		 * @param	p_creaturesSpawned The amount of Creatures spawned by the current wave.
+		 * @param	p_fps The amount of Frames Per Seconds the Game Runs.
+		 * @param	p_player1Points The points Player 1 has.
+		 * @param	p_player2Points The points Player 2 has.
 		 */
 		void UpdateGui(int p_waveNumber, int p_waveSize, int p_creaturesSpawned,
 				int p_fps,
 				int p_player1Points, int p_player2Points);
-
-		/**
-		 *	@brief Creates the menu or destroys the menu
-		 */
-		void UpdateMenu();
-
-		/**
-		 *	@brief Creates the control menu or destroys the controls menu
-		 */
-		void UpdateControlsMenu();
-
-		///@todo	Needs comments
-		void Draw();
 
 		/**
 		 *	Clears all GUI elements
@@ -78,21 +76,106 @@ namespace Game
 		 */
 		void Cleanup();
 
+		/**
+		 * @deprecated	Use ShowVictory and HideVictory.
+		 */
 		void endGame(int);
 
+		/**
+		 * @brief	Shows a menu with a button to close the Game.
+		 *
+		 *			The following buttons will be shown on the menu:
+		 *			- return:	Hides the menu.
+		 *			- stop:		Stops the Game.
+		 * @author	Michel van Os.
+		 */
+		void ShowMenu();
+
+		/**
+		 * @brief	Hides the menu.
+		 */
+		void HideMenu();
+
+		/**
+		 * @brief	Show the Controls Menu.
+		 */
+		void ShowControlsMenu();
+
+		/**
+		 * @brief	Hides the Controls Menu.
+		 */
+		void HideControlsMenu();
+
+		/**
+		 * @brief	Showw the victory image for the defending player.
+		 *
+		 *			If p_playerType is TYPE_DEFENDER then the Victory image will be shown.
+		 *			If p_playerType is TYPE_ATTACKER then the Defeated image will be shown.
+		 * @author	Michel van Os.
+		 * @param	p_playerType The PlayerType that won.
+		 */
 		void ShowVictory(PlayerType p_playerType);
+
+		/**
+		 * @brief	Hides the victory image.
+		 *
+		 * @author	Michel van Os.
+		 */
 		void HideVictory();
 
+		/**
+		 * @brief	Changes the enabled state for the Attackers Turn Button.
+		 *
+		 * @author	Michel van Os.
+		 * @param	p_state The new state for the Button.
+		 */
 		void SetButtonAttackersTurnEnabled(bool p_state);
+
+		/**
+		 * @brief	Changes the enabled state for the Attackers Actions Buttons.
+		 *
+		 *			The Attackers Actions buttons are:
+		 *			- Buy Pencil
+		 *			- Capture Pencils
+		 * @author	Michel van Os.
+		 * @param	p_state The new state for the Buttons.
+		 */
 		void SetButtonAttackersActionsEnabled(bool p_state);
+
+		/**
+		 * @brief	Changes the enabled state for the Defenders Turn Button.
+		 *
+		 * @author	Michel van Os.
+		 * @param	p_state The new state for the Button.
+		 */
 		void SetButtonDefendersTurnEnabled(bool p_state);
+
+		/**
+		 * @brief	Changes the enabled state for the Defenders Actions Buttons.
+		 *
+		 *			The Defenders Actions buttons are:
+		 *			- Create Tower
+		 *			- Delete Tower
+		 *			- Update Tower Speed
+		 *			- Update Tower Range
+		 *			- Update Tower Damage
+		 * @author	Michel van Os.
+		 * @param	p_state The new state for the Buttons.
+		 */
 		void SetButtonDefendersActionsEnabled(bool p_state);
+
+		/**
+		 * @brief	Changes the enabled state for the Start Wave Button.
+		 *
+		 * @author	Michel van Os.
+		 * @param	p_state The new state for the Button.
+		 */
 		void SetButtonStartWaveEnabled(bool p_state);
 
 	private:
 		irr::gui::IGUIEnvironment* m_guiEnvironment;
 		irr::gui::IGUIImage* m_menu;
-		irr::gui::IGUIImage* m_controls;
+		irr::gui::IGUIImage* m_menuControls;
 		irr::gui::IGUIImage* m_imageSidebar;
 		irr::gui::IGUIImage* m_imageSidebarInfo;
 		irr::gui::IGUIImage* m_imageVictory;
@@ -116,7 +199,6 @@ namespace Game
 
 		int m_screenWidth;
 		int m_screenHeight;
-		bool m_menuIsActive;
 		bool m_controlsMenuIsActive;
 		bool m_victoryIsActive;
 		bool m_defeatSceenIsActive;
@@ -130,7 +212,7 @@ namespace Game
 		 * @brief Converts a string and an int to a wString so it can be used easily with Irrlicht
 		 * @param The method gets an string and an int as input which get converted
 		 */
-		std::wstring stringToWString(std::string,int);
+		std::wstring StringToWString(std::string,int);
 	};
 }
 #endif

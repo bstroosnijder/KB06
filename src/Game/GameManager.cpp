@@ -9,7 +9,6 @@ namespace Game
 		m_device = p_device;
 		m_resolution = p_resolution;
 		m_isLookingForPencilCoords = false;
-
 		if (m_device != NULL)
 		{
 			m_sceneManager = p_device->getSceneManager();
@@ -413,6 +412,6 @@ namespace Game
 		- - - - - - - - - - - -
 		Result			0
 		*/
-		return m_player1 == PlayerType::TYPE_DEFENDER ^ p_playerType;
+		return (m_player1 == PlayerType::TYPE_DEFENDER) ^ p_playerType;
 	}
 }

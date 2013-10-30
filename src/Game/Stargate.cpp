@@ -36,4 +36,9 @@ namespace Game
 	{
 		return m_jointBase;
 	}
+
+	void Stargate::SetPositionToJointBase(irr::core::vector3df p_position)
+	{
+		SetPosition(p_position +  m_jointBase->getPosition());
+	}
 }

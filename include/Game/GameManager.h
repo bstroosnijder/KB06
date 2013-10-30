@@ -19,7 +19,9 @@ namespace Game
 	 * @brief	TODO
 	 * @todo	Write comments
 	 *			
-	 * @author	Alex Hodes
+	 * @author	Alex Hodes.
+	 * @author	Michel van Os.
+	 * @author	Bas Stroosnijder.
 	 */
 	class GameManager : public GameListener, UserInputListener
 	{

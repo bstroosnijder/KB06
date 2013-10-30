@@ -31,6 +31,7 @@ namespace Game
 
 		/**
 		 * @brief	Handles events from irrlicht and distributes them amoun it's listeners
+		 *
 		 * @param	p_event The event received
 		 * @return	Has the event been completely handled
 		 */
@@ -38,6 +39,7 @@ namespace Game
 
 		/**
 		 * @brief	Checks if p_listener is contained in our listeners list
+		 *
 		 * @param	p_listener The listener to check for
 		 * @return	If it contains the listener
 		 */
@@ -45,12 +47,14 @@ namespace Game
 
 		/**
 		 * @brief	Adds a listener to the list
+		 *
 		 * @param	p_listener The listener to add
 		 */
 		void AddListener(irr::IEventReceiver* p_listener);
 
 		/**
 		 * @brief	Removes a listener from the list
+		 *
 		 * @param	p_listener The listener to remove
 		 */
 		void RemoveListener(irr::IEventReceiver* p_listener);

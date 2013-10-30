@@ -288,8 +288,8 @@ namespace Camera
 			p_cameraProjection.makeInverse();
 
 			// Caltulate the center x and y from the top left corner
-			float ltCenterX = (m_center.x - m_sizeHalfed.width);
-			float ltCenterY = (m_center.y - m_sizeHalfed.height);
+			float ltCenterX = (m_topLeft.x - m_sizeHalfed.width);
+			float ltCenterY = (m_topLeft.y - m_sizeHalfed.height);
 
 			// Calculates the ratio betwee the longest game line and longest capture line
 			m_ratio = m_longestGameLine.getLength() / m_longestLine.getLength();

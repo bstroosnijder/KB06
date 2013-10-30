@@ -28,12 +28,12 @@ namespace Game
 			{
 				switch (id)
 				{
-				case Gui::BUTTON_MENU:
-					m_gui->UpdateMenu();
-					return true;
-
 				case Gui::BUTTON_STOP_GAME:
 					m_userInputListener->OnStopGame();
+					return true;
+
+				case Gui::BUTTON_HIDE_MENU:
+					m_gui->HideMenu();
 					return true;
 				
 				case Gui::BUTTON_CLEAR:
@@ -76,8 +76,12 @@ namespace Game
 					m_clickEvent = ClickEvent::UPGRADE_TOWER_DAMAGE;
 					return true;
 
-				case Gui::BUTTON_CONTROLS_MENU:
-					m_gui->UpdateControlsMenu();
+				case Gui::BUTTON_SHOW_CONTROLS_MENU:
+					m_gui->ShowControlsMenu();
+					return true;
+
+				case Gui::BUTTON_HIDE_CONTROLS_MENU:
+					m_gui->HideControlsMenu();
 					return true;
 
 				case Gui::BUTTON_START_WAVE:
@@ -92,7 +96,7 @@ namespace Game
 			
 			if (keyInput == irr::KEY_ESCAPE && !p_event.KeyInput.PressedDown)
 			{
-				m_gui->UpdateMenu();
+				m_gui->ShowMenu();
 				return true;
 			}
 			if (keyInput == irr::KEY_KEY_F && !p_event.KeyInput.PressedDown)

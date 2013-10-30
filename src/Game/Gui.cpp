@@ -6,7 +6,7 @@ namespace Game
 	{
 		m_guiEnvironment = p_guienv;
 		m_menu = NULL;
-		m_controls = NULL;
+		m_menuControls = NULL;
 		m_imageVictory = NULL;
 		m_textAmountOfCreatures = NULL;
 		m_textWaveNumber = NULL;
@@ -28,7 +28,6 @@ namespace Game
 		const irr::core::dimension2d<irr::u32>& screenResolution = m_guiEnvironment->getVideoDriver()->getScreenSize();
 		m_screenHeight = screenResolution.Height;
 		m_screenWidth = screenResolution.Width;
-		m_menuIsActive = false;
 		m_controlsMenuIsActive = false;
 		m_victoryIsActive = false;
 		m_defeatSceenIsActive= false;
@@ -68,66 +67,68 @@ namespace Game
 	void Gui::UpdateGui(int p_waveNumber, int p_waveSize, int p_creaturesSpawned,
 			int p_fps, int p_player1Points, int p_player2Points)
 	{
-		m_textAmountOfCreatures->setText(stringToWString("Creatures : ", p_creaturesSpawned).c_str());				
-		m_textWaveNumber->setText(stringToWString("Wave : ", p_waveNumber).c_str());
-		m_textFps->setText(stringToWString("FPS : ", p_fps).c_str());
-		m_textPlayer1Points->setText(stringToWString("Player 1 Points : ", p_player1Points).c_str());
-		m_textPlayer2Points->setText(stringToWString("Player 2 Points : ", p_player2Points).c_str());
+		m_textAmountOfCreatures->setText(StringToWString("Creatures : ", p_creaturesSpawned).c_str());				
+		m_textWaveNumber->setText(StringToWString("Wave : ", p_waveNumber).c_str());
+		m_textFps->setText(StringToWString("FPS : ", p_fps).c_str());
+		m_textPlayer1Points->setText(StringToWString("Player 1 Points : ", p_player1Points).c_str());
+		m_textPlayer2Points->setText(StringToWString("Player 2 Points : ", p_player2Points).c_str());
 
 		m_guiEnvironment->drawAll();
 	}
 
-	void Gui::UpdateMenu()
+	void Gui::ShowMenu()
 	{
-		//rect = (left position,top position,right position,bottom position)
-		if (!m_menuIsActive)
-		{			
-			m_menu = m_guiEnvironment->addImage(irr::core::rect<irr::s32>((m_screenWidth / 2) - 100, (m_screenHeight / 2) - 100, 
+		if (m_menu == NULL)
+		{
+			m_menu = m_guiEnvironment->addImage(irr::core::recti((m_screenWidth / 2) - 100, (m_screenHeight / 2) - 100, 
 					(m_screenWidth / 2) + 100, (m_screenHeight / 2) + 100));
 			m_menu->setImage(m_guiEnvironment->getVideoDriver()->getTexture("resources/textures/bar.png"));
 			m_menu->setScaleImage(true);
 
-			irr::gui::IGUIButton* returnButton = m_guiEnvironment->addButton(irr::core::rect<irr::s32>(35, 65, 140, 80), 
-					m_menu, BUTTON_MENU, L"Return", L"Returns to the game");
+			irr::gui::IGUIButton* returnButton = m_guiEnvironment->addButton(irr::core::recti(35, 65, 140, 80), 
+					m_menu, BUTTON_HIDE_MENU, L"Return", L"Returns to the game");
 			returnButton->setImage(m_guiEnvironment->getVideoDriver()->getTexture("resources/textures/button.png"));
 			returnButton->setScaleImage(true);
 
-			irr::gui::IGUIButton* quitButton = m_guiEnvironment->addButton(irr::core::rect<irr::s32>(35, 95, 140, 110),
+			irr::gui::IGUIButton* quitButton = m_guiEnvironment->addButton(irr::core::recti(35, 95, 140, 110),
 					m_menu, BUTTON_STOP_GAME, L"Quit", L"Exits program");
 			quitButton->setImage(m_guiEnvironment->getVideoDriver()->getTexture("resources/textures/button.png"));
 			quitButton->setScaleImage(true);
-
-			m_menuIsActive = true;
-		}
-		else if (m_menuIsActive)
-		{
-			m_menu->remove();
-			m_menuIsActive = false;
 		}
 	}
 
-	void Gui::UpdateControlsMenu()
+	void Gui::HideMenu()
 	{
-		//rect = (left position,top position,right position,bottom position)
-		if (!m_controlsMenuIsActive)
+		if (m_menu != NULL)
 		{
-			m_controls = m_guiEnvironment->addImage(irr::core::rect<irr::s32>((m_screenWidth / 2) - 100, (m_screenHeight / 2) - 100, 
+			m_menu->remove();
+			m_menu = NULL;
+		}
+	}
+
+	void Gui::ShowControlsMenu()
+	{
+		if (m_menuControls == NULL)
+		{
+			m_menuControls = m_guiEnvironment->addImage(irr::core::rect<irr::s32>((m_screenWidth / 2) - 100, (m_screenHeight / 2) - 100, 
 					(m_screenWidth / 2) + 100, (m_screenHeight / 2) + 100));
-			m_controls->setImage(m_guiEnvironment->getVideoDriver()->getTexture("resources/textures/bar.png"));
-			m_controls->setScaleImage(true);
-			m_guiEnvironment->addStaticText(L"F:Switch camera mode.", irr::core::rect<irr::s32>(35, 35, 300, 50), false, true, m_controls);
+			m_menuControls->setImage(m_guiEnvironment->getVideoDriver()->getTexture("resources/textures/bar.png"));
+			m_menuControls->setScaleImage(true);
+			m_guiEnvironment->addStaticText(L"F:Switch camera mode.", irr::core::rect<irr::s32>(35, 35, 300, 50), false, true, m_menuControls);
 
 			irr::gui::IGUIButton* returnButton = m_guiEnvironment->addButton(irr::core::rect<irr::s32>(35, 65, 140, 80), 
-					m_controls, BUTTON_CONTROLS_MENU, L"Return", L"Returns to the game");
+					m_menuControls, BUTTON_HIDE_CONTROLS_MENU, L"Return", L"Returns to the game");
 			returnButton->setImage(m_guiEnvironment->getVideoDriver()->getTexture("resources/textures/button.png"));
 			returnButton->setScaleImage(true);
-
-			m_controlsMenuIsActive = true;
 		}
-		else if (m_controlsMenuIsActive)
+	}
+
+	void Gui::HideControlsMenu()
+	{
+		if (m_menuControls != NULL)
 		{
-			m_controls->remove();
-			m_controlsMenuIsActive = false;
+			m_menuControls->remove();
+			m_menuControls = NULL;
 		}
 	}
 
@@ -159,23 +160,24 @@ namespace Game
 
 	void Gui::ShowVictory(PlayerType p_playerType)
 	{
-		HideVictory();
-		
-		irr::video::ITexture* image;
-		
-		if (p_playerType == PlayerType::TYPE_ATTACKER)
+		if (m_imageVictory == NULL)
 		{
-			image = m_guiEnvironment->getVideoDriver()->getTexture("resources/textures/victory.png");
-		}
-		else
-		{
-			image = m_guiEnvironment->getVideoDriver()->getTexture("resources/textures/defeat.png");
-		}
+			irr::video::ITexture* image;
 		
-		m_imageVictory = m_guiEnvironment->addImage(irr::core::rect<irr::s32>((m_screenWidth / 2) - 300,(m_screenHeight / 2) - 169,
-				(m_screenWidth / 2) + 300, (m_screenHeight / 2) + 169), 0, 5);
-		m_imageVictory->setImage(image);
-		m_imageVictory->setScaleImage(true);
+			if (p_playerType == PlayerType::TYPE_DEFENDER)
+			{
+				image = m_guiEnvironment->getVideoDriver()->getTexture("resources/textures/victory.png");
+			}
+			else
+			{
+				image = m_guiEnvironment->getVideoDriver()->getTexture("resources/textures/defeat.png");
+			}
+		
+			m_imageVictory = m_guiEnvironment->addImage(irr::core::rect<irr::s32>((m_screenWidth / 2) - 300,(m_screenHeight / 2) - 169,
+					(m_screenWidth / 2) + 300, (m_screenHeight / 2) + 169), 0, 5);
+			m_imageVictory->setImage(image);
+			m_imageVictory->setScaleImage(true);
+		}
 	}
 
 	void Gui::HideVictory()
@@ -226,7 +228,7 @@ namespace Game
 	{
 		delete m_guiEnvironment;
 		delete m_menu;
-		delete m_controls;
+		delete m_menuControls;
 		delete m_textWaveNumber;
 		delete m_textAmountOfCreatures;
 	}
@@ -302,7 +304,7 @@ namespace Game
 
 		//Button Controls Menu
 		m_buttonControlsMenu = m_guiEnvironment->addButton(irr::core::rect<irr::s32>(midPositionSidebar - buttonWidth / 2, 410, 
-				midPositionSidebar + buttonWidth / 2, 440), m_imageSidebar, BUTTON_CONTROLS_MENU, L"Controls");
+				midPositionSidebar + buttonWidth / 2, 440), m_imageSidebar, BUTTON_SHOW_CONTROLS_MENU, L"Controls");
 		m_buttonControlsMenu->setImage(m_textureButton);
 		m_buttonControlsMenu->setScaleImage(true);
 
@@ -331,7 +333,7 @@ namespace Game
 		m_textPlayer2Points->setOverrideColor(textColor);
 	}
 
-	std::wstring Gui::stringToWString(std::string p_string, int p_int)
+	std::wstring Gui::StringToWString(std::string p_string, int p_int)
 	{
 		std::ostringstream tmpOstring;
 		tmpOstring << p_int;

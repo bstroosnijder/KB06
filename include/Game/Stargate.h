@@ -27,6 +27,8 @@ namespace Game
 
 		irr::scene::ISceneNode* GetJointBase();
 
+		void SetPositionToJointBase(irr::core::vector3df p_position);
+
 	private:
 		irr::scene::ISceneNode* m_jointBase;
 	};

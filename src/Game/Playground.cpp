@@ -82,7 +82,22 @@ namespace Game
 		}
 
 		Path* pathNew;
-		pathNew = m_pathBuilder->BuildPath(p_points1, p_points2, p_amount, m_pointRange, m_pointBegin, m_pointEnd);
+
+		PathPoint* pointBegin1 = new PathPoint(m_stargate->GetPosition());
+		PathPoint* pointBegin2 = new PathPoint(m_stargate->GetJointBase()->getAbsolutePosition());
+		PathPoint* pointEnd1 = new PathPoint(m_castle->GetJointPath()->getAbsolutePosition());
+		PathPoint* pointEnd2 = new PathPoint(m_castle->GetJointCenter()->getAbsolutePosition());
+
+		pointBegin1->m_pointsConnected.push_back(pointBegin2);
+		pointBegin2->m_pointsConnected.push_back(pointBegin1);
+
+		pointEnd1->m_pointsConnected.push_back(pointEnd2);
+		pointEnd2->m_pointsConnected.push_back(pointEnd1);
+
+		PathSegment* segmentBegin = new PathSegment(pointBegin1, pointBegin2);
+		PathSegment* segmentEnd = new PathSegment(pointEnd1, pointEnd2);
+
+		pathNew = m_pathBuilder->BuildPath(p_points1, p_points2, p_amount, m_pointRange, segmentBegin, segmentEnd);
 
 		if (pathNew != NULL)
 		{
@@ -438,8 +453,8 @@ namespace Game
 		m_terrain->ScaleTerrain(terrainScaling);
 		m_terrain->SetPosition(100);
 
-		m_castle->SetPosition(irr::core::vector3df(m_gameDimensions.Width - 50, 0.0f, m_gameDimensions.Height / 2));
-		m_stargate->SetPosition(irr::core::vector3df(50.0f, 0.0f, m_gameDimensions.Height / 2));
+		m_castle->SetPositionToJointCenter(irr::core::vector3df(-(m_gameDimensions.Width/2), 0.0f, 0.0f));
+		m_stargate->SetPositionToJointBase(irr::core::vector3df(m_gameDimensions.Width/2, 0.0f, 0.0f));
 	}
 
 	void Playground::GenerateWaves()

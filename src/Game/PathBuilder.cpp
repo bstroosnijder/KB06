@@ -17,7 +17,32 @@ namespace Game
 
 		path->m_pathPoints = CreatePathPoints(p_points1, p_points2, p_pointsCount);
 		PathJoinPathPoints(path, p_range);
-		PathDetermineBeginAndEndPathPoints(path, p_pointBegin, p_pointEnd, p_range);
+		//PathDetermineBeginAndEndPathPoints(path, p_pointBegin, p_pointEnd, p_range);
+		//PathJoinWithBeginAndEnd(path, p_pointBegin, p_pointEnd);
+	
+		PathRoute* pathRoute = new PathRoute();
+		BuildRoute(path, pathRoute, path->m_pointBegin);
+
+		return path;
+	}
+
+	Path* PathBuilder::BuildPath(
+			irr::core::vector3df* p_points1,
+			irr::core::vector3df* p_points2,
+			int p_pointsCount,
+			float p_range,
+			PathSegment* p_segmentBegin,
+			PathSegment* p_segmentEnd)
+	{
+		if (p_points1 == NULL || p_points2 == NULL || p_pointsCount < 0)
+			return NULL;
+
+		Path* path = new Path();
+
+		path->m_pathPoints = CreatePathPoints(p_points1, p_points2, p_pointsCount);
+		PathJoinPathPoints(path, p_range);
+		//PathDetermineBeginAndEndPathPoints(path, p_pointBegin, p_pointEnd, p_range);
+		PathJoinWithBeginAndEnd(path, p_segmentBegin, p_segmentEnd);
 	
 		PathRoute* pathRoute = new PathRoute();
 		BuildRoute(path, pathRoute, path->m_pointBegin);
@@ -296,9 +321,16 @@ namespace Game
 	}
 
 	void PathBuilder::PathJoinWithBeginAndEnd(Path* p_path, 
-				irr::core::vector3df p_pointBegin,
-				irr::core::vector3df p_pointEnd)
+				PathSegment* p_segmentBegin,
+				PathSegment* p_segmentEnd)
 	{
+		//The PathPoint of the Stargate.
+		//This PathPoint will be connected with the first pencil.
+		PathPoint* pointBegin = p_segmentBegin->m_point2;
+		//The PathPoint for the Castle.
+		//This PathPoint will be connected with the last pencil.
+		PathPoint* pointEnd = p_segmentEnd->m_point1;
+
 		std::list<PathPoint*>::iterator it;
 		std::list<PathPoint*>::iterator itEnd = p_path->m_pathPoints->end();
 		PathPoint* pathPointIt;
@@ -313,24 +345,35 @@ namespace Game
 		for (it = p_path->m_pathPoints->begin(); it != itEnd; ++it)
 		{
 			pathPointIt =(*it);
-			itBeginDistance = abs(pathPointIt->m_point.Z - p_pointBegin.Z);
-			itEndDistance = abs(pathPointIt->m_point.Z - p_pointBegin.Z);
+			itBeginDistance = abs(pathPointIt->m_point.Z - pointBegin->m_point.Z);
+			itEndDistance = abs(pathPointIt->m_point.Z - pointEnd->m_point.Z);
 
-			if (itBeginDistance < targetBeginDistance == -1 )
+			if (targetBeginDistance == -1 || itBeginDistance < targetBeginDistance == -1 )
 			{
 				targetBeginDistance = itBeginDistance;
 				targetBegin = pathPointIt;
 			}
-			if (itEndDistance < targetEndDistance)
+			if (targetEndDistance == -1 ||itEndDistance < targetEndDistance)
 			{
 				targetEndDistance = itEndDistance;
 				targetEnd = pathPointIt;
 			}
 		}
 
-		PathPoint* pointBegin = new PathPoint(p_pointBegin);
-		PathPoint* pointEnd = new PathPoint(p_pointEnd);
+		//Connect the Stargate with the first Pencil.
+		pointBegin->m_pointsConnected.push_back(targetBegin);
+		targetBegin->m_pointsConnected.push_back(pointBegin);
 
-		p_path->m_pathPoints->push_back(pointBegin);
+		//Connect the Castle with the last Pencil.
+		pointEnd->m_pointsConnected.push_back(targetEnd);
+		targetEnd->m_pointsConnected.push_back(pointEnd);
+		
+		p_path->m_pathPoints->push_front(p_segmentBegin->m_point1);
+		p_path->m_pathPoints->push_front(p_segmentBegin->m_point2);
+		p_path->m_pathPoints->push_back(p_segmentEnd->m_point1);
+		p_path->m_pathPoints->push_back(p_segmentEnd->m_point2);
+
+		p_path->m_pointBegin = p_segmentBegin->m_point1;
+		p_path->m_pointEnd = p_segmentEnd->m_point2;
 	}
 }

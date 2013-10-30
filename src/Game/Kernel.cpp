@@ -57,12 +57,12 @@ namespace Game
 		
 		// Sets the resolution of the camera for the scaling of the background
 		m_gameManager->SetCaptureResolution(capture->GetCaptureSize());
-		/// @todo rename to longest
-		m_gameManager->SetGameLength(capture->GetCalculatedShortestGameLine().getLength());
 		
 		while (m_device->run())
 		{
 			capture->Start();
+			/// @todo rename to longest
+			m_gameManager->SetGameLength(capture->GetCalculatedShortestGameLine().getLength());
 			m_gameManager->SetCameraHeight(capture->GetPixelDistance());
 			/// TODO: GetCalculatedShortestGameLine: rename
 
