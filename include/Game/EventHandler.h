@@ -37,7 +37,7 @@ namespace Game
 				Game::Playground* p_playground);
 		
 		/**
-		 * @brief Deconstructor TODO
+		 * @brief Destructor
 		 */
 		~EventHandler();
 

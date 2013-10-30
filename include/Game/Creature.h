@@ -11,8 +11,6 @@ namespace Game
 	 * @brief	Creature class.
 	 *
 	 * @author	Thomas Gravekamp
-	 * @author	Michel van Os.
-	 * @todo    comment GetBOundingBox
 	 */
 	class Creature : public PathFollower
 	{
@@ -24,7 +22,6 @@ namespace Game
 		 * @param Playground listener is used to send events from creature to playground
 		 * @param The creature will be positioned on p_position
 		 * @param The creature needs p_pathRoute to know which path to follow
-		 * @param p_selector is to add collisiondetection with the Terrain Alex!!!!!!!!!!!!!!!!!!!!!!! this param is not defined below!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		 */
 		Creature(irr::scene::ISceneManager* p_sceneManager,
 				PlaygroundListener* p_playgroundListener,
@@ -39,8 +36,9 @@ namespace Game
 		/**
 		 * @brief	Moves the Creature along the Path.
 		 *
-		 *			The speed of the Creature is adapter to the delta time.
-		 * @param	p_deltaTime	The delta time used for the movement.
+		 *			The speed of the Creature is adapter to the delta time
+		 * @param	p_deltaTime	The delta time used for the movement
+		 * @param	p_terrain	The terrain on which the path is a part of
 		 * @param	p_terrain The terrain.
 		 */
 		void FollowPath(float p_deltaTime, Terrain* p_terrain);

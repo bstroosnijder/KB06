@@ -46,27 +46,41 @@ namespace Game
 		~Playground();
 
 	   /**
-		* @todo
+		* @brief	Initializes the playground
+		*
+		*			1. Generate the creature waves. 
+		*			2. Generate Path
+		*			3. Creates terrain
+		*			4. Creates PathMarker
+		* @param	p_sceneManager is the sceneManager
 		*/
 		void Initialize(irr::scene::ISceneManager* p_sceneManager);
 
 	   /**
-		* @todo
+		* @brief	Updates all game objects on the playground
+		*
+		*			This is called every game-loop. This will update the state, position and rotation of various objects on the playground
+		* @param	p_deltaTime is the deltaTimer
 		*/
 		void Update(float p_deltaTime);
 
 	   /**
-		* @todo
+		* @brief	Scales the te terrain, stargate and castle to match the gamelength
+		* @param	p_gameLength is the length of the longest edge of the table
 		*/
 		void UpdateGameScale(float p_gameLength);
 
 	   /**
-		* @todo
+		* @todo		Probable won't be used in the near future
 		*/
 		void Render();
 
 		/**
-		 * @todo	SetupPath(,,,,,) moet vervangen worden door deze.
+		 * @todo	SetupPath(,,,,,) moet vervangen worden door deze
+		 * @brief	Used to build the path
+		 * @param	p_points1 is the first point of a line
+		 * @param	P_points2 is the second point of a line
+		 * @param	p_amount is the amount of lines
 		 * @author	Michel van Os
 		 */
 		bool SetupPath(
@@ -168,48 +182,49 @@ namespace Game
 		int GetAmountOfCreatures();
 
 	   /**
-		* @todo
+		* @brief	returns the amount of creatures spawned by the current wave
 		*/
 		int GetCreaturesSpawned();
 
 	   /**
-		* @todo
+		* @brief	returns the size of the wave
 		*/
 		int GetWaveSize();
 
 	   /**
-		* @todo
+		* @brief	returns the heigth of the playground
 		*/
 		float GetPlaygroundHeight();
 
-		//PlaygroundListenerEvents
+		//------PlaygroundListenerEvents------
+
 	   /**
-		* @todo
+		* @brief	adds the new projectile to the list
 		*/
 		void OnProjectileCreated(Projectile* p_projectile);
 
 	   /**
-		* @todo
+		* @brief	removes the projectile
 		*/
 		void OnProjectileDestroyed(Projectile* p_projectile);
 
 	   /**
-		* @todo
+		* @brief	adds the creature to the list
 		*/
 		void OnCreatureCreated(Creature* p_creature);
 
 	   /**
-		* @todo
+		* @brief	removes the creature
 		*/
 		void OnCreatureDestroyed(Creature* p_creature);
 
 	   /**
-		* @todo
+		* @brief	decreases creatures health based on the projectile
 		*/
 		void OnCreatureHit(Creature* p_creature, Projectile* p_projectile);
 
 	   /**
-		* @todo
+		* @brief	removes the creature and change score
 		*/
 		void OnCreatureRouteEndReached(Creature* p_creature);
 
@@ -241,7 +256,7 @@ namespace Game
 		Stargate* m_stargate;
 
 	   /**
-		* @todo
+		* @brief calculates the speedscale
 		*/
 		float CalculateSpeedScale();
 

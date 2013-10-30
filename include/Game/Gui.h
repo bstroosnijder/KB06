@@ -81,42 +81,37 @@ namespace Game
 		void Cleanup();
 
 	   /**
-	    * @todo
-		*/
-		void endGame(int);
-
-	   /**
-	    * @todo
+	    * @brief	Shows the victory screen if the defender has won and the defeat screen if the attacker has won.
 		*/
 		void ShowVictory(PlayerType p_playerType);
 
 	   /**
-	    * @todo
+	    * @brief	remove the victory screen
 		*/
 		void HideVictory();
 
 	   /**
-	    * @todo
+	    * @brief	set the button "attackers turn" enabled
 		*/
 		void SetButtonAttackersTurnEnabled(bool p_state);
 
 	   /**
-	    * @todo
+	    * @brief	set the buttons "attackers actions" enabled
 		*/
 		void SetButtonAttackersActionsEnabled(bool p_state);
 
 	   /**
-	    * @todo
+	    * @brief	set the button "defenders turn" enabled
 		*/
 		void SetButtonDefendersTurnEnabled(bool p_state);
 
 	   /**
-	    * @todo
+	    * @brief	set the button "defenders actions" enabled
 		*/
 		void SetButtonDefendersActionsEnabled(bool p_state);
 
 	   /**
-	    * @todo
+	    * @brief	set the button "start wave" enabled
 		*/
 		void SetButtonStartWaveEnabled(bool p_state);
 
@@ -153,7 +148,7 @@ namespace Game
 		bool m_defeatSceenIsActive;
 
 		/**
-		 * @todo
+		 * @Creates all the control objects for the GUI
 		 */
 		void CreateGUIControls();
 
