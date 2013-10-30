@@ -87,10 +87,10 @@ namespace Game
 				irr::core::vector3df(0.0f, 0.0f, 1.0f));
 
 		//// Or a FPS camera
-		//m_camera = m_sceneManager->addCameraSceneNodeFPS();
-		//m_camera->setPosition(irr::core::vector3df(0.0f, 100.0f, -20.0f));
-		//m_camera->setRotation(irr::core::vector3df(0.0f, 0.0f, 70.0f));
-		//m_camera->setInputReceiverEnabled(false);
+		m_camera = m_sceneManager->addCameraSceneNodeFPS();
+		m_camera->setPosition(irr::core::vector3df(0.0f, 100.0f, -20.0f));
+		m_camera->setRotation(irr::core::vector3df(0.0f, 0.0f, 70.0f));
+		m_camera->setInputReceiverEnabled(false);
 	}
 
 	irr::IEventReceiver* GameManager::GetEventReceiver()

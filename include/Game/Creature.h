@@ -39,7 +39,7 @@ namespace Game
 		 *			The speed of the Creature is adapter to the delta time
 		 * @param	p_deltaTime	The delta time used for the movement
 		 * @param	p_terrain	The terrain on which the path is a part of
-		 * @author	Michel van Os.
+		 * @param	p_terrain The terrain.
 		 */
 		void FollowPath(float p_deltaTime, Terrain* p_terrain);
 
@@ -51,9 +51,15 @@ namespace Game
 
 		/**
 		 * @brief	Return the HealthPoints of the creature
-		 * @return	Return the HealthPoints of the creature
+		 * @return	double Healthpoints.
 		 */
 		double GetHealthPoints();
+
+		/**
+		 * @brief	Returns the boudingbox of this creature.
+		 * @return	irr::core::aabbox3d<irr::f32> The bounding box.
+		 */
+		irr::core::aabbox3d<irr::f32> GetBoundingbox();
 
 	private:
         double m_healthPoints;

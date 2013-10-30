@@ -71,6 +71,8 @@ namespace Game
 			// Always draw the camera background
 			m_gameManager->DrawCameraTexture();
 			
+
+			// uncommented
 			if (capture->HasChosen())
 			{
 				if (capture->IsLost() == false)
@@ -79,6 +81,7 @@ namespace Game
 					{
 						m_inputHandler->RemoveListener(capture);
 					}
+					//uncommented
 
 					irr::core::matrix4 transformation = capture->GetTransformMatrix(m_gameManager->GetCameraProjectionMatrix());
 					root->setPosition(transformation.getTranslation());
@@ -106,7 +109,7 @@ namespace Game
 		}
 
 		// Cleanup the capture
-		delete capture;
+		//delete capture;
 	}
 
 	void Kernel::SetMultiThreaded(bool p_multiThreaded)

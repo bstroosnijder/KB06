@@ -6,16 +6,20 @@
 namespace Game
 {
 	/**
-	 * @brief	Projectile.
+	 * @brief	Projectile class.
 	 *
 	 * @author	Thomas Gravekamp
+	 * @author	Michel van Os.
 	 */
 	class Projectile : public Entity
 	{
 	public:
 
 	   /**
-		* @todo
+		* @brief	Constructs a projectile object.
+		* @param	p_sceneManger The scenemanager.
+		* @param	p_playgroundListener The playgroundlistener.
+		* @param	p_position The position of this projectile.
 		*/
 		Projectile(irr::scene::ISceneManager* p_sceneManager,
 				PlaygroundListener* p_playgroundListener,
@@ -23,48 +27,43 @@ namespace Game
 
 		/**
 		 * @brief	Moves the Projectile towards the target Creature.
-		 *
 		 * @param	p_deltaTime	The delta time used for the movement.
-		 * @author	Michel van Os.
 		 */
 		void MoveTowardsTarget(float p_deltaTime);
 
 		/**
 		 * @brief	Returns the movement speed.
-		 * @author	Michel van Os.
+		 * @return	float The movement speed.
 		 */
 		float GetMovementSpeed();
 
 		/**
 		 * @brief	Returns the damage.
-		 * @author	Michel van Os.
+		 * @return	float The damage.
 		 */
 		float GetDamage();
 
 		/**
 		 * @brief	Returns the target Creature.
-		 * @author	Michel van Os.
+		 * @return	Game::Creature* The target creature.
 		 */
 		Game::Creature* GetTarget();
 		
 		/**
 		 * @brief	Sets the movement speed.
 		 * @param	p_movementSpeed The new movement speed.
-		 * @author	Michel van Os.
 		 */
 		void SetMovementSpeed(float p_movementSpeed);
 		
 		/**
 		 * @brief	Sets the damage.
 		 * @param	p_damage The new damage.
-		 * @author	Michel van Os.
 		 */
 		void SetDamage(float p_damage);
 		
 		/**
 		 * @brief	Sets the Creature target.
 		 * @param	p_creature The new Creature target.
-		 * @author	Michel van Os.
 		 */
 		void SetTarget(Game::Creature* p_creature);
 
@@ -72,19 +71,16 @@ namespace Game
 		
 		/**
 		 * @brief	The target Creature.
-		 * @author	Michel van Os.
 		 */
 		Game::Creature* m_target;
 		
 		/**
 		 * @brief	The movement speed.
-		 * @author	Michel van Os.
 		 */
 		float m_movementSpeed;
 		
 		/**
 		 * @brief	The damage.
-		 * @author	Michel van Os.
 		 */
 		float m_damage;
 	};
