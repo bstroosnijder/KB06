@@ -16,10 +16,10 @@
 namespace Game
 {
 	/**
-	 * @brief	
-	 * @todo	Write ALL comments (which is ALOT!!!!)
+	 * @brief	Manages the game.
 	 *			
-	 * @author	Alex Hodes, Leon van Egmond
+	 * @author	Alex Hodes
+	 * @author	Leon van Egmond
 	 */
 	class GameManager : public GameListener, UserInputListener
 	{
@@ -247,6 +247,7 @@ namespace Game
 
 	   /**
 	    * @brief	Gets the number of the player depending of the player's type.
+		* @return	Player number
 		*/
 		int GetPlayerNumber(PlayerType p_playerType);
 	};
