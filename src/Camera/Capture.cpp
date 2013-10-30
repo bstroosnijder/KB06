@@ -349,9 +349,9 @@ namespace Camera
 
 			// Apply translation (y translation is done in the camera)
 			translation.setInverseTranslation(irr::core::vector3df(
-					 static_cast<float>(position.Y * (m_pixelDistance / (m_sizeHalfed.height / 2))),
+					 static_cast<float>(position.Y * (m_pixelDistance / m_sizeHalfed.height)),
 					-static_cast<float>(position.Z),
-					 static_cast<float>(position.X * (m_pixelDistance / (m_sizeHalfed.width / 2)))));
+					 static_cast<float>(position.X * (m_pixelDistance / m_sizeHalfed.width))));
 
 			// Merge scaling, rotation and translation into the transformation
 			transformation = scaling * rotation * translation;
