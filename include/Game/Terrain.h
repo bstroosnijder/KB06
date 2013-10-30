@@ -47,7 +47,7 @@ namespace Game
 			* @brief ScaleTerrain scales the terrain with the given parameter.
 			* @param p_Scaling is the scaling factor to scale the terrain with.
 			*/
-			void ScaleTerrain(irr::core::vector3df p_Scaling);
+			void ScaleTerrain(irr::core::vector3df p_scaling);
 
 		   /**
 			* @brief SetPosition adds to the X-position of the terrain.
