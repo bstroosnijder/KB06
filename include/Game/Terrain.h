@@ -10,6 +10,7 @@ namespace Game
 	 * @brief This class generates the terrain
 	 *
 	 * @author Albert Haaksema
+	 * @todo comments
 	 */
 	class Terrain
 	{
@@ -36,9 +37,19 @@ namespace Game
 			*/
 			irr::f32 GetTerrainHeight(irr::core::vector3df p_position);
 
+		   /**
+			* @todo
+			*/
 			irr::core::dimension2d<irr::f32> GetTerrainDimensions();
 
+		   /**
+			* @todo
+			*/
 			void ScaleTerrain(irr::core::vector3df p_Scaling);
+
+		   /**
+			* @todo
+			*/
 			void SetPosition(float p_adjustment);
 
 	private:

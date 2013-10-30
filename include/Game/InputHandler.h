@@ -7,7 +7,7 @@
 namespace Game
 {
 	/**
-	 * @brief	TODO
+	 * @brief	Handles the input
 	 *			
 	 * @author	Alex Hodes
 	 */

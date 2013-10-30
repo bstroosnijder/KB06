@@ -17,7 +17,7 @@ namespace Game
 	public:
 		/**
 		 * @brief	Creates a Stargate. TODO!!!!!!!!!!!!!!!!!!!!!!!!!!
-		 *
+		 * @todo inc
 		 * @author	Michel van Os.
 		 * @param	
 		 */
@@ -25,6 +25,9 @@ namespace Game
 				PlaygroundListener* p_playgroundListener,
 				irr::core::vector3df& p_position);
 
+	   /**
+		* @todo
+		*/
 		irr::scene::ISceneNode* GetJointBase();
 
 	private:

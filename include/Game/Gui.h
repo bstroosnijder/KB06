@@ -12,6 +12,7 @@ namespace Game
 	 * @brief	This Class creates the graphical user interface element of the game	
 	 *			
 	 * @author	Bram van Elderen
+	 * @todo	comments
 	 */
 	class Gui
 	{
@@ -31,6 +32,7 @@ namespace Game
 			BUTTON_UPGRADE_TOWER_SPEED,
 			BUTTON_UPGRADE_TOWER_RANGE,
 			BUTTON_UPGRADE_TOWER_DAMAGE,
+			//Alex; controls menu?
 			BUTTON_CONTROLS_MENU,
 			BUTTON_START_WAVE
 		};
@@ -78,15 +80,44 @@ namespace Game
 		 */
 		void Cleanup();
 
+	   /**
+	    * @todo
+		*/
 		void endGame(int);
 
+	   /**
+	    * @todo
+		*/
 		void ShowVictory(PlayerType p_playerType);
+
+	   /**
+	    * @todo
+		*/
 		void HideVictory();
 
+	   /**
+	    * @todo
+		*/
 		void SetButtonAttackersTurnEnabled(bool p_state);
+
+	   /**
+	    * @todo
+		*/
 		void SetButtonAttackersActionsEnabled(bool p_state);
+
+	   /**
+	    * @todo
+		*/
 		void SetButtonDefendersTurnEnabled(bool p_state);
+
+	   /**
+	    * @todo
+		*/
 		void SetButtonDefendersActionsEnabled(bool p_state);
+
+	   /**
+	    * @todo
+		*/
 		void SetButtonStartWaveEnabled(bool p_state);
 
 	private:

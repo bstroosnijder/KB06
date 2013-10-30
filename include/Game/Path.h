@@ -15,6 +15,7 @@ namespace Game
 	 *			The PathRoutes inside a Path may be used by a Creature. 
 	 *			PathSegments are used to create 1-direction segments inside the Path.
 	 * @author	Michel van Os
+	 * @author	Alex Hodes
 	*/
 	struct Path
 	{
@@ -25,13 +26,13 @@ namespace Game
 		std::list<PathRoute*> m_routes;
 		std::list<PathSegment*> m_pathSegments;
 
-		/**
-		* @brief	TODO
+	   /**
+		* @brief Constructs the path
 		*/
 		Path();
 
-		/**
-		* @brief	TODO
+	   /**
+		* @brief Destructs the path
 		*/
 		~Path();
 	};
