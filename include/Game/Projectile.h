@@ -12,6 +12,10 @@ namespace Game
 	class Projectile : public Entity
 	{
 	public:
+
+	   /**
+		* @todo
+		*/
 		Projectile(irr::scene::ISceneManager* p_sceneManager,
 				PlaygroundListener* p_playgroundListener,
 				irr::core::vector3df p_position);

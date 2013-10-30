@@ -30,17 +30,39 @@ namespace Game
 	* @author	Michel van Os
 	* @author	Menno Postma
 	* @author	Thomas Gravekamp
+	* @todo		comments
 	*/
 	class Playground : public PlaygroundListener
 	{
 	public:
+	   /**
+		* @todo
+		*/
 		Playground(GameListener* p_gameListener, irr::scene::ISceneManager* p_sceneManager);
+
+	   /**
+		* @brief destructs the playground
+		*/
 		~Playground();
 
+	   /**
+		* @todo
+		*/
 		void Initialize(irr::scene::ISceneManager* p_sceneManager);
+
+	   /**
+		* @todo
+		*/
 		void Update(float p_deltaTime);
+
+	   /**
+		* @todo
+		*/
 		void UpdateGameScale(float p_gameLength);
 
+	   /**
+		* @todo
+		*/
 		void Render();
 
 		/**
@@ -145,17 +167,50 @@ namespace Game
 		 */
 		int GetAmountOfCreatures();
 
+	   /**
+		* @todo
+		*/
 		int GetCreaturesSpawned();
+
+	   /**
+		* @todo
+		*/
 		int GetWaveSize();
 
+	   /**
+		* @todo
+		*/
 		float GetPlaygroundHeight();
 
 		//PlaygroundListenerEvents
+	   /**
+		* @todo
+		*/
 		void OnProjectileCreated(Projectile* p_projectile);
+
+	   /**
+		* @todo
+		*/
 		void OnProjectileDestroyed(Projectile* p_projectile);
+
+	   /**
+		* @todo
+		*/
 		void OnCreatureCreated(Creature* p_creature);
+
+	   /**
+		* @todo
+		*/
 		void OnCreatureDestroyed(Creature* p_creature);
+
+	   /**
+		* @todo
+		*/
 		void OnCreatureHit(Creature* p_creature, Projectile* p_projectile);
+
+	   /**
+		* @todo
+		*/
 		void OnCreatureRouteEndReached(Creature* p_creature);
 
 	private:
@@ -185,6 +240,9 @@ namespace Game
 		Castle* m_castle;
 		Stargate* m_stargate;
 
+	   /**
+		* @todo
+		*/
 		float CalculateSpeedScale();
 
 		/**

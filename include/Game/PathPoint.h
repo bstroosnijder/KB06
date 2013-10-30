@@ -20,7 +20,7 @@ namespace Game
 		std::list<PathPoint*> m_pointsConnected;
 
 		/**
-		* @brief	TODO
+		* @brief	Constructs the path
 		*/
 		PathPoint(irr::core::vector3df p_point);
 	};
