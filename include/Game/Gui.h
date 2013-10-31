@@ -65,8 +65,8 @@ namespace Game
 		 * @param	p_player1Points The points Player 1 has.
 		 * @param	p_player2Points The points Player 2 has.
 		 */
-		void UpdateGui(int p_waveNumber, int p_waveSize, int p_creaturesSpawned,
-				int p_fps,
+		void UpdateGui(int p_waveNumber, int p_waveSize, 
+				int p_creaturesSpawned, int p_fps,
 				int p_player1Points, int p_player2Points);
 
 		/**
@@ -213,6 +213,7 @@ namespace Game
 
 		/** 
 		 * @brief Converts a string and an int to a wString so it can be used easily with Irrlicht
+		 * @return wString that can be used easily with Irrlicht
 		 * @param The method gets an string and an int as input which get converted
 		 */
 		std::wstring StringToWString(std::string,int);

@@ -260,6 +260,7 @@ namespace Game
 
 	   /**
 		* @brief calculates the speedscale
+		* @return the speedscale
 		*/
 		float CalculateSpeedScale();
 

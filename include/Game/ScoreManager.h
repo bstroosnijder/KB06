@@ -17,12 +17,13 @@ namespace Game
 	{
 	public:
 		/**
-		* @brief	TODO
+		* @brief	Constructs the scoremanager
 		*/	
 		ScoreManager();
 
 		/**
 		* @brief	Returns the score of player p_playerNumber.
+		* @return	Returns the score of player p_playerNumber.
 		*
 		* @param	p_playerNumber The number of the player of which
 		*			the score should be returned.
@@ -32,6 +33,7 @@ namespace Game
 
 		/**
 		 * @brief	Returns the amount of pencils owned by the attacker.
+		 * @return	Returns the amount of pencils owned by the attacker.
 		 *
 		 * @author	Michel van Os.
 		 * @return	The amount of pencils owned by the attacker.
@@ -40,6 +42,7 @@ namespace Game
 
 		/**
 		 * @brief	Returns the default amount of pencils owned by the attacker.
+		 * @return	Returns the default amount of pencils owned by the attacker.
 		 *
 		 *			The defeault amount of pencils are the amount of pencils
 		 *			owned by the attacker when a round starts.
