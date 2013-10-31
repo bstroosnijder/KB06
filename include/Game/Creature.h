@@ -18,10 +18,10 @@ namespace Game
 		/**
 		 * @brief Initialize Creature with the overloaded constructor
 		 *
-		 * @param p_sceneManager is used to attach the Creature scenenode to the manager
-		 * @param Playground listener is used to send events from creature to playground
-		 * @param The creature will be positioned on p_position
-		 * @param The creature needs p_pathRoute to know which path to follow
+		 * @param p_sceneManager		is used to attach the Creature scenenode to the manager
+		 * @param p_playgroundListener	is used to send events from creature to playground
+		 * @param p_position			The creature will be positioned on p_position
+		 * @param p_pathroute			The creature needs p_pathRoute to know which path to follow
 		 */
 		Creature(irr::scene::ISceneManager* p_sceneManager,
 				PlaygroundListener* p_playgroundListener,
@@ -39,7 +39,7 @@ namespace Game
 		 *			The speed of the Creature is adapter to the delta time
 		 * @param	p_deltaTime	The delta time used for the movement
 		 * @param	p_terrain	The terrain on which the path is a part of
-		 * @param	p_terrain The terrain.
+		 * @param	p_terrain	The terrain.
 		 */
 		void FollowPath(float p_deltaTime, Terrain* p_terrain);
 

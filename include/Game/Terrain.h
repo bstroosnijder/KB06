@@ -7,8 +7,8 @@
 namespace Game
 {
 	/**
-	 * @brief	This class generates the terrain.
-	 * @todo leon; kan uitgebreider, deze class doet veel meer dan alleen generaten van terrain o.a. scaling.
+	 * @brief	This class generates the terrain and manipulates the terrain by scaling and moving it around.
+	 *			It also provides the ability to get information about the terrain.
 	 *
 	 * @author	Albert Haaksema.
 	 */

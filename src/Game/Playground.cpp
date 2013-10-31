@@ -464,8 +464,8 @@ namespace Game
 		m_terrain->ScaleTerrain(terrainScaling);
 		m_terrain->SetPosition(100);
 
-		m_castle->SetPositionToJointCenter(irr::core::vector3df(-(m_gameDimensions.Width/2), 0.0f, 0.0f));
-		m_stargate->SetPositionToJointBase(irr::core::vector3df(m_gameDimensions.Width/2, 0.0f, 0.0f));
+		m_castle->SetPositionToJointCenter(irr::core::vector3df(0.0f, 0.0f, 0.0f));
+		m_stargate->SetPositionToJointBase(irr::core::vector3df(0.0f, 0.0f, 0.0f));
 	}
 
 	void Playground::GenerateWaves()

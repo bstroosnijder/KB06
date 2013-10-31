@@ -22,6 +22,7 @@ namespace Game
 		 * @brief Constructor to initialize a castle
 		 *
 		 * @param p_sceneManager is used to add the castle scene to the scenemanager.
+		 * @param p_playgroundListener is not used at all. But needed because for entity
 		 * @param p_position sets the position of the castle
 		 */
 		Castle(irr::scene::ISceneManager* p_sceneManager,
@@ -32,19 +33,24 @@ namespace Game
 		 * @brief	Returns the SceneNode for the joint
 		 *			at the begin of the castle path.
 		 *
+		 * @return  Returns the SceneNode for the joint
+		 *			at the begin of the castle path.
+		 *
 		 * @author	Michel van Os.
 		 */
 		irr::scene::ISceneNode* GetJointPath();
 
 		/**
 		 * @brief	Returns the position of the path joint.
-		 *
+		 * @return	Returns the position of the path joint.
 		 * @author	Michel van Os.
 		 */
 		irr::core::vector3df GetJointPathPosition();
 
 		/**
-		 * @biref	Returns the SceneNode for the joint
+		 * @brief	Returns the SceneNode for the joint
+		 *			at the end of the castle path
+		 * @return	Returns the SceneNode for the joint
 		 *			at the end of the castle path.
 		 *
 		 * @author	Michel van Os.
@@ -53,6 +59,7 @@ namespace Game
 
 		/**
 		 * @brief	Returns the position of the center join.
+		 * @return	Returns the position of the center join.
 		 *
 		 * @author	Michel van Os.
 		 */

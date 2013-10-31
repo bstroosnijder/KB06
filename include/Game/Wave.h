@@ -36,8 +36,7 @@ namespace Game
 		Wave(irr::scene::ISceneManager* p_sceneManager, PlaygroundListener* p_playgroundListener, int p_waveSize);
 
 		/**
-		 * @brief	TODO
-		 * @todo		Todo? Todo stond al in brief.
+		 * @brief	Destructor
 		 */
 		~Wave();
 

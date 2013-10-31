@@ -38,16 +38,19 @@ namespace Game
 
 		/**
 		 * @brief	Returns the state of the timer.
+		 * @return	Returns the state of the timer.
 		 */
 		bool IsRunning();
 
 		/**
 		 * @brief	Returns the current time of the Timer.
+		 * @return	Returns the current time of the Timer.
 		 */
 		unsigned long GetTime();
 
 		/**
 		 * @brief	Returns if the timer is passed the given parameter.
+		 * @return	Returns if the timer is passed the given parameter.
 		 * @param	p_seconds The timer uses p_seconds to check if the counter passed
 		 * that point or not
 		 */
