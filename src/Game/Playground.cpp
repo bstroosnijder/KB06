@@ -77,7 +77,7 @@ namespace Game
 		*/
 
 		m_terrain = new Terrain();
-		m_selector = m_terrain->GenerateTerrain(p_sceneManager, 2000.0);
+		m_selector = m_terrain->GenerateTerrain(p_sceneManager, 10.0);
 		m_gameDimensions.Height = m_terrain->GetTerrainDimensions().Height;
 	}
 
