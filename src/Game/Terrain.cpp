@@ -24,16 +24,24 @@ namespace Game
 			irr::core::vector3df(0.f, 0.f, 0.f),			// rotation
 			irr::core::vector3df(1.f, 0.5f, 1.f)*p_scale);	// scale);
 
+		
 		m_terrain->setVisible(true);
 		irr::video::IVideoDriver* driver = p_sceneManager->getVideoDriver();
 		m_terrain->setMaterialTexture(0, driver->getTexture("resources/textures/terrain-texture.jpg"));
 		selector = p_sceneManager->createTriangleSelector(m_terrain);
 
-		m_startScaling = m_terrain->getScale();
-		m_startPosition = m_terrain->getPosition();
+
 		m_terrainDimensions.Width = 100 * p_scale;
 		m_terrainDimensions.Height = 100 * p_scale;
 
+		irr::core::vector3df adjustment;
+		adjustment.X = m_terrain->getPosition().X - (m_terrainDimensions.Width / 2);
+		adjustment.Z = m_terrain->getPosition().Z - (m_terrainDimensions.Height / 2);
+		adjustment.Y = m_terrain->getPosition().Y;
+		m_terrain->setPosition(adjustment);
+
+		m_startScaling = m_terrain->getScale();
+		m_startPosition = m_terrain->getPosition();
 		return selector;
 	}
 
