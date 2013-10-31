@@ -354,7 +354,7 @@ namespace Camera
 					 static_cast<float>(position.X * (m_pixelDistance / m_sizeHalfed.width))));
 
 			// Merge scaling, rotation and translation into the transformation
-			transformation = scaling * (translation/* * rotation*/);
+			transformation = scaling * (translation * rotation);
 
 			Unlock();
 		}
