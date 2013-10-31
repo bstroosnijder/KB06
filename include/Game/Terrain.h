@@ -35,13 +35,6 @@ namespace Game
 			irr::scene::ITriangleSelector* GenerateTerrain(irr::scene::ISceneManager* p_sceneManager, float p_scale);
 
 		   /**
-			* @brief	Returns the height of the terrain at the given location.
-			* @param	p_position is required to find the height of the terrain at the X and Z values of p_position.
-			* @return	Returns a float representing the height of the terrain at (X,Z).
-			*/
-			irr::f32 GetTerrainHeightAtPosition(irr::core::vector3df p_position);
-
-		   /**
 			* @brief	Returns the terrain dimensions.
 			* @return	Returns a 2 dimensional float with the dimensions of the terrain.
 			*/
@@ -60,10 +53,10 @@ namespace Game
 			void SetPosition(float p_adjustment);
 
 	private:
-		irr::scene::ITerrainSceneNode* m_terrain;
 		irr::core::dimension2d<irr::f32> m_terrainDimensions;
 		irr::core::vector3df m_startScaling;
 		irr::core::vector3df m_startPosition;
+		irr::scene::IAnimatedMeshSceneNode* m_animatedMeshSceneNode;
 	};
 }
 

@@ -69,12 +69,12 @@ namespace Game
 		points1[6].set(250, 0, 1000);	points2[6].set(500, 0, 1500); //8
 		points1[7].set(750, 0, 1000);	points2[7].set(500, 0, 1500); //9
 
-		/*
+		
 		SetupPath(points1, points2, amount, m_pointRange, m_pointBegin, m_pointEnd);
 		m_pathRouteSelected = m_path->m_routes.begin();
 		CreatePathPointMarkers();
 		ConnectPathToStargateAndCastle();
-		*/
+		
 
 		m_terrain = new Terrain();
 		m_selector = m_terrain->GenerateTerrain(p_sceneManager, 10.0);
@@ -462,10 +462,9 @@ namespace Game
 		irr::core::vector3df terrainScaling = irr::core::vector3df(newLength / oldLength, 1.0f, 1.0f);
 		
 		m_terrain->ScaleTerrain(terrainScaling);
-		m_terrain->SetPosition(100);
-
-		m_castle->SetPositionToJointCenter(irr::core::vector3df(0.0f, 0.0f, 0.0f));
-		m_stargate->SetPositionToJointBase(irr::core::vector3df(0.0f, 0.0f, 0.0f));
+		
+		m_castle->SetPositionToJointCenter(irr::core::vector3df((-(m_gameDimensions.Width/2)+50), 0.0f, 0.0f));
+		m_stargate->SetPositionToJointBase(irr::core::vector3df(((m_gameDimensions.Width/2)-50), 0.0f, 0.0f));
 	}
 
 	void Playground::GenerateWaves()
@@ -514,7 +513,7 @@ namespace Game
 				pathPoint = (*itPathPoint);
 				
 				markerPosition = pathPoint->m_point;
-				markerPosition.Y = m_terrain->GetTerrainHeightAtPosition(markerPosition) + 100;
+				markerPosition.Y = 100;
 
 				m_markers.push_back(new Marker(m_sceneManager, this, markerPosition));
 
