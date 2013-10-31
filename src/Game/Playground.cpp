@@ -69,12 +69,12 @@ namespace Game
 		points1[6].set(250, 0, 1000);	points2[6].set(500, 0, 1500); //8
 		points1[7].set(750, 0, 1000);	points2[7].set(500, 0, 1500); //9
 
-		
+		/*
 		SetupPath(points1, points2, amount, m_pointRange, m_pointBegin, m_pointEnd);
 		m_pathRouteSelected = m_path->m_routes.begin();
 		CreatePathPointMarkers();
 		ConnectPathToStargateAndCastle();
-		
+		*/
 
 		m_terrain = new Terrain();
 		m_selector = m_terrain->GenerateTerrain(p_sceneManager, 10.0);
