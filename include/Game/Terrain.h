@@ -56,7 +56,7 @@ namespace Game
 		irr::core::dimension2d<irr::f32> m_terrainDimensions;
 		irr::core::vector3df m_startScaling;
 		irr::core::vector3df m_startPosition;
-		irr::scene::IAnimatedMeshSceneNode* m_animatedMeshSceneNode;
+		irr::scene::IAnimatedMeshSceneNode* m_terrain;
 	};
 }
 
