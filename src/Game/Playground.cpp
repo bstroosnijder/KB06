@@ -27,8 +27,19 @@ namespace Game
 	Playground::~Playground()
 	{
 		delete m_pathBuilder;
-
 		m_pathBuilder = NULL;
+
+		if (m_path != NULL)
+		{
+			delete m_path;
+			m_path = NULL;
+		}
+
+		delete m_castle;
+		m_castle = NULL;
+
+		delete m_stargate;
+		m_stargate = NULL;
 	}
 
 	void Playground::Initialize(irr::scene::ISceneManager* p_sceneManager)
@@ -503,7 +514,7 @@ namespace Game
 				pathPoint = (*itPathPoint);
 				
 				markerPosition = pathPoint->m_point;
-				markerPosition.Y = m_terrain->GetTerrainHeight(markerPosition) + 100;
+				markerPosition.Y = m_terrain->GetTerrainHeightAtPosition(markerPosition) + 100;
 
 				m_markers.push_back(new Marker(m_sceneManager, this, markerPosition));
 

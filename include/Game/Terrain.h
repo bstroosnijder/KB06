@@ -39,7 +39,7 @@ namespace Game
 			* @param	p_position is required to find the height of the terrain at the X and Z values of p_position.
 			* @return	Returns a float representing the height of the terrain at (X,Z).
 			*/
-			irr::f32 GetTerrainHeight(irr::core::vector3df p_position);
+			irr::f32 GetTerrainHeightAtPosition(irr::core::vector3df p_position);
 
 		   /**
 			* @brief	Returns the terrain dimensions.
@@ -64,7 +64,6 @@ namespace Game
 		irr::core::dimension2d<irr::f32> m_terrainDimensions;
 		irr::core::vector3df m_startScaling;
 		irr::core::vector3df m_startPosition;
-
 	};
 }
 

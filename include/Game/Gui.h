@@ -28,7 +28,6 @@ namespace Game
 		{
 			BUTTON_STOP_GAME,
 			BUTTON_HIDE_MENU,
-			BUTTON_CLEAR,
 			BUTTON_ATTACKERS_TURN,
 			BUTTON_BUY_PENCIL,
 			BUTTON_CAPTURE_PENCILS,
@@ -51,11 +50,6 @@ namespace Game
 		Gui(irr::gui::IGUIEnvironment* p_guienv);
 
 		/**
-		 * @brief	Destructor
-		 */
-		~Gui();
-
-		/**
 		 * @brief	This function is used to draw the gui elements that were added to the m_guiEnvironment.
 		 *
 		 * @param	p_waveNumber The number of the current Wave.
@@ -68,21 +62,6 @@ namespace Game
 		void UpdateGui(int p_waveNumber, int p_waveSize, int p_creaturesSpawned,
 				int p_fps,
 				int p_player1Points, int p_player2Points);
-
-		/**
-		 *	Clears all GUI elements
-		 */
-		void Clear();
-
-		/**
-		 * @brief	Properly destructs all the member properties
-		 */
-		void Cleanup();
-
-		/**
-		 * @deprecated	Use ShowVictory and HideVictory.
-		 */
-		void endGame(int);
 
 		/**
 		 * @brief	Shows a menu with a button to close the Game.

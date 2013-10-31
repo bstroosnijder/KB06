@@ -33,6 +33,12 @@ namespace Game
 		}
 	}
 
+	Tower::~Tower()
+	{
+		delete m_timer;
+		m_timer = NULL;
+	}
+
 	void Tower::SetShootingSpeed(float p_shootingSpeed)
 	{
 		m_shootingSpeed = p_shootingSpeed;

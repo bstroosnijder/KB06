@@ -33,6 +33,8 @@ namespace Game
 				PlaygroundListener* m_playgroundListener,
 				irr::core::vector3df p_position);
 
+		~Tower();
+
 		/**
 		 * @brief	Sets the shooting speed.
 		 *

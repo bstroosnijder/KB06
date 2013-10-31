@@ -35,10 +35,6 @@ namespace Game
 				case Gui::BUTTON_HIDE_MENU:
 					m_gui->HideMenu();
 					return true;
-				
-				case Gui::BUTTON_CLEAR:
-					m_gui->Clear();
-					return true;
 
 				case Gui::BUTTON_ATTACKERS_TURN:
 					m_userInputListener->OnPlacePencils();

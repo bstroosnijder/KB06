@@ -38,18 +38,21 @@ namespace Game
 
 	GameManager::~GameManager()
 	{
-		StopGame();
-	}
-
-	/// @todo Check closing sequence?
-	void GameManager::StopGame()
-	{
-		/*
 		delete m_playground;
 		delete m_gui;
-		delete m_eventHandler;
 		delete m_deltaTimer;
-		*/
+
+		m_playground = NULL;
+		m_gui = NULL;
+		m_deltaTimer = NULL;
+		m_eventHandler = NULL;
+
+		//m_eventHandler doesn't get deleted in GameManager~GameManager() but
+		//in the InputHandler::Cleanup() !
+	}
+
+	void GameManager::StopGame()
+	{
 		m_device->closeDevice();
 	}
 
@@ -110,7 +113,6 @@ namespace Game
 
 	void GameManager::SetGameLength(float p_gameLength)
 	{
-		/// @todo Implementatie
 		m_playground->UpdateGameScale(p_gameLength);
 	}
 

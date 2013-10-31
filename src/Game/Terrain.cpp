@@ -43,7 +43,7 @@ namespace Game
 		return selector;
 	}
 
-	irr::f32 Terrain::GetTerrainHeight(irr::core::vector3df p_position)
+	irr::f32 Terrain::GetTerrainHeightAtPosition(irr::core::vector3df p_position)
 	{
 		return m_terrain->getHeight(p_position.X, p_position.Z);
 	}

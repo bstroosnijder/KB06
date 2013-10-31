@@ -12,11 +12,22 @@ namespace Game
 	/**
 	 * @brief	This Class creates handles incoming events from different inputs.
 	 *			
-	 * @author	Bram van Elderen
-	 * @todo	comments need to be updated
+	 * @author	Bram van Elderen.
+	 * @author	Michel van Os.
 	 */
 	class EventHandler : public irr::IEventReceiver
 	{
+		/**
+		 * @brief	Click events used by the EventHandler to store what 
+		 *			GUI butten is pressed.
+		 *
+		 *			The GUI button must be followed by a
+		 *			mouse click on the playground to finish the event. For example.
+		 *			When the GUI button Create Tower is clicked the variable m_clickEvent
+		 *			will be set to ClickEvent::CREATE_TOWER. When the player now clicks
+		 *			with the mouse on the playground a Tower will be created.
+		 * @author	Michelvan Os.
+		 */
 		enum ClickEvent
 		{
 			CREATE_TOWER = 1,
@@ -29,7 +40,7 @@ namespace Game
 	public:
 		
 		/**
-		 * @brief Constructor TODO
+		 * @todo Constructor TODO
 		 */
 		EventHandler(UserInputListener* p_userInputListener,
 				irr::IrrlichtDevice* p_device,
@@ -42,9 +53,16 @@ namespace Game
 		~EventHandler();
 
 		/**
-		 * @brief handles events TODO
+		 * @brief	Handles GUI, mouse and keyboard events.
+		 *
+		 * @author	Bram van Elderen.
+		 * @author	Michel van Os.
+		 * @param	p_event The irr::SEvent which contains all information about
+		 *			the triggered event.
+		 * @return	Returns whether the event has been handled by the EventHandler.
+		 *
 		 */
-		virtual bool OnEvent(const irr::SEvent& event);
+		virtual bool OnEvent(const irr::SEvent& p_event);
 
 		/**
 		 * @brief	Properly destructs all the member properties

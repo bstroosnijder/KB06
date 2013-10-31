@@ -114,101 +114,100 @@ namespace Game
 				irr::core::vector3df* p_points2,
 				int p_amount);
 
-	   /**
-	    * @brief	Notifies the videodriver that the scene has begun
-		*/
+	    /**
+	     * @brief	Notifies the videodriver that the scene has begun
+	 	*/
 		void BeginScene();
 
-	   /**
-	    * @brief	Notifies the videodriver that the scene has ended
-		*/
+	    /**
+	     * @brief	Notifies the videodriver that the scene has ended
+		 */
 		void EndScene();
 		
-		
-	   /**
-	    * @brief	Event handler for when a creature has spawned
-		*/
+	    /**
+	     * @brief	Event handler for when a creature has spawned
+		 */
 		void OnCreatureSpawned();
 
-	   /**
-	    * @brief	Event handler for when a creature has reached the castle
-		*/
+	    /**
+		 * @brief	Event handler for when a creature has reached the castle
+		 */
 		void OnCreatureReachedCastle();
 
-	   /**
-	    * @brief	Event handler for when a creature has been killed
-		*/
+		/**
+	     * @brief	Event handler for when a creature has been killed
+		 */
 		void OnCreatureKilled();
 
-	   /**
-	    * @brief	Event handler for when a wave has ended
-		*/
+		/**
+	     * @brief	Event handler for when a wave has ended
+		 */
 		void OnWaveEnded();
 
-	   /**
-	    * @brief	Event handler for when the user has pressed the stop button
-		*/
+		/**
+	     * @brief	Event handler for when the user has pressed the stop button
+		 */
 		void OnStopGame();
 
-	   /**
-	    * @brief	Event handler for when the user has pressed the start wave button
-		*/
+		/**
+	     * @brief	Event handler for when the user has pressed the start wave button
+		 */
 		void OnStartWave();
 
-	   /**
-	    * @brief	Event handler for when the user may place pencils on the table
-		*/
+		/**
+	     * @brief	Event handler for when the user may place pencils on the table
+		 */
 		void OnPlacePencils();
 
-	   /**
-	    * @brief	Event handler for when the game captures the pencils on the table
-		*/
+		/**
+	     * @brief	Event handler for when the game captures the pencils on the table
+		 */
 		void OnCapturePencils();
 
-	   /**
-	    * @brief	Event handler for when the user buys a pencil
-		*/
+		/**
+		 * @brief	Event handler for when the user buys a pencil
+		 */
 		void OnBuyPencil();
 
-	   /**
-	    * @brief	Event handler for when the user may place towers on the playground
-		*/
+		/**
+	     * @brief	Event handler for when the user may place towers on the playground
+		 */
 		void OnPlaceTowers();
 
-	   /**
-	    * @brief	Event handler for when the user has placed a tower on the playground
-		* @param	p_position	The position of the tower
-		*/
+		/**
+	     * @brief	Event handler for when the user has placed a tower on the playground
+		 * @param	p_position	The position of the tower
+		 */
 		void OnTowerCreate(irr::core::vector2di p_position);
 
-	   /**
-	    * @brief	Event handler for when the user has destroyed a tower on the playground
-		* @param	p_position	The position of the tower
-		*/
+		 /**
+	     * @brief	Event handler for when the user has destroyed a tower on the playground
+		 * @param	p_position	The position of the tower
+		 */
 		void OnTowerDestroy(irr::core::vector2di p_position);
 
-	   /**
-	    * @brief	Event handler for when the user wants to upgrade the speed of a tower
-		* @param	p_position	The position of the tower
-		*/
+		/**
+	     * @brief	Event handler for when the user wants to upgrade the speed of a tower
+		 * @param	p_position	The position of the tower
+		 */
 		void OnTowerUpgradeSpeed(irr::core::vector2di p_position);
 
-	   /**
-	    * @brief	Event handler for when the user wants to upgrade the range of a tower
-		* @param	p_position	The position of the tower
-		*/
+		 /**
+	     * @brief	Event handler for when the user wants to upgrade the range of a tower
+		 * @param	p_position	The position of the tower
+		 */
 		void OnTowerUpgradeRange(irr::core::vector2di p_position);
 
-	   /**
-	    * @brief	Event handler for when the user wants to upgrade the damage of a tower
-		* @param	p_position	The position of the tower
-		*/
+		/**
+	     * @brief	Event handler for when the user wants to upgrade the damage of a tower
+		 * @param	p_position	The position of the tower
+		 */
 		void OnTowerUpgradeDamage(irr::core::vector2di p_position);
 
-	   /**
-	    * @brief	Get the height of the game
-		* @return	Returns the height of the playground.
-		*/
+		/**
+	     * @brief	Get the height of the game
+		 * @return	Returns the height of the playground.
+		 */
 		float GetGameHeight();
 
 	private:

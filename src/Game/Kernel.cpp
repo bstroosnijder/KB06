@@ -39,7 +39,12 @@ namespace Game
 			m_gameManager = NULL;
 		}
 
-		m_device->drop();
+		if (m_device != NULL)
+		{
+			//irr::core::IDevice::drop() deletes everything.
+			m_device->drop();
+			m_device = NULL;
+		}
 	}
 
 	void Kernel::Start()

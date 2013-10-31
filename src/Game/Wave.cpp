@@ -16,7 +16,6 @@ namespace Game
 	Wave::~Wave()
 	{
 		delete m_timer;
-
 		m_timer = NULL;
 	}
 
