@@ -30,6 +30,7 @@ namespace Game
 
 		/**
 		 * @brief	Returns the current delta time in milliseconds.
+		 * @return	Returns the current delta time in milliseconds.
 		 *			
 		 * @author	Michel van os
 		 */

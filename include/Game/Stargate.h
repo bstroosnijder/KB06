@@ -33,6 +33,7 @@ namespace Game
 
 		/**
 		 * @brief	Returns the position of the base join.
+		 * @return	Returns the position of the base join.
 		 *
 		 * @author	Michel van Os.
 		 */
