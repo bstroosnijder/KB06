@@ -403,14 +403,6 @@ namespace Game
 		}
 	}
 
-	void Playground::OnCreatureHit(Creature* p_creature, Projectile* p_projectile)
-	{
-		if (p_creature != NULL && p_projectile != NULL)
-		{
-			p_creature->DecreaseHealthPoints(p_projectile->GetDamage());
-		}
-	}
-
 	void Playground::OnCreatureCreated(Creature* p_creature)
 	{
 		if (p_creature != NULL)
@@ -429,6 +421,14 @@ namespace Game
 			delete p_creature;
 
 			m_gameListener->OnCreatureKilled();
+		}
+	}
+
+	void Playground::OnCreatureHit(Creature* p_creature, Projectile* p_projectile)
+	{
+		if (p_creature != NULL && p_projectile != NULL)
+		{
+			p_creature->DecreaseHealthPoints(p_projectile->GetDamage());
 		}
 	}
 

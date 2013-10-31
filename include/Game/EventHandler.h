@@ -26,7 +26,7 @@ namespace Game
 		 *			When the GUI button Create Tower is clicked the variable m_clickEvent
 		 *			will be set to ClickEvent::CREATE_TOWER. When the player now clicks
 		 *			with the mouse on the playground a Tower will be created.
-		 * @author	Michelvan Os.
+		 * @author	Michel van Os.
 		 */
 		enum ClickEvent
 		{

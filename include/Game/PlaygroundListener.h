@@ -14,14 +14,16 @@ namespace Game
 	{
 	public:
 		/**
-		* @brief	Triggered when a Projectile is created.
-		* @author	Michel van Os.
-		* @param	p_projectile The created Projectile.
-		*/
+		 * @brief	Triggered when a Projectile is created.
+		 *
+		 * @author	Michel van Os.
+		 * @param	p_projectile The created Projectile.
+		 */
 		virtual void OnProjectileCreated(Projectile* p_projectile) = 0;
 
 		/**
 		 * @brief	Triggered when a Projectile is destroyed.
+		 *
 		 * @author	Michel van Os.
 		 * @param	p_projectile The destroyed Projectile.
 		 */
@@ -29,6 +31,7 @@ namespace Game
 		
 		/**
 		 * @brief	Triggered when a Creature is created.
+		 *
 		 * @author	Michel van Os.
 		 * @param	p_creature The created Creature.
 		 */
@@ -36,6 +39,7 @@ namespace Game
 
 		/**
 		 * @brief	Triggered when a Creature is destoyed.
+		 *
 		 * @author	Michel van Os.
 		 * @param	p_creature The destroyed Creature.
 		 */
@@ -43,6 +47,7 @@ namespace Game
 
 		/**
 		 * @brief	Triggered when a Creature is hit by a Projectile.
+		 *
 		 * @author	Michel van Os.
 		 * @param	p_creature The Create that is hit by the Projectile.
 		 * @param	p_projectile The Projectile that hit the Creature.
@@ -52,6 +57,7 @@ namespace Game
 
 		/**
 		 * @brief	Triggered when a Creature reached the end of it's PathRoute.
+		 *
 		 * @author	Michel van Os.
 		 * @param	p_creature The Creature that reached the end of the PathRoute.
 		 */

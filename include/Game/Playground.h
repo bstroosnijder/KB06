@@ -24,55 +24,56 @@
 namespace Game
 {
 	/**
-	* @brief	Playground is an area the game is played on
-	*
-	*			The playground consist of Tower(s)  Monster(s)  and a Path
-	* @author	Michel van Os
-	* @author	Menno Postma
-	* @author	Thomas Gravekamp
-	* @todo		comments
-	*/
+	 * @brief	Playground is the area the Game is played on.
+	 *
+	 *			The playground consist of Tower(s)  Monster(s)  and a Path.
+	 * @author	Michel van Os.
+	 * @author	Menno Postma.
+	 * @author	Thomas Gravekamp.
+	 * @todo	Extra comments.
+	 */
 	class Playground : public PlaygroundListener
 	{
 	public:
-	   /**
-		* @todo
-		*/
+		/**
+		 * @todo
+		 */
 		Playground(GameListener* p_gameListener, irr::scene::ISceneManager* p_sceneManager);
 
-	   /**
-		* @brief destructs the playground
-		*/
+		/**
+		 * @brief destructs the playground
+		 */
 		~Playground();
 
-	   /**
-		* @brief	Initializes the playground
-		*
-		*			1. Generate the creature waves. 
-		*			2. Generate Path
-		*			3. Creates terrain
-		*			4. Creates PathMarker
-		* @param	p_sceneManager is the sceneManager
-		*/
+		/**
+		 * @brief	Initializes the playground
+		  *
+		 *			1. Generate the creature waves. 
+		 *			2. Generate Path
+		 *			3. Creates terrain
+		 *			4. Creates PathMarker
+		 * @param	p_sceneManager is the sceneManager
+		 */
 		void Initialize(irr::scene::ISceneManager* p_sceneManager);
 
-	   /**
-		* @brief	Updates all game objects on the playground
-		*
-		*			This is called every game-loop. This will update the state, position and rotation of various objects on the playground
-		* @param	p_deltaTime is the deltaTimer
-		*/
+		/**
+		 * @brief	Updates all game objects on the playground
+		 *
+		 *			This is called every game-loop. This will update the state, position and rotation of various objects on the playground
+		 * @param	p_deltaTime is the deltaTimer
+		 */
 		void Update(float p_deltaTime);
 
-	   /**
+		/**
 		* @brief	Scales the te terrain, stargate and castle to match the gamelength
 		* @param	p_gameLength is the length of the longest edge of the table
 		*/
 		void UpdateGameScale(float p_gameLength);
 
-	   /**
-		* @todo		Probable won't be used in the near future
-		*/
+		/**
+		 * @brief	Renders the current Path used by the Wave.
+		 *
+		 */
 		void Render();
 
 		/**
@@ -183,51 +184,84 @@ namespace Game
 		 */
 		int GetAmountOfCreatures();
 
-	   /**
-		* @brief	returns the amount of creatures spawned by the current wave
-		*/
+		/**
+		 * @brief	returns the amount of creatures spawned by the current wave
+		 */
 		int GetCreaturesSpawned();
 
-	   /**
-		* @brief	returns the size of the wave
-		*/
+		/**
+		 * @brief	returns the size of the wave
+		 */
 		int GetWaveSize();
 
-	   /**
-		* @brief	returns the heigth of the playground
-		*/
+		/**
+		 * @brief	Returns the heigth of the playground
+		 */
 		float GetPlaygroundHeight();
 
 		//------PlaygroundListenerEvents------
 
-	   /**
-		* @brief	adds the new projectile to the list
-		*/
+		/**
+		 * @brief	Triggered when a Projectile is created.
+		 *
+		 *			Add the Projectile tot he Projectile collection.
+		 * @author	Michel van Os.
+		 * @param	p_projectile The created Projectile.
+		 */
 		void OnProjectileCreated(Projectile* p_projectile);
 
-	   /**
-		* @brief	removes the projectile
-		*/
+		/**
+		 * @brief	Triggered when a Projectile is destroyed.
+		 *
+		 *			Removes the Projectile from the Projectile collection.
+		 * @author	Michel van Os.
+		 * @param	p_projectile The destroyed Projectile.
+		 */
 		void OnProjectileDestroyed(Projectile* p_projectile);
 
-	   /**
-		* @brief	adds the creature to the list
-		*/
+		/**
+		 * @brief	Triggered when a Creature is created.
+		 *
+		 *			Add the Creature to the Creature collection.
+		 * @author	Michel van Os.
+		 * @param	p_creature The created Creature.
+		 */
 		void OnCreatureCreated(Creature* p_creature);
 
-	   /**
-		* @brief	removes the creature
-		*/
+		/**
+		 * @brief	Triggered when a Creature is destoyed.
+		 *
+		 *			Removes the Creature from the Creature collection and
+		 *			notifies the GameListener that a Creature is killed.
+		 * @author	Michel van Os.
+		 * @param	p_creature The destroyed Creature.
+		 */
 		void OnCreatureDestroyed(Creature* p_creature);
 
-	   /**
-		* @brief	decreases creatures health based on the projectile
-		*/
+		/**
+		 * @brief	Triggered when a Creature is hit by a Projectile.
+		 *
+		 *			Decreases the health of the creature based by the 
+		 *			damage of the Projectile.
+		 * @author	Michel van Os.
+		 * @param	p_creature The Create that is hit by the Projectile.
+		 * @param	p_projectile The Projectile that hit the Creature.
+		 * @todo	Projectiles don't disappear when they hit a Creature.
+		 */
 		void OnCreatureHit(Creature* p_creature, Projectile* p_projectile);
-
-	   /**
-		* @brief	removes the creature and change score
-		*/
+		
+		/**
+		 * @brief	Triggered when a Creature reached the end of it's PathRoute.
+		 *
+		 *			Removes the Creature from the Creature collection and
+		 *			notifies the GameListener that a Creature reached the
+		 *			Castle.	If there are no Creatures left then it notifies
+		 *			the GameListener that the Wave ended.
+		 * @author	Michel van Os.
+		 * @param	p_creature The Create that is hit by the Projectile.
+		 * @param	p_projectile The Projectile that hit the Creature.
+		 * @todo	Projectiles don't disappear when they hit a Creature.
+		 */
 		void OnCreatureRouteEndReached(Creature* p_creature);
 
 	private:
