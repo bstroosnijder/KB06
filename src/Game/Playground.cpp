@@ -77,8 +77,8 @@ namespace Game
 		*/
 
 		m_terrain = new Terrain();
-		m_selector = m_terrain->GenerateTerrain(p_sceneManager, 10.0);
-		m_gameDimensions.Height = m_terrain->GetTerrainDimensions().Height*10;
+		m_selector = m_terrain->GenerateTerrain(p_sceneManager, 2000.0);
+		m_gameDimensions.Height = m_terrain->GetTerrainDimensions().Height;
 	}
 
 	bool Playground::SetupPath(
@@ -456,7 +456,7 @@ namespace Game
 	void Playground::UpdateGameScale(float p_gameLength)
 	{
 		m_gameDimensions.Width = p_gameLength;
-		float oldLength = m_terrain->GetTerrainDimensions().Width * 10;
+		float oldLength = m_terrain->GetTerrainDimensions().Width;
 		float newLength = p_gameLength - 200;
 
 		irr::core::vector3df terrainScaling = irr::core::vector3df(newLength / oldLength, 1.0f, 1.0f);
