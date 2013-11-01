@@ -118,7 +118,7 @@ namespace Game
 		}
 
 		// Cleanup the capture
-		//delete capture;
+		delete capture;
 	}
 
 	void Kernel::SetMultiThreaded(bool p_multiThreaded)
