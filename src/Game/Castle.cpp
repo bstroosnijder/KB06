@@ -8,13 +8,13 @@ namespace Game
 			:
 			Entity(p_sceneManager, p_playgroundListener)
 	{
-		m_animatedMesh = p_sceneManager->getMesh("resources/models/castle/castle1.5/castleofpeaches1.5.X");
+		m_animatedMesh = p_sceneManager->getMesh("resources/models/castle/castleofpeaches1.7.X");
 	
 		irr::scene::IAnimatedMeshSceneNode* animatedMeshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, p_sceneManager->getSceneNodeFromId(C_EMPTY_ROOT_SCENENODE));
 		m_meshSceneNode = animatedMeshSceneNode;
 		m_meshSceneNode->setPosition(p_position);
 		m_meshSceneNode->setScale(irr::core::vector3df(0.2f));//10.f, 10.f, 10.f));
-		m_meshSceneNode->setRotation(irr::core::vector3df(0.0f, -90.0f, 0.0f));
+		m_meshSceneNode->setRotation(irr::core::vector3df(0.0f, 90.0f, 0.0f));
 
 		m_jointPath = NULL;
 		m_jointCenter = NULL;
@@ -30,17 +30,17 @@ namespace Game
 
 			irr::core::vector3df pos = bone->getPosition();
 
-			if (name.compare("Plane003"))
+			if (name.compare("padjoint"))
 			{
 				m_jointPath = bone;
 			}
-			else if (name.compare("polySurface42"))
+			else if (name.compare("centerjoint"))
 			{
 				m_jointCenter = bone;
 			}
 		}
 		
-		SetPositionToJointCenter(p_position);
+		//SetPositionToJointCenter(p_position);
 		SetMaterialFlags();
 	}
 

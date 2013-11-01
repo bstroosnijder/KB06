@@ -72,11 +72,6 @@ namespace Game
 		void Update(float p_deltaTime);
 
 		/**
-		* @brief	Updates the game terrain selector
-		*/
-		void UpdateTerrainSelector();
-
-		/**
 		* @brief	Scales the te terrain, stargate and castle to match the gamelength
 		* @param	p_gameLength is the length of the longest edge of the table
 		*/
@@ -367,6 +362,13 @@ namespace Game
 		 * @author	Michel van Os.
 		 */
 		void CreatePathPointMarkers();
+
+		/**
+		 * @brief	 Deletes all Markers.
+		 *
+		 * @author	Michel van Os.
+		 */
+		void DeletePathPointMarkers();
 
 		/**
 		 * @brief	Connects the Path with the Startgate and the Castle.

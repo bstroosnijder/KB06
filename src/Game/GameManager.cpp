@@ -167,6 +167,7 @@ namespace Game
 				if (m_playground->SetupPath(p_points1, p_points2, p_amount))
 				{
 					m_isLookingForPencilCoords = false;
+					m_gui->SetButtonDefendersTurnEnabled(true);
 				}
 
 				//delete[] p_points1;
@@ -322,7 +323,6 @@ namespace Game
 			m_gui->HideVictory();
 			m_gui->SetButtonAttackersTurnEnabled(false);
 			m_gui->SetButtonAttackersActionsEnabled(true);
-			m_gui->SetButtonDefendersTurnEnabled(true);
 
 			m_gameStatus = GameStatus::ATTACKER_PLACE_PENCILS;
 		}
@@ -344,6 +344,7 @@ namespace Game
 		if (m_gameStatus == GameStatus::ATTACKER_PLACE_PENCILS)
 		{
 			m_isLookingForPencilCoords = true;
+			m_gui->SetButtonDefendersTurnEnabled(false);
 		}
 	}
 

@@ -8,7 +8,7 @@ namespace Game
 			:
 			Entity(p_sceneManager, p_playgroundListener)
 	{
-		m_animatedMesh = p_sceneManager->getMesh("resources/models/stargate/stargate06/stargatev06.X");//Stargatev01.x");
+		m_animatedMesh = p_sceneManager->getMesh("resources/models/stargate/stargatev06.X");//Stargatev01.x");
 		
 		irr::scene::IAnimatedMeshSceneNode* animatedMeshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, p_sceneManager->getSceneNodeFromId(C_EMPTY_ROOT_SCENENODE));
 		m_meshSceneNode = animatedMeshSceneNode;

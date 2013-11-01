@@ -239,11 +239,13 @@ namespace Game
 		}
 	}
 
+	/*
 	void Playground::UpdateTerrainSelector()
 	{
 		// Updates the terrain selector.
 		m_selector = m_terrain->UpdateTriangleSelector(m_sceneManager);
 	}
+	*/
 
 	void Playground::Render()
 	{
@@ -514,7 +516,7 @@ namespace Game
 		m_terrain->ScaleTerrain(terrainScaling);
 		
 		float offset = 50.0f;
-		m_castle->SetPositionToJointCenter(irr::core::vector3df(
+		m_castle->SetPosition(irr::core::vector3df(
 			-(0.0f + offset),
 			0.0f,
 			-(m_gameDimensions.Height / 2)));
@@ -557,7 +559,9 @@ namespace Game
 	void Playground::CreatePathPointMarkers()
 	{
 		if (m_path != NULL)
-		{	
+		{
+			DeletePathPointMarkers();
+
 			std::list<PathPoint*>::iterator itPathPoint = m_path->m_pathPoints->begin();
 			std::list<PathPoint*>::iterator itPathPointEnd = m_path->m_pathPoints->end();
 			PathPoint* pathPoint = NULL;
@@ -577,6 +581,20 @@ namespace Game
 				++itPathPoint;
 			}
 		}
+	}
+
+	void Playground::DeletePathPointMarkers()
+	{
+		std::list<Marker*>::iterator markerIt = m_markers.begin();
+		std::list<Marker*>::iterator markerItEnd = m_markers.end();
+
+		while (markerIt != markerItEnd)
+		{
+			delete *markerIt;
+			markerIt++;
+		}
+
+		m_markers.clear();
 	}
 
 	void Playground::ConnectPathToStargateAndCastle()
