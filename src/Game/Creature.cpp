@@ -32,7 +32,7 @@ namespace Game
 		sceneNodeTemp = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, m_meshSceneNode);
 		SetMaterialFlags(sceneNodeTemp);
 
-		m_meshSceneNode->setScale(irr::core::vector3df(0.50f,0.50f,0.50f));
+		m_meshSceneNode->setScale(irr::core::vector3df(1.5f));
 		m_animatedMesh->setBoundingBox(*boundingbox);
 		m_healthPoints = 20;
 
