@@ -96,20 +96,20 @@ namespace Camera
 		 * @brief	Gets the game line
 		 * @return	The game line
 		 */
-		irr::core::line2df GetLongestGameLine();
+		irr::core::line2df GetShortestGameLine();
 
 		/**
 		 * @brief	Sets the game line
 		 * @param	p_longestGameLine The new game line
 		 */
-		void SetLongestGameLine(irr::core::line2df p_longestGameLine);
+		void SetShortestGameLine(irr::core::line2df p_longestGameLine);
 
 
 		/**
 		 * @brief	Gets the game line
 		 * @return	The game line
 		 */
-		irr::core::line2df GetCalculatedShortestGameLine();
+		irr::core::line2df GetCalculatedLongestGameLine();
 
 		/**
 		* @brief	Finds start and end points in a frame.
@@ -163,7 +163,7 @@ namespace Camera
 		irr::core::line2df m_shortestLine;
 		irr::core::line2df m_longestLine;
 		float m_lineRatio;
-		irr::core::line2df m_longestGameLine;
+		irr::core::line2df m_shortestGameLine;
 
 		/**
 		 * @brief	Locks the mutex with this thread
