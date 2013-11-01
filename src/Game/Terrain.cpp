@@ -7,6 +7,11 @@ namespace Game
 		
 	}
 
+	Terrain::~Terrain()
+	{
+		
+	}
+
 	irr::scene::ITriangleSelector* Terrain::GenerateTerrain(irr::scene::ISceneManager* p_sceneManager, float p_scale)
 	{
 		irr::scene::ITriangleSelector* selector;
