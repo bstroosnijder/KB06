@@ -21,6 +21,7 @@ namespace Game
 	 *			Wave is reused for the next game round.
 	 * @author	Bram van Elderen.
 	 * @author	Michel van Os.
+	 * @todo	Check all Comments. Including the parameters + return values!!!!!!
 	 */
 	class Wave
 	{
@@ -43,7 +44,7 @@ namespace Game
 		/** 
 		 * @brief this method initializes the startposition of the Creatures and starts the Timer of the Wave.
 		 */
-		void StartSpawning(irr::core::vector3df p_startPosition);
+		void StartSpawning();
 
 		/**
 		 * @brief	Resets the amount of Creatures spawned and the Timer.
@@ -123,8 +124,9 @@ namespace Game
 		 * @author	Michel van Os.
 		 */
 		int m_creaturesSpawned;
+
+
 		Game::Timer* m_timer;
-		irr::core::vector3df m_startPosition;
 	};
 }
 #endif

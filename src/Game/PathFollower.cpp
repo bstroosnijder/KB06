@@ -14,8 +14,8 @@ namespace Game
 		m_pointNext = NULL;
 
 		//Constant values
-		m_unitLength = 10.0f;
-		m_speed = 0.08f;
+		m_unitLength = 1.0f;
+		m_speed = 10.0f;
 	}
 
 	void PathFollower::FollowPath(float p_deltaTime)

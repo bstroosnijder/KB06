@@ -55,27 +55,27 @@ namespace Game
 
 		/**
 		 * @brief	Returns wheter the PathFollower is following the PathRoute.
-		 * @return	Returns wheter the PathFollower is following the PathRoute.
 		 *			
 		 * @author	Michel van Os.
+		 * @return	Whether the PathFollower is following the PathRoute.
 		 */
 		bool IsFollowing();
 
 		/**
 		 * @brief	Returns wheter the PathFollower reached the end of the PathSegment. 
-		 * @return	Returns wheter the PathFollower reached the end of the PathSegment. 
 		 *			
 		 * @author	Michel van Os.
+		 * @return	Whether the PathFollower reached the end of the PathSegment. 
 		 */
 		bool IsEndOfSegmentReached();
 
 		/**
-		 * @brief	Returns wheter the PathFollower reached the end of the PathRoute.
-		 * @return	Returns wheter the PathFollower reached the end of the PathRoute.
+		 * @brief	Returns whether the PathFollower reached the end of the PathRoute.
 		 *			
 		 *			If the value returned is true. Then the value returned by
 		 *			IsEndOfSegmentReached will also be true.
 		 * @author	Michel van Os.
+		 * @return	Wheter the PathFollower reached the end of the PathRoute.
 		 */
 		bool IsEndOfRouteReached();
 		
@@ -90,23 +90,22 @@ namespace Game
 
 		/**
 		 * @brief	Returns the speed.
-		 * @return	Returns the speed.
 		 *			
 		 * @author	Michel van Os.
+		 * @return	The speed.
 		 */
 		float GetSpeed();
 
 	private:
 		/**
 		 * @brief	True if the PathFollower should follow the Pathroute.
-		 * @return	True if the PathFollower should follow the Pathroute.
+		 *
 		 * @author	Michel van os.
 		 */
 		bool m_following;
 
 		/**
 		 * @brief	The PathRoute the PathFollower should follow.
-		 * @return  The PathRoute the PathFollower should follow.
 		 *
 		 * @author	Michel van os.
 		 */
@@ -114,7 +113,6 @@ namespace Game
 
 		/**
 		 * @brief	The current PathRoute::iterator.
-		 * @return	The current PathRoute::iterator.
 		 *
 		 *			The PathFollower moves from m_pointCurrentIt towards m_pointNextIt.
 		 * @author	Michel van os.
@@ -123,7 +121,6 @@ namespace Game
 
 		/**
 		 * @brief	The next PathRoute::iterator.
-		 * @return	The next PathRoute::iterator.
 		 *
 		 *			The PathFollower moves from m_pointCurrentIt towards m_pointNextIt.
 		 * @author	Michel van os.
@@ -132,7 +129,6 @@ namespace Game
 
 		/**
 		 * @brief	The current PathPoint.
-		 * @return	The current PathPoint.
 		 *
 		 * @author	Michel van os.
 		 */
@@ -140,7 +136,6 @@ namespace Game
 
 		/**
 		 * @brief	The next PathPoint.
-		 * @return	The next PathPoint.
 		 *
 		 * @author	Michel van os.
 		 */
@@ -156,7 +151,6 @@ namespace Game
 
 		/**
 		 * @brief	The current relative position on the segment.
-		 * @return	The current relative position on the segment.
 		 *
 		 * @author	Michel van os.
 		 */
@@ -165,7 +159,6 @@ namespace Game
 
 		/**
 		 * @brief	The speed scale for the PathFollower adapted to the length of the segment.
-		 * @return	The speed scale for the PathFollower adapted to the length of the segment.
 		 *
 		 * @author	Michel van os.
 		 */
@@ -173,7 +166,6 @@ namespace Game
 
 		/**
 		 * @brief	The length of one unit.
-		 * @return	The length of one unit.
 		 *
 		 * @author	Michel van os.
 		 */
@@ -181,7 +173,6 @@ namespace Game
 
 		/**
 		 * @brief	The speed for the PathFollower
-		 * @return	The speed for the PathFollower
 		 *
 		 * @author	Michel van os.
 		 */

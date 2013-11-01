@@ -89,7 +89,7 @@ namespace Game
 		void HideControlsMenu();
 
 		/**
-		 * @brief	Showw the victory image for the defending player.
+		 * @brief	Show the victory image for the defending player.
 		 *
 		 *			If p_playerType is TYPE_DEFENDER then the Victory image will be shown.
 		 *			If p_playerType is TYPE_ATTACKER then the Defeated image will be shown.

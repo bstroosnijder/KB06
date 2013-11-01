@@ -194,6 +194,14 @@ namespace Game
 		int GetWaveNumber();
 
 		/**
+		 * @brief	Returns the amount of Waves.
+		 *
+		 * @author	Michel van Os.
+		 * @return	The amount of Waves.
+		 */
+		int GetWaveCount();
+
+		/**
 		 * @brief	Returns the amount of Creatures currently alive.
 		 *
 		 * @author	Michel van Os.

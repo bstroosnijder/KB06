@@ -234,10 +234,18 @@ namespace Game
 			{
 				//The Round is ended.
 
-				/// @todo	Determine the winner Player of the current game round.
-				PlayerType gameRoundWinner = PlayerType::TYPE_ATTACKER;
+				PlayerType gameRoundWinner;
 
-				if (m_player1 == PlayerType::TYPE_ATTACKER)
+				if (m_scoreManager.GetWavesSurvived() >= m_playground->GetWaveCount() / 2 + 1)
+				{
+					 gameRoundWinner = PlayerType::TYPE_DEFENDER;
+				}
+				else
+				{
+					gameRoundWinner = PlayerType::TYPE_ATTACKER;
+				}
+
+				if (m_player1 == PlayerType::TYPE_DEFENDER)
 				{
 					//If the first Round ended
 
@@ -246,8 +254,12 @@ namespace Game
 
 					//Switch player sides
 					m_player1 = PlayerType::TYPE_DEFENDER;
-					m_scoreManager.ResetPencilsOwned();
 
+					//Prepare for the next round.
+					m_gui->SetButtonAttackersTurnEnabled(true);
+					m_gameStatus = GameStatus::WAVE_FINISHED;
+					m_scoreManager.ResetPencilsOwned();
+					m_scoreManager.SetPencilsOwned(0);
 					m_playground->ResetWaves();
 				}
 				else
@@ -305,6 +317,7 @@ namespace Game
 	{
 		if (m_gameStatus == GameStatus::WAVE_FINISHED || m_gameStatus == GameStatus::GAME_STARTED)
 		{
+			m_gui->HideVictory();
 			m_gui->SetButtonAttackersTurnEnabled(false);
 			m_gui->SetButtonAttackersActionsEnabled(true);
 			m_gui->SetButtonDefendersTurnEnabled(true);

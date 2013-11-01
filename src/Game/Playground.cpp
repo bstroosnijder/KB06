@@ -96,10 +96,10 @@ namespace Game
 
 		Path* pathNew = NULL;
 
-		PathPoint* pointBegin1 = new PathPoint(m_stargate->GetPosition());
-		PathPoint* pointBegin2 = new PathPoint(m_stargate->GetJointBasePosition());
-		PathPoint* pointEnd1 = new PathPoint(m_castle->GetJointPathPosition());
-		PathPoint* pointEnd2 = new PathPoint(m_castle->GetJointCenterPosition());
+		PathPoint* pointBegin1	= new PathPoint(m_castle->GetJointCenterPosition());
+		PathPoint* pointBegin2	= new PathPoint(m_castle->GetJointPathPosition());
+		PathPoint* pointEnd1	= new PathPoint(m_stargate->GetJointPathPosition());
+		PathPoint* pointEnd2	= new PathPoint(m_stargate->GetJointBasePosition());
 
 		pointBegin1->m_pointsConnected.push_back(pointBegin2);
 		pointBegin2->m_pointsConnected.push_back(pointBegin1);
@@ -198,12 +198,7 @@ namespace Game
 			++itCreature;
 
 			creature->FollowPath(p_deltaTime, m_terrain);
-			if (creature->GetHealthPoints() <= 0.0)
-			{
-				OnCreatureDestroyed(creature);
-			}
 		}
-	
 	
 		//Update Projectiles
 		std::list<Projectile*>::iterator itProjectile = m_projectiles.begin();
@@ -229,6 +224,7 @@ namespace Game
 		if (m_waves.size() != 0)
 		{
 			m_waveNumber = 0;
+
 			if (m_waves[m_waveNumber]->SpawnCreature(*m_pathRouteSelected))
 			{
 				if (*m_pathRouteSelected == m_path->m_routes.back())
@@ -239,11 +235,6 @@ namespace Game
 				{
 					std::advance(m_pathRouteSelected, 1);
 				}
-			}
-			else
-			{
-				std::cout << m_waveNumber;
-				m_waves.erase(m_waves.begin());
 			}
 		}
 	}
@@ -369,7 +360,7 @@ namespace Game
 
 			if (wave)
 			{
-				wave->StartSpawning(m_path->m_pointBegin->m_point);
+				wave->StartSpawning();
 			}
 		}
 	}
@@ -400,6 +391,11 @@ namespace Game
 	int Playground::GetWaveNumber()
 	{
 		return m_waveNumber;
+	}
+
+	int Playground::GetWaveCount()
+	{
+		return m_waves.size();
 	}
 
 	int Playground::GetAmountOfCreatures()
@@ -470,6 +466,11 @@ namespace Game
 		if (p_creature != NULL && p_projectile != NULL)
 		{
 			p_creature->DecreaseHealthPoints(p_projectile->GetDamage());
+
+			if (p_creature->GetHealthPoints() <= 0.0f)
+			{
+				OnCreatureDestroyed(p_creature);
+			}
 		}
 	}
 
@@ -482,8 +483,10 @@ namespace Game
 
 			m_gameListener->OnCreatureReachedCastle();
 
-			if (m_creatures.size() == 0)
-			{
+			if (m_creatures.size() == 0 &&
+					m_waves[m_waveNumber]->IsActive() == false &&
+					m_waves[m_waveNumber]->AreAllCreaturesSpawned())
+			{ 
 				m_gameListener->OnWaveEnded();
 			}
 		}

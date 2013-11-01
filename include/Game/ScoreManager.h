@@ -32,6 +32,24 @@ namespace Game
 		int GetPlayerScore(int p_playerNumber);
 
 		/**
+		 * @brief	Returns the amount of Waves survived by the
+		 *			current defender in the current round.
+		 *
+		 * @author	Michel van Os.
+		 * @return	The amount of Waves.
+		 */
+		int GetWavesSurvived();
+
+		/**
+		 * @brief	Sets the amount of Waves the current defender survived
+		 *			in the current round.
+		 *
+		 * @author	Michel van Os.
+		 * @param	p_wavesSurfvived The new amount of Waves surfvived.
+		 */
+		void SetWavesSurvived(int p_wavesSurvived);
+
+		/**
 		 * @brief	Returns the amount of pencils owned by the attacker.
 		 * @return	Returns the amount of pencils owned by the attacker.
 		 *
@@ -217,6 +235,8 @@ namespace Game
 	private:
 		int m_playerPoints[2];
 		int m_playerPointsDefault[2];
+
+		int m_wavesSurvived;
 		
 		int m_pencilsDefault;
 		int m_pencilsOwned;

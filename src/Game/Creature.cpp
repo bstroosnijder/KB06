@@ -4,7 +4,6 @@ namespace Game
 {
 	Creature::Creature(irr::scene::ISceneManager* p_sceneManager,
 			PlaygroundListener* p_playgroundListener,
-			irr::core::vector3df p_position,
 			PathRoute* p_pathRoute)
 			:
 			PathFollower(p_sceneManager, p_playgroundListener, p_pathRoute)
@@ -12,7 +11,6 @@ namespace Game
 		m_meshSceneNode = p_sceneManager->addEmptySceneNode(p_sceneManager->getSceneNodeFromId(C_EMPTY_ROOT_SCENENODE));
 		irr::scene::ISceneNode* sceneNodeTemp = NULL;
 		irr::core::aabbox3d<irr::f32>* boundingbox = new irr::core::aabbox3d<irr::f32>(irr::core::vector3df(-2.0f, -2.0f, -2.0f), irr::core::vector3df(2.0f, 2.0f, 2.0f));
-		
 
 		//Head
 		m_animatedMesh = p_sceneManager->getMesh("resources/models/creature/goomba/goombawalk2.7H.x");

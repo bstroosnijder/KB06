@@ -20,12 +20,10 @@ namespace Game
 		 *
 		 * @param p_sceneManager		is used to attach the Creature scenenode to the manager
 		 * @param p_playgroundListener	is used to send events from creature to playground
-		 * @param p_position			The creature will be positioned on p_position
 		 * @param p_pathroute			The creature needs p_pathRoute to know which path to follow
 		 */
 		Creature(irr::scene::ISceneManager* p_sceneManager,
 				PlaygroundListener* p_playgroundListener,
-				irr::core::vector3df p_position,
 				PathRoute* p_pathRoute);
 
 		/**

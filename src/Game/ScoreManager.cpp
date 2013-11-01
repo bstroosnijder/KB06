@@ -28,6 +28,16 @@ namespace Game
 		return m_playerPoints[p_playerNumber];
 	}
 
+	int ScoreManager::GetWavesSurvived()
+	{
+		return m_wavesSurvived;
+	}
+
+	void ScoreManager::SetWavesSurvived(int p_wavesSurvived)
+	{
+		m_wavesSurvived = p_wavesSurvived;
+	}
+
 	int ScoreManager::GetPencilsOwned()
 	{
 		return m_pencilsOwned;

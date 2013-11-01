@@ -18,10 +18,8 @@ namespace Game
 		m_timer = NULL;
 	}
 
-	void Wave::StartSpawning(irr::core::vector3df p_startPosition)
+	void Wave::StartSpawning()
 	{
-		m_startPosition = p_startPosition;
-
 		m_creaturesSpawned = 0;
 		m_timer->Start();
 	}
@@ -32,30 +30,33 @@ namespace Game
 		m_timer->Reset();
 	}
 
-	bool Wave::SpawnCreature(PathRoute* p_path)
+	bool Wave::SpawnCreature(PathRoute* p_pathRoute)
 	{
 		Utility::Logger* logger = Utility::Logger::GetInstance();
 
-		if (m_timer->IsRunning() && m_creaturesSpawned < m_waveSize)
+		if (m_timer->IsRunning())
 		{
-			if (m_timer->GetTime() == 1)
+			if (m_creaturesSpawned < m_waveSize)
 			{
-				Creature* creature = new Creature(m_sceneManager, m_playgroundListener, m_startPosition, p_path);
-				m_playgroundListener->OnCreatureCreated(creature);
+				if (m_timer->GetTime() == 1)
+				{
+					Creature* creature = new Creature(m_sceneManager, m_playgroundListener, p_pathRoute);
+					m_playgroundListener->OnCreatureCreated(creature);
 
-				m_timer->Reset();
-				--m_creaturesSpawned;
+					m_timer->Reset();
+					m_creaturesSpawned += 1;
 
-				logger->Log(Utility::Logger::LOG_MESSAGE, "Creature spawned", __LINE__, __FILE__);
+					logger->Log(Utility::Logger::LOG_MESSAGE, "Creature spawned", __LINE__, __FILE__);
 
-				return true;
+					return true;
+				}
 			}
-		}
-		else
-		{
-			m_timer->Stop();
+			else
+			{
+				m_timer->Stop();
 				
-			logger->Log(Utility::Logger::LOG_MESSAGE, "Creature spawning stopped", __LINE__, __FILE__);
+				logger->Log(Utility::Logger::LOG_MESSAGE, "Creature spawning stopped", __LINE__, __FILE__);
+			}
 		}
 
 		return false;
