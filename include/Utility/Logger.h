@@ -153,62 +153,77 @@ namespace Utility
 		bool m_logToFile;
 	
 		/**
-		* @todo
+		* @brief Initializes the logger and starts it up
 		*/
 		void Initialize();
 
 		/**
-		* @todo
+		* @brief Opens the logfile for logging.
 		*/
 		void OpenLogFile();
 
 		/**
-		* @todo
+		* @brief Closes the logfile.
 		*/
 		void CloseLogFile();
 
 		/**
-		* @todo
+		* @brief Displays a message into the logfile.
+		* @param The header for the message.
+		* @param The message to be displayed.
 		*/
 		void LogToFile(const char* P_HEADER, const char* P_MASSAGE);
 
 		/**
-		* @todo
+		* @brief Displays a message into the logfile.
+		* @param The header for the message.
+		* @param The message to be displayed.
+		* @param The linenumber in the respective file.
+		* @param The file that the message comes from.
 		*/
 		void LogToFile(const char* P_HEADER, const char* P_MASSAGE, const int P_LINENUMBER, const char* P_FILE);
 
 		/**
-		* @todo
+		* @brief Displays a message into the console.
+		* @param The header for the message.
+		* @param The message to be displayed.
 		*/
 		void LogToConsole(const char* P_HEADER, const char* P_MASSAGE);
 
 		/**
-		* @todo
+		* @brief Displays a message into the console.
+		* @param The header for the message.
+		* @param The message to be displayed.
+		* @param The linenumber in the respective file.
+		* @param The file that the message comes from.
 		*/
 		void LogToConsole(const char* P_HEADER, const char* P_MASSAGE, const int P_LINENUMBER, const char* P_FILE);
 
 		/**
-		* @todo
+		* @brief Retrieve the start of the program.
+		* @return A struct containing the time when the programming started.
 		*/
 		tm* GetProgramStarted();
 
 		/**
-		* @todo
+		* @brief Returns the start of the program formatted into a string.
+		* @return Returns the time of the beginning of the program in a string.
 		*/
 		std::string GetProgramStartedFormatted();
 
 		/**
-		* @todo
+		* @brief Gets the current time and formats it to a more readable format
+		* @return Returns time formatted into a string.
 		*/
 		std::string GetTimeDurationFormatted();
 
 		/**
-		* @todo
+		* @brief Sets the program to a start state.
 		*/
 		void SetProgramStarted();
 
 		/**
-		* @todo
+		* @brief Sets the name for the logfile.
 		*/
 		void SetLogFilename();
 	
