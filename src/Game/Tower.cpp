@@ -19,7 +19,8 @@ namespace Game
 		m_meshSceneNode->setScale(irr::core::vector3df(0.40f, 0.40f, 0.40f));
 		if (m_meshSceneNode != NULL)
 		{
-			m_meshSceneNode->setPosition(p_position);
+			// Y = 0.0f So that it stands of the floor correctly
+			m_meshSceneNode->setPosition(irr::core::vector3df(p_position.X, 0.0f, p_position.Z));
 			m_jointCrystal = animatedMeshSceneNode->getJointNode("shootingbone");
 		}
 
