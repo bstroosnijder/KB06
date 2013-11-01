@@ -64,7 +64,7 @@ namespace Game
 
 	void GameManager::Update()
 	{
-		m_playground->UpdateTerrainSelector();
+		//m_playground->UpdateTerrainSelector();
 
 		if (m_gameStatus == GameStatus::WAVE_RUNNING)
 		{

@@ -100,12 +100,7 @@ namespace Game
 		PathPoint* pointBegin2	= new PathPoint(m_stargate->GetJointPathPosition());
 		PathPoint* pointEnd1	= new PathPoint(m_castle->GetJointPathPosition());
 		PathPoint* pointEnd2	= new PathPoint(m_castle->GetJointCenterPosition());
-		/*
-		PathPoint* pointBegin1	= new PathPoint(m_castle->GetJointCenterPosition());
-		PathPoint* pointBegin2	= new PathPoint(m_castle->GetJointPathPosition());
-		PathPoint* pointEnd1	= new PathPoint(m_stargate->GetJointPathPosition());
-		PathPoint* pointEnd2	= new PathPoint(m_stargate->GetJointBasePosition());
-		*/
+
 		pointBegin1->m_pointsConnected.push_back(pointBegin2);
 		pointBegin2->m_pointsConnected.push_back(pointBegin1);
 
@@ -242,6 +237,12 @@ namespace Game
 				}
 			}
 		}
+	}
+
+	void Playground::UpdateTerrainSelector()
+	{
+		// Updates the terrain selector.
+		m_selector = m_terrain->UpdateTriangleSelector(m_sceneManager);
 	}
 
 	void Playground::Render()
@@ -514,11 +515,11 @@ namespace Game
 		
 		float offset = 50.0f;
 		m_castle->SetPositionToJointCenter(irr::core::vector3df(
-			-(m_gameDimensions.Width - offset),
+			-(0.0f + offset),
 			0.0f,
 			-(m_gameDimensions.Height / 2)));
 		m_stargate->SetPositionToJointBase(irr::core::vector3df(
-			-(0.0f + offset),
+			-(m_gameDimensions.Width - offset),
 			0.0f,
 			-(m_gameDimensions.Height / 2)));
 	}
