@@ -40,7 +40,12 @@ namespace Game
 	public:
 		
 		/**
-		 * @todo Constructor TODO
+		 * @brief Constructor, initializes the eventhandler.
+		 * @brief It requires all the parameters to take care of eventhandling to their targets.
+		 * @param Initialize the inputhandler for the eventhandler.
+		 * @param Initialize the irrlichtdevice for the eventhandler.
+		 * @param Initialize the Gui for the eventhandler.
+		 * @param Initialize the playground for the eventhandler.
 		 */
 		EventHandler(UserInputListener* p_userInputListener,
 				irr::IrrlichtDevice* p_device,

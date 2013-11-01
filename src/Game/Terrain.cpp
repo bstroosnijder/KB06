@@ -16,22 +16,19 @@ namespace Game
 	{
 		irr::scene::ITriangleSelector* selector;
 		irr::scene::IAnimatedMesh* terrainMesh = p_sceneManager->addHillPlaneMesh("plane",
-			irr::core::dimension2d<irr::f32>(1, 1),			//Unit size
-			irr::core::dimension2d<irr::u32>(100, 100),		//Units
-			0,												//
-			30.0f);											//Hill height
+				irr::core::dimension2d<irr::f32>(1, 1),			//Unit size
+				irr::core::dimension2d<irr::u32>(100, 100),		//Units
+				0,												//
+				0.0f);											//Hill height
 		terrainMesh->setMaterialFlag(irr::video::EMF_LIGHTING, false);
 
-		//p_scale /= 3;
-
 		m_terrain = p_sceneManager->addAnimatedMeshSceneNode(terrainMesh,
-						p_sceneManager->getSceneNodeFromId(C_EMPTY_ROOT_SCENENODE),	// parent node
-			-1,												// node id
-			irr::core::vector3df(0.f, 0.f, 0.f),			// position
-			irr::core::vector3df(0.f, 0.f, 0.f),			// rotation
-			irr::core::vector3df(1.f, 0.5f, 1.f)*p_scale);	// scale);
+				p_sceneManager->getSceneNodeFromId(C_EMPTY_ROOT_SCENENODE),	// parent node
+				-1,												// node id
+				irr::core::vector3df(0.0f, 0.0f, 0.0f),			// position
+				irr::core::vector3df(0.0f, 0.0f, 0.0f),			// rotation
+				irr::core::vector3df(1.0f, 0.5f, 1.0f) * p_scale); // scale);
 
-		
 		m_terrain->setVisible(true);
 		irr::video::IVideoDriver* driver = p_sceneManager->getVideoDriver();
 		m_terrain->setMaterialTexture(0, driver->getTexture("resources/textures/terrain-texture.jpg"));

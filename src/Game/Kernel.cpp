@@ -55,8 +55,7 @@ namespace Game
 		Camera::Capture* capture = new Camera::Capture(m_multiThreaded, m_resolution, m_gameManager->GetCameraTexture());
 		m_inputHandler->AddListener(capture);
 		capture->SetFov(60);
-		/// @todo rename to shorterst
-		capture->SetLongestGameLine(irr::core::line2df(
+		capture->SetShortestGameLine(irr::core::line2df(
 			irr::core::vector2df(0.0f, 0.0f),
 			irr::core::vector2df(0.0f, m_gameManager->GetGameHeight())));
 		
@@ -67,17 +66,13 @@ namespace Game
 		{
 			capture->Start();
 			m_gameManager->SetCameraHeight(capture->GetPixelDistance());
-			/// TODO: GetCalculatedShortestGameLine: rename
-			/// @todo rename to longest
-			m_gameManager->SetGameLength(capture->GetCalculatedShortestGameLine().getLength());
+			m_gameManager->SetGameLength(capture->GetCalculatedLongestGameLine().getLength());
 
 			// Begin the scene
 			m_gameManager->BeginScene();
 			// Always draw the camera background
 			m_gameManager->DrawCameraTexture();
 			
-
-			// uncommented
 			if (capture->HasChosen())
 			{
 				if (capture->IsLost() == false)
@@ -86,8 +81,8 @@ namespace Game
 					{
 						m_inputHandler->RemoveListener(capture);
 					}
-					//uncommented
 
+					// Gets the transformation matrix and sets it on the root matrix
 					irr::core::matrix4 transformation = capture->GetTransformMatrix(m_gameManager->GetCameraProjectionMatrix());
 					root->setPosition(transformation.getTranslation());
 					root->setRotation(transformation.getRotationDegrees());

@@ -12,7 +12,6 @@ namespace Game
 	 * @brief	General entity class.
 	 *
 	 * @author	Thomas Gravekamp
-	 * @todo	Comment private parts.
 	 */
 	class Entity
 	{

@@ -274,9 +274,6 @@ namespace Game
 					start = pathPoint->m_point;
 					end = pathPoint2->m_point;
 
-					start /= 10;
-					end /= 10;
-
 					videoDriver->draw3DLine(start, end, color);
 				}
 			}
@@ -485,11 +482,11 @@ namespace Game
 		
 		float offset = 50.0f;
 		m_castle->SetPositionToJointCenter(irr::core::vector3df(
-			-(m_gameDimensions.Width*100 - offset),
+			-(m_gameDimensions.Width - offset),
 			0.0f,
 			-(m_gameDimensions.Height / 2)));
 		m_stargate->SetPositionToJointBase(irr::core::vector3df(
-			-(-1000.0f + offset),
+			-(0.0f + offset),
 			0.0f,
 			-(m_gameDimensions.Height / 2)));
 	}

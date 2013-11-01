@@ -10,7 +10,9 @@ namespace Camera
 	{
 	}
 
-	int PointDetector::FindPointsInFrame(cv::Mat p_frame, std::vector<cv::Point2f> p_corners, irr::core::matrix4 p_cameraMatrix, float p_pixelDistance, cv::Size p_sizeHalfed, irr::core::vector3df*& p_startPoints, irr::core::vector3df*& p_endPoints)
+	int PointDetector::FindPointsInFrame(cv::Mat p_frame, std::vector<cv::Point2f> p_corners, 
+			irr::core::matrix4 p_cameraMatrix, float p_pixelDistance, cv::Size p_sizeHalfed, 
+			irr::core::vector3df*& p_startPoints, irr::core::vector3df*& p_endPoints)
 	{
 		p_cameraMatrix.makeInverse();
 		float startX = (p_pixelDistance / p_sizeHalfed.width);
