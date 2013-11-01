@@ -108,6 +108,7 @@ namespace Camera
 		 * @param	p_cameraMatrix The new camera matrix
 		 * @param	p_distortionCoefficients The new distortion coefficients
 		 * @param	p_contours The detected contours
+		 * @return	If it succesed or not
 		 */
 		bool RunAndSaveCalibration(cv::Size& p_imageSize, cv::Mat& p_cameraMatrix,
 				cv::Mat& p_distortionCoefficients, Contours& p_contours);
@@ -120,8 +121,9 @@ namespace Camera
 		 * @param	p_contours The detected contours
 		 * @param	p_averageReprojectionError The average reprojection error
 		 * @param	p_perViewReprojectionErrors The reprojection errors per view
-		 * @param	p_rvecs TODO: explain
-		 * @param	p_tvecs TODO: explain
+		 * @param	p_rvecs 
+		 * @param	p_tvecs 
+		 * @return	If it succesed or not
 		 */
 		bool RunCalibration(cv::Size& p_imageSize, cv::Mat& p_cameraMatrix,
 				cv::Mat& p_distortionCoefficients, Contours& p_contours,
@@ -130,7 +132,7 @@ namespace Camera
 
 		/**
 		 * @brief	Calculates the corners of the checkerboard image
-		 * @param	p_points TODO: explain
+		 * @param	p_points points from the checkerboard
 		 */
 		void CalculateBoardCorners(Points& p_points);
 
@@ -140,9 +142,9 @@ namespace Camera
 		 * @param	p_distortionCoefficients The new distortion coefficients
 		 * @param	p_contours The detected contours
 		 * @param	p_perViewReprojectionErrors The reprojection errors per view
-		 * @param	p_rvecs TODO: explain
-		 * @param	p_tvecs TODO: explain
-		 * @param	p_points TODO: explain
+		 * @param	p_rvecs 
+		 * @param	p_tvecs 
+		 * @param	p_points points from the checkerboard
 		 * @return	The average reprojection error
 		 */
 		double ComputeReprojectionErrors(cv::Mat& p_cameraMatrix,
@@ -158,8 +160,8 @@ namespace Camera
 		 * @param	p_contours The detected contours
 		 * @param	p_averageReprojectionError The average reprojection error
 		 * @param	p_perViewReprojectionErrors The reprojection errors per view
-		 * @param	p_rvecs TODO: explain
-		 * @param	p_tvecs TODO: explain
+		 * @param	p_rvecs 
+		 * @param	p_tvecs 
 		 */
 		void SaveParams(cv::Size& p_imageSize, cv::Mat& p_cameraMatrix,
 				cv::Mat& p_distortionCoefficients, Contours& p_contours,

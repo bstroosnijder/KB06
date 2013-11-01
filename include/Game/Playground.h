@@ -30,7 +30,6 @@ namespace Game
 	 * @author	Michel van Os.
 	 * @author	Menno Postma.
 	 * @author	Thomas Gravekamp.
-	 * @todo	Extra comments.
 	 */
 	class Playground : public PlaygroundListener
 	{

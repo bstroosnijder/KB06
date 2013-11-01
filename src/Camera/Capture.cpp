@@ -17,12 +17,12 @@ namespace Camera
 		m_lost = true;
 		// Get the screen size from opencv
 		m_size = cv::Size(
-			static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_WIDTH)),
-			static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_HEIGHT)));
+				static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_WIDTH)),
+				static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_HEIGHT)));
 		// Calculate the half of the with and height
 		m_sizeHalfed = cv::Size(
-			((m_size.width - 1) / 2),
-			((m_size.height - 1) / 2));
+				((m_size.width - 1) / 2),
+				((m_size.height - 1) / 2));
 		m_center = cv::Point(((m_size.width - 1) / 2), ((m_size.height - 1) / 2));
 		m_ratio = 0.0f;
 		m_lineRatio = 0.0f;
