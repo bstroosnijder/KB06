@@ -21,14 +21,14 @@ namespace Game
 				0,												//
 				0.0f);											//Hill height
 		terrainMesh->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+
 		m_terrain = p_sceneManager->addAnimatedMeshSceneNode(terrainMesh,
 				p_sceneManager->getSceneNodeFromId(C_EMPTY_ROOT_SCENENODE),	// parent node
 				-1,												// node id
 				irr::core::vector3df(0.0f, 0.0f, 0.0f),			// position
 				irr::core::vector3df(0.0f, 0.0f, 0.0f),			// rotation
-				irr::core::vector3df(1.0f, 0.5f, 1.0f)*p_scale);	// scale);
+				irr::core::vector3df(1.0f, 0.5f, 1.0f) * p_scale); // scale);
 
-		
 		m_terrain->setVisible(true);
 		irr::video::IVideoDriver* driver = p_sceneManager->getVideoDriver();
 		m_terrain->setMaterialTexture(0, driver->getTexture("resources/textures/terrain-texture.jpg"));
