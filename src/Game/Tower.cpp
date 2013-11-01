@@ -8,7 +8,7 @@ namespace Game
 			:
 			Entity(p_sceneManager, p_playgroundListener)
 	{
-		m_shootingSpeed = 5;
+		m_shootingSpeed = 1.0f;
 		m_shootingRange = 0.0f;
 		m_jointCrystal = NULL;
 
