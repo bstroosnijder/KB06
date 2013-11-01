@@ -116,7 +116,10 @@ namespace Game
 		{
 			Projectile* projectile = new Projectile(m_sceneManager, m_playgroundListener, GetPosition());
 			projectile->SetTarget(p_creature);
-			projectile->SetPosition(m_jointCrystal->getAbsolutePosition());
+
+			irr::core::vector3df position = m_jointCrystal->getPosition() * m_meshSceneNode->getScale();
+			irr::core::vector3df positionCrystal = irr::core::vector3df(position.X, -position.Y, position.Z);
+			projectile->SetPosition(GetPosition() - positionCrystal);
 
 			m_playgroundListener->OnProjectileCreated(projectile);
 		}

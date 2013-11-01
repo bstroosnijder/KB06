@@ -11,7 +11,7 @@ namespace Game
 	{
 		m_animatedMesh = p_sceneManager->getMesh("resources/models/projectile/companion_cubev02.X");
 	
-		m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh);
+		m_meshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, p_sceneManager->getSceneNodeFromId(C_EMPTY_ROOT_SCENENODE));
 		m_meshSceneNode->setPosition(p_position);
 		m_meshSceneNode->setScale(irr::core::vector3df(0.2f, 0.2f, 0.2f));
 		m_movementSpeed = 1.2f;
