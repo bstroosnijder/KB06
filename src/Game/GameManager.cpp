@@ -247,6 +247,8 @@ namespace Game
 					//Switch player sides
 					m_player1 = PlayerType::TYPE_DEFENDER;
 					m_scoreManager.ResetPencilsOwned();
+
+					m_playground->ResetWaves();
 				}
 				else
 				{

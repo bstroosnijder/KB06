@@ -28,6 +28,14 @@ namespace Game
 		m_timer->Start();
 	}
 
+	void Wave::ResetAndStopSpawning()
+	{
+		m_isActive = false;
+		m_creaturesSpawned = 0;
+
+		m_timer->Reset();
+	}
+
 	void Wave::SpawnCreature(std::list<Creature*>& p_creatures, PathRoute* p_path)
 	{
 		Utility::Logger* logger = Utility::Logger::GetInstance();

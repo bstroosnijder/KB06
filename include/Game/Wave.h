@@ -41,9 +41,16 @@ namespace Game
 		~Wave();
 
 		/** 
-		 * @brief this method initializes the startposition of the creatures and starts the timer of the wave.
+		 * @brief this method initializes the startposition of the Creatures and starts the Timer of the Wave.
 		 */
 		void StartSpawning(irr::core::vector3df p_startPosition);
+
+		/**
+		 * @brief	Resets the amount of Creatures spawned and the Timer.
+		 *
+		 * @author	Michel van Os.
+		 */
+		void ResetAndStopSpawning();
 
 		/**
 		 * @brief This method spawns the creatures onto the map.

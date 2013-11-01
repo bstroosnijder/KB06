@@ -166,6 +166,16 @@ namespace Game
 		void StartNextWave();
 
 		/**
+		 * @brief	Resets all Waves.
+		 *
+		 *			All Waves will be reset and stopped. So that
+		 *			the amount of Creatures will be set to 0 and
+		 *			the Timer is stopped.
+		 * @author	Michel van Os.
+		 */
+		void ResetWaves();
+
+		/**
 		 * @brief	Returns whether all Waves are finished.
 		 *
 		 *			All Creatures for all Waves should have been spawned

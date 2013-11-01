@@ -124,6 +124,7 @@ namespace Game
 				ConnectPathToStargateAndCastle();
 				m_isPathValid = true;
 				m_path = pathNew;
+				m_pathRouteSelected = m_path->m_routes.begin();
 
 				CreatePathPointMarkers();
 				return true;
@@ -174,9 +175,7 @@ namespace Game
 	}
 
 	void Playground::Update(float p_deltaTime)
-	{	
-		p_deltaTime *= 5;
-
+	{
 		//Update Towers
 		std::list<Tower*>::iterator itTower = m_towers.begin();
 		std::list<Tower*>::iterator itTowerEnd = m_towers.end();
@@ -229,9 +228,9 @@ namespace Game
 
 		if (m_waves.size() != 0)
 		{
-			if (m_waves[0]->CheckWaveStatus(m_creatures))
+			if (m_waves[m_waveNumber]->CheckWaveStatus(m_creatures))
 			{
-				m_waves[0]->SpawnCreature(m_creatures, *m_pathRouteSelected);
+				m_waves[m_waveNumber]->SpawnCreature(m_creatures, *m_pathRouteSelected);
 				if (*m_pathRouteSelected == m_path->m_routes.back())
 				{
 					m_pathRouteSelected = m_path->m_routes.begin();
@@ -376,6 +375,23 @@ namespace Game
 				++m_waveNumber;
 			}
 		}
+	}
+
+	void Playground::ResetWaves()
+	{
+		Wave* wave;
+
+		for (int i = 0; i < m_waves.size(); ++i)
+		{
+			wave = m_waves[i];
+
+			if (wave != NULL)
+			{
+				wave->ResetAndStopSpawning();
+			}
+		}
+
+		m_waveNumber = 0;
 	}
 
 	bool Playground::AreAllWavesFinished()
