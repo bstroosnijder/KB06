@@ -15,7 +15,8 @@
 namespace Camera
 {
 	/**
-	 * @brief	test
+	 * @brief	This class is responsible for capturing the table and detecting the pencels.
+	 *			It also gives data to the rest of the game.
 	 * @author	Bas Stroosnijder
 	 */
 	class Capture : public irr::IEventReceiver
