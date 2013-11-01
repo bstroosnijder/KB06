@@ -75,7 +75,7 @@ namespace Game
 	void GameManager::Render()
 	{
 		m_sceneManager->drawAll();
-		m_playground->Render();
+		//m_playground->Render();
 		m_gui->UpdateGui(m_playground->GetWaveNumber(),
 				m_playground->GetWaveSize(),
 				m_playground->GetCreaturesSpawned(),
