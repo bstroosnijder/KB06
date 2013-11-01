@@ -153,10 +153,22 @@ namespace Game
 		{
 			if (p_amount == m_scoreManager.GetPencilsOwned())
 			{
+				//p_points1 = new irr::core::vector3df[p_amount];
+				//p_points2 = new irr::core::vector3df[p_amount];
+
+				for (int i = 0; i < p_amount; ++i)
+				{
+					p_points1[i] *= -1;
+					p_points2[i] *= -1;
+				}
+				
 				if (m_playground->SetupPath(p_points1, p_points2, p_amount))
 				{
 					m_isLookingForPencilCoords = false;
 				}
+
+				//delete[] p_points1;
+				//delete[] p_points2;
 			}
 		}
 	}

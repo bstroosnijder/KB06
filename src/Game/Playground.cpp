@@ -10,7 +10,6 @@ namespace Game
 
 		m_pathBuilder = new PathBuilder();
 		m_path = NULL;
-		m_pointRange = 50.0f;
 		m_pointBegin = irr::core::vector3df(50.0f, 0.0f, 20.0f);
 		m_pointEnd = irr::core::vector3df(50.0f, 0.0f, 80.0f);
 
@@ -49,7 +48,9 @@ namespace Game
 		int amount = 8;
 		irr::core::vector3df* points1 = new irr::core::vector3df[amount];
 		irr::core::vector3df* points2 = new irr::core::vector3df[amount];
-		//Alex waarom commentaar
+		
+		//The following coordinates are used for testing Paths.
+		//modify the amount variable to the amount of points segments in the Path.
 		/*
 		points1[0].set(50, 0, 0	);	points2[0].set(50, 0, 50);	//1
 		points1[1].set(48, 0, 52);	points2[1].set(25, 0, 75);	//2
@@ -59,7 +60,7 @@ namespace Game
 		points1[5].set(50, 0, 102);	points2[5].set(50, 0, 150);	//6
 		points1[6].set(27, 0, 76);	points2[6].set(71, 0, 74);	//7
 		*/
-		//# waar staan ze voor
+		/*
 		points1[0].set(500, 0, 0);		points2[0].set(250, 0, 500);	//2
 		points1[1].set(500, 0, 0);		points2[1].set(750, 0, 500);	//3
 		points1[2].set(250, 0, 500);	points2[2].set(750, 0, 500);	//4
@@ -69,8 +70,7 @@ namespace Game
 		points1[6].set(250, 0, 1000);	points2[6].set(500, 0, 1500); //8
 		points1[7].set(750, 0, 1000);	points2[7].set(500, 0, 1500); //9
 
-		/*
-		SetupPath(points1, points2, amount, m_pointRange, m_pointBegin, m_pointEnd);
+		SetupPath(points1, points2, amount, 20.0f, m_pointBegin, m_pointEnd);
 		m_pathRouteSelected = m_path->m_routes.begin();
 		CreatePathPointMarkers();
 		ConnectPathToStargateAndCastle();
@@ -92,7 +92,7 @@ namespace Game
 			return false;
 		}
 
-		Path* pathNew;
+		Path* pathNew = NULL;
 
 		PathPoint* pointBegin1 = new PathPoint(m_stargate->GetPosition());
 		PathPoint* pointBegin2 = new PathPoint(m_stargate->GetJointBasePosition());
@@ -108,7 +108,7 @@ namespace Game
 		PathSegment* segmentBegin = new PathSegment(pointBegin1, pointBegin2);
 		PathSegment* segmentEnd = new PathSegment(pointEnd1, pointEnd2);
 
-		pathNew = m_pathBuilder->BuildPath(p_points1, p_points2, p_amount, m_pointRange, segmentBegin, segmentEnd);
+		pathNew = m_pathBuilder->BuildPath(p_points1, p_points2, p_amount, segmentBegin, segmentEnd);
 
 		if (pathNew != NULL)
 		{
@@ -129,7 +129,18 @@ namespace Game
 			else
 			{
 				delete pathNew;
+				delete segmentBegin;
+				delete segmentEnd;
 			}
+		}
+		else
+		{
+			delete pointBegin1;
+			delete pointBegin2;
+			delete pointEnd1;
+			delete pointEnd2;
+			delete segmentBegin;
+			delete segmentEnd;
 		}
 
 		m_isPathValid = false;
@@ -241,21 +252,30 @@ namespace Game
 			std::list<PathPoint*>::iterator it;
 			PathPoint* pathPoint;
 
+			std::list<PathPoint*>::iterator front2;
+			std::list<PathPoint*>::iterator last2;
+			std::list<PathPoint*>::iterator it2;
+
+			irr::core::vector3df start;
+			irr::core::vector3df end;
+			irr::video::SColor color(255, 255, 0, 0);
+
 			for (it = front; it != last; ++it)
 			{
 				pathPoint = (*it);
 
-				std::list<PathPoint*>::iterator front2 = pathPoint->m_pointsConnected.begin();
-				std::list<PathPoint*>::iterator last2 = pathPoint->m_pointsConnected.end();
-				std::list<PathPoint*>::iterator it2;
+				front2 = pathPoint->m_pointsConnected.begin();
+				last2 = pathPoint->m_pointsConnected.end();
 
 				for (it2 = front2; it2 != last2; ++it2)
 				{
 					PathPoint* pathPoint2 = (*it2);
 
-					irr::core::vector3df start = pathPoint->m_point;
-					irr::core::vector3df end = pathPoint2->m_point;
-					irr::video::SColor color(255, 255, 0, 0);
+					start = pathPoint->m_point;
+					end = pathPoint2->m_point;
+
+					start /= 10;
+					end /= 10;
 
 					videoDriver->draw3DLine(start, end, color);
 				}
@@ -464,8 +484,8 @@ namespace Game
 		m_terrain->ScaleTerrain(terrainScaling);
 		m_terrain->SetPosition(100);
 
-		m_castle->SetPositionToJointCenter(irr::core::vector3df(0.0f, 0.0f, 0.0f));
-		m_stargate->SetPositionToJointBase(irr::core::vector3df(0.0f, 0.0f, 0.0f));
+		m_stargate->SetPositionToJointBase(irr::core::vector3df(0.0f, 0.0f, -(m_gameDimensions.Height/2)));
+		m_castle->SetPositionToJointCenter(irr::core::vector3df(-m_gameDimensions.Width*10, 0.0f, -(m_gameDimensions.Height/2)));
 	}
 
 	void Playground::GenerateWaves()

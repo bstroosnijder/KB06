@@ -4,13 +4,13 @@ namespace Game
 {
 	ScoreManager::ScoreManager()
 	{
-		m_playerPointsDefault[0] = 100;
-		m_playerPointsDefault[1] = 100;
+		m_playerPointsDefault[0] = 10000;
+		m_playerPointsDefault[1] = 10000;
 
 		m_playerPoints[0] = m_playerPointsDefault[0];
 		m_playerPoints[1] = m_playerPointsDefault[1];
 
-		m_pencilsDefault = 8;
+		m_pencilsDefault = 6;
 		m_pencilsOwned = m_pencilsDefault;
 
 		m_pointsCastleReached = 10;

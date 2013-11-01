@@ -104,6 +104,9 @@ namespace Game
 					{
 						m_gameManager->SetPencilCoords(startPoints, endPoints, pencilCount);
 					}
+
+					delete[] startPoints;
+					delete[] endPoints;
 				}
 
 				// Actually draw the scene, but only once the playground surface has been chosen
