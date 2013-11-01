@@ -394,9 +394,9 @@ namespace Camera
 		return m_shortestGameLine;
 	}
 
-	void Capture::SetShortestGameLine(irr::core::line2df p_longestGameLine)
+	void Capture::SetShortestGameLine(irr::core::line2df p_shortestGameLine)
 	{
-		m_shortestGameLine = p_longestGameLine;
+		m_shortestGameLine = p_shortestGameLine;
 	}
 
 	irr::core::line2df Capture::GetCalculatedLongestGameLine()

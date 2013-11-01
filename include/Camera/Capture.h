@@ -103,7 +103,7 @@ namespace Camera
 		 * @brief	Sets the game line
 		 * @param	p_longestGameLine The new game line
 		 */
-		void SetShortestGameLine(irr::core::line2df p_longestGameLine);
+		void SetShortestGameLine(irr::core::line2df p_shortestGameLine);
 
 
 		/**
