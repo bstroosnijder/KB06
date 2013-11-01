@@ -9,6 +9,7 @@ namespace Game
 		m_sceneManager = p_sceneManager;
 
 		m_pathBuilder = new PathBuilder();
+		m_isPathValid = false;
 		m_path = NULL;
 		m_pointBegin = irr::core::vector3df(50.0f, 0.0f, 20.0f);
 		m_pointEnd = irr::core::vector3df(50.0f, 0.0f, 80.0f);
@@ -86,9 +87,10 @@ namespace Game
 			irr::core::vector3df* p_points2,
 			int p_amount)
 	{
+		m_isPathValid = false;
+
 		if (p_points1 == NULL || p_points2 == NULL || p_amount <= 0)
 		{
-			m_isPathValid = false;
 			return false;
 		}
 
@@ -143,7 +145,6 @@ namespace Game
 			delete segmentEnd;
 		}
 
-		m_isPathValid = false;
 		m_path = NULL;
 		return false;
 	}
@@ -156,7 +157,14 @@ namespace Game
 			irr::core::vector3df p_pointBegin,
 			irr::core::vector3df p_pointEnd)
 	{
+		m_isPathValid = false;
 		m_path = m_pathBuilder->BuildPath(p_points1, p_points2, p_amount, p_range, p_pointBegin, p_pointEnd);	
+
+		if (m_path != NULL)
+		{
+			m_isPathValid = true;
+		}
+
 		return true;
 	}
 
