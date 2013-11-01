@@ -61,7 +61,6 @@ namespace Game
 				irr::core::vector3df* p_points1,
 				irr::core::vector3df* p_points2,
 				int p_pointsCount,
-				float p_range,
 				PathSegment* p_segmentBegin,
 				PathSegment* p_segmentEnd
 				);
@@ -149,6 +148,19 @@ namespace Game
 		void PathJoinWithBeginAndEnd(Path* p_path, 
 				PathSegment* p_segmentBegin,
 				PathSegment* p_segmentEnd);
+
+		/**
+		 * @brief	Calculates the length of the shortest PathSegment.
+		 *
+		 *			The length can be used to determine the maximum range
+		 *			between the detected PathPoints.
+		 * @author	Michel van Os.
+		 * @todo	Write param comments.
+		 */
+		float CalculateShortestPathSegmentLength(
+				irr::core::vector3df* p_points1,
+				irr::core::vector3df* p_points2,
+				int p_pointsCount);
 	};
 }
 

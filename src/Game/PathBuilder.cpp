@@ -30,7 +30,6 @@ namespace Game
 			irr::core::vector3df* p_points1,
 			irr::core::vector3df* p_points2,
 			int p_pointsCount,
-			float p_range,
 			PathSegment* p_segmentBegin,
 			PathSegment* p_segmentEnd)
 	{
@@ -39,8 +38,14 @@ namespace Game
 
 		Path* path = new Path();
 
+		//Calculate the maximum range around a PathPoint before they are joined together.
+		//The range should be smaller then the smallest pencil.
+		float minLength = CalculateShortestPathSegmentLength(p_points1, p_points2, p_pointsCount);
+		float range = minLength * 0.75f;
+
 		path->m_pathPoints = CreatePathPoints(p_points1, p_points2, p_pointsCount);
-		PathJoinPathPoints(path, p_range);
+		PathJoinPathPoints(path, range);
+
 		//PathDetermineBeginAndEndPathPoints(path, p_pointBegin, p_pointEnd, p_range);
 		PathJoinWithBeginAndEnd(path, p_segmentBegin, p_segmentEnd);
 	
@@ -251,9 +256,11 @@ namespace Game
 				pointNear = (*itPointNear);
 			
 				if (pointNear == point)
+				{
 					continue;
+				}
 			
-				//Check if a PathPoint:pointNear is close to PathPoint:point
+				//Check if PathPoint pointNear is close to PathPoint point
 				if (point->m_point.getDistanceFrom(pointNear->m_point) < p_range)
 				{
 					pointsNear.push_back(pointNear);
@@ -348,7 +355,7 @@ namespace Game
 			itBeginDistance = abs(pathPointIt->m_point.Z - pointBegin->m_point.Z);
 			itEndDistance = abs(pathPointIt->m_point.Z - pointEnd->m_point.Z);
 
-			if (targetBeginDistance == -1 || itBeginDistance < targetBeginDistance == -1 )
+			if (targetBeginDistance == -1 || itBeginDistance < targetBeginDistance )
 			{
 				targetBeginDistance = itBeginDistance;
 				targetBegin = pathPointIt;
@@ -360,20 +367,55 @@ namespace Game
 			}
 		}
 
-		//Connect the Stargate with the first Pencil.
-		pointBegin->m_pointsConnected.push_back(targetBegin);
-		targetBegin->m_pointsConnected.push_back(pointBegin);
+		if (targetBegin != NULL && targetEnd != NULL && targetBegin != targetEnd)
+		{
+			//Connect the Stargate with the first Pencil.
+			pointBegin->m_pointsConnected.push_back(targetBegin);
+			//targetBegin->m_pointsConnected.push_back(pointBegin);
 
-		//Connect the Castle with the last Pencil.
-		pointEnd->m_pointsConnected.push_back(targetEnd);
-		targetEnd->m_pointsConnected.push_back(pointEnd);
+			//Connect the Castle with the last Pencil.
+			//pointEnd->m_pointsConnected.push_back(targetEnd);
+			targetEnd->m_pointsConnected.push_back(pointEnd);
 		
-		p_path->m_pathPoints->push_front(p_segmentBegin->m_point1);
-		p_path->m_pathPoints->push_front(p_segmentBegin->m_point2);
-		p_path->m_pathPoints->push_back(p_segmentEnd->m_point1);
-		p_path->m_pathPoints->push_back(p_segmentEnd->m_point2);
+			p_path->m_pathPoints->push_front(p_segmentBegin->m_point1);
+			p_path->m_pathPoints->push_front(p_segmentBegin->m_point2);
+			p_path->m_pathPoints->push_back(p_segmentEnd->m_point1);
+			p_path->m_pathPoints->push_back(p_segmentEnd->m_point2);
 
-		p_path->m_pointBegin = p_segmentBegin->m_point1;
-		p_path->m_pointEnd = p_segmentEnd->m_point2;
+			p_path->m_pointBegin = p_segmentBegin->m_point1;
+			p_path->m_pointEnd = p_segmentEnd->m_point2;
+		}
+	}
+
+	float PathBuilder::CalculateShortestPathSegmentLength(
+				irr::core::vector3df* p_points1,
+				irr::core::vector3df* p_points2,
+				int p_pointsCount)
+	{
+		float lengthMin = -1;
+		float lengthMax = -1;
+		float length;
+
+		irr::core::vector3df pathPoint1;
+		irr::core::vector3df pathPoint2;
+
+		for (int i = 0; i < p_pointsCount; i++)
+		{
+			pathPoint1 = p_points1[i];
+			pathPoint2 = p_points2[i];
+
+			length = pathPoint1.getDistanceFrom(pathPoint2);
+
+			if (lengthMin == -1 || length < lengthMin)
+			{
+				lengthMin = length;
+			}
+			if (lengthMax == -1 || length > lengthMax)
+			{
+				lengthMax = length;
+			}
+		}
+
+		return length;
 	}
 }

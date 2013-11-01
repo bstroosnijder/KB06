@@ -65,6 +65,6 @@ namespace Game
 
 	void Castle::SetPositionToJointCenter(irr::core::vector3df p_position)
 	{
-		SetPosition(p_position + m_jointCenter->getPosition());
+		SetPosition(p_position - m_jointCenter->getPosition());
 	}
 }
