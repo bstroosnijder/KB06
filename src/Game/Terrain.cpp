@@ -17,6 +17,8 @@ namespace Game
 			30.0f);											//Hill height
 		terrainMesh->setMaterialFlag(irr::video::EMF_LIGHTING, false);
 
+		//p_scale /= 3;
+
 		m_terrain = p_sceneManager->addAnimatedMeshSceneNode(terrainMesh,
 						p_sceneManager->getSceneNodeFromId(C_EMPTY_ROOT_SCENENODE),	// parent node
 			-1,												// node id
