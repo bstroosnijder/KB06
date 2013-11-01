@@ -16,7 +16,7 @@ namespace Game
 
 		irr::scene::IAnimatedMeshSceneNode* animatedMeshSceneNode = p_sceneManager->addAnimatedMeshSceneNode(m_animatedMesh, p_sceneManager->getSceneNodeFromId(C_EMPTY_ROOT_SCENENODE));
 		m_meshSceneNode = animatedMeshSceneNode;
-		m_meshSceneNode->setScale(irr::core::vector3df(0.40f,0.40f,0.40f));
+		m_meshSceneNode->setScale(irr::core::vector3df(0.40f, 0.40f, 0.40f));
 		if (m_meshSceneNode != NULL)
 		{
 			m_meshSceneNode->setPosition(p_position);

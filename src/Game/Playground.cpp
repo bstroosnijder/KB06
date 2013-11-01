@@ -281,9 +281,6 @@ namespace Game
 					start = pathPoint->m_point;
 					end = pathPoint2->m_point;
 
-					start /= 10;
-					end /= 10;
-
 					videoDriver->draw3DLine(start, end, color);
 				}
 			}

@@ -17,12 +17,12 @@ namespace Camera
 		m_lost = true;
 		// Get the screen size from opencv
 		m_size = cv::Size(
-			static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_WIDTH)),
-			static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_HEIGHT)));
+				static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_WIDTH)),
+				static_cast<int>(m_capture.get(CV_CAP_PROP_FRAME_HEIGHT)));
 		// Calculate the half of the with and height
 		m_sizeHalfed = cv::Size(
-			((m_size.width - 1) / 2),
-			((m_size.height - 1) / 2));
+				((m_size.width - 1) / 2),
+				((m_size.height - 1) / 2));
 		m_center = cv::Point(((m_size.width - 1) / 2), ((m_size.height - 1) / 2));
 		m_ratio = 0.0f;
 		m_lineRatio = 0.0f;
@@ -292,9 +292,9 @@ namespace Camera
 			float ltCenterY = (m_topLeft.y - m_sizeHalfed.height);
 
 			// Calculates the ratio betwee the longest game line and longest capture line
-			m_ratio = m_longestGameLine.getLength() / m_longestLine.getLength();
+			m_ratio = m_shortestGameLine.getLength() / m_shortestLine.getLength();
 			// Multiplies the game line length with the ratio to get the pixel distance
-			// Adjust according to table
+			/// @TODO: Adjust according to table
 			m_pixelDistance = 400.0f * m_ratio;
 
 			// -----
@@ -324,8 +324,8 @@ namespace Camera
 					irr::core::vector2df(m_corners.at(3).x, m_corners.at(3).y),
 					irr::core::vector2df(m_corners.at(0).x, m_corners.at(0).y));
 
-			// Adjust according to table
-			float range = 1.0f;
+			/// TODO: Adjust according to table
+			float range = 1.0f;// 0.8f;
 			// Create a 3D vector to contain the new angles
 			irr::core::vector3df angles = irr::core::vector3df(
 					 static_cast<float>(((top.getLength() / bottom.getLength()) - 1.0f) * (irr::core::HALF_PI / range)),
@@ -389,21 +389,21 @@ namespace Camera
 		return m_pixelDistance;
 	}
 
-	irr::core::line2df Capture::GetLongestGameLine()
+	irr::core::line2df Capture::GetShortestGameLine()
 	{
-		return m_longestGameLine;
+		return m_shortestGameLine;
 	}
 
-	void Capture::SetLongestGameLine(irr::core::line2df p_longestGameLine)
+	void Capture::SetShortestGameLine(irr::core::line2df p_shortestGameLine)
 	{
-		m_longestGameLine = p_longestGameLine;
+		m_shortestGameLine = p_shortestGameLine;
 	}
 
-	irr::core::line2df Capture::GetCalculatedShortestGameLine()
+	irr::core::line2df Capture::GetCalculatedLongestGameLine()
 	{
 		irr::core::line2df line = irr::core::line2df(
 				irr::core::vector2df(0.0f, 0.0f),
-				irr::core::vector2df(0.0f, (m_longestGameLine.getLength() * m_lineRatio)));
+				irr::core::vector2df(0.0f, (m_shortestGameLine.getLength() * m_lineRatio)));
 
 		return line;
 	}
