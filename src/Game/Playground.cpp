@@ -243,7 +243,7 @@ namespace Game
 
 	void Playground::UpdateTerrainSelector()
 	{
-		// Updates the terrain selector
+		// Updates the terrain selector.
 		m_selector = m_terrain->UpdateTriangleSelector(m_sceneManager);
 	}
 
