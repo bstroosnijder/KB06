@@ -61,6 +61,8 @@ namespace Game
 		 *
 		 *			This is called every game-loop. This will update the state, position and rotation of various objects on the playground
 		 * @param	p_deltaTime is the deltaTimer
+		 * @author	Menno Postma
+		 * @author  Thomas Gravekamp
 		 */
 		void Update(float p_deltaTime);
 
@@ -72,7 +74,7 @@ namespace Game
 
 		/**
 		 * @brief	Renders the current Path used by the Wave.
-		 *
+		 * @author  Michel van Os
 		 */
 		void Render();
 
@@ -186,16 +188,28 @@ namespace Game
 
 		/**
 		 * @brief	returns the amount of creatures spawned by the current wave
+		 *
+		 *			returns the amount of creatures spawned by the current wave if it exists. Else it returns -1
+		 * @author	Menno Postma
+		 * @return  the amount of creatures
 		 */
 		int GetCreaturesSpawned();
 
 		/**
-		 * @brief	returns the size of the wave
+		 * @brief	returns the size of the current wave
+		 *
+		 *			returns the size of the current wave if it exists. Else it returns -1
+		 * @author	Menno Postma
+		 * @return	the size of the current wave
 		 */
 		int GetWaveSize();
 
 		/**
 		 * @brief	Returns the heigth of the playground
+		 *
+		 *			returns the height value of gameDimensions wich is a dimension2d
+		 * @return	height of the playground
+		 * @author	Menno Postma
 		 */
 		float GetPlaygroundHeight();
 
@@ -204,7 +218,7 @@ namespace Game
 		/**
 		 * @brief	Triggered when a Projectile is created.
 		 *
-		 *			Add the Projectile tot he Projectile collection.
+		 *			Add the Projectile to the Projectile collection.
 		 * @author	Michel van Os.
 		 * @param	p_projectile The created Projectile.
 		 */

@@ -55,7 +55,7 @@ namespace Game
 		//Determine new position
 		irr::core::vector3df position = GetPosition();
 		
-		position.Y = p_terrain->GetTerrainHeightAtPosition(position);
+		position.Y = 0;
 		SetPosition(position);
 
 		if (IsEndOfRouteReached())
