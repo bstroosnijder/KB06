@@ -53,19 +53,30 @@ namespace Game
 		void ResetAndStopSpawning();
 
 		/**
-		 * @brief This method spawns the creatures onto the map.
+		 * @brief	This method spawns the Creatures onto the map.
 		 *
-		 * @param The creatures are added in the p_creatures pointer
-		 * @param the p_path is used to give the creatures a walking path
+		 *			The Wave only spawns Creatures when the amount of
+		 *			spawned Creatures is smaller then size of the Wave.
+		 * @param	p_pathRoute The PathRoute the spawned Creature should follow.
+		 * @return	Whether the Wave spawned a Creature or not.
 		 */
-		void SpawnCreature(std::list<Creature*>& p_creatures,PathRoute* p_path);
+		bool SpawnCreature(PathRoute* p_pathRoute);
 
 		/**
-		 * @brief This method checks the status of the wave.
+		 * @brief	Returns whether the Wave is still spawning Creatures.
 		 *
-		 * @param p_creatures is a vector that is used to check if there are still creatures alive
+		 * @author	Michel van Os.
+		 * @return	Whether the Wave is still spawning Creatures;
 		 */
-		bool CheckWaveStatus(std::list<Creature*>& p_creatures);
+		bool IsActive();
+
+		/**
+		 * @brief	Returns whether all Creatures are spawned.
+		 *
+		 * @author	Michel van Os.
+		 * @return	Whether all Creatures are spawned.
+		 */
+		bool AreAllCreaturesSpawned();
 
 		/**
 		 * @brief	Returns the amount of Creatures that has been spawned by the Wave.
@@ -111,8 +122,7 @@ namespace Game
 		 *
 		 * @author	Michel van Os.
 		 */
-		bool m_creaturesSpawned;
-		bool m_isActive;
+		int m_creaturesSpawned;
 		Game::Timer* m_timer;
 		irr::core::vector3df m_startPosition;
 	};

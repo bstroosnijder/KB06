@@ -8,8 +8,7 @@ namespace Game
 		m_sceneManager = p_sceneManager;
 		m_waveSize = p_waveSize;
 
-		m_creaturesSpawned = false;
-		m_isActive = true;
+		m_creaturesSpawned = 0;
 		m_timer = new Timer();
 	}
 
@@ -21,58 +20,55 @@ namespace Game
 
 	void Wave::StartSpawning(irr::core::vector3df p_startPosition)
 	{
-		m_isActive = true;
-		m_creaturesSpawned = 0;
-
 		m_startPosition = p_startPosition;
+
+		m_creaturesSpawned = 0;
 		m_timer->Start();
 	}
 
 	void Wave::ResetAndStopSpawning()
 	{
-		m_isActive = false;
 		m_creaturesSpawned = 0;
-
 		m_timer->Reset();
 	}
 
-	void Wave::SpawnCreature(std::list<Creature*>& p_creatures, PathRoute* p_path)
+	bool Wave::SpawnCreature(PathRoute* p_path)
 	{
 		Utility::Logger* logger = Utility::Logger::GetInstance();
 
-		if (m_timer->IsRunning())
+		if (m_timer->IsRunning() && m_creaturesSpawned < m_waveSize)
 		{
-			if (m_waveSize != 0)
+			if (m_timer->GetTime() == 1)
 			{
-				if (m_timer->GetTime() == 1)
-				{
-					Creature* creature = new Creature(m_sceneManager, m_playgroundListener, m_startPosition, p_path);
-					m_playgroundListener->OnCreatureCreated(creature);
+				Creature* creature = new Creature(m_sceneManager, m_playgroundListener, m_startPosition, p_path);
+				m_playgroundListener->OnCreatureCreated(creature);
 
-					m_timer->Reset();
-					m_creaturesSpawned = true;
-					--m_waveSize;
+				m_timer->Reset();
+				--m_creaturesSpawned;
 
-					logger->Log(Utility::Logger::LOG_MESSAGE, "Creature spawned", __LINE__, __FILE__);
-				}
-			}
-			else
-			{
-				m_timer->Stop();
-				
-				logger->Log(Utility::Logger::LOG_MESSAGE, "Creature spawning stopped", __LINE__, __FILE__);
+				logger->Log(Utility::Logger::LOG_MESSAGE, "Creature spawned", __LINE__, __FILE__);
+
+				return true;
 			}
 		}
+		else
+		{
+			m_timer->Stop();
+				
+			logger->Log(Utility::Logger::LOG_MESSAGE, "Creature spawning stopped", __LINE__, __FILE__);
+		}
+
+		return false;
 	}
 
-	bool Wave::CheckWaveStatus(std::list<Creature*>& p_creatures)
+	bool Wave::IsActive()
 	{
-		if (m_creaturesSpawned == true && p_creatures.size() == 0)
-		{
-			m_isActive = false;
-		}
+		return (m_timer->IsRunning());
+	}
 
-		return m_isActive;
+	bool Wave::AreAllCreaturesSpawned()
+	{
+		return (m_creaturesSpawned >= m_waveSize);
 	}
 
 	int Wave::GetCreaturesSpawned()

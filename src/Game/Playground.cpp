@@ -228,9 +228,9 @@ namespace Game
 
 		if (m_waves.size() != 0)
 		{
-			if (m_waves[m_waveNumber]->CheckWaveStatus(m_creatures))
+			m_waveNumber = 0;
+			if (m_waves[m_waveNumber]->SpawnCreature(*m_pathRouteSelected))
 			{
-				m_waves[m_waveNumber]->SpawnCreature(m_creatures, *m_pathRouteSelected);
 				if (*m_pathRouteSelected == m_path->m_routes.back())
 				{
 					m_pathRouteSelected = m_path->m_routes.begin();
@@ -366,13 +366,13 @@ namespace Game
 	void Playground::StartNextWave()
 	{
 		if (m_waves.size() != 0 && m_waveNumber < m_waves.size())
-		{		
-			Game::Wave* wave = m_waves[m_waveNumber];
+		{
+			++m_waveNumber;
+			Game::Wave* wave = m_waves[0];
 
 			if (wave)
 			{
 				wave->StartSpawning(m_path->m_pointBegin->m_point);
-				++m_waveNumber;
 			}
 		}
 	}
@@ -391,13 +391,13 @@ namespace Game
 			}
 		}
 
-		m_waveNumber = 0;
+		m_waveNumber = -1;
 	}
 
 	bool Playground::AreAllWavesFinished()
 	{
 		return (m_waveNumber >= m_waves.size()-1 ||
-				m_waves[m_waveNumber]->CheckWaveStatus(m_creatures) == false);
+				m_waves[m_waveNumber]->IsActive() == false);
 	}
 
 	int Playground::GetWaveNumber()
