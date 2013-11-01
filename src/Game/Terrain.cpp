@@ -33,6 +33,7 @@ namespace Game
 		irr::video::IVideoDriver* driver = p_sceneManager->getVideoDriver();
 		m_terrain->setMaterialTexture(0, driver->getTexture("resources/textures/terrain-texture.jpg"));
 		selector = p_sceneManager->createTriangleSelector(m_terrain);
+		m_terrain->setTriangleSelector(selector);
 
 
 		m_terrainDimensions.Width = 100 * p_scale;
@@ -67,5 +68,12 @@ namespace Game
 		irr::core::vector3df adjustment = m_startPosition;
 		adjustment.X += p_adjustment;
 		m_terrain->setPosition(adjustment);			
+	}
+
+	irr::scene::ITriangleSelector* Terrain::UpdateTriangleSelector(irr::scene::ISceneManager* p_sceneManager)
+	{
+		irr::scene::ITriangleSelector* selector = p_sceneManager->createTriangleSelector(m_terrain);
+		m_terrain->setTriangleSelector(selector);
+		return selector;
 	}
 }

@@ -72,6 +72,11 @@ namespace Game
 		void Update(float p_deltaTime);
 
 		/**
+		* @brief	Updates the game terrain selector
+		*/
+		void UpdateTerrainSelector();
+
+		/**
 		* @brief	Scales the te terrain, stargate and castle to match the gamelength
 		* @param	p_gameLength is the length of the longest edge of the table
 		*/

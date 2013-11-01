@@ -64,6 +64,8 @@ namespace Game
 
 	void GameManager::Update()
 	{
+		m_playground->UpdateTerrainSelector();
+
 		if (m_gameStatus == GameStatus::WAVE_RUNNING)
 		{
 			m_playground->Update(m_deltaTimer->GetDelta());

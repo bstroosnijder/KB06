@@ -52,6 +52,13 @@ namespace Game
 			*/
 			void SetPosition(float p_adjustment);
 
+			/**
+			* @brief	Updates the triangle selector so that towers can be placed correctly
+			* @param	p_sceneManager The scenemanager
+			* @return	The new triangle selector
+			*/
+			irr::scene::ITriangleSelector* UpdateTriangleSelector(irr::scene::ISceneManager* p_sceneManager);
+
 	private:
 		irr::core::dimension2d<irr::f32> m_terrainDimensions;
 		irr::core::vector3df m_startScaling;
