@@ -7,6 +7,11 @@ namespace Game
 		
 	}
 
+	Terrain::~Terrain()
+	{
+		
+	}
+
 	irr::scene::ITriangleSelector* Terrain::GenerateTerrain(irr::scene::ISceneManager* p_sceneManager, float p_scale)
 	{
 		irr::scene::ITriangleSelector* selector;
@@ -16,6 +21,8 @@ namespace Game
 			0,												//
 			30.0f);											//Hill height
 		terrainMesh->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+
+		//p_scale /= 3;
 
 		m_terrain = p_sceneManager->addAnimatedMeshSceneNode(terrainMesh,
 						p_sceneManager->getSceneNodeFromId(C_EMPTY_ROOT_SCENENODE),	// parent node

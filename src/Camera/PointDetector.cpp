@@ -174,8 +174,8 @@ namespace Camera
 					p_cameraMatrix.transformVect(pointTop);
 					p_cameraMatrix.transformVect(pointBottom);
 
-					p_startPoints[i] = irr::core::vector3df(pointTop.X, pointTop.Z, pointTop.Y);
-					p_endPoints[i] = irr::core::vector3df(pointBottom.X, pointBottom.Z, pointBottom.Y);
+					p_startPoints[i] = irr::core::vector3df(pointTop.Y, pointTop.Z, pointTop.X);
+					p_endPoints[i] = irr::core::vector3df(pointBottom.Y, pointBottom.Z, pointBottom.X);
 
 					// Draw a bounding box around the contour.
 					cv::Rect boundingBox = cv::boundingRect(approx);

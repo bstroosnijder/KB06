@@ -36,7 +36,13 @@ namespace Game
 	{
 	public:
 		/**
-		 * @todo
+		 * @brief	This creates a playground
+		 *
+		 *			Creates a pathbuilder and sets the begin and end point where the path should start at. 
+		 *			Also creates the stargate and castle and calls the initialize function.
+		 * @param	p_gameListener is a GameListener
+		 * @param	p_sceneManager is a SceneManager
+		 * @author	Menno Postma
 		 */
 		Playground(GameListener* p_gameListener, irr::scene::ISceneManager* p_sceneManager);
 

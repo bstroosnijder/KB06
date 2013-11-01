@@ -352,8 +352,8 @@ namespace Game
 		for (it = p_path->m_pathPoints->begin(); it != itEnd; ++it)
 		{
 			pathPointIt =(*it);
-			itBeginDistance = abs(pathPointIt->m_point.Z - pointBegin->m_point.Z);
-			itEndDistance = abs(pathPointIt->m_point.Z - pointEnd->m_point.Z);
+			itBeginDistance = abs(pathPointIt->m_point.X - pointBegin->m_point.X);
+			itEndDistance = abs(pathPointIt->m_point.X - pointEnd->m_point.X);
 
 			if (targetBeginDistance == -1 || itBeginDistance < targetBeginDistance )
 			{
