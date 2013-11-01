@@ -294,7 +294,8 @@ namespace Camera
 			// Calculates the ratio betwee the longest game line and longest capture line
 			m_ratio = m_longestGameLine.getLength() / m_longestLine.getLength();
 			// Multiplies the game line length with the ratio to get the pixel distance
-			m_pixelDistance = m_longestGameLine.getLength() * m_ratio;
+			// Adjust according to table
+			m_pixelDistance = 400.0f * m_ratio;
 
 			// -----
 			// Set the scaling
@@ -323,7 +324,8 @@ namespace Camera
 					irr::core::vector2df(m_corners.at(3).x, m_corners.at(3).y),
 					irr::core::vector2df(m_corners.at(0).x, m_corners.at(0).y));
 
-			float range = 0.8f;
+			// Adjust according to table
+			float range = 1.0f;
 			// Create a 3D vector to contain the new angles
 			irr::core::vector3df angles = irr::core::vector3df(
 					 static_cast<float>(((top.getLength() / bottom.getLength()) - 1.0f) * (irr::core::HALF_PI / range)),
